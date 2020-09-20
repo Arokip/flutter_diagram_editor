@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'model/canvas_data.dart';
 import 'model/item.dart';
 import 'model/item_data.dart';
+import 'model/menu_item_data.dart';
 
 int count = 20;
 
@@ -19,10 +20,10 @@ class Canvas extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  CanvasState createState() => CanvasState();
+  _CanvasState createState() => _CanvasState();
 }
 
-class CanvasState extends State<Canvas> {
+class _CanvasState extends State<Canvas> {
   // TODO: provider
   final ValueNotifier<CanvasData> canvasData =
       ValueNotifier<CanvasData>(CanvasData(position: Offset(0, 0), scale: 1.0));
@@ -44,8 +45,6 @@ class CanvasState extends State<Canvas> {
     }
     return resultList;
   }
-
-  // List<Widget> generateLines(List<ItemData> dataList) {}
 
   @override
   void initState() {
@@ -133,30 +132,50 @@ class CanvasState extends State<Canvas> {
     }
   }
 
+  void _onAcceptWithDetails(DragTargetDetails details, BuildContext context) {
+    final RenderBox renderBox = context.findRenderObject();
+    final Offset localOffset = renderBox.globalToLocal(details.offset);
+    itemList.add(
+      ItemData(
+        color: details.data.color,
+        size: details.data.size,
+        position:
+            (localOffset - canvasData.value.position) / canvasData.value.scale,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     print('CANVAS build');
-    return Listener(
-      onPointerSignal: _receivedPointerSignal,
-      child: GestureDetector(
-        child: Container(
-          child: Stack(children: [
-            ...itemList
-                .map((ItemData itemData) => Item(
-                      data: itemData,
-                      canvasData: canvasData,
-                    ))
-                .toList(),
-          ]),
-          color: Colors.red,
-        ),
-        onTapDown: (details) {
-          print(
-              'tap position: ${details.localPosition}, canvas: ${canvasData.value.position}, scale: ${canvasData.value.scale}');
-        },
-        onScaleStart: _onScaleStart,
-        onScaleUpdate: _onScaleUpdate,
-      ),
+    return DragTarget<MenuItemData>(
+      builder: (BuildContext context, List<MenuItemData> candidateData,
+          List<dynamic> rejectedData) {
+        return Listener(
+          onPointerSignal: _receivedPointerSignal,
+          child: GestureDetector(
+            child: Container(
+              child: Stack(children: [
+                ...itemList
+                    .map((ItemData itemData) => Item(
+                          data: itemData,
+                          canvasData: canvasData,
+                        ))
+                    .toList(),
+              ]),
+              color: Colors.red,
+            ),
+            onTapDown: (details) {
+              print(
+                  'tap position: ${details.localPosition}, canvas: ${canvasData.value.position}, scale: ${canvasData.value.scale}');
+            },
+            onScaleStart: _onScaleStart,
+            onScaleUpdate: _onScaleUpdate,
+          ),
+        );
+      },
+      onWillAccept: (MenuItemData data) => true,
+      onAcceptWithDetails: (details) => _onAcceptWithDetails(details, context),
     );
   }
 }

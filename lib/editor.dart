@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'canvas.dart';
 import 'menu.dart';
-import 'model/item_data.dart';
 import 'model/menu_item_data.dart';
 
 class Editor extends StatefulWidget {
@@ -13,30 +12,12 @@ class Editor extends StatefulWidget {
 }
 
 class _EditorState extends State<Editor> {
-  final GlobalKey<CanvasState> _canvasKey = GlobalKey();
-  final GlobalKey _dragTargetKey = GlobalKey();
-
   List<MenuItemData> menuItemList;
 
   @override
   void initState() {
     menuItemList = generateMenuItems(120);
     super.initState();
-  }
-
-  void _onAcceptWithDetails(DragTargetDetails details) {
-    final RenderBox renderBox =
-        _dragTargetKey.currentContext.findRenderObject();
-    final Offset localOffset = renderBox.globalToLocal(details.offset);
-    _canvasKey.currentState.itemList.add(
-      ItemData(
-        color: details.data.color,
-        size: details.data.size,
-        position:
-            (localOffset - _canvasKey.currentState.canvasData.value.position) /
-                _canvasKey.currentState.canvasData.value.scale,
-      ),
-    );
   }
 
   List<MenuItemData> generateMenuItems(int number) {
@@ -64,7 +45,7 @@ class _EditorState extends State<Editor> {
           ),
           onPressed: () {
             setState(() {});
-            print('setState');
+            print('setState()');
           },
         ),
         body: Stack(
@@ -74,20 +55,9 @@ class _EditorState extends State<Editor> {
               color: Colors.blueGrey,
               child: Padding(
                 padding: EdgeInsets.all(16),
-                child: DragTarget<MenuItemData>(
-                  key: _dragTargetKey,
-                  builder: (BuildContext context,
-                      List<MenuItemData> candidateData,
-                      List<dynamic> rejectedData) {
-                    return Container(
-                      child: Canvas(
-                        key: _canvasKey,
-                      ),
-                    );
-                  },
-                  onWillAccept: (MenuItemData data) => true,
-                  onAcceptWithDetails: _onAcceptWithDetails,
-                ),
+                child: Canvas(
+                    // key: _canvasKey,
+                    ),
               ),
             ),
             Positioned(
@@ -99,7 +69,7 @@ class _EditorState extends State<Editor> {
                 color: Colors.white,
                 onPressed: () {
                   // TODO: provider reset
-                  _canvasKey.currentState.resetView();
+                  // _canvasKey.currentState.resetView();
                 },
                 tooltip: 'Reset',
                 icon: const Icon(Icons.replay),

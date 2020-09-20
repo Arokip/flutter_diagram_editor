@@ -37,7 +37,7 @@ class _ItemState extends State<Item> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       builder: (context, CanvasData value, child) {
-        print('ITEM  build --');
+        print('ITEM  build');
 
         return Positioned(
           left: value.scale * _itemPosition.dx + value.position.dx,
@@ -53,8 +53,7 @@ class _ItemState extends State<Item> {
               });
             },
             child: SizedBox(
-              // height: value.scale * widget.data.size.height + 200,
-              width: value.scale * (widget.data.size.width + 40),
+              // width: value.scale * (widget.data.size.width + 40),
               child: Stack(
                 alignment: Alignment.center,
                 children: [

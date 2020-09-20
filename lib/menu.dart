@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'menu_item.dart';
 import 'model/menu_item_data.dart';
 
-class Menu extends StatelessWidget {
+class DiagramEditorMenu extends StatelessWidget {
   final List<MenuItemData> menuItemList;
   final Color backgroundColor;
   final double width;
   final double height;
 
-  const Menu({
+  const DiagramEditorMenu({
     Key key,
     this.menuItemList,
     this.backgroundColor,

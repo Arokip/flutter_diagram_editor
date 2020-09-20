@@ -14,16 +14,16 @@ double maxScale = 4.0;
 double minScale = 0.4;
 double mouseScaleSpeed = 0.8;
 
-class Canvas extends StatefulWidget {
-  const Canvas({
+class DiagramEditorCanvas extends StatefulWidget {
+  const DiagramEditorCanvas({
     Key key,
   }) : super(key: key);
 
   @override
-  _CanvasState createState() => _CanvasState();
+  _DiagramEditorCanvasState createState() => _DiagramEditorCanvasState();
 }
 
-class _CanvasState extends State<Canvas> {
+class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
   // TODO: provider
   final ValueNotifier<CanvasData> canvasData =
       ValueNotifier<CanvasData>(CanvasData(position: Offset(0, 0), scale: 1.0));

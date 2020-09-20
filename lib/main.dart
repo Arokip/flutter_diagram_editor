@@ -8,8 +8,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter canvas',
-      home: Editor(),
+      title: 'Diagram editor',
+      home: SafeArea(
+        child: Scaffold(
+          body: Editor(),
+        ),
+      ),
     );
   }
 }

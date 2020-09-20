@@ -35,58 +35,42 @@ class _EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Text(
-            'canvas setState() (rebuild all)',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 8),
+    return Stack(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          color: Colors.blueGrey,
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: DiagramEditorCanvas(),
           ),
-          onPressed: () {
-            setState(() {});
-            print('setState()');
-          },
         ),
-        body: Stack(
-          children: [
-            Container(
-              alignment: Alignment.center,
-              color: Colors.blueGrey,
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Canvas(
-                    // key: _canvasKey,
-                    ),
-              ),
-            ),
-            Positioned(
-              bottom: 16,
-              left: 16,
-              height: 64,
-              width: 64,
-              child: IconButton(
-                color: Colors.white,
-                onPressed: () {
-                  // TODO: provider reset
-                  // _canvasKey.currentState.resetView();
-                },
-                tooltip: 'Reset',
-                icon: const Icon(Icons.replay),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              top: 200,
-              child: Menu(
-                  width: 80,
-                  height: 400,
-                  backgroundColor: Colors.grey,
-                  menuItemList: menuItemList),
-            )
-          ],
+        Positioned(
+          bottom: 16,
+          left: 16,
+          height: 64,
+          width: 64,
+          // TODO: --> own widget (resetViewButton)
+          child: IconButton(
+            color: Colors.white,
+            onPressed: () {
+              // TODO: provider reset
+              // _canvasKey.currentState.resetView();
+            },
+            tooltip: 'Reset',
+            icon: const Icon(Icons.replay),
+          ),
         ),
-      ),
+        Positioned(
+          left: 0,
+          top: 200,
+          child: DiagramEditorMenu(
+              width: 80,
+              height: 400,
+              backgroundColor: Colors.grey,
+              menuItemList: menuItemList),
+        )
+      ],
     );
   }
 }

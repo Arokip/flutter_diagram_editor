@@ -1,9 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'canvas.dart';
 import 'menu.dart';
+import 'model/canvas_data.dart';
 import 'model/menu_item_data.dart';
 
 class Editor extends StatefulWidget {
@@ -35,42 +37,48 @@ class _EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          color: Colors.blueGrey,
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: DiagramEditorCanvas(),
+    return ChangeNotifierProvider<CanvasData>(
+      create: (BuildContext context) => CanvasData(),
+      child: Stack(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            color: Colors.blueGrey,
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: DiagramEditorCanvas(),
+            ),
           ),
-        ),
-        Positioned(
-          bottom: 16,
-          left: 16,
-          height: 64,
-          width: 64,
-          // TODO: --> own widget (resetViewButton)
-          child: IconButton(
-            color: Colors.white,
-            onPressed: () {
-              // TODO: provider reset
-              // _canvasKey.currentState.resetView();
-            },
-            tooltip: 'Reset',
-            icon: const Icon(Icons.replay),
+          Positioned(
+            bottom: 16,
+            left: 16,
+            height: 64,
+            width: 64,
+            // TODO: --> own widget (resetViewButton)
+            child: Consumer<CanvasData>(
+              builder: (_, canvasData, __) {
+                return IconButton(
+                  color: Colors.white,
+                  onPressed: () {
+                    canvasData.resetCanvasView();
+                  },
+                  tooltip: 'Reset',
+                  icon: const Icon(Icons.replay),
+                );
+              },
+            ),
           ),
-        ),
-        Positioned(
-          left: 0,
-          top: 200,
-          child: DiagramEditorMenu(
-              width: 80,
-              height: 400,
-              backgroundColor: Colors.grey,
-              menuItemList: menuItemList),
-        )
-      ],
+          Positioned(
+            left: 0,
+            top: 200,
+            child: DiagramEditorMenu(
+                width: 80,
+                height: 400,
+                backgroundColor: Colors.grey,
+                menuItemList: menuItemList),
+          )
+        ],
+      ),
     );
   }
 }

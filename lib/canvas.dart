@@ -7,8 +7,6 @@ import 'model/canvas_data.dart';
 import 'model/item_data.dart';
 import 'model/menu_item_data.dart';
 
-int count = 20;
-
 double mouseScaleSpeed = 0.8;
 
 class DiagramEditorCanvas extends StatefulWidget {
@@ -82,6 +80,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
 
     Provider.of<CanvasData>(context, listen: false).addItemToList(
       ItemData(
+        id: Provider.of<CanvasData>(context, listen: false).getNextItemId(),
         color: details.data.color,
         size: details.data.size,
         position: (localOffset -
@@ -89,14 +88,6 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
             Provider.of<CanvasData>(context, listen: false).scale,
       ),
     );
-  }
-
-  bool isItemVisibleOnScreen(ItemData item) {
-    return true;
-    // if (item.position.dx < 100)
-    //   return true;
-    // else
-    //   return false;
   }
 
   @override
@@ -110,16 +101,14 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
           child: GestureDetector(
             child: Container(
               child: Selector<CanvasData, List<ItemData>>(
-                  selector: (_, canvasData) => canvasData.itemDataList
-                      .where((item) => isItemVisibleOnScreen(item))
-                      .toList(),
+                  selector: (_, canvasData) => canvasData.itemDataList,
                   builder: (context, itemList, child) {
+                    print('SELECTOR build');
                     return Stack(
-                      children: itemList
-                          .map((ItemData itemData) => Item(
-                                data: itemData,
-                              ))
-                          .toList(),
+                      children: itemList.map((ItemData itemData) {
+                        print('map item ${itemData.position}');
+                        return Item(data: itemData);
+                      }).toList(),
                     );
                   }),
               color: Colors.red,
@@ -127,6 +116,11 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
             onTapDown: (details) {
               print(
                   'tap position: ${details.localPosition}, canvas: ${Provider.of<CanvasData>(context, listen: false).position}, scale: ${Provider.of<CanvasData>(context, listen: false).scale}');
+              Provider.of<CanvasData>(context, listen: false)
+                  .itemDataList
+                  .forEach((element) {
+                print('item: ${element.position}');
+              });
             },
             onScaleStart: _onScaleStart,
             onScaleUpdate: _onScaleUpdate,

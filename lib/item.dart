@@ -34,6 +34,7 @@ class _ItemState extends State<Item> {
 
   @override
   Widget build(BuildContext context) {
+    print('ITEM build');
     return Consumer<CanvasData>(builder: (context, canvasData, child) {
       return Positioned(
         left: canvasData.scale * _itemPosition.dx + canvasData.position.dx,
@@ -43,10 +44,11 @@ class _ItemState extends State<Item> {
             _lastFocalPoint = details.focalPoint;
           },
           onScaleUpdate: (details) {
-            setState(() {
-              _itemPosition += getDelta(details.focalPoint) / canvasData.scale;
-              _lastFocalPoint = details.focalPoint;
-            });
+            // setState(() {
+            _itemPosition += getDelta(details.focalPoint) / canvasData.scale;
+            canvasData.updateItemDataPosition(widget.data, _itemPosition);
+            _lastFocalPoint = details.focalPoint;
+            // });
           },
           child: SizedBox(
             // width: value.scale * (widget.data.size.width + 40),

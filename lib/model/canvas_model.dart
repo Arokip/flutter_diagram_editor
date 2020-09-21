@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -13,33 +14,28 @@ class CanvasModel extends ChangeNotifier {
 
   Offset _position = Offset(0, 0);
   double _scale = 1.0;
-  List<ItemData> _itemDataList;
+  HashMap<int, ItemData> _itemDataList;
   List<EdgeData> _edgeDataList;
 
   CanvasModel() {
     // _itemDataList = generateLargeItemList(200);
     _itemDataList = generateRandomItemList(80);
 
-    _edgeDataList = generateRandomEdgeList(80);
+    _edgeDataList = generateRandomEdgeList(200);
   }
 
   Offset get position => _position;
 
   double get scale => _scale;
 
-  List<ItemData> get itemDataList => _itemDataList;
+  HashMap<int, ItemData> get itemDataList => _itemDataList;
 
   List<EdgeData> get edgeDataList => _edgeDataList;
 
   // ==== NOTIFIERS ====
 
   addItemToList(ItemData itemData) {
-    _itemDataList.add(itemData);
-    notifyListeners();
-  }
-
-  addItemsToList(List<ItemData> list) {
-    _itemDataList.addAll(list);
+    _itemDataList[itemData.id] = itemData;
     notifyListeners();
   }
 
@@ -67,8 +63,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   updateItemDataPosition(ItemData itemData, Offset position) {
-    int index = _itemDataList.indexWhere((item) => item.id == itemData.id);
-    _itemDataList[index] = ItemData(
+    _itemDataList[itemData.id] = ItemData(
       id: itemData.id,
       position: position,
       color: itemData.color,
@@ -78,7 +73,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   getItemDataPosition(int id) {
-    return itemDataList.firstWhere((element) => element.id == id).position;
+    return itemDataList[id].position;
   }
 
   // ==== HELPERS ====
@@ -99,6 +94,10 @@ class CanvasModel extends ChangeNotifier {
   }
 
   int getLastId() {
+    return _itemIdGen - 1;
+  }
+
+  int getNextId() {
     return _itemIdGen;
   }
 
@@ -119,20 +118,21 @@ class CanvasModel extends ChangeNotifier {
     return resultList;
   }
 
-  List<ItemData> generateRandomItemList(int number) {
-    List<ItemData> resultList = [];
+  HashMap<int, ItemData> generateRandomItemList(int number) {
+    HashMap<int, ItemData> resultMap = HashMap<int, ItemData>();
+
     for (int i = 0; i < number; i++) {
-      resultList.add(ItemData(
-        id: getNextItemId(),
+      resultMap[getNextItemId()] = ItemData(
+        id: getLastId(),
         color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
             .withOpacity(1.0),
         size: Size(10 + 80 * math.Random().nextDouble(),
             10 + 80 * math.Random().nextDouble()),
         position: Offset(600 * 2 * (math.Random().nextDouble() - 0.5),
             600 * 2 * (math.Random().nextDouble() - 0.5)),
-      ));
+      );
     }
-    return resultList;
+    return resultMap;
   }
 
   List<EdgeData> generateRandomEdgeList(int number) {
@@ -142,8 +142,8 @@ class CanvasModel extends ChangeNotifier {
         id: 0,
         color: Colors.black,
         width: 1.5,
-        fromId: math.Random().nextInt(getLastId()),
-        toId: math.Random().nextInt(getLastId()),
+        fromId: math.Random().nextInt(getNextId()),
+        toId: math.Random().nextInt(getNextId()),
       ));
     }
     return resultList;

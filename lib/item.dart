@@ -34,7 +34,7 @@ class _ItemState extends State<Item> {
 
   @override
   Widget build(BuildContext context) {
-    print('ITEM build');
+    // print('ITEM build');
     return Consumer<CanvasModel>(builder: (context, canvasData, child) {
       return Positioned(
         left: canvasData.scale * _itemPosition.dx + canvasData.position.dx,
@@ -49,7 +49,7 @@ class _ItemState extends State<Item> {
             _lastFocalPoint = details.focalPoint;
           },
           child: SizedBox(
-            // width: value.scale * (widget.data.size.width + 40),
+            width: canvasData.scale * (widget.data.size.width + 20),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -57,6 +57,37 @@ class _ItemState extends State<Item> {
                   color: widget.data.color,
                   height: canvasData.scale * widget.data.size.height,
                   width: canvasData.scale * widget.data.size.width,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 20 * canvasData.scale,
+                        height: 20 * canvasData.scale,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 1.0 * canvasData.scale,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 20 * canvasData.scale,
+                        height: 20 * canvasData.scale,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 1.0 * canvasData.scale,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

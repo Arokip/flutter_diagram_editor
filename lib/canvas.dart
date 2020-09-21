@@ -105,27 +105,24 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
             child: Container(
               child:
                   Consumer<CanvasModel>(builder: (context, canvasModel, child) {
-                print('SELECTOR build');
                 return Stack(
                   children: [
                     Container(
                       color: Colors.transparent,
                     ),
-                    ...canvasModel.itemDataList.map((ItemData itemData) {
-                      // print('map item ${itemData.position}');
+                    ...canvasModel.itemDataList.values.map((ItemData itemData) {
                       return Item(data: itemData);
                     }).toList(),
                     ...canvasModel.edgeDataList.map((EdgeData edgeData) {
                       return EdgeLine(
                         width: edgeData.width,
-                        start: canvasModel.itemDataList
-                            .firstWhere(
-                                (element) => element.id == edgeData.fromId)
-                            .position,
-                        end: canvasModel.itemDataList
-                            .firstWhere(
-                                (element) => element.id == edgeData.toId)
-                            .position,
+                        start:
+                            canvasModel.itemDataList[edgeData.fromId].position +
+                                canvasModel.itemDataList[edgeData.fromId].size
+                                    .center(Offset(0, 0)),
+                        end: canvasModel.itemDataList[edgeData.toId].position +
+                            canvasModel.itemDataList[edgeData.toId].size
+                                .center(Offset(0, 0)),
                       );
                     }).toList(),
                   ],
@@ -138,6 +135,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
                   'tap position: ${details.localPosition}, canvas: ${Provider.of<CanvasModel>(context, listen: false).position}, scale: ${Provider.of<CanvasModel>(context, listen: false).scale}');
               Provider.of<CanvasModel>(context, listen: false)
                   .itemDataList
+                  .values
                   .forEach((element) {
                 print('item: ${element.position}');
               });

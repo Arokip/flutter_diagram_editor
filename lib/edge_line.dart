@@ -23,7 +23,7 @@ class EdgeLine extends StatefulWidget {
 class _EdgeLineState extends State<EdgeLine> {
   @override
   Widget build(BuildContext context) {
-    print('LINE build');
+    // print('LINE build');
     return GestureDetector(
       onTap: () {
         print('line tapped');
@@ -59,7 +59,7 @@ class LinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = Colors.black
-      ..strokeWidth = ((width * canvasScale) > 1.0) ? width * canvasScale : 1.0
+      ..strokeWidth = width * canvasScale
       ..style = PaintingStyle.stroke;
 
     canvas.drawLine(start * canvasScale + canvasPosition,

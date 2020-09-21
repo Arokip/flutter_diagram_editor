@@ -20,6 +20,34 @@ class MenuItem extends StatelessWidget {
   }
 }
 
+class MenuItemWhenDragging extends StatelessWidget {
+  final MenuItemData menuItemData;
+  final double cornerDotSize = 4.0;
+
+  MenuItemWhenDragging({
+    Key key,
+    this.menuItemData,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: menuItemData.size.width,
+          height: menuItemData.size.height,
+          color: menuItemData.color,
+        ),
+        Container(
+          width: cornerDotSize,
+          height: cornerDotSize,
+          color: Colors.black,
+        ),
+      ],
+    );
+  }
+}
+
 class DraggableMenuItem extends StatelessWidget {
   final MenuItemData menuItemData;
 
@@ -35,7 +63,7 @@ class DraggableMenuItem extends StatelessWidget {
       childWhenDragging: MenuItem(
         menuItemData: menuItemData,
       ),
-      feedback: MenuItem(
+      feedback: MenuItemWhenDragging(
         menuItemData: menuItemData,
       ),
       child: MenuItem(

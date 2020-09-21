@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'canvas.dart';
 import 'menu.dart';
-import 'model/canvas_data.dart';
+import 'model/canvas_model.dart';
 import 'model/menu_item_data.dart';
 
 class Editor extends StatefulWidget {
@@ -37,8 +37,8 @@ class _EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<CanvasData>(
-      create: (BuildContext context) => CanvasData(),
+    return ChangeNotifierProvider<CanvasModel>(
+      create: (BuildContext context) => CanvasModel(),
       child: Stack(
         children: [
           Container(
@@ -55,7 +55,7 @@ class _EditorState extends State<Editor> {
             height: 64,
             width: 64,
             // TODO: --> own widget (resetViewButton)
-            child: Consumer<CanvasData>(
+            child: Consumer<CanvasModel>(
               builder: (_, canvasData, __) {
                 return IconButton(
                   color: Colors.white,

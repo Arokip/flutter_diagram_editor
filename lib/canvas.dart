@@ -1,9 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/edge_data.dart';
 import 'package:provider/provider.dart';
 
+import 'edge_line.dart';
 import 'item.dart';
-import 'model/canvas_data.dart';
+import 'model/canvas_model.dart';
 import 'model/item_data.dart';
 import 'model/menu_item_data.dart';
 
@@ -24,24 +26,25 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
   Offset _lastFocalPoint = Offset(0, 0);
 
   _onScaleStart(ScaleStartDetails details) {
-    _baseScaleFactor = Provider.of<CanvasData>(context, listen: false).scale;
+    _baseScaleFactor = Provider.of<CanvasModel>(context, listen: false).scale;
     _lastFocalPoint = details.focalPoint;
   }
 
   _onScaleUpdate(ScaleUpdateDetails details) {
     double previousScale =
-        Provider.of<CanvasData>(context, listen: false).scale;
+        Provider.of<CanvasModel>(context, listen: false).scale;
 
-    Provider.of<CanvasData>(context, listen: false).updateCanvasData(
+    Provider.of<CanvasModel>(context, listen: false).updateCanvasData(
         details.focalPoint - _lastFocalPoint, _baseScaleFactor * details.scale);
 
     var focalPoint = (details.localFocalPoint -
-        Provider.of<CanvasData>(context, listen: false).position);
+        Provider.of<CanvasModel>(context, listen: false).position);
     var focalPointScaled = (details.localFocalPoint -
-            Provider.of<CanvasData>(context, listen: false).position) *
-        (Provider.of<CanvasData>(context, listen: false).scale / previousScale);
+            Provider.of<CanvasModel>(context, listen: false).position) *
+        (Provider.of<CanvasModel>(context, listen: false).scale /
+            previousScale);
 
-    Provider.of<CanvasData>(context, listen: false)
+    Provider.of<CanvasModel>(context, listen: false)
         .updateCanvasPosition(focalPoint - focalPointScaled);
 
     _lastFocalPoint = details.focalPoint;
@@ -57,19 +60,19 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
       }
 
       double previousScale =
-          Provider.of<CanvasData>(context, listen: false).scale;
+          Provider.of<CanvasModel>(context, listen: false).scale;
 
-      Provider.of<CanvasData>(context, listen: false)
+      Provider.of<CanvasModel>(context, listen: false)
           .updateCanvasScale(scaleChange);
 
       var focalPoint = (event.localPosition -
-          Provider.of<CanvasData>(context, listen: false).position);
+          Provider.of<CanvasModel>(context, listen: false).position);
       var focalPointScaled = (event.localPosition -
-              Provider.of<CanvasData>(context, listen: false).position) *
-          (Provider.of<CanvasData>(context, listen: false).scale /
+              Provider.of<CanvasModel>(context, listen: false).position) *
+          (Provider.of<CanvasModel>(context, listen: false).scale /
               previousScale);
 
-      Provider.of<CanvasData>(context, listen: false)
+      Provider.of<CanvasModel>(context, listen: false)
           .updateCanvasPosition(focalPoint - focalPointScaled);
     }
   }
@@ -78,14 +81,14 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
     final RenderBox renderBox = context.findRenderObject();
     final Offset localOffset = renderBox.globalToLocal(details.offset);
 
-    Provider.of<CanvasData>(context, listen: false).addItemToList(
+    Provider.of<CanvasModel>(context, listen: false).addItemToList(
       ItemData(
-        id: Provider.of<CanvasData>(context, listen: false).getNextItemId(),
+        id: Provider.of<CanvasModel>(context, listen: false).getNextItemId(),
         color: details.data.color,
         size: details.data.size,
         position: (localOffset -
-                Provider.of<CanvasData>(context, listen: false).position) /
-            Provider.of<CanvasData>(context, listen: false).scale,
+                Provider.of<CanvasModel>(context, listen: false).position) /
+            Provider.of<CanvasModel>(context, listen: false).scale,
       ),
     );
   }
@@ -100,23 +103,44 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
           onPointerSignal: (event) => _receivedPointerSignal(event, context),
           child: GestureDetector(
             child: Container(
-              child: Selector<CanvasData, List<ItemData>>(
-                  selector: (_, canvasData) => canvasData.itemDataList,
-                  builder: (context, itemList, child) {
-                    print('SELECTOR build');
-                    return Stack(
-                      children: itemList.map((ItemData itemData) {
-                        print('map item ${itemData.position}');
-                        return Item(data: itemData);
-                      }).toList(),
-                    );
-                  }),
+              child:
+                  Consumer<CanvasModel>(builder: (context, canvasModel, child) {
+                print('SELECTOR build');
+                return Stack(
+                  children: [
+                    Container(
+                      color: Colors.transparent,
+                    ),
+                    ...canvasModel.itemDataList.map((ItemData itemData) {
+                      // print('map item ${itemData.position}');
+                      return Item(data: itemData);
+                    }).toList(),
+                    EdgeLine(
+                      start: Offset(40, 80),
+                      end: Offset(200, 50),
+                    ),
+                    ...canvasModel.edgeDataList.map((EdgeData edgeData) {
+                      return EdgeLine(
+                        width: edgeData.width,
+                        start: canvasModel.itemDataList
+                            .firstWhere(
+                                (element) => element.id == edgeData.fromId)
+                            .position,
+                        end: canvasModel.itemDataList
+                            .firstWhere(
+                                (element) => element.id == edgeData.toId)
+                            .position,
+                      );
+                    }).toList(),
+                  ],
+                );
+              }),
               color: Colors.red,
             ),
             onTapDown: (details) {
               print(
-                  'tap position: ${details.localPosition}, canvas: ${Provider.of<CanvasData>(context, listen: false).position}, scale: ${Provider.of<CanvasData>(context, listen: false).scale}');
-              Provider.of<CanvasData>(context, listen: false)
+                  'tap position: ${details.localPosition}, canvas: ${Provider.of<CanvasModel>(context, listen: false).position}, scale: ${Provider.of<CanvasModel>(context, listen: false).scale}');
+              Provider.of<CanvasModel>(context, listen: false)
                   .itemDataList
                   .forEach((element) {
                 print('item: ${element.position}');

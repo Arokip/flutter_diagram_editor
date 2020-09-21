@@ -3,18 +3,24 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/item_data.dart';
 
+import 'edge_data.dart';
+
 double maxScale = 4.0;
 double minScale = 0.2;
 
-int itemIdGen = 0;
+class CanvasModel extends ChangeNotifier {
+  static int _itemIdGen = 0;
 
-class CanvasData extends ChangeNotifier {
   Offset _position = Offset(0, 0);
   double _scale = 1.0;
   List<ItemData> _itemDataList;
+  List<EdgeData> _edgeDataList;
 
-  CanvasData() {
-    _itemDataList = generateLargeList(4);
+  CanvasModel() {
+    // _itemDataList = generateLargeItemList(200);
+    _itemDataList = generateRandomItemList(10);
+
+    _edgeDataList = generateRandomEdgeList(2);
   }
 
   Offset get position => _position;
@@ -22,6 +28,8 @@ class CanvasData extends ChangeNotifier {
   double get scale => _scale;
 
   List<ItemData> get itemDataList => _itemDataList;
+
+  List<EdgeData> get edgeDataList => _edgeDataList;
 
   // ==== NOTIFIERS ====
 
@@ -87,10 +95,14 @@ class CanvasData extends ChangeNotifier {
   }
 
   int getNextItemId() {
-    return itemIdGen++;
+    return _itemIdGen++;
   }
 
-  List<ItemData> generateLargeList(int number) {
+  int getLastId() {
+    return _itemIdGen;
+  }
+
+  List<ItemData> generateLargeItemList(int number) {
     List<ItemData> resultList = [];
     for (int j = 0; j < number / 100; j++) {
       for (int i = 0;
@@ -103,6 +115,36 @@ class CanvasData extends ChangeNotifier {
                 .withOpacity(1.0),
             size: Size(50, 50)));
       }
+    }
+    return resultList;
+  }
+
+  List<ItemData> generateRandomItemList(int number) {
+    List<ItemData> resultList = [];
+    for (int i = 0; i < number; i++) {
+      resultList.add(ItemData(
+        id: getNextItemId(),
+        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+            .withOpacity(1.0),
+        size: Size(10 + 80 * math.Random().nextDouble(),
+            10 + 80 * math.Random().nextDouble()),
+        position: Offset(600 * 2 * (math.Random().nextDouble() - 0.5),
+            600 * 2 * (math.Random().nextDouble() - 0.5)),
+      ));
+    }
+    return resultList;
+  }
+
+  List<EdgeData> generateRandomEdgeList(int number) {
+    List<EdgeData> resultList = [];
+    for (int i = 0; i < number; i++) {
+      resultList.add(EdgeData(
+        id: 0,
+        color: Colors.black,
+        width: 4.0,
+        fromId: math.Random().nextInt(getLastId()),
+        toId: math.Random().nextInt(getLastId()),
+      ));
     }
     return resultList;
   }

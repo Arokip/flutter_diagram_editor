@@ -49,6 +49,15 @@ class _EditorState extends State<Editor> {
               child: DiagramEditorCanvas(),
             ),
           ),
+          Container(
+            margin: EdgeInsets.fromLTRB(2, 8, 0, 8),
+            alignment: Alignment.centerLeft,
+            child: DiagramEditorMenu(
+                width: 80,
+                height: 400,
+                backgroundColor: Colors.grey,
+                menuItemList: menuItemList),
+          ),
           Positioned(
             bottom: 16,
             left: 16,
@@ -68,15 +77,6 @@ class _EditorState extends State<Editor> {
               },
             ),
           ),
-          Positioned(
-            left: 0,
-            top: 200,
-            child: DiagramEditorMenu(
-                width: 80,
-                height: 400,
-                backgroundColor: Colors.grey,
-                menuItemList: menuItemList),
-          )
         ],
       ),
     );

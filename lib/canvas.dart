@@ -115,10 +115,6 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
                       // print('map item ${itemData.position}');
                       return Item(data: itemData);
                     }).toList(),
-                    EdgeLine(
-                      start: Offset(40, 80),
-                      end: Offset(200, 50),
-                    ),
                     ...canvasModel.edgeDataList.map((EdgeData edgeData) {
                       return EdgeLine(
                         width: edgeData.width,

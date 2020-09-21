@@ -18,9 +18,9 @@ class CanvasModel extends ChangeNotifier {
 
   CanvasModel() {
     // _itemDataList = generateLargeItemList(200);
-    _itemDataList = generateRandomItemList(10);
+    _itemDataList = generateRandomItemList(80);
 
-    _edgeDataList = generateRandomEdgeList(2);
+    _edgeDataList = generateRandomEdgeList(80);
   }
 
   Offset get position => _position;
@@ -141,7 +141,7 @@ class CanvasModel extends ChangeNotifier {
       resultList.add(EdgeData(
         id: 0,
         color: Colors.black,
-        width: 4.0,
+        width: 1.5,
         fromId: math.Random().nextInt(getLastId()),
         toId: math.Random().nextInt(getLastId()),
       ));

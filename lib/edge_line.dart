@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/canvas_model.dart';
+import 'package:provider/provider.dart';
 
 class EdgeLine extends StatefulWidget {
   final Offset start;
@@ -19,16 +21,6 @@ class EdgeLine extends StatefulWidget {
 }
 
 class _EdgeLineState extends State<EdgeLine> {
-  // Offset start;
-  // Offset end;
-  //
-  // @override
-  // void initState() {
-  //   start = widget.start;
-  //   end = widget.end;
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     print('LINE build');
@@ -36,8 +28,13 @@ class _EdgeLineState extends State<EdgeLine> {
       onTap: () {
         print('line tapped');
       },
-      child: CustomPaint(
-        painter: LinePainter(widget.start, widget.end, widget.width),
+      child: Consumer<CanvasModel>(
+        builder: (context, canvasModel, child) {
+          return CustomPaint(
+            painter: LinePainter(widget.start, widget.end, widget.width,
+                canvasModel.position, canvasModel.scale),
+          );
+        },
       ),
     );
   }
@@ -47,21 +44,26 @@ class LinePainter extends CustomPainter {
   final Offset start;
   final Offset end;
   final double width;
+  final Offset canvasPosition;
+  final double canvasScale;
 
   LinePainter(
     this.start,
     this.end,
     this.width,
+    this.canvasPosition,
+    this.canvasScale,
   );
 
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = Colors.black
-      ..strokeWidth = width
+      ..strokeWidth = ((width * canvasScale) > 1.0) ? width * canvasScale : 1.0
       ..style = PaintingStyle.stroke;
 
-    canvas.drawLine(start, end, paint);
+    canvas.drawLine(start * canvasScale + canvasPosition,
+        end * canvasScale + canvasPosition, paint);
   }
 
   @override

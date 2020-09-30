@@ -4,16 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:provider/provider.dart';
 
+import 'model/edge_data.dart';
+
 class EdgeLine extends StatefulWidget {
-  final Offset start;
-  final Offset end;
-  final double width;
+  // final EdgeData edgeData;
 
   const EdgeLine({
     Key key,
-    this.start,
-    this.end,
-    this.width = 1.0,
+    // this.edgeData,
   }) : super(key: key);
 
   @override
@@ -24,17 +22,20 @@ class _EdgeLineState extends State<EdgeLine> {
   @override
   Widget build(BuildContext context) {
     // print('LINE build');
+
+    var canvasPosition = context
+        .select<CanvasModel, Offset>((CanvasModel model) => model.position);
+    var canvasScale =
+        context.select<CanvasModel, double>((CanvasModel model) => model.scale);
+    var edgeProvider = Provider.of<EdgeData>(context);
+
     return GestureDetector(
       onTap: () {
         print('line tapped');
       },
-      child: Consumer<CanvasModel>(
-        builder: (context, canvasModel, child) {
-          return CustomPaint(
-            painter: LinePainter(widget.start, widget.end, widget.width,
-                canvasModel.position, canvasModel.scale),
-          );
-        },
+      child: CustomPaint(
+        painter: LinePainter(edgeProvider.start, edgeProvider.end,
+            edgeProvider.width, canvasPosition, canvasScale),
       ),
     );
   }

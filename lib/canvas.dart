@@ -81,14 +81,15 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
     final RenderBox renderBox = context.findRenderObject();
     final Offset localOffset = renderBox.globalToLocal(details.offset);
 
-    Provider.of<CanvasModel>(context, listen: false).addItemToList(
+    var canvasProvider = Provider.of<CanvasModel>(context, listen: false);
+
+    canvasProvider.addItemToList(
       ItemData(
-        id: Provider.of<CanvasModel>(context, listen: false).getNextItemId(),
+        id: canvasProvider.generateNextItemId,
         color: details.data.color,
         size: details.data.size,
-        position: (localOffset -
-                Provider.of<CanvasModel>(context, listen: false).position) /
-            Provider.of<CanvasModel>(context, listen: false).scale,
+        position:
+            (localOffset - canvasProvider.position) / canvasProvider.scale,
       ),
     );
   }
@@ -96,6 +97,9 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
   @override
   Widget build(BuildContext context) {
     print('CANVAS build');
+
+    var canvasProvider = Provider.of<CanvasModel>(context);
+
     return DragTarget<MenuItemData>(
       builder: (BuildContext context, List<MenuItemData> candidateData,
           List<dynamic> rejectedData) {
@@ -103,32 +107,29 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
           onPointerSignal: (event) => _receivedPointerSignal(event, context),
           child: GestureDetector(
             child: Container(
-              child:
-                  Consumer<CanvasModel>(builder: (context, canvasModel, child) {
-                return Stack(
-                  children: [
-                    Container(
-                      color: Colors.transparent,
-                    ),
-                    ...canvasModel.itemDataList.values.map((ItemData itemData) {
-                      return Item(data: itemData);
-                    }).toList(),
-                    ...canvasModel.edgeDataList.map((EdgeData edgeData) {
-                      return EdgeLine(
-                        width: edgeData.width,
-                        start:
-                            canvasModel.itemDataList[edgeData.fromId].position +
-                                canvasModel.itemDataList[edgeData.fromId].size
-                                    .center(Offset(0, 0)),
-                        end: canvasModel.itemDataList[edgeData.toId].position +
-                            canvasModel.itemDataList[edgeData.toId].size
-                                .center(Offset(0, 0)),
-                      );
-                    }).toList(),
-                  ],
-                );
-              }),
               color: Colors.red,
+              child: Stack(
+                children: [
+                  Container(
+                    color: Colors.transparent,
+                  ),
+                  ...canvasProvider.itemDataList.values
+                      .map((ItemData itemData) {
+                    // return Item(data: itemData);
+                    return ChangeNotifierProvider<ItemData>.value(
+                      value: itemData,
+                      child: Item(),
+                    );
+                  }).toList(),
+                  ...canvasProvider.edgeDataList.values
+                      .map((EdgeData edgeData) {
+                    return ChangeNotifierProvider<EdgeData>.value(
+                      value: edgeData,
+                      child: EdgeLine(),
+                    );
+                  }).toList(),
+                ],
+              ),
             ),
             onTapDown: (details) {
               print(

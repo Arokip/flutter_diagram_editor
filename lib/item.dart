@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/edge_data.dart';
 import 'package:provider/provider.dart';
 
 import 'model/canvas_model.dart';
 import 'model/item_data.dart';
 
 class Item extends StatefulWidget {
-  final ItemData data;
+  // final ItemData data;
 
   const Item({
     Key key,
-    this.data,
+    // this.data,
   }) : super(key: key);
 
   @override
@@ -18,15 +19,15 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-  Offset _itemPosition;
+  // Offset _itemPosition;
 
   Offset _lastFocalPoint = Offset(0, 0);
 
-  @override
-  void initState() {
-    _itemPosition = widget.data.position;
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _itemPosition = widget.data.position;
+  //   super.initState();
+  // }
 
   Offset getDelta(Offset currentFocalPoint) {
     return currentFocalPoint - _lastFocalPoint;
@@ -35,65 +36,90 @@ class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     // print('ITEM build');
-    return Consumer<CanvasModel>(builder: (context, canvasData, child) {
-      return Positioned(
-        left: canvasData.scale * _itemPosition.dx + canvasData.position.dx,
-        top: canvasData.scale * _itemPosition.dy + canvasData.position.dy,
-        child: GestureDetector(
-          onScaleStart: (details) {
-            _lastFocalPoint = details.focalPoint;
-          },
-          onScaleUpdate: (details) {
-            _itemPosition += getDelta(details.focalPoint) / canvasData.scale;
-            canvasData.updateItemDataPosition(widget.data, _itemPosition);
-            _lastFocalPoint = details.focalPoint;
-          },
-          child: SizedBox(
-            width: canvasData.scale * (widget.data.size.width + 20),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  color: widget.data.color,
-                  height: canvasData.scale * widget.data.size.height,
-                  width: canvasData.scale * widget.data.size.width,
+
+    // var canvasProvider = Provider.of<CanvasModel>(context);
+    var canvasPosition = context
+        .select<CanvasModel, Offset>((CanvasModel model) => model.position);
+    var canvasScale =
+        context.select<CanvasModel, double>((CanvasModel model) => model.scale);
+    var itemProvider = Provider.of<ItemData>(context);
+    var edgeMap = context.select<CanvasModel, Map<int, EdgeData>>(
+        (CanvasModel model) => model.edgeDataList);
+
+    return Positioned(
+      left: canvasScale * itemProvider.position.dx + canvasPosition.dx,
+      top: canvasScale * itemProvider.position.dy + canvasPosition.dy,
+      child: GestureDetector(
+        onScaleStart: (details) {
+          _lastFocalPoint = details.focalPoint;
+        },
+        onScaleUpdate: (details) {
+          // _itemPosition += getDelta(details.focalPoint) / canvasScale;
+          // canvasProvider.updateItemDataPosition(
+          //     widget.data, itemProvider.position);
+          itemProvider.updateItemDataPosition(
+              getDelta(details.focalPoint) / canvasScale);
+          // TODO: linesProvider.updateLine(id) * X
+          itemProvider.edgesFrom.forEach((edgeId) {
+            edgeMap[edgeId]
+                .updateStart(getDelta(details.focalPoint) / canvasScale);
+          });
+          itemProvider.edgesTo.forEach((edgeId) {
+            edgeMap[edgeId]
+                .updateEnd(getDelta(details.focalPoint) / canvasScale);
+          });
+
+          // canvasProvider.lineList.where(id).updateFrom/To... (jako mapa ?)
+          _lastFocalPoint = details.focalPoint;
+        },
+        child: SizedBox(
+          width: canvasScale * (itemProvider.size.width + 20),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                color: itemProvider.color,
+                height: canvasScale * itemProvider.size.height,
+                width: canvasScale * itemProvider.size.width,
+                child: Center(
+                  child: Text('${itemProvider.id}'),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 20 * canvasData.scale,
-                        height: 20 * canvasData.scale,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            width: 1.0 * canvasData.scale,
-                            color: Colors.black,
-                          ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  children: [
+                    Container(
+                      width: 20 * canvasScale,
+                      height: 20 * canvasScale,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 1.0 * canvasScale,
+                          color: Colors.black,
                         ),
                       ),
-                      Container(
-                        width: 20 * canvasData.scale,
-                        height: 20 * canvasData.scale,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            width: 1.0 * canvasData.scale,
-                            color: Colors.black,
-                          ),
+                    ),
+                    Container(
+                      width: 20 * canvasScale,
+                      height: 20 * canvasScale,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 1.0 * canvasScale,
+                          color: Colors.black,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

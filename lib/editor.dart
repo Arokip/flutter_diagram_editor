@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/reset_view_button.dart';
 import 'package:provider/provider.dart';
 
 import 'canvas.dart';
@@ -63,19 +64,7 @@ class _EditorState extends State<Editor> {
             left: 16,
             height: 64,
             width: 64,
-            // TODO: --> own widget (resetViewButton)
-            child: Consumer<CanvasModel>(
-              builder: (_, canvasData, __) {
-                return IconButton(
-                  color: Colors.white,
-                  onPressed: () {
-                    canvasData.resetCanvasView();
-                  },
-                  tooltip: 'Reset',
-                  icon: const Icon(Icons.replay),
-                );
-              },
-            ),
+            child: ResetViewButton(),
           ),
         ],
       ),

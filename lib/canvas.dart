@@ -20,37 +20,79 @@ class DiagramEditorCanvas extends StatefulWidget {
   _DiagramEditorCanvasState createState() => _DiagramEditorCanvasState();
 }
 
-class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
+class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
   double _baseScaleFactor = 1.0;
 
   Offset _lastFocalPoint = Offset(0, 0);
 
-  _onScaleStart(ScaleStartDetails details) {
-    _baseScaleFactor = Provider.of<CanvasModel>(context, listen: false).scale;
+  Offset _transformPosition = Offset(0, 0);
+  double _transformScale = 1.0;
+
+  Offset _transformPositionDelta = Offset(0, 0);
+  double _transformScaleDelta = 1.0;
+
+  bool canUpdateProviderWithLastValues = false;
+
+  _onScaleStart(ScaleStartDetails details, CanvasModel canvasProvider) {
+    _baseScaleFactor = canvasProvider.scale;
     _lastFocalPoint = details.focalPoint;
+    _controller.repeat();
   }
 
-  _onScaleUpdate(ScaleUpdateDetails details) {
-    double previousScale =
-        Provider.of<CanvasModel>(context, listen: false).scale;
+  _onScaleUpdate(ScaleUpdateDetails details, CanvasModel canvasProvider) {
+    if (canUpdateProviderWithLastValues) {
+      updateProviderWithLastValues(canvasProvider);
 
-    Provider.of<CanvasModel>(context, listen: false).updateCanvasData(
-        details.focalPoint - _lastFocalPoint, _baseScaleFactor * details.scale);
+      double previousScale = canvasProvider.scale;
 
-    var focalPoint = (details.localFocalPoint -
-        Provider.of<CanvasModel>(context, listen: false).position);
-    var focalPointScaled = (details.localFocalPoint -
-            Provider.of<CanvasModel>(context, listen: false).position) *
-        (Provider.of<CanvasModel>(context, listen: false).scale /
-            previousScale);
+      // canvasProvider.updateCanvasData(details.focalPoint - _lastFocalPoint,
+      //     _baseScaleFactor * details.scale);
 
-    Provider.of<CanvasModel>(context, listen: false)
-        .updateCanvasPosition(focalPoint - focalPointScaled);
+      _transformPosition += details.focalPoint - _lastFocalPoint;
+      _transformPositionDelta = details.focalPoint - _lastFocalPoint;
+      _transformScale = details.scale; // TODO: scale
 
-    _lastFocalPoint = details.focalPoint;
+      var focalPoint = (details.localFocalPoint - canvasProvider.position);
+      var focalPointScaled =
+          (details.localFocalPoint - canvasProvider.position) *
+              (canvasProvider.scale / previousScale);
+
+      // canvasProvider.updateCanvasPosition(focalPoint - focalPointScaled);
+      _lastFocalPoint = details.focalPoint;
+
+      _transformPosition += focalPoint - focalPointScaled;
+      _transformPositionDelta += focalPoint - focalPointScaled;
+
+      // print('transform: pos $_transformPosition');
+      // print('canvas: pos ${canvasProvider.position}');
+      print('update: $_transformPosition');
+    }
   }
 
-  void _receivedPointerSignal(PointerSignalEvent event, BuildContext context) {
+  _onScaleEnd(CanvasModel canvasProvider) {
+    if (canUpdateProviderWithLastValues) {
+      updateProviderWithLastValues(canvasProvider);
+    }
+
+    _controller.reset();
+
+    _transformPosition = Offset(0, 0);
+    _transformPositionDelta = Offset(0, 0);
+    _transformScale = 1.0;
+    _transformScaleDelta = 1.0;
+
+    canvasProvider.updateCanvasEnd();
+  }
+
+  updateProviderWithLastValues(CanvasModel canvasProvider) {
+    canvasProvider.updateCanvasData(
+        _transformPositionDelta, _transformScaleDelta);
+    canUpdateProviderWithLastValues = false;
+  }
+
+  void _receivedPointerSignal(PointerSignalEvent event, canvasProvider) {
     if (event is PointerScrollEvent) {
       final double scaleChange =
           event.scrollDelta.dy < 0 ? (1 / mouseScaleSpeed) : (mouseScaleSpeed);
@@ -59,29 +101,22 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
         return;
       }
 
-      double previousScale =
-          Provider.of<CanvasModel>(context, listen: false).scale;
+      double previousScale = canvasProvider.scale;
 
-      Provider.of<CanvasModel>(context, listen: false)
-          .updateCanvasScale(scaleChange);
+      canvasProvider.updateCanvasScale(scaleChange);
 
-      var focalPoint = (event.localPosition -
-          Provider.of<CanvasModel>(context, listen: false).position);
-      var focalPointScaled = (event.localPosition -
-              Provider.of<CanvasModel>(context, listen: false).position) *
-          (Provider.of<CanvasModel>(context, listen: false).scale /
-              previousScale);
+      var focalPoint = (event.localPosition - canvasProvider.position);
+      var focalPointScaled = (event.localPosition - canvasProvider.position) *
+          (canvasProvider.scale / previousScale);
 
-      Provider.of<CanvasModel>(context, listen: false)
-          .updateCanvasPosition(focalPoint - focalPointScaled);
+      canvasProvider.updateCanvasPosition(focalPoint - focalPointScaled);
     }
   }
 
-  void _onAcceptWithDetails(DragTargetDetails details, BuildContext context) {
+  void _onAcceptWithDetails(
+      DragTargetDetails details, BuildContext context, canvasProvider) {
     final RenderBox renderBox = context.findRenderObject();
     final Offset localOffset = renderBox.globalToLocal(details.offset);
-
-    var canvasProvider = Provider.of<CanvasModel>(context, listen: false);
 
     canvasProvider.addItemToList(
       ItemData(
@@ -95,59 +130,91 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print('CANVAS build');
 
-    var canvasProvider = Provider.of<CanvasModel>(context);
-
+    var canvasProvider = Provider.of<CanvasModel>(context, listen: false);
+    print('${canvasProvider.position}');
     return DragTarget<MenuItemData>(
       builder: (BuildContext context, List<MenuItemData> candidateData,
           List<dynamic> rejectedData) {
         return Listener(
-          onPointerSignal: (event) => _receivedPointerSignal(event, context),
+          onPointerSignal: (event) =>
+              _receivedPointerSignal(event, canvasProvider),
           child: GestureDetector(
             child: Container(
               color: Colors.red,
-              child: Stack(
-                children: [
-                  Container(
-                    color: Colors.transparent,
+              child: ClipRect(
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (BuildContext context, Widget child) {
+                    print('AnimatedBuilder position: $_transformPosition');
+                    canUpdateProviderWithLastValues = true;
+                    return Transform(
+                      transform: Matrix4.identity()
+                        ..translate(
+                            _transformPosition.dx, _transformPosition.dy)
+                        ..scale(_transformScale),
+                      child: child,
+                    );
+                  },
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        color: Colors.transparent,
+                      ),
+                      ...canvasProvider.itemDataList.values
+                          .map((ItemData itemData) {
+                        // return Item(data: itemData);
+                        return ChangeNotifierProvider<ItemData>.value(
+                          value: itemData,
+                          child: Item(),
+                        );
+                      }).toList(),
+                      ...canvasProvider.edgeDataList.values
+                          .map((EdgeData edgeData) {
+                        return ChangeNotifierProvider<EdgeData>.value(
+                          value: edgeData,
+                          child: EdgeLine(),
+                        );
+                      }).toList(),
+                    ],
                   ),
-                  ...canvasProvider.itemDataList.values
-                      .map((ItemData itemData) {
-                    // return Item(data: itemData);
-                    return ChangeNotifierProvider<ItemData>.value(
-                      value: itemData,
-                      child: Item(),
-                    );
-                  }).toList(),
-                  ...canvasProvider.edgeDataList.values
-                      .map((EdgeData edgeData) {
-                    return ChangeNotifierProvider<EdgeData>.value(
-                      value: edgeData,
-                      child: EdgeLine(),
-                    );
-                  }).toList(),
-                ],
+                ),
               ),
             ),
             onTapDown: (details) {
               print(
-                  'tap position: ${details.localPosition}, canvas: ${Provider.of<CanvasModel>(context, listen: false).position}, scale: ${Provider.of<CanvasModel>(context, listen: false).scale}');
-              Provider.of<CanvasModel>(context, listen: false)
-                  .itemDataList
-                  .values
-                  .forEach((element) {
-                print('item: ${element.position}');
-              });
+                  'tap position: ${details.localPosition}, canvas: ${canvasProvider.position}, scale: ${canvasProvider.scale}');
+              // canvasProvider.itemDataList.values.forEach((element) {
+              //   print('item: ${element.position}');
+              // });
             },
-            onScaleStart: _onScaleStart,
-            onScaleUpdate: _onScaleUpdate,
+            onScaleStart: (details) => _onScaleStart(details, canvasProvider),
+            onScaleUpdate: (details) => _onScaleUpdate(details, canvasProvider),
+            onScaleEnd: (details) => _onScaleEnd(canvasProvider),
           ),
         );
       },
       onWillAccept: (MenuItemData data) => true,
-      onAcceptWithDetails: (details) => _onAcceptWithDetails(details, context),
+      onAcceptWithDetails: (details) =>
+          _onAcceptWithDetails(details, context, canvasProvider),
     );
   }
 }

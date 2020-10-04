@@ -37,7 +37,6 @@ class _ItemState extends State<Item> {
   Widget build(BuildContext context) {
     // print('ITEM build');
 
-    // var canvasProvider = Provider.of<CanvasModel>(context);
     var canvasPosition = context
         .select<CanvasModel, Offset>((CanvasModel model) => model.position);
     var canvasScale =
@@ -54,12 +53,8 @@ class _ItemState extends State<Item> {
           _lastFocalPoint = details.focalPoint;
         },
         onScaleUpdate: (details) {
-          // _itemPosition += getDelta(details.focalPoint) / canvasScale;
-          // canvasProvider.updateItemDataPosition(
-          //     widget.data, itemProvider.position);
           itemProvider.updateItemDataPosition(
               getDelta(details.focalPoint) / canvasScale);
-          // TODO: linesProvider.updateLine(id) * X
           itemProvider.edgesFrom.forEach((edgeId) {
             edgeMap[edgeId]
                 .updateStart(getDelta(details.focalPoint) / canvasScale);

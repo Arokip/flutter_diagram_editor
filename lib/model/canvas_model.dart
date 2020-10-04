@@ -21,9 +21,9 @@ class CanvasModel extends ChangeNotifier {
 
   CanvasModel() {
     // _itemDataList = generateItems(100);
-    _itemDataList = generateRandomItems(100);
+    _itemDataList = generateRandomItems(5);
 
-    _edgeDataList = generateRandomEdges(100);
+    _edgeDataList = generateRandomEdges(0);
   }
 
   Offset get position => _position;

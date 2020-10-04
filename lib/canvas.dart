@@ -115,6 +115,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
 
   void _onAcceptWithDetails(
       DragTargetDetails details, BuildContext context, canvasProvider) {
+    print('ACCEPT: ${details.data.color}');
     final RenderBox renderBox = context.findRenderObject();
     final Offset localOffset = renderBox.globalToLocal(details.offset);
 
@@ -127,6 +128,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
             (localOffset - canvasProvider.position) / canvasProvider.scale,
       ),
     );
+    setState(() {});
   }
 
   @override
@@ -150,71 +152,76 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
 
     var canvasProvider = Provider.of<CanvasModel>(context, listen: false);
     print('${canvasProvider.position}');
-    return DragTarget<MenuItemData>(
-      builder: (BuildContext context, List<MenuItemData> candidateData,
-          List<dynamic> rejectedData) {
-        return Listener(
-          onPointerSignal: (event) =>
-              _receivedPointerSignal(event, canvasProvider),
-          child: GestureDetector(
-            child: Container(
-              color: Colors.red,
-              child: ClipRect(
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (BuildContext context, Widget child) {
-                    print('AnimatedBuilder position: $_transformPosition');
-                    canUpdateProviderWithLastValues = true;
-                    return Transform(
-                      transform: Matrix4.identity()
-                        ..translate(
-                            _transformPosition.dx, _transformPosition.dy)
-                        ..scale(_transformScale),
-                      child: child,
-                    );
-                  },
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        color: Colors.transparent,
-                      ),
-                      ...canvasProvider.itemDataList.values
-                          .map((ItemData itemData) {
-                        // return Item(data: itemData);
-                        return ChangeNotifierProvider<ItemData>.value(
-                          value: itemData,
-                          child: Item(),
+    return Listener(
+      onPointerSignal: (event) => _receivedPointerSignal(event, canvasProvider),
+      child: GestureDetector(
+        child: Container(
+          color: Colors.red,
+          child: ClipRect(
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (BuildContext context, Widget child) {
+                print('AnimatedBuilder position: $_transformPosition');
+                canUpdateProviderWithLastValues = true;
+                return Transform(
+                  transform: Matrix4.identity()
+                    ..translate(_transformPosition.dx, _transformPosition.dy)
+                    ..scale(_transformScale),
+                  child: child,
+                );
+              },
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  SizedBox(
+                    // it's here, because DragTarget outside is lagging (draggable cannot be accepted when user drops it on an item)
+                    child: DragTarget<MenuItemData>(
+                      builder: (BuildContext context,
+                          List<MenuItemData> candidateData,
+                          List<dynamic> rejectedData) {
+                        return Container(
+                          color: Color.fromARGB(100, 0, 0, 200),
                         );
-                      }).toList(),
-                      ...canvasProvider.edgeDataList.values
-                          .map((EdgeData edgeData) {
-                        return ChangeNotifierProvider<EdgeData>.value(
-                          value: edgeData,
-                          child: EdgeLine(),
-                        );
-                      }).toList(),
-                    ],
+                      },
+                      onWillAccept: (MenuItemData data) => true,
+                      onAcceptWithDetails: (details) => _onAcceptWithDetails(
+                          details, context, canvasProvider),
+                    ),
                   ),
-                ),
+                  // Container(
+                  //   color: Colors.transparent,
+                  // ),
+                  ...canvasProvider.itemDataList.values
+                      .map((ItemData itemData) {
+                    // return Item(data: itemData);
+                    return ChangeNotifierProvider<ItemData>.value(
+                      value: itemData,
+                      child: Item(),
+                    );
+                  }).toList(),
+                  ...canvasProvider.edgeDataList.values
+                      .map((EdgeData edgeData) {
+                    return ChangeNotifierProvider<EdgeData>.value(
+                      value: edgeData,
+                      child: EdgeLine(),
+                    );
+                  }).toList(),
+                ],
               ),
             ),
-            onTapDown: (details) {
-              print(
-                  'tap position: ${details.localPosition}, canvas: ${canvasProvider.position}, scale: ${canvasProvider.scale}');
-              // canvasProvider.itemDataList.values.forEach((element) {
-              //   print('item: ${element.position}');
-              // });
-            },
-            onScaleStart: (details) => _onScaleStart(details, canvasProvider),
-            onScaleUpdate: (details) => _onScaleUpdate(details, canvasProvider),
-            onScaleEnd: (details) => _onScaleEnd(canvasProvider),
           ),
-        );
-      },
-      onWillAccept: (MenuItemData data) => true,
-      onAcceptWithDetails: (details) =>
-          _onAcceptWithDetails(details, context, canvasProvider),
+        ),
+        onTapDown: (details) {
+          print(
+              'tap position: ${details.localPosition}, canvas: ${canvasProvider.position}, scale: ${canvasProvider.scale}, item count: ${canvasProvider.itemDataList.length}');
+          canvasProvider.itemDataList.values.forEach((element) {
+            print('item: ${element.position}');
+          });
+        },
+        onScaleStart: (details) => _onScaleStart(details, canvasProvider),
+        onScaleUpdate: (details) => _onScaleUpdate(details, canvasProvider),
+        onScaleEnd: (details) => _onScaleEnd(canvasProvider),
+      ),
     );
   }
 }

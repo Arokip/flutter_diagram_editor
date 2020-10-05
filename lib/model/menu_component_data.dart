@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MenuItemData {
+class MenuComponentData {
   final Color color;
   final Size size;
 
-  MenuItemData({
+  MenuComponentData({
     this.size,
     this.color,
   });

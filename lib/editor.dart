@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'canvas.dart';
 import 'menu.dart';
 import 'model/canvas_model.dart';
-import 'model/menu_item_data.dart';
+import 'model/menu_component_data.dart';
 
 class Editor extends StatefulWidget {
   @override
@@ -15,18 +15,18 @@ class Editor extends StatefulWidget {
 }
 
 class _EditorState extends State<Editor> {
-  List<MenuItemData> menuItemList;
+  List<MenuComponentData> menuComponentList;
 
   @override
   void initState() {
-    menuItemList = generateMenuItems(120);
+    menuComponentList = generateMenuComponents(120);
     super.initState();
   }
 
-  List<MenuItemData> generateMenuItems(int number) {
-    List<MenuItemData> resultList = [];
+  List<MenuComponentData> generateMenuComponents(int number) {
+    List<MenuComponentData> resultList = [];
     for (int i = 0; i < number; i++) {
-      resultList.add(MenuItemData(
+      resultList.add(MenuComponentData(
         color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
             .withOpacity(1.0),
         size: Size(10 + 80 * math.Random().nextDouble(),
@@ -53,11 +53,14 @@ class _EditorState extends State<Editor> {
           Container(
             margin: EdgeInsets.fromLTRB(2, 8, 0, 8),
             alignment: Alignment.centerLeft,
-            child: DiagramEditorMenu(
-                width: 80,
-                height: 400,
-                backgroundColor: Colors.grey,
-                menuItemList: menuItemList),
+            child: Container(
+              width: 80,
+              height: 400,
+              color: Colors.grey,
+              child: DiagramEditorMenu(
+                menuComponentList: menuComponentList,
+              ),
+            ),
           ),
           Positioned(
             bottom: 16,
@@ -74,7 +77,7 @@ class _EditorState extends State<Editor> {
               child: Consumer<CanvasModel>(
                 builder: (_, canvasData, __) {
                   return Text(
-                      'l:${canvasData.itemDataList.length}, p:${canvasData.position}, s:${canvasData.scale}');
+                      'l:${canvasData.componentDataMap.length}, p:${canvasData.position}, s:${canvasData.scale}');
                 },
               ),
             ),

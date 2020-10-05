@@ -2,39 +2,39 @@ import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/item_data.dart';
+import 'package:flutter_provider_canvas/model/component_data.dart';
 
-import 'edge_data.dart';
+import 'link_data.dart';
 
 class CanvasModel extends ChangeNotifier {
-  int _itemIdGen = 0;
-  int _edgeIdGen = 0;
+  int _componentIdGen = 0;
+  int _linkIdGen = 0;
 
   Offset _position = Offset(0, 0);
   double _scale = 1.0;
 
-  HashMap<int, ItemData> _itemDataList;
-  HashMap<int, EdgeData> _edgeDataList;
+  HashMap<int, ComponentData> _componentDataMap;
+  HashMap<int, LinkData> _linkDataMap;
 
   CanvasModel() {
-    // _itemDataList = generateItems(100);
-    _itemDataList = generateRandomItems(500);
+    // _componentDataMap = generateComponents(100);
+    _componentDataMap = generateRandomComponents(100);
 
-    _edgeDataList = generateRandomEdges(500);
+    _linkDataMap = generateRandomLinks(100);
   }
 
   Offset get position => _position;
 
   double get scale => _scale;
 
-  HashMap<int, ItemData> get itemDataList => _itemDataList;
+  HashMap<int, ComponentData> get componentDataMap => _componentDataMap;
 
-  HashMap<int, EdgeData> get edgeDataList => _edgeDataList;
+  HashMap<int, LinkData> get linkDataMap => _linkDataMap;
 
   // ==== NOTIFIERS ====
 
-  addItemToList(ItemData itemData) {
-    _itemDataList[itemData.id] = itemData;
+  addComponentToList(ComponentData componentData) {
+    _componentDataMap[componentData.id] = componentData;
     notifyListeners();
   }
 
@@ -60,38 +60,34 @@ class CanvasModel extends ChangeNotifier {
     // notifyListeners();
   }
 
-  notifyCanvasListeners() {
+  notifyCanvasModelListeners() {
     notifyListeners();
-  }
-
-  getItemDataPosition(int id) {
-    return itemDataList[id].position;
   }
 
   // ==== IDs ====
 
-  int get generateNextItemId => _itemIdGen++;
+  int get generateNextComponentId => _componentIdGen++;
 
-  int get getLastUsedItemId => _itemIdGen - 1;
+  int get getLastUsedComponentId => _componentIdGen - 1;
 
-  int get getNextItemId => _itemIdGen;
+  int get getNextComponentId => _componentIdGen;
 
-  int get generateNextEdgeId => _edgeIdGen++;
+  int get generateNextLinkId => _linkIdGen++;
 
-  int get getLastUsedEdgeId => _edgeIdGen - 1;
+  int get getLastUsedLinkId => _linkIdGen - 1;
 
-  int get getNextEdgeId => _edgeIdGen;
+  int get getNextLinkId => _linkIdGen;
 
   // ==== HELPERS ====
 
-  HashMap<int, ItemData> generateItems(int number) {
-    HashMap<int, ItemData> resultMap = HashMap<int, ItemData>();
+  HashMap<int, ComponentData> generateComponents(int number) {
+    HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
     for (int j = 0; j < number / 100; j++) {
       for (int i = 0;
           i < ((number - j * 100) >= 100 ? 100 : (number % 100));
           i++) {
-        resultMap[generateNextItemId] = ItemData(
-            id: getLastUsedItemId,
+        resultMap[generateNextComponentId] = ComponentData(
+            id: getLastUsedComponentId,
             position: Offset(i * 3.0, i * 3.0 + 100 * j),
             color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
                 .withOpacity(1.0),
@@ -101,12 +97,12 @@ class CanvasModel extends ChangeNotifier {
     return resultMap;
   }
 
-  HashMap<int, ItemData> generateRandomItems(int number) {
-    HashMap<int, ItemData> resultMap = HashMap<int, ItemData>();
+  HashMap<int, ComponentData> generateRandomComponents(int number) {
+    HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
 
     for (int i = 0; i < number; i++) {
-      resultMap[generateNextItemId] = ItemData(
-        id: getLastUsedItemId,
+      resultMap[generateNextComponentId] = ComponentData(
+        id: getLastUsedComponentId,
         color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
             .withOpacity(1.0),
         size: Size(10 + 80 * math.Random().nextDouble(),
@@ -118,27 +114,27 @@ class CanvasModel extends ChangeNotifier {
     return resultMap;
   }
 
-  HashMap<int, EdgeData> generateRandomEdges(int number) {
-    HashMap<int, EdgeData> resultList = HashMap<int, EdgeData>();
+  HashMap<int, LinkData> generateRandomLinks(int number) {
+    HashMap<int, LinkData> resultList = HashMap<int, LinkData>();
     for (int i = 0; i < number; i++) {
-      generateNextEdgeId;
+      generateNextLinkId;
 
-      int fromId = math.Random().nextInt(getNextItemId);
-      int toId = math.Random().nextInt(getNextItemId);
+      int fromId = math.Random().nextInt(getNextComponentId);
+      int toId = math.Random().nextInt(getNextComponentId);
 
-      itemDataList[fromId].addEdgeFrom(getLastUsedEdgeId);
-      itemDataList[toId].addEdgeTo(getLastUsedEdgeId);
+      componentDataMap[fromId].addLinkFrom(getLastUsedLinkId);
+      componentDataMap[toId].addLinkTo(getLastUsedLinkId);
 
-      resultList[getLastUsedEdgeId] = EdgeData(
-        // id: getLastUsedEdgeId,
+      resultList[getLastUsedLinkId] = LinkData(
+        // id: getLastUsedLinkId,
         color: Colors.black,
         width: 1.5,
         // fromId: fromId,
         // toId: toId,
-        start: itemDataList[fromId].position +
-            itemDataList[fromId].size.center(Offset(0, 0)),
-        end: itemDataList[toId].position +
-            itemDataList[toId].size.center(Offset(0, 0)),
+        start: componentDataMap[fromId].position +
+            componentDataMap[fromId].size.center(Offset(0, 0)),
+        end: componentDataMap[toId].position +
+            componentDataMap[toId].size.center(Offset(0, 0)),
       );
     }
     return resultList;

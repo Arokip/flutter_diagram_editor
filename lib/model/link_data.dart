@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class EdgeData extends ChangeNotifier {
+class LinkData extends ChangeNotifier {
   // final int id;
   // final int fromId;
   // final int toId;
@@ -9,7 +9,7 @@ class EdgeData extends ChangeNotifier {
   Offset start;
   Offset end;
 
-  EdgeData({
+  LinkData({
     // this.id,
     // this.fromId,
     // this.toId,

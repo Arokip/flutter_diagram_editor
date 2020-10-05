@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/edge_data.dart';
+import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:provider/provider.dart';
 
-import 'edge_line.dart';
-import 'item.dart';
+import 'link.dart';
+import 'component.dart';
 import 'model/canvas_model.dart';
-import 'model/item_data.dart';
-import 'model/menu_item_data.dart';
+import 'model/component_data.dart';
+import 'model/menu_component_data.dart';
 
 double mouseScaleSpeed = 0.8;
 
@@ -26,7 +26,7 @@ class DiagramEditorCanvas extends StatefulWidget {
 class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     with TickerProviderStateMixin {
   AnimationController _animationController;
-  double _baseScaleFactor = 1.0;
+  double _baseScale = 1.0;
   Offset _basePosition = Offset(0, 0);
 
   Offset _lastFocalPoint = Offset(0, 0);
@@ -34,25 +34,24 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   Offset _transformPosition = Offset(0, 0);
   double _transformScale = 1.0;
 
-  bool canUpdateCanvasData = false;
+  bool canUpdateCanvasModel = false;
 
-  _onScaleStart(ScaleStartDetails details, CanvasModel canvasProvider) {
-    _baseScaleFactor = canvasProvider.scale;
-    _basePosition = canvasProvider.position;
+  _onScaleStart(ScaleStartDetails details, CanvasModel canvasModel) {
+    _baseScale = canvasModel.scale;
+    _basePosition = canvasModel.position;
 
     _lastFocalPoint = details.focalPoint;
-    // _animationController.repeat();
   }
 
-  _onScaleUpdate(ScaleUpdateDetails details, CanvasModel canvasProvider) {
-    if (canUpdateCanvasData) {
+  _onScaleUpdate(ScaleUpdateDetails details, CanvasModel canvasModel) {
+    if (canUpdateCanvasModel) {
       _animationController.repeat();
-      updateProviderWithLastValues(canvasProvider);
+      updateCanvasModelWithLastValues(canvasModel);
 
       double previousScale = _transformScale;
 
       _transformPosition += details.focalPoint - _lastFocalPoint;
-      _transformScale = keepScaleInBounds(details.scale, _baseScaleFactor);
+      _transformScale = keepScaleInBounds(details.scale, _baseScale);
 
       var focalPoint = (details.localFocalPoint - _transformPosition);
       var focalPointScaled = focalPoint * (_transformScale / previousScale);
@@ -61,14 +60,13 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
 
       _transformPosition += focalPoint - focalPointScaled;
 
-      print('update: $_transformPosition, $_transformScale');
       _animationController.reset();
     }
   }
 
-  _onScaleEnd(CanvasModel canvasProvider) {
-    if (canUpdateCanvasData) {
-      updateProviderWithLastValues(canvasProvider);
+  _onScaleEnd(CanvasModel canvasModel) {
+    if (canUpdateCanvasModel) {
+      updateCanvasModelWithLastValues(canvasModel);
     }
 
     _animationController.reset();
@@ -76,54 +74,52 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     _transformPosition = Offset(0, 0);
     _transformScale = 1.0;
 
-    canvasProvider.notifyCanvasListeners();
+    canvasModel.notifyCanvasModelListeners();
   }
 
-  updateProviderWithLastValues(CanvasModel canvasProvider) {
-    canvasProvider.setCanvasData(
+  updateCanvasModelWithLastValues(CanvasModel canvasModel) {
+    canvasModel.setCanvasData(
         (_basePosition * _transformScale) + _transformPosition,
-        _transformScale * _baseScaleFactor);
-    canUpdateCanvasData = false;
+        _transformScale * _baseScale);
+    canUpdateCanvasModel = false;
   }
 
   void _receivedPointerSignal(
-      PointerSignalEvent event, CanvasModel canvasProvider) {
+      PointerSignalEvent event, CanvasModel canvasModel) {
     if (event is PointerScrollEvent) {
       double scaleChange =
           event.scrollDelta.dy < 0 ? (1 / mouseScaleSpeed) : (mouseScaleSpeed);
 
-      scaleChange = keepScaleInBounds(scaleChange, canvasProvider.scale);
+      scaleChange = keepScaleInBounds(scaleChange, canvasModel.scale);
 
       if (scaleChange == 0.0) {
         return;
       }
 
-      double previousScale = canvasProvider.scale;
+      double previousScale = canvasModel.scale;
 
-      canvasProvider.updateCanvasScale(scaleChange);
+      canvasModel.updateCanvasScale(scaleChange);
 
-      var focalPoint = (event.localPosition - canvasProvider.position);
-      var focalPointScaled =
-          focalPoint * (canvasProvider.scale / previousScale);
+      var focalPoint = (event.localPosition - canvasModel.position);
+      var focalPointScaled = focalPoint * (canvasModel.scale / previousScale);
 
-      canvasProvider.updateCanvasPosition(focalPoint - focalPointScaled);
-      canvasProvider.notifyCanvasListeners();
+      canvasModel.updateCanvasPosition(focalPoint - focalPointScaled);
+      canvasModel.notifyCanvasModelListeners();
     }
   }
 
   void _onAcceptWithDetails(
-      DragTargetDetails details, BuildContext context, canvasProvider) {
+      DragTargetDetails details, BuildContext context, canvasModel) {
     setState(() {
       final RenderBox renderBox = context.findRenderObject();
       final Offset localOffset = renderBox.globalToLocal(details.offset);
 
-      canvasProvider.addItemToList(
-        ItemData(
-          id: canvasProvider.generateNextItemId,
+      canvasModel.addComponentToList(
+        ComponentData(
+          id: canvasModel.generateNextComponentId,
           color: details.data.color,
           size: details.data.size,
-          position:
-              (localOffset - canvasProvider.position) / canvasProvider.scale,
+          position: (localOffset - canvasModel.position) / canvasModel.scale,
         ),
       );
     });
@@ -159,10 +155,9 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   Widget build(BuildContext context) {
     print('CANVAS build');
 
-    var canvasProvider = Provider.of<CanvasModel>(context, listen: false);
-    print('${canvasProvider.position}');
+    var canvasModel = Provider.of<CanvasModel>(context, listen: false);
     return Listener(
-      onPointerSignal: (event) => _receivedPointerSignal(event, canvasProvider),
+      onPointerSignal: (event) => _receivedPointerSignal(event, canvasModel),
       child: GestureDetector(
         child: Container(
           color: Color.fromARGB(255, 148, 41, 111),
@@ -170,7 +165,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
             child: AnimatedBuilder(
               animation: _animationController,
               builder: (BuildContext context, Widget child) {
-                canUpdateCanvasData = true;
+                canUpdateCanvasModel = true;
                 return Transform(
                   transform: Matrix4.identity()
                     ..translate(_transformPosition.dx, _transformPosition.dy)
@@ -182,32 +177,31 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                 clipBehavior: Clip.none,
                 children: [
                   SizedBox(
-                    // it's here, because DragTarget outside is lagging (draggable cannot be accepted when user drops it on an item)
-                    child: DragTarget<MenuItemData>(
+                    // it's here, because DragTarget outside is lagging (draggable cannot be accepted when user drops it on an component)
+                    child: DragTarget<MenuComponentData>(
                       builder: (BuildContext context,
-                          List<MenuItemData> candidateData,
+                          List<MenuComponentData> candidateData,
                           List<dynamic> rejectedData) {
                         return Container(
                           color: Color.fromARGB(150, 0, 0, 0),
                         );
                       },
-                      onWillAccept: (MenuItemData data) => true,
-                      onAcceptWithDetails: (details) => _onAcceptWithDetails(
-                          details, context, canvasProvider),
+                      onWillAccept: (MenuComponentData data) => true,
+                      onAcceptWithDetails: (details) =>
+                          _onAcceptWithDetails(details, context, canvasModel),
                     ),
                   ),
-                  ...canvasProvider.itemDataList.values
-                      .map((ItemData itemData) {
-                    return ChangeNotifierProvider<ItemData>.value(
-                      value: itemData,
-                      child: Item(),
+                  ...canvasModel.componentDataMap.values
+                      .map((ComponentData componentData) {
+                    return ChangeNotifierProvider<ComponentData>.value(
+                      value: componentData,
+                      child: Component(),
                     );
                   }).toList(),
-                  ...canvasProvider.edgeDataList.values
-                      .map((EdgeData edgeData) {
-                    return ChangeNotifierProvider<EdgeData>.value(
-                      value: edgeData,
-                      child: EdgeLine(),
+                  ...canvasModel.linkDataMap.values.map((LinkData linkData) {
+                    return ChangeNotifierProvider<LinkData>.value(
+                      value: linkData,
+                      child: Link(),
                     );
                   }).toList(),
                 ],
@@ -215,16 +209,9 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
             ),
           ),
         ),
-        onTapDown: (details) {
-          print(
-              'tap position: ${details.localPosition}, canvas: ${canvasProvider.position}, scale: ${canvasProvider.scale}, item count: ${canvasProvider.itemDataList.length}');
-          // canvasProvider.itemDataList.values.forEach((element) {
-          //   print('item: ${element.position}');
-          // });
-        },
-        onScaleStart: (details) => _onScaleStart(details, canvasProvider),
-        onScaleUpdate: (details) => _onScaleUpdate(details, canvasProvider),
-        onScaleEnd: (details) => _onScaleEnd(canvasProvider),
+        onScaleStart: (details) => _onScaleStart(details, canvasModel),
+        onScaleUpdate: (details) => _onScaleUpdate(details, canvasModel),
+        onScaleEnd: (details) => _onScaleEnd(canvasModel),
       ),
     );
   }

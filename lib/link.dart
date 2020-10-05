@@ -4,51 +4,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:provider/provider.dart';
 
-import 'model/edge_data.dart';
+import 'model/link_data.dart';
 
-class EdgeLine extends StatefulWidget {
-  // final EdgeData edgeData;
-
-  const EdgeLine({
+class Link extends StatefulWidget {
+  const Link({
     Key key,
-    // this.edgeData,
   }) : super(key: key);
 
   @override
-  _EdgeLineState createState() => _EdgeLineState();
+  _LinkState createState() => _LinkState();
 }
 
-class _EdgeLineState extends State<EdgeLine> {
+class _LinkState extends State<Link> {
   @override
   Widget build(BuildContext context) {
     // print('LINE build');
-
     var canvasPosition = context
         .select<CanvasModel, Offset>((CanvasModel model) => model.position);
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
-    var edgeProvider = Provider.of<EdgeData>(context);
+    var linkData = Provider.of<LinkData>(context);
 
     return GestureDetector(
       onTap: () {
-        print('line tapped');
+        print('link tapped');
       },
       child: CustomPaint(
-        painter: LinePainter(edgeProvider.start, edgeProvider.end,
-            edgeProvider.width, canvasPosition, canvasScale),
+        painter: LinkPainter(linkData.start, linkData.end, linkData.width,
+            canvasPosition, canvasScale),
       ),
     );
   }
 }
 
-class LinePainter extends CustomPainter {
+class LinkPainter extends CustomPainter {
   final Offset start;
   final Offset end;
   final double width;
   final Offset canvasPosition;
   final double canvasScale;
 
-  LinePainter(
+  LinkPainter(
     this.start,
     this.end,
     this.width,

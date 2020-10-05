@@ -66,6 +66,19 @@ class _EditorState extends State<Editor> {
             width: 64,
             child: ResetViewButton(),
           ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              color: Colors.white,
+              child: Consumer<CanvasModel>(
+                builder: (_, canvasData, __) {
+                  return Text(
+                      'l:${canvasData.itemDataList.length}, p:${canvasData.position}, s:${canvasData.scale}');
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

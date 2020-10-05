@@ -21,7 +21,7 @@ class CanvasModel extends ChangeNotifier {
 
   CanvasModel() {
     // _itemDataList = generateItems(100);
-    _itemDataList = generateRandomItems(5);
+    _itemDataList = generateRandomItems(100);
 
     _edgeDataList = generateRandomEdges(0);
   }
@@ -54,13 +54,15 @@ class CanvasModel extends ChangeNotifier {
 
   updateCanvasScale(double scale) {
     double newScale = _scale * scale;
-    _scale = keepScaleInBounds(newScale);
+    // _scale = keepScaleInBounds(newScale);
+    _scale = newScale;
     // notifyListeners();
   }
 
   updateCanvasData(Offset position, double scale) {
-    _scale = keepScaleInBounds(scale);
-    _position += position;
+    // _scale = keepScaleInBounds(scale);
+    _scale = scale;
+    _position = position; //+=
     // notifyListeners();
   }
 
@@ -98,16 +100,16 @@ class CanvasModel extends ChangeNotifier {
 
   // ==== HELPERS ====
 
-  double keepScaleInBounds(double scale) {
-    double scaleResult = scale;
-    if (scale <= minScale) {
-      scaleResult = minScale;
-    }
-    if (scale >= maxScale) {
-      scaleResult = maxScale;
-    }
-    return scaleResult;
-  }
+  // double keepScaleInBounds(double scale) {
+  //   double scaleResult = scale;
+  //   if (scale <= minScale) {
+  //     scaleResult = minScale;
+  //   }
+  //   if (scale >= maxScale) {
+  //     scaleResult = maxScale;
+  //   }
+  //   return scaleResult;
+  // }
 
   HashMap<int, ItemData> generateItems(int number) {
     HashMap<int, ItemData> resultMap = HashMap<int, ItemData>();
@@ -136,8 +138,8 @@ class CanvasModel extends ChangeNotifier {
             .withOpacity(1.0),
         size: Size(10 + 80 * math.Random().nextDouble(),
             10 + 80 * math.Random().nextDouble()),
-        position: Offset(600 * 2 * (math.Random().nextDouble() - 0.5),
-            600 * 2 * (math.Random().nextDouble() - 0.5)),
+        position: Offset(1200 * 2 * (math.Random().nextDouble() - 0.5),
+            1200 * 2 * (math.Random().nextDouble() - 0.5)),
       );
     }
     return resultMap;

@@ -11,8 +11,8 @@ import 'model/menu_item_data.dart';
 
 double mouseScaleSpeed = 0.8;
 
-double maxScale = 4.0;
-double minScale = 0.2;
+double maxScale = 8.0;
+double minScale = 0.1;
 
 class DiagramEditorCanvas extends StatefulWidget {
   const DiagramEditorCanvas({
@@ -34,80 +34,65 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   Offset _transformPosition = Offset(0, 0);
   double _transformScale = 1.0;
 
-  // Offset _transformPositionDelta = Offset(0, 0);
-  // double _transformScaleDelta = 1.0;
-
-  bool canUpdatecanvasData = false;
+  bool canUpdateCanvasData = false;
 
   _onScaleStart(ScaleStartDetails details, CanvasModel canvasProvider) {
     _baseScaleFactor = canvasProvider.scale;
     _basePosition = canvasProvider.position;
 
     _lastFocalPoint = details.focalPoint;
-    _animationController.repeat();
+    // _animationController.repeat();
   }
 
   _onScaleUpdate(ScaleUpdateDetails details, CanvasModel canvasProvider) {
-    if (canUpdatecanvasData) {
+    if (canUpdateCanvasData) {
+      _animationController.repeat();
       updateProviderWithLastValues(canvasProvider);
 
-      // double previousScale = canvasProvider.scale;
       double previousScale = _transformScale;
 
-      // canvasProvider.updateCanvasData(details.focalPoint - _lastFocalPoint,
-      //     _baseScaleFactor * details.scale);
-
       _transformPosition += details.focalPoint - _lastFocalPoint;
-      // _transformPositionDelta = details.focalPoint - _lastFocalPoint;
+      _transformScale = keepScaleInBounds(details.scale, _baseScaleFactor);
 
-      _transformScale = keepScaleInBounds(details.scale);
-      // print('SCALE: ${_transformScale * _baseScaleFactor}');
-
-      // var focalPoint = (details.localFocalPoint - canvasProvider.position);
-      // var focalPointScaled =
-      //     (details.localFocalPoint - canvasProvider.position) *
-      //         (canvasProvider.scale / previousScale);
-
-      // TODO: focal scale
-      var focalPoint =
-          (details.localFocalPoint - _transformPosition - _basePosition);
+      var focalPoint = (details.localFocalPoint - _transformPosition);
       var focalPointScaled = focalPoint * (_transformScale / previousScale);
 
-      // canvasProvider.updateCanvasPosition(focalPoint - focalPointScaled);
       _lastFocalPoint = details.focalPoint;
 
-      // _transformPosition += focalPoint - focalPointScaled;
-      // _transformPositionDelta += focalPoint - focalPointScaled;
+      _transformPosition += focalPoint - focalPointScaled;
 
       print('update: $_transformPosition, $_transformScale');
+      _animationController.reset();
     }
   }
 
   _onScaleEnd(CanvasModel canvasProvider) {
-    if (canUpdatecanvasData) {
+    if (canUpdateCanvasData) {
       updateProviderWithLastValues(canvasProvider);
     }
 
     _animationController.reset();
 
     _transformPosition = Offset(0, 0);
-    // _transformPositionDelta = Offset(0, 0);
     _transformScale = 1.0;
 
-    canvasProvider.updateCanvasEnd();
+    canvasProvider.notifyCanvasListeners();
   }
 
   updateProviderWithLastValues(CanvasModel canvasProvider) {
-    canvasProvider.updateCanvasData(
+    canvasProvider.setCanvasData(
         (_basePosition * _transformScale) + _transformPosition,
         _transformScale * _baseScaleFactor);
-    canUpdatecanvasData = false;
+    canUpdateCanvasData = false;
   }
 
-  void _receivedPointerSignal(PointerSignalEvent event, canvasProvider) {
+  void _receivedPointerSignal(
+      PointerSignalEvent event, CanvasModel canvasProvider) {
     if (event is PointerScrollEvent) {
-      final double scaleChange =
+      double scaleChange =
           event.scrollDelta.dy < 0 ? (1 / mouseScaleSpeed) : (mouseScaleSpeed);
+
+      scaleChange = keepScaleInBounds(scaleChange, canvasProvider.scale);
 
       if (scaleChange == 0.0) {
         return;
@@ -118,10 +103,11 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
       canvasProvider.updateCanvasScale(scaleChange);
 
       var focalPoint = (event.localPosition - canvasProvider.position);
-      var focalPointScaled = (event.localPosition - canvasProvider.position) *
-          (canvasProvider.scale / previousScale);
+      var focalPointScaled =
+          focalPoint * (canvasProvider.scale / previousScale);
 
       canvasProvider.updateCanvasPosition(focalPoint - focalPointScaled);
+      canvasProvider.notifyCanvasListeners();
     }
   }
 
@@ -143,13 +129,13 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     });
   }
 
-  double keepScaleInBounds(double scale) {
+  double keepScaleInBounds(double scale, double canvasScale) {
     double scaleResult = scale;
-    if (scale * _baseScaleFactor <= minScale) {
-      scaleResult = minScale / _baseScaleFactor;
+    if (scale * canvasScale <= minScale) {
+      scaleResult = minScale / canvasScale;
     }
-    if (scale * _baseScaleFactor >= maxScale) {
-      scaleResult = maxScale / _baseScaleFactor;
+    if (scale * canvasScale >= maxScale) {
+      scaleResult = maxScale / canvasScale;
     }
     return scaleResult;
   }
@@ -184,9 +170,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
             child: AnimatedBuilder(
               animation: _animationController,
               builder: (BuildContext context, Widget child) {
-                print(
-                    'AnimatedBuilder position: $_transformPosition, scale: $_transformScale');
-                canUpdatecanvasData = true;
+                canUpdateCanvasData = true;
                 return Transform(
                   transform: Matrix4.identity()
                     ..translate(_transformPosition.dx, _transformPosition.dy)

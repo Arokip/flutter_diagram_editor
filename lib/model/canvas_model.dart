@@ -6,9 +6,6 @@ import 'package:flutter_provider_canvas/model/item_data.dart';
 
 import 'edge_data.dart';
 
-double maxScale = 4.0;
-double minScale = 0.2;
-
 class CanvasModel extends ChangeNotifier {
   int _itemIdGen = 0;
   int _edgeIdGen = 0;
@@ -21,9 +18,9 @@ class CanvasModel extends ChangeNotifier {
 
   CanvasModel() {
     // _itemDataList = generateItems(100);
-    _itemDataList = generateRandomItems(100);
+    _itemDataList = generateRandomItems(500);
 
-    _edgeDataList = generateRandomEdges(0);
+    _edgeDataList = generateRandomEdges(500);
   }
 
   Offset get position => _position;
@@ -53,32 +50,19 @@ class CanvasModel extends ChangeNotifier {
   }
 
   updateCanvasScale(double scale) {
-    double newScale = _scale * scale;
-    // _scale = keepScaleInBounds(newScale);
-    _scale = newScale;
+    _scale *= scale;
     // notifyListeners();
   }
 
-  updateCanvasData(Offset position, double scale) {
-    // _scale = keepScaleInBounds(scale);
+  setCanvasData(Offset position, double scale) {
     _scale = scale;
     _position = position; //+=
     // notifyListeners();
   }
 
-  updateCanvasEnd() {
+  notifyCanvasListeners() {
     notifyListeners();
   }
-
-  // updateItemDataPosition(ItemData itemData, Offset position) {
-  //   _itemDataList[itemData.id] = ItemData(
-  //     id: itemData.id,
-  //     position: position,
-  //     color: itemData.color,
-  //     size: itemData.size,
-  //   );
-  //   notifyListeners();
-  // }
 
   getItemDataPosition(int id) {
     return itemDataList[id].position;
@@ -99,17 +83,6 @@ class CanvasModel extends ChangeNotifier {
   int get getNextEdgeId => _edgeIdGen;
 
   // ==== HELPERS ====
-
-  // double keepScaleInBounds(double scale) {
-  //   double scaleResult = scale;
-  //   if (scale <= minScale) {
-  //     scaleResult = minScale;
-  //   }
-  //   if (scale >= maxScale) {
-  //     scaleResult = maxScale;
-  //   }
-  //   return scaleResult;
-  // }
 
   HashMap<int, ItemData> generateItems(int number) {
     HashMap<int, ItemData> resultMap = HashMap<int, ItemData>();

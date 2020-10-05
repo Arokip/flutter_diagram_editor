@@ -19,15 +19,7 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-  // Offset _itemPosition;
-
   Offset _lastFocalPoint = Offset(0, 0);
-
-  // @override
-  // void initState() {
-  //   _itemPosition = widget.data.position;
-  //   super.initState();
-  // }
 
   Offset getDelta(Offset currentFocalPoint) {
     return currentFocalPoint - _lastFocalPoint;
@@ -63,8 +55,6 @@ class _ItemState extends State<Item> {
             edgeMap[edgeId]
                 .updateEnd(getDelta(details.focalPoint) / canvasScale);
           });
-
-          // canvasProvider.lineList.where(id).updateFrom/To... (jako mapa ?)
           _lastFocalPoint = details.focalPoint;
         },
         child: SizedBox(

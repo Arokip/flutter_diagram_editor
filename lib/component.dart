@@ -37,6 +37,9 @@ class _ComponentState extends State<Component> {
       left: canvasScale * componentData.position.dx + canvasPosition.dx,
       top: canvasScale * componentData.position.dy + canvasPosition.dy,
       child: GestureDetector(
+        onTap: () {
+          print('component tapped: ${componentData.id}');
+        },
         onScaleStart: (details) {
           _lastFocalPoint = details.focalPoint;
         },

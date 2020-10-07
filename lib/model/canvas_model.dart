@@ -18,9 +18,11 @@ class CanvasModel extends ChangeNotifier {
 
   CanvasModel() {
     // _componentDataMap = generateComponents(100);
-    _componentDataMap = generateRandomComponents(100);
+    _componentDataMap = generateRandomComponents(10);
 
-    _linkDataMap = generateRandomLinks(100);
+    _linkDataMap = generateRandomLinks(10);
+    // _linkDataMap[-1] =
+    //     LinkData(start: Offset(0, 0), end: Offset(200, 100), width: 5);
   }
 
   Offset get position => _position;

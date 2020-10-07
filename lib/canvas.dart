@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:provider/provider.dart';
 
-import 'link.dart';
 import 'component.dart';
+import 'link.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 import 'model/menu_component_data.dart';
@@ -175,6 +175,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
               },
               child: Stack(
                 clipBehavior: Clip.none,
+                fit: StackFit.expand,
                 children: [
                   SizedBox(
                     // it's here, because DragTarget outside is lagging (draggable cannot be accepted when user drops it on an component)
@@ -183,7 +184,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                           List<MenuComponentData> candidateData,
                           List<dynamic> rejectedData) {
                         return Container(
-                          color: Color.fromARGB(150, 0, 0, 0),
+                          // color: Color.fromARGB(150, 0, 0, 0),
+                          color: Colors.transparent,
                         );
                       },
                       onWillAccept: (MenuComponentData data) => true,
@@ -212,6 +214,9 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         onScaleStart: (details) => _onScaleStart(details, canvasModel),
         onScaleUpdate: (details) => _onScaleUpdate(details, canvasModel),
         onScaleEnd: (details) => _onScaleEnd(canvasModel),
+        onTap: () {
+          print('canvas tapped');
+        },
       ),
     );
   }

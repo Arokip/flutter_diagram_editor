@@ -4,16 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'model/link_data.dart';
 
-class Link extends StatefulWidget {
-  const Link({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _LinkState createState() => _LinkState();
-}
-
-class _LinkState extends State<Link> {
+class Link extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print('LINE build');

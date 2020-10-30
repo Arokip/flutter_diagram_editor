@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:provider/provider.dart';
@@ -6,22 +5,7 @@ import 'package:provider/provider.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 
-class Component extends StatefulWidget {
-  const Component({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _ComponentState createState() => _ComponentState();
-}
-
-class _ComponentState extends State<Component> {
-  Offset _lastFocalPoint = Offset(0, 0);
-
-  Offset getDelta(Offset currentFocalPoint) {
-    return currentFocalPoint - _lastFocalPoint;
-  }
-
+class Component extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print('COMPONENT build');
@@ -40,21 +24,15 @@ class _ComponentState extends State<Component> {
         onTap: () {
           print('component tapped: ${componentData.id}');
         },
-        onScaleStart: (details) {
-          _lastFocalPoint = details.focalPoint;
-        },
-        onScaleUpdate: (details) {
-          componentData.updateComponentDataPosition(
-              getDelta(details.focalPoint) / canvasScale);
+        onPanUpdate: (details) {
+          componentData
+              .updateComponentDataPosition(details.delta / canvasScale);
           componentData.linksFrom.forEach((linkId) {
-            linkMap[linkId]
-                .updateStart(getDelta(details.focalPoint) / canvasScale);
+            linkMap[linkId].updateStart(details.delta / canvasScale);
           });
           componentData.linksTo.forEach((linkId) {
-            linkMap[linkId]
-                .updateEnd(getDelta(details.focalPoint) / canvasScale);
+            linkMap[linkId].updateEnd(details.delta / canvasScale);
           });
-          _lastFocalPoint = details.focalPoint;
         },
         child: SizedBox(
           width: canvasScale * (componentData.size.width + 20),

@@ -31,6 +31,7 @@ class _EditorState extends State<Editor> {
             .withOpacity(1.0),
         size: Size(10 + 80 * math.Random().nextDouble(),
             10 + 80 * math.Random().nextDouble()),
+        portSize: 8,
       ));
     }
     return resultList;
@@ -56,19 +57,20 @@ class _EditorState extends State<Editor> {
             child: Container(
               width: 80,
               height: 400,
-              color: Colors.grey,
+              color: Colors.black.withOpacity(0.15),
               child: DiagramEditorMenu(
                 menuComponentList: menuComponentList,
               ),
             ),
           ),
           Positioned(
-            bottom: 16,
-            left: 16,
-            height: 64,
-            width: 64,
+            bottom: 24,
+            left: 24,
+            height: 48,
+            width: 48,
             child: ResetViewButton(),
           ),
+          // DEBUG:
           Positioned(
             bottom: 0,
             right: 0,

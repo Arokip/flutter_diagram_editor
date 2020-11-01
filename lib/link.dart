@@ -13,16 +13,20 @@ class Link extends StatelessWidget {
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
     var linkData = Provider.of<LinkData>(context);
+    var canvasSelectItem = context
+        .select<CanvasModel, dynamic>((CanvasModel model) => model.selectItem);
 
     return GestureDetector(
       onTapDown: (d) {
         print('link tapped ${d.localPosition}');
+        canvasSelectItem(linkData);
       },
       child: CustomPaint(
         painter: LinkPainter(
           linkData.start * canvasScale + canvasPosition,
           linkData.end * canvasScale + canvasPosition,
           linkData.width * canvasScale,
+          linkData.isItemSelected ? Colors.amber : linkData.color,
         ),
       ),
     );
@@ -33,17 +37,19 @@ class LinkPainter extends CustomPainter {
   final Offset start;
   final Offset end;
   final double width;
+  final Color color;
 
   LinkPainter(
     this.start,
     this.end,
     this.width,
+    this.color,
   );
 
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.black
+      ..color = color
       ..strokeWidth = width
       ..style = PaintingStyle.stroke;
 
@@ -55,8 +61,8 @@ class LinkPainter extends CustomPainter {
     paint
       ..color = Colors.red
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    canvas.drawPath(makeWiderLinePath(width), paint);
+      ..strokeWidth = width / 4;
+    canvas.drawPath(makeWiderLinePath(width * 2), paint);
   }
 
   @override
@@ -64,7 +70,7 @@ class LinkPainter extends CustomPainter {
 
   @override
   bool hitTest(Offset position) {
-    Path path = makeWiderLinePath(width);
+    Path path = makeWiderLinePath(width * 2);
 
     return path.contains(position);
   }

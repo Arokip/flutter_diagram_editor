@@ -7,13 +7,19 @@ class ResetViewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CanvasModel>(
       builder: (_, canvasData, __) {
-        return IconButton(
-          color: Colors.white,
-          onPressed: () {
-            canvasData.resetCanvasView();
-          },
-          tooltip: 'Reset',
-          icon: const Icon(Icons.replay),
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.15),
+            shape: BoxShape.circle,
+          ),
+          child: IconButton(
+            color: Colors.white,
+            onPressed: () {
+              canvasData.resetCanvasView();
+            },
+            tooltip: 'Reset',
+            icon: const Icon(Icons.replay),
+          ),
         );
       },
     );

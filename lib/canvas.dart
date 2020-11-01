@@ -109,20 +109,24 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   }
 
   void _onAcceptWithDetails(
-      DragTargetDetails details, BuildContext context, canvasModel) {
-    setState(() {
-      final RenderBox renderBox = context.findRenderObject();
-      final Offset localOffset = renderBox.globalToLocal(details.offset);
+    DragTargetDetails details,
+    BuildContext context,
+    CanvasModel canvasModel,
+  ) {
+    final RenderBox renderBox = context.findRenderObject();
+    final Offset localOffset = renderBox.globalToLocal(details.offset);
 
-      canvasModel.addComponentToList(
-        ComponentData(
-          id: canvasModel.generateNextComponentId,
-          color: details.data.color,
-          size: details.data.size,
-          position: (localOffset - canvasModel.position) / canvasModel.scale,
-        ),
-      );
-    });
+    canvasModel.addComponentToList(
+      ComponentData(
+        id: canvasModel.generateNextComponentId,
+        color: details.data.color,
+        size: details.data.size,
+        position: (localOffset - canvasModel.position) / canvasModel.scale,
+        portSize: details.data.portSize,
+        ports:
+            canvasModel.generatePortData(canvasModel.getLastUsedComponentId, 2),
+      ),
+    );
   }
 
   double keepScaleInBounds(double scale, double canvasScale) {
@@ -155,12 +159,14 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   Widget build(BuildContext context) {
     print('CANVAS build');
 
-    var canvasModel = Provider.of<CanvasModel>(context, listen: false);
+    var canvasModel = Provider.of<CanvasModel>(context, listen: true);
+
     return Listener(
       onPointerSignal: (event) => _receivedPointerSignal(event, canvasModel),
       child: GestureDetector(
         child: Container(
-          color: Color.fromARGB(255, 148, 41, 111),
+          // color: Color.fromARGB(255, 148, 41, 111),
+          color: Colors.white,
           child: ClipRect(
             child: AnimatedBuilder(
               animation: _animationController,
@@ -216,6 +222,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         onScaleEnd: (details) => _onScaleEnd(canvasModel),
         onTap: () {
           print('canvas tapped');
+          canvasModel.selectItem(canvasModel.deselectItem);
         },
       ),
     );

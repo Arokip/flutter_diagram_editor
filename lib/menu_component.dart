@@ -59,6 +59,7 @@ class DraggableMenuComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Draggable<MenuComponentData>(
+      affinity: Axis.horizontal,
       data: menuComponentData,
       childWhenDragging: MenuComponent(
         menuComponentData: menuComponentData,

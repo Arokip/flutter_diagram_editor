@@ -3,8 +3,15 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
+import 'package:flutter_provider_canvas/model/port_connection.dart';
+import 'package:flutter_provider_canvas/model/port_data.dart';
 
+import 'item_selected.dart';
 import 'link_data.dart';
+
+int componentCount = 100;
+int linkCount = 100;
+int portPerComponentCount = 4;
 
 class CanvasModel extends ChangeNotifier {
   int _componentIdGen = 0;
@@ -16,11 +23,16 @@ class CanvasModel extends ChangeNotifier {
   HashMap<int, ComponentData> _componentDataMap;
   HashMap<int, LinkData> _linkDataMap;
 
-  CanvasModel() {
-    // _componentDataMap = generateComponents(100);
-    _componentDataMap = generateRandomComponents(100);
+  final double _portSize = 12;
 
-    _linkDataMap = generateRandomLinks(100);
+  dynamic selectedItem;
+  final DeselectItem deselectItem = DeselectItem();
+
+  CanvasModel() {
+    // _componentDataMap = generateComponents(componentCount);
+    _componentDataMap = generateRandomComponents(componentCount);
+
+    _linkDataMap = generateRandomLinks(linkCount);
     // _linkDataMap[-1] =
     //     LinkData(start: Offset(0, 0), end: Offset(200, 100), width: 5);
   }
@@ -66,6 +78,27 @@ class CanvasModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  selectItem(dynamic item) {
+    if (selectedItem == item) return;
+
+    if (selectedItem != null) {
+      selectedItem.isItemSelected = false;
+    }
+    selectedItem = item;
+    if (selectedItem != null) {
+      selectedItem.isItemSelected = true;
+    }
+
+    // if (item is ComponentData) {
+    // } else if (item is PortData) {
+    // } else if (item is LinkData) {
+    // } else {
+    //   throw ArgumentError("selected item is unknown type");
+    // }
+
+    notifyListeners();
+  }
+
   // ==== IDs ====
 
   int get generateNextComponentId => _componentIdGen++;
@@ -91,8 +124,7 @@ class CanvasModel extends ChangeNotifier {
         resultMap[generateNextComponentId] = ComponentData(
             id: getLastUsedComponentId,
             position: Offset(i * 3.0, i * 3.0 + 100 * j),
-            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0),
+            color: randomColor(),
             size: Size(50, 50));
       }
     }
@@ -105,40 +137,82 @@ class CanvasModel extends ChangeNotifier {
     for (int i = 0; i < number; i++) {
       resultMap[generateNextComponentId] = ComponentData(
         id: getLastUsedComponentId,
-        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-            .withOpacity(1.0),
-        size: Size(10 + 80 * math.Random().nextDouble(),
-            10 + 80 * math.Random().nextDouble()),
+        color: randomColor(),
+        size: Size(40 + 100 * math.Random().nextDouble(),
+            40 + 300 * math.Random().nextDouble()),
         position: Offset(1200 * 2 * (math.Random().nextDouble() - 0.5),
             1200 * 2 * (math.Random().nextDouble() - 0.5)),
+        portSize: _portSize,
+        ports: generatePortData(getLastUsedComponentId,
+            math.Random().nextInt(portPerComponentCount)),
       );
     }
     return resultMap;
   }
 
+  HashMap<int, PortData> generatePortData(int componentId, int number) {
+    HashMap<int, PortData> ports = HashMap<int, PortData>();
+    for (int i = 0; i < number; i++) {
+      ports[i] = PortData(
+        id: i,
+        componentId: componentId,
+        color: randomColor(),
+        borderColor: math.Random().nextBool() ? Colors.black : Colors.white,
+        alignment: Alignment(2 * math.Random().nextDouble() - 1,
+            2 * math.Random().nextDouble() - 1),
+      );
+    }
+    return ports;
+  }
+
   HashMap<int, LinkData> generateRandomLinks(int number) {
-    HashMap<int, LinkData> resultList = HashMap<int, LinkData>();
+    HashMap<int, LinkData> resultMap = HashMap<int, LinkData>();
     for (int i = 0; i < number; i++) {
       generateNextLinkId;
 
-      int fromId = math.Random().nextInt(getNextComponentId);
-      int toId = math.Random().nextInt(getNextComponentId);
+      int idOut = math.Random().nextInt(getNextComponentId);
+      int idIn = math.Random().nextInt(getNextComponentId);
 
-      componentDataMap[fromId].addLinkFrom(getLastUsedLinkId);
-      componentDataMap[toId].addLinkTo(getLastUsedLinkId);
+      var componentOut = componentDataMap[idOut];
+      var componentIn = componentDataMap[idIn];
 
-      resultList[getLastUsedLinkId] = LinkData(
-        // id: getLastUsedLinkId,
+      var portCountOut = componentOut.ports.length;
+      if (portCountOut == 0) continue;
+      var randomPortIdOut = math.Random().nextInt(portCountOut);
+
+      var portCountIn = componentIn.ports.length;
+      if (portCountIn == 0) continue;
+      var randomPortIdIn = math.Random().nextInt(portCountIn);
+
+      componentOut.ports[randomPortIdOut].addConnection(
+        PortConnectionOut(
+          linkId: getLastUsedLinkId,
+          componentId: idOut,
+          portId: randomPortIdOut,
+        ),
+      );
+
+      componentIn.ports[randomPortIdIn].addConnection(
+        PortConnectionIn(
+          linkId: getLastUsedLinkId,
+          componentId: idIn,
+          portId: randomPortIdIn,
+        ),
+      );
+
+      resultMap[getLastUsedLinkId] = LinkData(
+        id: getLastUsedLinkId,
         color: Colors.black,
         width: 1.5,
-        // fromId: fromId,
-        // toId: toId,
-        start: componentDataMap[fromId].position +
-            componentDataMap[fromId].size.center(Offset(0, 0)),
-        end: componentDataMap[toId].position +
-            componentDataMap[toId].size.center(Offset(0, 0)),
+        start: componentOut.getPortCenterPoint(randomPortIdOut),
+        end: componentIn.getPortCenterPoint(randomPortIdIn),
       );
     }
-    return resultList;
+    return resultMap;
+  }
+
+  Color randomColor() {
+    return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+        .withOpacity(1.0);
   }
 }

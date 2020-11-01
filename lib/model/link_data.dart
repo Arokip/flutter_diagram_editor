@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/item_selected.dart';
 
-class LinkData extends ChangeNotifier {
-  // final int id;
+class LinkData extends ChangeNotifier with ItemSelected {
+  final int id;
+
   // final int fromId;
   // final int toId;
   final Color color;
@@ -10,7 +12,7 @@ class LinkData extends ChangeNotifier {
   Offset end;
 
   LinkData({
-    // this.id,
+    this.id,
     // this.fromId,
     // this.toId,
     this.color = Colors.black,
@@ -26,6 +28,16 @@ class LinkData extends ChangeNotifier {
 
   updateEnd(Offset newEnd) {
     end += newEnd;
+    notifyListeners();
+  }
+
+  setStart(Offset start) {
+    this.start = start;
+    notifyListeners();
+  }
+
+  setEnd(Offset end) {
+    this.end = end;
     notifyListeners();
   }
 }

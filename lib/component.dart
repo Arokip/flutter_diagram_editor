@@ -34,8 +34,6 @@ class Component extends StatelessWidget with ItemSelected {
           componentData
               .updateComponentDataPosition(details.delta / canvasScale);
 
-          // TODO: pro každý port posunuté
-
           componentData.ports.values.forEach((port) {
             port.connections.forEach((connection) {
               if (connection is PortConnectionOut) {

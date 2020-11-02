@@ -6,7 +6,14 @@ import 'package:provider/provider.dart';
 
 import 'model/link_data.dart';
 
-class Link extends StatelessWidget {
+class Link extends StatefulWidget {
+  @override
+  _LinkState createState() => _LinkState();
+}
+
+class _LinkState extends State<Link> {
+  Offset pressPosition = Offset(0, 0);
+
   @override
   Widget build(BuildContext context) {
     // print('LINE build');
@@ -21,8 +28,14 @@ class Link extends StatelessWidget {
         .select<CanvasModel, Function>((CanvasModel model) => model.removeLink);
 
     return GestureDetector(
-      onTapDown: (d) {
-        print('link tapped ${d.localPosition}');
+      onTapDown: (details) {
+        print('link tapped ${details.localPosition}');
+      },
+      onLongPressStart: (details) {
+        // local chci
+        print(
+            'local: ${details.localPosition}, global: ${details.globalPosition}');
+        pressPosition = (details.localPosition - canvasPosition) / canvasScale;
         canvasSelectItem(linkData);
       },
       child: CustomPaint(
@@ -32,14 +45,11 @@ class Link extends StatelessWidget {
             onTap: () {
               removeLink(linkData);
             },
-            // onTapDown: (details){
-            //   details.localPosition;
-            //
-            // },
             child: CustomPaint(
                 painter: DeleteIconPainter(
-              location: (linkData.start + linkData.end) / 2 * canvasScale +
-                  canvasPosition,
+              // location: (linkData.start + linkData.end) / 2 * canvasScale +
+              //     canvasPosition,
+              location: pressPosition * canvasScale + canvasPosition,
               radius: 20,
               scale: canvasScale,
               color: Colors.red,

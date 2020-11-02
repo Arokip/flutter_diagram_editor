@@ -29,7 +29,6 @@ class Component extends StatelessWidget with ItemSelected {
         onTap: () {
           print('component tapped: ${componentData.id}');
           canvasSelectItem(componentData);
-          print('selected: ${componentData.isItemSelected}');
         },
         onPanUpdate: (details) {
           componentData
@@ -40,10 +39,10 @@ class Component extends StatelessWidget with ItemSelected {
           componentData.ports.values.forEach((port) {
             port.connections.forEach((connection) {
               if (connection is PortConnectionOut) {
-                linkMap[connection.linkId]
+                linkMap[connection.connectionId]
                     .setStart(componentData.getPortCenterPoint(port.id));
               } else if (connection is PortConnectionIn) {
-                linkMap[connection.linkId]
+                linkMap[connection.connectionId]
                     .setEnd(componentData.getPortCenterPoint(port.id));
               } else {
                 throw ArgumentError('Invalid port connection.');

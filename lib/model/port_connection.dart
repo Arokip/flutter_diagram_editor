@@ -1,10 +1,10 @@
 abstract class PortConnection {
-  final int linkId;
+  final int connectionId;
   final int componentId;
   final int portId;
 
   PortConnection({
-    this.linkId,
+    this.connectionId,
     this.componentId,
     this.portId,
   });
@@ -16,7 +16,7 @@ class PortConnectionOut extends PortConnection {
     componentId,
     portId,
   }) : super(
-          linkId: linkId,
+          connectionId: linkId,
           componentId: componentId,
           portId: portId,
         );
@@ -28,7 +28,7 @@ class PortConnectionIn extends PortConnection {
     componentId,
     portId,
   }) : super(
-          linkId: linkId,
+          connectionId: linkId,
           componentId: componentId,
           portId: portId,
         );

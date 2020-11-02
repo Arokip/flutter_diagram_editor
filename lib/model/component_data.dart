@@ -13,9 +13,6 @@ class ComponentData extends ChangeNotifier with ItemSelected {
 
   final HashMap<int, PortData> ports;
 
-  // final List<int> linksFrom = [];
-  // final List<int> linksTo = [];
-
   ComponentData({
     this.id,
     this.position,
@@ -30,27 +27,9 @@ class ComponentData extends ChangeNotifier with ItemSelected {
     notifyListeners();
   }
 
-  // addLinkFrom(int linkId) {
-  //   linksFrom.add(linkId);
-  // }
-  //
-  // addLinkTo(int linkId) {
-  //   linksTo.add(linkId);
-  // }
-
   addPort(PortData portData) {
     ports[portData.id] = portData;
   }
-
-  // connectPort(int portId, PortConnectionOut connectionOut) {
-  //   ports[portId].addConnection(
-  //     connectionOut,
-  //     PortConnectionIn(
-  //       componentId: id,
-  //       portId: portId,
-  //     ),
-  //   );
-  // }
 
   getPortCenterPoint(int portId) {
     var componentCenter = Offset(size.width / 2, size.height / 2);
@@ -61,5 +40,11 @@ class ComponentData extends ChangeNotifier with ItemSelected {
     );
 
     return position + componentCenter + portCenter + portPosition;
+  }
+
+  removeConnection(int connectionId) {
+    ports.values.forEach((port) {
+      port.removeConnection(connectionId);
+    });
   }
 }

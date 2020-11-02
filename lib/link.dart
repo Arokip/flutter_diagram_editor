@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:provider/provider.dart';
@@ -12,16 +14,35 @@ class Link extends StatelessWidget {
         .select<CanvasModel, Offset>((CanvasModel model) => model.position);
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
-    var linkData = Provider.of<LinkData>(context);
     var canvasSelectItem = context
         .select<CanvasModel, dynamic>((CanvasModel model) => model.selectItem);
+    var linkData = Provider.of<LinkData>(context);
+    var removeLink = context
+        .select<CanvasModel, Function>((CanvasModel model) => model.removeLink);
 
     return GestureDetector(
       onTapDown: (d) {
         print('link tapped ${d.localPosition}');
+      },
+      onLongPress: () {
         canvasSelectItem(linkData);
       },
       child: CustomPaint(
+        child: Visibility(
+          visible: linkData.isItemSelected,
+          child: GestureDetector(
+            onTap: () {
+              removeLink(linkData);
+            },
+            child: CustomPaint(
+                painter: DeletePainter(
+              position: (linkData.start + linkData.end) / 2 * canvasScale +
+                  canvasPosition,
+              scale: canvasScale,
+              color: Colors.red,
+            )),
+          ),
+        ),
         painter: LinkPainter(
           linkData.start * canvasScale + canvasPosition,
           linkData.end * canvasScale + canvasPosition,
@@ -118,5 +139,55 @@ class LinkPainter extends CustomPainter {
 
   Offset getShorterEnd() {
     return end - normalizeVector(getDirectionVector()) * width;
+  }
+}
+
+class DeletePainter extends CustomPainter {
+  final Offset position;
+  final double scale;
+  final Color color;
+
+  DeletePainter({
+    this.position,
+    this.scale,
+    this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = scale
+      ..style = PaintingStyle.stroke;
+
+    canvas.drawCircle(position, scale * 10, paint);
+
+    paint..color = color;
+
+    canvas.drawLine(
+      position + (Offset(-5, -5) * scale),
+      position + (Offset(5, 5) * scale),
+      paint,
+    );
+
+    canvas.drawLine(
+      position + (Offset(5, -5) * scale),
+      position + (Offset(-5, 5) * scale),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+
+  @override
+  bool hitTest(Offset position) {
+    Path path = new Path();
+    path.addOval(Rect.fromCircle(
+      center: this.position,
+      radius: scale * 10,
+    ));
+
+    return path.contains(position);
   }
 }

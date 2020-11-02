@@ -10,8 +10,8 @@ import 'item_selected.dart';
 import 'link_data.dart';
 
 int componentCount = 100;
-int linkCount = 0;
-int portPerComponentCount = 4;
+int linkCount = 100;
+int portPerComponentMaxCount = 3;
 
 class CanvasModel extends ChangeNotifier {
   int _componentIdGen = 0;
@@ -96,8 +96,9 @@ class CanvasModel extends ChangeNotifier {
         return;
       }
     } else if (item is LinkData) {
+    } else if (item is DeselectItem) {
     } else {
-      throw ArgumentError("selected item is unknown type");
+      throw ArgumentError("selected item is unknown type: $item");
     }
 
     selectedItem = item;
@@ -125,12 +126,22 @@ class CanvasModel extends ChangeNotifier {
     );
     _linkDataMap[getLastUsedLinkId] = LinkData(
       id: getLastUsedLinkId,
+      componentOutId: portOut.componentId,
+      componentInId: portIn.componentId,
       color: Colors.black,
       width: 1.5,
       start:
           componentDataMap[portOut.componentId].getPortCenterPoint(portOut.id),
       end: componentDataMap[portIn.componentId].getPortCenterPoint(portIn.id),
     );
+  }
+
+  removeLink(LinkData linkData) {
+    linkDataMap.remove(linkData.id);
+    componentDataMap[linkData.componentOutId].removeConnection(linkData.id);
+    componentDataMap[linkData.componentInId].removeConnection(linkData.id);
+    selectedItem = deselectItem;
+    notifyListeners();
   }
 
   // ==== IDs ====
@@ -178,7 +189,7 @@ class CanvasModel extends ChangeNotifier {
             1200 * 2 * (math.Random().nextDouble() - 0.5)),
         portSize: _portSize,
         ports: generatePortData(getLastUsedComponentId,
-            math.Random().nextInt(portPerComponentCount)),
+            math.Random().nextInt(portPerComponentMaxCount + 1)),
       );
     }
     return resultMap;
@@ -236,6 +247,8 @@ class CanvasModel extends ChangeNotifier {
 
       resultMap[getLastUsedLinkId] = LinkData(
         id: getLastUsedLinkId,
+        componentOutId: idOut,
+        componentInId: idIn,
         color: Colors.black,
         width: 1.5,
         start: componentOut.getPortCenterPoint(randomPortIdOut),

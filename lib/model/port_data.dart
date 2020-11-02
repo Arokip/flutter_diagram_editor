@@ -36,23 +36,11 @@ class PortData with ItemSelected {
     this.alignment,
   });
 
-  // addConnection(
-  //   PortConnectionOut connectionOut,
-  //   PortConnectionIn connectionIn,
-  // ) {
-  //   _connectionsOut.add(connectionOut);
-  //   _connectionsIn.add(connectionIn);
-  // }
-
-  // addConnectionOut(PortConnectionOut connectionOut) {
-  //   _connectionsOut.add(connectionOut);
-  // }
-  //
-  // addConnectionIn(PortConnectionIn connectionIn) {
-  //   _connectionsIn.add(connectionIn);
-  // }
-
   addConnection(PortConnection portConnection) {
     _connections.add(portConnection);
+  }
+
+  removeConnection(int connectionId) {
+    _connections.removeWhere((element) => element.connectionId == connectionId);
   }
 }

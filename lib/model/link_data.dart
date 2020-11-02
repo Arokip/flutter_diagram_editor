@@ -4,8 +4,8 @@ import 'package:flutter_provider_canvas/model/item_selected.dart';
 class LinkData extends ChangeNotifier with ItemSelected {
   final int id;
 
-  // final int fromId;
-  // final int toId;
+  final int componentOutId;
+  final int componentInId;
   final Color color;
   final double width;
   Offset start;
@@ -13,8 +13,8 @@ class LinkData extends ChangeNotifier with ItemSelected {
 
   LinkData({
     this.id,
-    // this.fromId,
-    // this.toId,
+    this.componentOutId,
+    this.componentInId,
     this.color = Colors.black,
     this.width = 1.0,
     this.start,

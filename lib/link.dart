@@ -12,7 +12,7 @@ class Link extends StatefulWidget {
 }
 
 class _LinkState extends State<Link> {
-  Offset pressPosition = Offset(0, 0);
+  Offset tapPosition = Offset(0, 0);
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +22,17 @@ class _LinkState extends State<Link> {
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
     var canvasSelectItem = context
-        .select<CanvasModel, dynamic>((CanvasModel model) => model.selectItem);
+        .select<CanvasModel, Function>((CanvasModel model) => model.selectItem);
     var linkData = Provider.of<LinkData>(context);
     var removeLink = context
         .select<CanvasModel, Function>((CanvasModel model) => model.removeLink);
 
     return GestureDetector(
-      onTapDown: (details) {
-        print('link tapped ${details.localPosition}');
-      },
       onLongPressStart: (details) {
-        // local chci
-        print(
-            'local: ${details.localPosition}, global: ${details.globalPosition}');
-        pressPosition = (details.localPosition - canvasPosition) / canvasScale;
+        setState(() {
+          tapPosition = (details.localPosition - canvasPosition) / canvasScale;
+        });
+
         canvasSelectItem(linkData);
       },
       child: CustomPaint(
@@ -49,7 +46,7 @@ class _LinkState extends State<Link> {
                 painter: DeleteIconPainter(
               // location: (linkData.start + linkData.end) / 2 * canvasScale +
               //     canvasPosition,
-              location: pressPosition * canvasScale + canvasPosition,
+              location: tapPosition * canvasScale + canvasPosition,
               radius: 20,
               scale: canvasScale,
               color: Colors.red,

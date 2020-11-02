@@ -19,7 +19,7 @@ class Port extends StatelessWidget {
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
     var canvasSelectItem = context
-        .select<CanvasModel, dynamic>((CanvasModel model) => model.selectItem);
+        .select<CanvasModel, Function>((CanvasModel model) => model.selectItem);
 
     return Container(
       alignment: portData.alignment,

@@ -17,7 +17,7 @@ class Component extends StatelessWidget with ItemSelected {
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
     var canvasSelectItem = context
-        .select<CanvasModel, dynamic>((CanvasModel model) => model.selectItem);
+        .select<CanvasModel, Function>((CanvasModel model) => model.selectItem);
     var componentData = Provider.of<ComponentData>(context);
     var linkMap = context.select<CanvasModel, Map<int, LinkData>>(
         (CanvasModel model) => model.linkDataMap);
@@ -47,13 +47,6 @@ class Component extends StatelessWidget with ItemSelected {
               }
             });
           });
-
-          // componentData.linksFrom.forEach((linkId) {
-          //   linkMap[linkId].updateStart(details.delta / canvasScale);
-          // });
-          // componentData.linksTo.forEach((linkId) {
-          //   linkMap[linkId].updateEnd(details.delta / canvasScale);
-          // });
         },
         child: SizedBox(
           width:
@@ -74,13 +67,21 @@ class Component extends StatelessWidget with ItemSelected {
                   child: Text('${componentData.id}'),
                 ),
               ),
-
+              // ports:
               ...componentData.ports.values
                   .map((portData) => Port(
                         portData: portData,
                         size: componentData.portSize,
                       ))
                   .toList(),
+              // menu:
+              Visibility(
+                visible: componentData.isItemSelected,
+                child: Container(
+                  // alignment: Alignment.topCenter,
+                  color: Colors.red.withOpacity(0.2),
+                ),
+              )
             ],
           ),
         ),

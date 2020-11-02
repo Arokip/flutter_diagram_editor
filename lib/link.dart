@@ -23,8 +23,6 @@ class Link extends StatelessWidget {
     return GestureDetector(
       onTapDown: (d) {
         print('link tapped ${d.localPosition}');
-      },
-      onLongPress: () {
         canvasSelectItem(linkData);
       },
       child: CustomPaint(
@@ -35,9 +33,10 @@ class Link extends StatelessWidget {
               removeLink(linkData);
             },
             child: CustomPaint(
-                painter: DeletePainter(
-              position: (linkData.start + linkData.end) / 2 * canvasScale +
+                painter: DeleteIconPainter(
+              location: (linkData.start + linkData.end) / 2 * canvasScale +
                   canvasPosition,
+              radius: 20,
               scale: canvasScale,
               color: Colors.red,
             )),
@@ -74,7 +73,7 @@ class LinkPainter extends CustomPainter {
       ..strokeWidth = width
       ..style = PaintingStyle.stroke;
 
-    canvas.drawLine(start, getShorterEnd(), paint);
+    canvas.drawLine(start, getShorterEnd(width * 3), paint);
 
     paint..style = PaintingStyle.fill;
     canvas.drawPath(getTriangleTipPath(3), paint);
@@ -83,7 +82,7 @@ class LinkPainter extends CustomPainter {
       ..color = Colors.red
       ..style = PaintingStyle.stroke
       ..strokeWidth = width / 4;
-    canvas.drawPath(makeWiderLinePath(width * 2), paint);
+    canvas.drawPath(makeWiderLinePath(width * 4), paint);
   }
 
   @override
@@ -91,7 +90,7 @@ class LinkPainter extends CustomPainter {
 
   @override
   bool hitTest(Offset position) {
-    Path path = makeWiderLinePath(width * 2);
+    Path path = makeWiderLinePath(width * 4);
 
     return path.contains(position);
   }
@@ -100,11 +99,14 @@ class LinkPainter extends CustomPainter {
     Path path = new Path();
     // perpendicularNormalizedScaledVector
     Offset pnsv = normalizeVector(getPerpendicularVector()) * k;
+    // make shorter clickable area
+    Offset shorterStart = getShorterStart(width * 5);
+    Offset shorterEnd = getShorterEnd(width * 5);
     // rect around line
-    path.moveTo(start.dx + pnsv.dx, start.dy + pnsv.dy);
-    path.lineTo(end.dx + pnsv.dx, end.dy + pnsv.dy);
-    path.lineTo(end.dx - pnsv.dx, end.dy - pnsv.dy);
-    path.lineTo(start.dx - pnsv.dx, start.dy - pnsv.dy);
+    path.moveTo(shorterStart.dx + pnsv.dx, shorterStart.dy + pnsv.dy);
+    path.lineTo(shorterEnd.dx + pnsv.dx, shorterEnd.dy + pnsv.dy);
+    path.lineTo(shorterEnd.dx - pnsv.dx, shorterEnd.dy - pnsv.dy);
+    path.lineTo(shorterStart.dx - pnsv.dx, shorterStart.dy - pnsv.dy);
     path.close();
     return path;
   }
@@ -137,18 +139,24 @@ class LinkPainter extends CustomPainter {
     return vector.distance == 0.0 ? vector : vector / vector.distance;
   }
 
-  Offset getShorterEnd() {
-    return end - normalizeVector(getDirectionVector()) * width;
+  Offset getShorterStart(double k) {
+    return start + normalizeVector(getDirectionVector()) * k;
+  }
+
+  Offset getShorterEnd(double k) {
+    return end - normalizeVector(getDirectionVector()) * k;
   }
 }
 
-class DeletePainter extends CustomPainter {
-  final Offset position;
+class DeleteIconPainter extends CustomPainter {
+  final Offset location;
+  final double radius;
   final double scale;
   final Color color;
 
-  DeletePainter({
-    this.position,
+  DeleteIconPainter({
+    this.location,
+    this.radius,
     this.scale,
     this.color,
   });
@@ -156,23 +164,30 @@ class DeletePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = scale
-      ..style = PaintingStyle.stroke;
+      ..color = Colors.white.withOpacity(0.5)
+      ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(position, scale * 10, paint);
+    canvas.drawCircle(location, scale * radius, paint);
+
+    paint
+      ..style = PaintingStyle.stroke
+      ..color = Colors.grey[800]
+      ..strokeWidth = scale * 2;
+
+    canvas.drawCircle(location, scale * radius, paint);
 
     paint..color = color;
 
+    var halfRadius = radius / 2;
     canvas.drawLine(
-      position + (Offset(-5, -5) * scale),
-      position + (Offset(5, 5) * scale),
+      location + (Offset(-halfRadius, -halfRadius) * scale),
+      location + (Offset(halfRadius, halfRadius) * scale),
       paint,
     );
 
     canvas.drawLine(
-      position + (Offset(5, -5) * scale),
-      position + (Offset(-5, 5) * scale),
+      location + (Offset(halfRadius, -halfRadius) * scale),
+      location + (Offset(-halfRadius, halfRadius) * scale),
       paint,
     );
   }
@@ -184,8 +199,8 @@ class DeletePainter extends CustomPainter {
   bool hitTest(Offset position) {
     Path path = new Path();
     path.addOval(Rect.fromCircle(
-      center: this.position,
-      radius: scale * 10,
+      center: this.location,
+      radius: scale * radius,
     ));
 
     return path.contains(position);

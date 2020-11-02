@@ -10,7 +10,7 @@ import 'item_selected.dart';
 import 'link_data.dart';
 
 int componentCount = 100;
-int linkCount = 100;
+int linkCount = 0;
 int portPerComponentCount = 4;
 
 class CanvasModel extends ChangeNotifier {
@@ -23,7 +23,7 @@ class CanvasModel extends ChangeNotifier {
   HashMap<int, ComponentData> _componentDataMap;
   HashMap<int, LinkData> _linkDataMap;
 
-  final double _portSize = 12;
+  final double _portSize = 20;
 
   dynamic selectedItem;
   final DeselectItem deselectItem = DeselectItem();
@@ -81,22 +81,56 @@ class CanvasModel extends ChangeNotifier {
   selectItem(dynamic item) {
     if (selectedItem == item) return;
 
+    if (item == null) return;
+
     if (selectedItem != null) {
       selectedItem.isItemSelected = false;
     }
-    selectedItem = item;
-    if (selectedItem != null) {
-      selectedItem.isItemSelected = true;
+
+    if (item is ComponentData) {
+    } else if (item is PortData) {
+      if (selectedItem is PortData) {
+        connectTwoPorts(selectedItem, item);
+        selectedItem = deselectItem;
+        notifyListeners();
+        return;
+      }
+    } else if (item is LinkData) {
+    } else {
+      throw ArgumentError("selected item is unknown type");
     }
 
-    // if (item is ComponentData) {
-    // } else if (item is PortData) {
-    // } else if (item is LinkData) {
-    // } else {
-    //   throw ArgumentError("selected item is unknown type");
-    // }
+    selectedItem = item;
+    selectedItem.isItemSelected = true;
 
     notifyListeners();
+  }
+
+  connectTwoPorts(PortData portOut, PortData portIn) {
+    print('connect two ports');
+    generateNextLinkId;
+    portOut.addConnection(
+      PortConnectionOut(
+        linkId: getLastUsedLinkId,
+        componentId: portOut.componentId,
+        portId: portOut.id,
+      ),
+    );
+    portIn.addConnection(
+      PortConnectionIn(
+        linkId: getLastUsedLinkId,
+        componentId: portIn.componentId,
+        portId: portIn.id,
+      ),
+    );
+    _linkDataMap[getLastUsedLinkId] = LinkData(
+      id: getLastUsedLinkId,
+      color: Colors.black,
+      width: 1.5,
+      start:
+          componentDataMap[portOut.componentId].getPortCenterPoint(portOut.id),
+      end: componentDataMap[portIn.componentId].getPortCenterPoint(portIn.id),
+    );
   }
 
   // ==== IDs ====

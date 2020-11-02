@@ -31,7 +31,7 @@ class _EditorState extends State<Editor> {
             .withOpacity(1.0),
         size: Size(10 + 80 * math.Random().nextDouble(),
             10 + 80 * math.Random().nextDouble()),
-        portSize: 8,
+        portSize: 20,
       ));
     }
     return resultList;

@@ -115,14 +115,20 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   ) {
     final RenderBox renderBox = context.findRenderObject();
     final Offset localOffset = renderBox.globalToLocal(details.offset);
-
+    MenuComponentData menuComponentData = details.data;
     canvasModel.addComponentToList(
       ComponentData(
         id: canvasModel.generateNextComponentId,
-        color: details.data.color,
-        size: details.data.size,
-        position: (localOffset - canvasModel.position) / canvasModel.scale,
-        portSize: details.data.portSize,
+        color: menuComponentData.color,
+        size: menuComponentData.size,
+        position: (localOffset - canvasModel.position) / canvasModel.scale +
+            Offset(menuComponentData.size.width / canvasModel.scale / 2,
+                menuComponentData.size.height / canvasModel.scale / 2) -
+            Offset(menuComponentData.size.width / 2,
+                menuComponentData.size.height / 2) -
+            Offset(
+                menuComponentData.portSize / 2, menuComponentData.portSize / 2),
+        portSize: menuComponentData.portSize,
         ports:
             canvasModel.generatePortData(canvasModel.getLastUsedComponentId, 2),
       ),

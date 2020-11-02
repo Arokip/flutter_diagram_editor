@@ -22,7 +22,6 @@ class MenuComponent extends StatelessWidget {
 
 class MenuComponentWhenDragging extends StatelessWidget {
   final MenuComponentData menuComponentData;
-  final double cornerDotSize = 4.0;
 
   MenuComponentWhenDragging({
     Key key,
@@ -31,19 +30,10 @@ class MenuComponentWhenDragging extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: menuComponentData.size.width,
-          height: menuComponentData.size.height,
-          color: menuComponentData.color,
-        ),
-        Container(
-          width: cornerDotSize,
-          height: cornerDotSize,
-          color: Colors.black,
-        ),
-      ],
+    return Container(
+      width: menuComponentData.size.width,
+      height: menuComponentData.size.height,
+      color: menuComponentData.color,
     );
   }
 }

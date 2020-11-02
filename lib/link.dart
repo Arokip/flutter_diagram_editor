@@ -32,6 +32,10 @@ class Link extends StatelessWidget {
             onTap: () {
               removeLink(linkData);
             },
+            // onTapDown: (details){
+            //   details.localPosition;
+            //
+            // },
             child: CustomPaint(
                 painter: DeleteIconPainter(
               location: (linkData.start + linkData.end) / 2 * canvasScale +
@@ -164,7 +168,7 @@ class DeleteIconPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.white.withOpacity(0.5)
+      ..color = Colors.white.withOpacity(0.8)
       ..style = PaintingStyle.fill;
 
     canvas.drawCircle(location, scale * radius, paint);

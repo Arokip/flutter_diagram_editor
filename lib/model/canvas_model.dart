@@ -9,9 +9,9 @@ import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'item_selected.dart';
 import 'link_data.dart';
 
-int componentCount = 100;
-int linkCount = 100;
-int portPerComponentMaxCount = 3;
+int componentCount = 4;
+int linkCount = 2;
+int portPerComponentMaxCount = 4;
 
 class CanvasModel extends ChangeNotifier {
   int _componentIdGen = 0;
@@ -130,9 +130,10 @@ class CanvasModel extends ChangeNotifier {
       componentInId: portIn.componentId,
       color: Colors.black,
       width: 1.5,
-      start:
-          componentDataMap[portOut.componentId].getPortCenterPoint(portOut.id),
-      end: componentDataMap[portIn.componentId].getPortCenterPoint(portIn.id),
+      linkPoints: [
+        componentDataMap[portOut.componentId].getPortCenterPoint(portOut.id),
+        componentDataMap[portIn.componentId].getPortCenterPoint(portIn.id),
+      ],
     );
   }
 
@@ -251,8 +252,10 @@ class CanvasModel extends ChangeNotifier {
         componentInId: idIn,
         color: Colors.black,
         width: 1.5,
-        start: componentOut.getPortCenterPoint(randomPortIdOut),
-        end: componentIn.getPortCenterPoint(randomPortIdIn),
+        linkPoints: [
+          componentOut.getPortCenterPoint(randomPortIdOut),
+          componentIn.getPortCenterPoint(randomPortIdIn),
+        ],
       );
     }
     return resultMap;

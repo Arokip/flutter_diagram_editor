@@ -75,13 +75,13 @@ class Component extends StatelessWidget with ItemSelected {
                       ))
                   .toList(),
               // menu:
-              Visibility(
-                visible: componentData.isItemSelected,
-                child: Container(
-                  // alignment: Alignment.topCenter,
-                  color: Colors.red.withOpacity(0.2),
-                ),
-              )
+              // Visibility(
+              //   visible: componentData.isItemSelected,
+              //   child: Container(
+              //     // alignment: Alignment.topCenter,
+              //     color: Colors.red.withOpacity(0.2),
+              //   ),
+              // )
             ],
           ),
         ),

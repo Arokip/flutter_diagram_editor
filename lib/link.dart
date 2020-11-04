@@ -15,6 +15,7 @@ class Link extends StatefulWidget {
 class _LinkState extends State<Link> {
   Offset tapPosition = Offset(0, 0);
   int segmentIndex = 0;
+  bool isDeleteIconVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class _LinkState extends State<Link> {
           .map((point) => point * canvasScale + canvasPosition)).toList(),
       width: linkData.width,
       scale: canvasScale,
-      color: linkData.isItemSelected ? Colors.amber : linkData.color,
+      color: linkData.color,
     );
 
     return GestureDetector(
@@ -48,9 +49,11 @@ class _LinkState extends State<Link> {
 
         canvasSelectItem(linkData);
         linkData.linkPoints.forEach(print);
+        isDeleteIconVisible = true;
       },
       onLongPressStart: (details) {
-        canvasSelectItem(deselectItem);
+        canvasSelectItem(linkData);
+        isDeleteIconVisible = false;
         segmentIndex = linkPainter.determineLinkSegmentIndex(
             (details.localPosition), canvasScale * (5 + linkData.width));
         if (segmentIndex != null) {
@@ -65,24 +68,73 @@ class _LinkState extends State<Link> {
             segmentIndex);
       },
       child: CustomPaint(
-        child: Visibility(
-          visible: linkData.isItemSelected,
-          child: GestureDetector(
-            onTap: () {
-              removeLink(linkData);
-            },
-            child: CustomPaint(
-                painter: DeleteIconPainter(
-              // location: (linkData.start + linkData.end) / 2 * canvasScale +
-              //     canvasPosition,
-              location: tapPosition * canvasScale + canvasPosition,
-              radius: 16,
-              scale: canvasScale,
-              color: Colors.red,
-            )),
-          ),
-        ),
         painter: linkPainter,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Visibility(
+              visible: linkData.isItemSelected && isDeleteIconVisible,
+              child: GestureDetector(
+                onTap: () {
+                  removeLink(linkData);
+                },
+                child: CustomPaint(
+                  painter: DeleteIconPainter(
+                    location: tapPosition * canvasScale + canvasPosition,
+                    radius: 16,
+                    scale: canvasScale,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ),
+            ...linkData.linkPoints
+                .getRange(1, linkData.linkPoints.length - 1)
+                .toList()
+                .asMap()
+                .map(
+                  (index, jointPoint) => MapEntry(
+                    index,
+                    Visibility(
+                      visible: linkData.isItemSelected,
+                      child: GestureDetector(
+                        onPanUpdate: (details) {
+                          isDeleteIconVisible = false;
+                          linkData.updateMiddlePoint(
+                              (details.localPosition - canvasPosition) /
+                                  canvasScale,
+                              index + 1);
+                        },
+                        onLongPress: () {
+                          isDeleteIconVisible = false;
+                          linkData.removeMiddlePoint(index + 1);
+                        },
+                        child: CustomPaint(
+                          painter: LinkJointPainter(
+                            location: jointPoint * canvasScale + canvasPosition,
+                            radius: 8,
+                            scale: canvasScale,
+                            color: linkData.color.withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+                .values
+                .toList(),
+
+            // cp
+            // CustomPaint(
+            //   painter: LinkJointPainter(
+            //     location: loc * canvasScale + canvasPosition,
+            //     radius: 8,
+            //     scale: canvasScale,
+            //     color: linkData.color.withOpacity(0.5),
+            //   ),
+            // )
+          ],
+        ),
       ),
     );
   }
@@ -129,6 +181,7 @@ class LinkPainter extends CustomPainter {
         ),
         paint);
 
+    // DEBUG:
     paint
       ..color = Colors.red
       ..style = PaintingStyle.stroke
@@ -289,6 +342,45 @@ class DeleteIconPainter extends CustomPainter {
       location + (Offset(-halfRadius, halfRadius) * scale),
       paint,
     );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+
+  @override
+  bool hitTest(Offset position) {
+    Path path = new Path();
+    path.addOval(Rect.fromCircle(
+      center: this.location,
+      radius: scale * radius,
+    ));
+
+    return path.contains(position);
+  }
+}
+
+// ==== LINK JOINT ====
+
+class LinkJointPainter extends CustomPainter {
+  final Offset location;
+  final double radius;
+  final double scale;
+  final Color color;
+
+  LinkJointPainter({
+    this.location,
+    this.radius,
+    this.scale,
+    this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(location, scale * radius, paint);
   }
 
   @override

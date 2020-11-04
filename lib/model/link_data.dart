@@ -56,4 +56,9 @@ class LinkData extends ChangeNotifier with ItemSelected {
     linkPoints[index] = point;
     notifyListeners();
   }
+
+  removeMiddlePoint(int index) {
+    linkPoints.removeAt(index);
+    notifyListeners();
+  }
 }

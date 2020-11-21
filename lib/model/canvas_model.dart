@@ -3,14 +3,15 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
+import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 
 import 'item_selected.dart';
 import 'link_data.dart';
 
-int componentCount = 100;
-int linkCount = 100;
+int componentCount = 200;
+int linkCount = 200;
 int portPerComponentMaxCount = 4;
 
 class CanvasModel extends ChangeNotifier {
@@ -24,6 +25,7 @@ class CanvasModel extends ChangeNotifier {
   HashMap<int, LinkData> _linkDataMap;
 
   final double _portSize = 20;
+  final double _optionSize = 40;
 
   dynamic selectedItem;
   final DeselectItem deselectItem = DeselectItem();
@@ -49,6 +51,22 @@ class CanvasModel extends ChangeNotifier {
 
   addComponentToList(ComponentData componentData) {
     _componentDataMap[componentData.id] = componentData;
+    notifyListeners();
+  }
+
+  removeComponentFromList(int id) {
+    List<LinkData> linksToRemove = [];
+
+    _componentDataMap[id].ports.values.forEach((port) {
+      port.connections.forEach((connection) {
+        linksToRemove.add(_linkDataMap[connection.connectionId]);
+      });
+    });
+
+    linksToRemove.forEach(removeLink);
+
+    _componentDataMap.remove(id);
+    selectedItem = deselectItem;
     notifyListeners();
   }
 
@@ -181,16 +199,40 @@ class CanvasModel extends ChangeNotifier {
     HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
 
     for (int i = 0; i < number; i++) {
-      resultMap[generateNextComponentId] = ComponentData(
-        id: getLastUsedComponentId,
+      int componentId = generateNextComponentId;
+      resultMap[componentId] = ComponentData(
+        id: componentId,
         color: randomColor(),
-        size: Size(40 + 100 * math.Random().nextDouble(),
-            40 + 300 * math.Random().nextDouble()),
+        size: Size(40 + 300 * math.Random().nextDouble(),
+            40 + 200 * math.Random().nextDouble()),
         position: Offset(1200 * 2 * (math.Random().nextDouble() - 0.5),
             1200 * 2 * (math.Random().nextDouble() - 0.5)),
         portSize: _portSize,
-        ports: generatePortData(getLastUsedComponentId,
-            math.Random().nextInt(portPerComponentMaxCount + 1)),
+        ports: generatePortData(
+            componentId, math.Random().nextInt(portPerComponentMaxCount + 1)),
+        optionsData: ComponentOptionsData(
+          optionSize: _optionSize,
+          optionsTop: [
+            ComponentOptionData(),
+            ComponentOptionData(
+              color: Colors.yellow,
+              icon: Icons.map,
+              onOptionTap: () {
+                print('the correct on tap');
+              },
+            ),
+          ],
+          optionsBottom: [
+            ComponentOptionData(
+              color: Colors.red,
+              icon: Icons.delete_forever,
+              onOptionTap: () {
+                removeComponentFromList(componentId);
+                print('remove component: $componentId');
+              },
+            ),
+          ],
+        ),
       );
     }
     return resultMap;

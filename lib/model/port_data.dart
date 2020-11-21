@@ -14,16 +14,6 @@ class PortData with ItemSelected {
   // nějak se vyhnout self connection
   // final int type;
 
-  // final List<int> linksIn = [];
-  // final List<int> linksOut = [];
-
-  // final List<PortConnectionOut> _connectionsOut = [];
-  // final List<PortConnectionIn> _connectionsIn = [];
-  //
-  // List<PortConnectionOut> get connectionsOut => _connectionsOut;
-  //
-  // List<PortConnectionIn> get connectionsIn => _connectionsIn;
-
   final List<PortConnection> _connections = [];
 
   List<PortConnection> get connections => _connections;

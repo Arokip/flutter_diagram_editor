@@ -18,6 +18,7 @@ class Component extends StatelessWidget with ItemSelected {
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
     var canvasSelectItem = context
         .select<CanvasModel, Function>((CanvasModel model) => model.selectItem);
+
     var componentData = Provider.of<ComponentData>(context);
     var linkMap = context.select<CanvasModel, Map<int, LinkData>>(
         (CanvasModel model) => model.linkDataMap);
@@ -48,42 +49,38 @@ class Component extends StatelessWidget with ItemSelected {
             });
           });
         },
-        child: SizedBox(
-          width:
-              canvasScale * (componentData.size.width + componentData.portSize),
-          height: canvasScale *
-              (componentData.size.height + componentData.portSize),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // component body:
-              Container(
-                color: componentData.isItemSelected
-                    ? Colors.amber
-                    : componentData.color,
-                width: canvasScale * componentData.size.width,
-                height: canvasScale * componentData.size.height,
-                child: Center(
-                  child: Text('${componentData.id}'),
-                ),
+        child: Stack(
+          children: [
+            SizedBox(
+              width: canvasScale *
+                  (componentData.size.width + componentData.portSize),
+              height: canvasScale *
+                  (componentData.size.height + componentData.portSize),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // component body:
+                  Container(
+                    color: componentData.isItemSelected
+                        ? Colors.amber
+                        : componentData.color,
+                    width: canvasScale * componentData.size.width,
+                    height: canvasScale * componentData.size.height,
+                    child: Center(
+                      child: Text('${componentData.id}'),
+                    ),
+                  ),
+                  // ports:
+                  ...componentData.ports.values
+                      .map((portData) => Port(
+                            portData: portData,
+                            size: componentData.portSize,
+                          ))
+                      .toList(),
+                ],
               ),
-              // ports:
-              ...componentData.ports.values
-                  .map((portData) => Port(
-                        portData: portData,
-                        size: componentData.portSize,
-                      ))
-                  .toList(),
-              // menu:
-              // Visibility(
-              //   visible: componentData.isItemSelected,
-              //   child: Container(
-              //     // alignment: Alignment.topCenter,
-              //     color: Colors.red.withOpacity(0.2),
-              //   ),
-              // )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

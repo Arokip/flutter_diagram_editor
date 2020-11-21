@@ -17,6 +17,12 @@ class _LinkState extends State<Link> {
   int segmentIndex = 0;
   bool isDeleteIconVisible = false;
 
+  setDeleteIconVisibility(bool isVisible) {
+    setState(() {
+      isDeleteIconVisible = isVisible;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // print('LINE build');
@@ -43,17 +49,24 @@ class _LinkState extends State<Link> {
     return GestureDetector(
       // another option to
       onTapUp: (details) {
+        print('tap');
+        canvasSelectItem(linkData);
+        setDeleteIconVisibility(false);
+      },
+      onDoubleTapDown: (details) {
+        print('double tapdown ');
         setState(() {
           tapPosition = (details.localPosition - canvasPosition) / canvasScale;
         });
-
         canvasSelectItem(linkData);
-        linkData.linkPoints.forEach(print);
-        isDeleteIconVisible = true;
+        setDeleteIconVisibility(true);
+      },
+      onDoubleTap: () {
+        print('double tap');
       },
       onLongPressStart: (details) {
         canvasSelectItem(linkData);
-        isDeleteIconVisible = false;
+        setDeleteIconVisibility(false);
         segmentIndex = linkPainter.determineLinkSegmentIndex(
             (details.localPosition), canvasScale * (5 + linkData.width));
         if (segmentIndex != null) {
@@ -63,9 +76,11 @@ class _LinkState extends State<Link> {
         }
       },
       onLongPressMoveUpdate: (details) {
-        linkData.updateMiddlePoint(
-            (details.localPosition - canvasPosition) / canvasScale,
-            segmentIndex);
+        if (segmentIndex != null) {
+          linkData.updateMiddlePoint(
+              (details.localPosition - canvasPosition) / canvasScale,
+              segmentIndex);
+        }
       },
       child: CustomPaint(
         painter: linkPainter,
@@ -99,14 +114,14 @@ class _LinkState extends State<Link> {
                       visible: linkData.isItemSelected,
                       child: GestureDetector(
                         onPanUpdate: (details) {
-                          isDeleteIconVisible = false;
+                          setDeleteIconVisibility(false);
                           linkData.updateMiddlePoint(
                               (details.localPosition - canvasPosition) /
                                   canvasScale,
                               index + 1);
                         },
                         onLongPress: () {
-                          isDeleteIconVisible = false;
+                          setDeleteIconVisibility(false);
                           linkData.removeMiddlePoint(index + 1);
                         },
                         child: CustomPaint(
@@ -123,16 +138,6 @@ class _LinkState extends State<Link> {
                 )
                 .values
                 .toList(),
-
-            // cp
-            // CustomPaint(
-            //   painter: LinkJointPainter(
-            //     location: loc * canvasScale + canvasPosition,
-            //     radius: 8,
-            //     scale: canvasScale,
-            //     color: linkData.color.withOpacity(0.5),
-            //   ),
-            // )
           ],
         ),
       ),

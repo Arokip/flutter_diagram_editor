@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 
+import 'component_options_data.dart';
+
 class ComponentData extends ChangeNotifier with ItemSelected {
   final int id;
   Offset position;
@@ -13,6 +15,8 @@ class ComponentData extends ChangeNotifier with ItemSelected {
 
   final HashMap<int, PortData> ports;
 
+  final ComponentOptionsData optionsData;
+
   ComponentData({
     this.id,
     this.position,
@@ -20,6 +24,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
     this.size,
     this.portSize,
     this.ports,
+    this.optionsData = const ComponentOptionsData(),
   });
 
   updateComponentDataPosition(Offset position) {

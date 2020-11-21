@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/component_options.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,7 @@ import 'component.dart';
 import 'link.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
+import 'model/component_options_data.dart';
 import 'model/menu_component_data.dart';
 
 double mouseScaleSpeed = 0.8;
@@ -116,9 +118,10 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     final RenderBox renderBox = context.findRenderObject();
     final Offset localOffset = renderBox.globalToLocal(details.offset);
     MenuComponentData menuComponentData = details.data;
+    int componentId = canvasModel.generateNextComponentId;
     canvasModel.addComponentToList(
       ComponentData(
-        id: canvasModel.generateNextComponentId,
+        id: componentId,
         color: menuComponentData.color,
         size: menuComponentData.size,
         position: (localOffset - canvasModel.position) / canvasModel.scale +
@@ -131,6 +134,16 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         portSize: menuComponentData.portSize,
         ports:
             canvasModel.generatePortData(canvasModel.getLastUsedComponentId, 2),
+        optionsData: ComponentOptionsData(
+          optionSize: 64,
+          optionsTop: [
+            ComponentOptionData(
+                onOptionTap: () =>
+                    canvasModel.removeComponentFromList(componentId),
+                color: Colors.amber,
+                icon: Icons.no_transfer_sharp)
+          ],
+        ),
       ),
     );
   }
@@ -144,6 +157,17 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
       scaleResult = maxScale / canvasScale;
     }
     return scaleResult;
+  }
+
+  Widget showOptions(CanvasModel canvasModel) {
+    var data = canvasModel.selectedItem;
+    if (data is ComponentData) {
+      return ChangeNotifierProvider<ComponentData>.value(
+        value: data,
+        child: ComponentOptions(),
+      );
+    }
+    return SizedBox();
   }
 
   @override
@@ -218,6 +242,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                       child: Link(),
                     );
                   }).toList(),
+                  showOptions(canvasModel),
                 ],
               ),
             ),

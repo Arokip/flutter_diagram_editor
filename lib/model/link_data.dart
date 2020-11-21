@@ -53,8 +53,18 @@ class LinkData extends ChangeNotifier with ItemSelected {
   }
 
   updateMiddlePoint(Offset point, int index) {
+    print('update middle: $point, $index');
     linkPoints[index] = point;
     notifyListeners();
+    /*The following ArgumentError was thrown while handling a gesture:
+Invalid argument(s)
+
+When the exception was thrown, this was the stack:
+#0      List._setIndexed (dart:core-patch/growable_array.dart:183:73)
+#1      List.[]= (dart:core-patch/growable_array.dart:180:5)
+#2      LinkData.updateMiddlePoint (package:flutter_provider_canvas/model/link_data.dart:56:15)
+#3      _LinkState.build.<anonymous closure> (package:flutter_provider_canvas/link.dart:66:18)
+#4      LongPressGestureRecognizer._checkLongPressMoveUpdate.<anonymous closure> (package:flutter/src/gestures/long_press.dart:468:41)*/
   }
 
   removeMiddlePoint(int index) {

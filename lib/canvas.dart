@@ -138,8 +138,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
           optionSize: 64,
           optionsTop: [
             ComponentOptionData(
-                onOptionTap: () =>
-                    canvasModel.removeComponentFromList(componentId),
+                onOptionTap: (cid) => canvasModel.removeComponentFromList(cid),
                 color: Colors.amber,
                 icon: Icons.no_transfer_sharp)
           ],

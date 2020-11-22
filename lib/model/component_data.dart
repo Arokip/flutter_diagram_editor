@@ -9,7 +9,7 @@ import 'component_options_data.dart';
 class ComponentData extends ChangeNotifier with ItemSelected {
   final int id;
   Offset position;
-  final Color color;
+  Color color;
   final Size size;
   final double portSize;
 
@@ -51,5 +51,25 @@ class ComponentData extends ChangeNotifier with ItemSelected {
     ports.values.forEach((port) {
       port.removeConnection(connectionId);
     });
+  }
+
+  ComponentData duplicate(int newId) {
+    // TODO: not a copy ?
+
+    final HashMap<int, PortData> newPorts =
+        HashMap<int, PortData>.from(ports.map((key, port) {
+      return MapEntry<int, PortData>(key, port.duplicate(newId));
+    }));
+
+    return ComponentData(
+      id: newId,
+      color: Color(color.value),
+      size: Size(size.width, size.height),
+      portSize: portSize,
+      ports: newPorts,
+      optionsData: optionsData,
+      position: Offset(position.dx,
+          position.dy + size.height + optionsData.optionSize + portSize),
+    );
   }
 }

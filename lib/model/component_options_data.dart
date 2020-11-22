@@ -15,11 +15,13 @@ class ComponentOptionsData {
 class ComponentOptionData {
   final Color color;
   final IconData icon;
-  final VoidCallback onOptionTap;
+  // final VoidCallback onOptionTap;
+  final void Function(int) onOptionTap;
 
   const ComponentOptionData({
     this.color = Colors.grey,
     this.icon,
+    // this.onOptionTap,
     this.onOptionTap,
   });
 }

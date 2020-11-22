@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'model/component_options_data.dart';
 
 class ComponentOption extends StatelessWidget {
+  final int componentId;
   final double optionSize;
   final ComponentOptionData option;
 
   const ComponentOption({
     Key key,
+    @required this.componentId,
     @required this.optionSize,
     @required this.option,
   }) : super(key: key);
@@ -26,7 +28,7 @@ class ComponentOption extends StatelessWidget {
       ),
       onTap: () {
         if (option.onOptionTap != null) {
-          option.onOptionTap();
+          option.onOptionTap(componentId);
         }
       },
     );

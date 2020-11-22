@@ -61,9 +61,10 @@ class Component extends StatelessWidget with ItemSelected {
                 children: [
                   // component body:
                   Container(
-                    color: componentData.isItemSelected
-                        ? Colors.amber
-                        : componentData.color,
+                    // color: componentData.isItemSelected
+                    //     ? Colors.amber
+                    //     : componentData.color,
+                    color: componentData.color,
                     width: canvasScale * componentData.size.width,
                     height: canvasScale * componentData.size.height,
                     child: Center(

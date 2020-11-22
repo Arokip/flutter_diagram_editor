@@ -70,6 +70,20 @@ class CanvasModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  duplicateComponent(int id) {
+    // TODO: reference not a copy!!!
+
+    int newId = generateNextComponentId;
+    addComponentToList(_componentDataMap[id].duplicate(newId));
+  }
+
+  changeColor(int id) {
+    _componentDataMap[id].color = randomColor();
+    // selectedItem = deselectItem;
+    // _componentDataMap[id].notifyListeners();
+    notifyListeners();
+  }
+
   resetCanvasView() {
     _position = Offset(0, 0);
     _scale = 1.0;
@@ -203,8 +217,8 @@ class CanvasModel extends ChangeNotifier {
       resultMap[componentId] = ComponentData(
         id: componentId,
         color: randomColor(),
-        size: Size(40 + 300 * math.Random().nextDouble(),
-            40 + 200 * math.Random().nextDouble()),
+        size: Size(40 + 200 * math.Random().nextDouble(),
+            40 + 120 * math.Random().nextDouble()),
         position: Offset(1200 * 2 * (math.Random().nextDouble() - 0.5),
             1200 * 2 * (math.Random().nextDouble() - 0.5)),
         portSize: _portSize,
@@ -213,22 +227,39 @@ class CanvasModel extends ChangeNotifier {
         optionsData: ComponentOptionsData(
           optionSize: _optionSize,
           optionsTop: [
-            ComponentOptionData(),
             ComponentOptionData(
-              color: Colors.yellow,
+              color: Colors.lime,
               icon: Icons.map,
-              onOptionTap: () {
-                print('the correct on tap');
+              onOptionTap: (cid) {
+                print('the correct on tap: $cid');
               },
             ),
+            ComponentOptionData(),
+            ComponentOptionData(),
           ],
           optionsBottom: [
             ComponentOptionData(
               color: Colors.red,
               icon: Icons.delete_forever,
-              onOptionTap: () {
-                removeComponentFromList(componentId);
+              onOptionTap: (cid) {
+                removeComponentFromList(cid);
                 print('remove component: $componentId');
+              },
+            ),
+            ComponentOptionData(
+              color: Colors.yellow,
+              icon: Icons.copy,
+              onOptionTap: (cid) {
+                duplicateComponent(cid);
+                print('duplicate component: $cid');
+              },
+            ),
+            ComponentOptionData(
+              color: randomColor(),
+              icon: Icons.color_lens_outlined,
+              onOptionTap: (cid) {
+                changeColor(cid);
+                print('change color: $cid');
               },
             ),
           ],

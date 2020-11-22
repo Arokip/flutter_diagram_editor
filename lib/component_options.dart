@@ -32,6 +32,7 @@ class ComponentOptions extends StatelessWidget {
                 (option) => Padding(
                   padding: EdgeInsets.only(right: 8),
                   child: ComponentOption(
+                    componentId: componentData.id,
                     optionSize: componentData.optionsData.optionSize,
                     option: option,
                   ),
@@ -49,6 +50,7 @@ class ComponentOptions extends StatelessWidget {
                 (option) => Padding(
                   padding: EdgeInsets.only(right: 8),
                   child: ComponentOption(
+                    componentId: componentData.id,
                     optionSize: componentData.optionsData.optionSize,
                     option: option,
                   ),

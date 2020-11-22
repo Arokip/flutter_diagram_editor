@@ -33,4 +33,14 @@ class PortData with ItemSelected {
   removeConnection(int connectionId) {
     _connections.removeWhere((element) => element.connectionId == connectionId);
   }
+
+  PortData duplicate(int newComponentId) {
+    return PortData(
+      id: id,
+      componentId: newComponentId,
+      color: color,
+      alignment: alignment,
+      borderColor: borderColor,
+    );
+  }
 }

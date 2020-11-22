@@ -19,14 +19,6 @@ class ComponentOption extends StatelessWidget {
         decoration: BoxDecoration(
           color: option.color,
           shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: Offset(0, 2),
-            ),
-          ],
         ),
         width: optionSize,
         height: optionSize,

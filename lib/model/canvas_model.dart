@@ -71,10 +71,8 @@ class CanvasModel extends ChangeNotifier {
   }
 
   duplicateComponent(int id) {
-    // TODO: reference not a copy!!!
-
     int newId = generateNextComponentId;
-    addComponentToList(_componentDataMap[id].duplicate(newId));
+    addComponentToList(_componentDataMap[id].duplicate(newId, Offset(0, 24)));
   }
 
   changeColor(int id) {

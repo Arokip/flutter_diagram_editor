@@ -53,9 +53,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
     });
   }
 
-  ComponentData duplicate(int newId) {
-    // TODO: not a copy ?
-
+  ComponentData duplicate(int newId, [Offset offset = const Offset(0, 0)]) {
     final HashMap<int, PortData> newPorts =
         HashMap<int, PortData>.from(ports.map((key, port) {
       return MapEntry<int, PortData>(key, port.duplicate(newId));
@@ -68,8 +66,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
       portSize: portSize,
       ports: newPorts,
       optionsData: optionsData,
-      position: Offset(position.dx,
-          position.dy + size.height + optionsData.optionSize + portSize),
+      position: Offset(position.dx, position.dy + size.height) + offset,
     );
   }
 }

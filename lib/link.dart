@@ -97,7 +97,6 @@ class _LinkState extends State<Link> {
                   painter: DeleteIconPainter(
                     location: tapPosition * canvasScale + canvasPosition,
                     radius: 16,
-                    scale: canvasScale,
                     color: Colors.red,
                   ),
                 ),

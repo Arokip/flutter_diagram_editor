@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'component_option.dart';
-import 'highlight_painter.dart';
+import 'highlight.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 
@@ -64,15 +64,13 @@ class ComponentOptions extends StatelessWidget {
               ),
             ],
           ),
-          CustomPaint(
-            painter: HighlightPainter(
-              position: Offset(
-                  componentData.optionsData.optionSize / 2,
-                  componentData.optionsData.optionSize +
-                      (componentData.portSize / 2) * canvasScale),
-              width: componentData.size.width * canvasScale,
-              height: componentData.size.height * canvasScale,
-            ),
+          Highlight(
+            position: Offset(
+                componentData.optionsData.optionSize / 2,
+                componentData.optionsData.optionSize +
+                    (componentData.portSize / 2) * canvasScale),
+            width: componentData.size.width * canvasScale,
+            height: componentData.size.height * canvasScale,
           ),
         ],
       ),

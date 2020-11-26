@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'component_option.dart';
+import 'highlight_painter.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 
@@ -77,36 +78,4 @@ class ComponentOptions extends StatelessWidget {
       ),
     );
   }
-}
-
-class HighlightPainter extends CustomPainter {
-  final Offset position;
-  final double width;
-  final double height;
-
-  HighlightPainter({
-    this.position,
-    this.width,
-    this.height,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
-
-    canvas.drawRect(
-        Rect.fromLTWH(
-          position.dx,
-          position.dy,
-          width,
-          height,
-        ),
-        paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

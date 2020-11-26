@@ -10,8 +10,8 @@ import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'item_selected.dart';
 import 'link_data.dart';
 
-int componentCount = 200;
-int linkCount = 200;
+int componentCount = 50;
+int linkCount = 50;
 int portPerComponentMaxCount = 4;
 
 class CanvasModel extends ChangeNotifier {

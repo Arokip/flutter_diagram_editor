@@ -6,31 +6,34 @@ class ComponentOption extends StatelessWidget {
   final int componentId;
   final double optionSize;
   final ComponentOptionData option;
+  final tooltip;
 
   const ComponentOption({
     Key key,
     @required this.componentId,
     @required this.optionSize,
     @required this.option,
+    this.tooltip,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        decoration: BoxDecoration(
-          color: option.color,
-          shape: BoxShape.circle,
-        ),
-        width: optionSize,
-        height: optionSize,
-        child: Icon(option.icon),
+    return Container(
+      decoration: BoxDecoration(
+        color: option.color,
+        shape: BoxShape.circle,
       ),
-      onTap: () {
-        if (option.onOptionTap != null) {
-          option.onOptionTap(componentId);
-        }
-      },
+      width: optionSize,
+      height: optionSize,
+      child: IconButton(
+        tooltip: tooltip,
+        icon: Icon(option.icon),
+        onPressed: () {
+          if (option.onOptionTap != null) {
+            option.onOptionTap(componentId);
+          }
+        },
+      ),
     );
   }
 }

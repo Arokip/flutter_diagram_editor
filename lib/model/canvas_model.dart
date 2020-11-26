@@ -55,15 +55,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   removeComponentFromList(int id) {
-    List<LinkData> linksToRemove = [];
-
-    _componentDataMap[id].ports.values.forEach((port) {
-      port.connections.forEach((connection) {
-        linksToRemove.add(_linkDataMap[connection.connectionId]);
-      });
-    });
-
-    linksToRemove.forEach(removeLink);
+    removeComponentConnections(id);
 
     _componentDataMap.remove(id);
     selectedItem = deselectItem;
@@ -73,6 +65,19 @@ class CanvasModel extends ChangeNotifier {
   duplicateComponent(int id) {
     int newId = generateNextComponentId;
     addComponentToList(_componentDataMap[id].duplicate(newId, Offset(0, 24)));
+  }
+
+  removeComponentConnections(int id) {
+    List<LinkData> linksToRemove = [];
+
+    _componentDataMap[id].ports.values.forEach((port) {
+      port.connections.forEach((connection) {
+        linksToRemove.add(_linkDataMap[connection.connectionId]);
+      });
+    });
+
+    linksToRemove.forEach(removeLink);
+    notifyListeners();
   }
 
   changeColor(int id) {
@@ -228,17 +233,19 @@ class CanvasModel extends ChangeNotifier {
             ComponentOptionData(
               color: Colors.lime,
               icon: Icons.map,
+              tooltip: "map",
               onOptionTap: (cid) {
                 print('the correct on tap: $cid');
               },
             ),
             ComponentOptionData(),
-            ComponentOptionData(),
+            ComponentOptionData(tooltip: "nothing"),
           ],
           optionsBottom: [
             ComponentOptionData(
               color: Colors.red,
               icon: Icons.delete_forever,
+              tooltip: "delete component",
               onOptionTap: (cid) {
                 removeComponentFromList(cid);
                 print('remove component: $componentId');
@@ -247,6 +254,7 @@ class CanvasModel extends ChangeNotifier {
             ComponentOptionData(
               color: Colors.yellow,
               icon: Icons.copy,
+              tooltip: "duplicate component",
               onOptionTap: (cid) {
                 duplicateComponent(cid);
                 print('duplicate component: $cid');
@@ -255,9 +263,19 @@ class CanvasModel extends ChangeNotifier {
             ComponentOptionData(
               color: randomColor(),
               icon: Icons.color_lens_outlined,
+              tooltip: "change color randomly",
               onOptionTap: (cid) {
                 changeColor(cid);
                 print('change color: $cid');
+              },
+            ),
+            ComponentOptionData(
+              color: Colors.deepPurple,
+              icon: Icons.link_off,
+              tooltip: "remove all component connections",
+              onOptionTap: (cid) {
+                removeComponentConnections(cid);
+                print('remove connections: $cid');
               },
             ),
           ],

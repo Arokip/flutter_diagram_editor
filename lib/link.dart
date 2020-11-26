@@ -308,13 +308,11 @@ class LinkPainter extends CustomPainter {
 class DeleteIconPainter extends CustomPainter {
   final Offset location;
   final double radius;
-  final double scale;
   final Color color;
 
   DeleteIconPainter({
     this.location,
     this.radius,
-    this.scale,
     this.color,
   });
 
@@ -324,27 +322,27 @@ class DeleteIconPainter extends CustomPainter {
       ..color = Colors.white.withOpacity(0.8)
       ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(location, scale * radius, paint);
+    canvas.drawCircle(location, radius, paint);
 
     paint
       ..style = PaintingStyle.stroke
       ..color = Colors.grey[800]
-      ..strokeWidth = scale * 2;
+      ..strokeWidth = 2;
 
-    canvas.drawCircle(location, scale * radius, paint);
+    canvas.drawCircle(location, radius, paint);
 
     paint..color = color;
 
     var halfRadius = radius / 2;
     canvas.drawLine(
-      location + (Offset(-halfRadius, -halfRadius) * scale),
-      location + (Offset(halfRadius, halfRadius) * scale),
+      location + Offset(-halfRadius, -halfRadius),
+      location + Offset(halfRadius, halfRadius),
       paint,
     );
 
     canvas.drawLine(
-      location + (Offset(halfRadius, -halfRadius) * scale),
-      location + (Offset(-halfRadius, halfRadius) * scale),
+      location + Offset(halfRadius, -halfRadius),
+      location + Offset(-halfRadius, halfRadius),
       paint,
     );
   }
@@ -357,7 +355,7 @@ class DeleteIconPainter extends CustomPainter {
     Path path = new Path();
     path.addOval(Rect.fromCircle(
       center: this.location,
-      radius: scale * radius,
+      radius: radius,
     ));
 
     return path.contains(position);

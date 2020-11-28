@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:provider/provider.dart';
 
-import 'model/item_selected.dart';
 import 'model/link_data.dart';
 
 class Link extends StatefulWidget {
@@ -35,8 +34,8 @@ class _LinkState extends State<Link> {
     var linkData = Provider.of<LinkData>(context);
     var removeLink = context
         .select<CanvasModel, Function>((CanvasModel model) => model.removeLink);
-    var deselectItem = context.select<CanvasModel, DeselectItem>(
-        (CanvasModel model) => model.deselectItem);
+    var selectedItem = context.select<CanvasModel, dynamic>(
+        (CanvasModel model) => model.selectedItem);
 
     LinkPainter linkPainter = LinkPainter(
       linkPoints: (linkData.linkPoints
@@ -47,22 +46,17 @@ class _LinkState extends State<Link> {
     );
 
     return GestureDetector(
-      // another option to
       onTapUp: (details) {
-        print('tap');
+        if (selectedItem == linkData) {
+          setState(() {
+            tapPosition =
+                (details.localPosition - canvasPosition) / canvasScale;
+          });
+          setDeleteIconVisibility(true);
+        } else {
+          setDeleteIconVisibility(false);
+        }
         canvasSelectItem(linkData);
-        setDeleteIconVisibility(false);
-      },
-      onDoubleTapDown: (details) {
-        print('double tapdown ');
-        setState(() {
-          tapPosition = (details.localPosition - canvasPosition) / canvasScale;
-        });
-        canvasSelectItem(linkData);
-        setDeleteIconVisibility(true);
-      },
-      onDoubleTap: () {
-        print('double tap');
       },
       onLongPressStart: (details) {
         canvasSelectItem(linkData);
@@ -267,10 +261,6 @@ class LinkPainter extends CustomPainter {
   }
 
   int determineLinkSegmentIndex(Offset position, double hitAreaWidth) {
-    print('determine');
-
-    linkPoints.forEach(print);
-
     for (int i = 0; i < linkPoints.length - 1; i++) {
       var point1 = linkPoints[i];
       var point2 = linkPoints[i + 1];
@@ -278,11 +268,9 @@ class LinkPainter extends CustomPainter {
       Path rect = getRectAroundLine(point1, point2, hitAreaWidth);
 
       if (rect.contains(position)) {
-        print('contains $i');
         return i + 1;
       }
     }
-    print('do not contain');
     return null;
   }
 

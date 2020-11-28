@@ -114,6 +114,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   selectItem(dynamic item) {
+    print('select item: $item');
     if (selectedItem == item) return;
 
     if (item == null) return;

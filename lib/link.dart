@@ -186,11 +186,11 @@ class LinkPainter extends CustomPainter {
         paint);
 
     // DEBUG:
-    paint
-      ..color = Colors.red
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = scale * width / 5;
-    canvas.drawPath(makeWiderLinePath(scale * (5 + width)), paint);
+    // paint
+    //   ..color = Colors.red
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeWidth = scale * width / 5;
+    // canvas.drawPath(makeWiderLinePath(scale * (5 + width)), paint);
   }
 
   @override

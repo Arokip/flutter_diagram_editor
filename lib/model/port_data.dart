@@ -8,6 +8,8 @@ class PortData with ItemSelected {
   final componentId;
   final Color color;
   final Color borderColor;
+  final Color highlightColor;
+  final Color highLightBorderColor;
   final Alignment alignment;
 
   // typ portu.. podle pravidel je pak možné je do sebe zapojovat...
@@ -19,11 +21,13 @@ class PortData with ItemSelected {
   List<PortConnection> get connections => _connections;
 
   PortData({
-    this.id,
-    this.componentId,
-    this.color,
-    this.borderColor,
-    this.alignment,
+    @required this.id,
+    @required this.componentId,
+    @required this.color,
+    @required this.borderColor,
+    this.highlightColor,
+    this.highLightBorderColor,
+    @required this.alignment,
   });
 
   addConnection(PortConnection portConnection) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/component_highlight.dart';
 import 'package:flutter_provider_canvas/component_options.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
+import 'package:flutter_provider_canvas/port_hightlight.dart';
 import 'package:provider/provider.dart';
 
 import 'component.dart';
@@ -182,16 +183,16 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     return SizedBox();
   }
 
-  // Widget showPortHighlight(CanvasModel canvasModel) {
-  //   var data = canvasModel.selectedItem;
-  //   if (data is PortData) {
-  //     return ChangeNotifierProvider<ComponentData>.value(
-  //       value: canvasModel.componentDataMap[data.componentId],
-  //       child: PortHighlight(),
-  //     );
-  //   }
-  //   return SizedBox();
-  // }
+  Widget showPortHighlight(CanvasModel canvasModel) {
+    var data = canvasModel.selectedItem;
+    if (data is PortData) {
+      return ChangeNotifierProvider<ComponentData>.value(
+        value: canvasModel.componentDataMap[data.componentId],
+        child: PortHighlight(),
+      );
+    }
+    return SizedBox();
+  }
 
   @override
   void initState() {
@@ -268,6 +269,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
 
                   showOptions(canvasModel),
                   showComponentHighlight(canvasModel),
+                  showPortHighlight(canvasModel),
 
                   // showPortHighlight(canvasModel),
                 ],

@@ -30,20 +30,14 @@ class Port extends StatelessWidget {
         },
         child: Container(
           alignment: Alignment.center,
-          child: Container(
-            color: Colors.pink[600],
-            width: 1,
-            height: 1,
-          ),
           width: size * canvasScale,
           height: size * canvasScale,
           decoration: BoxDecoration(
-            color: portData.isItemSelected ? Colors.amber : portData.color,
+            color: portData.color,
             shape: BoxShape.circle,
             border: Border.all(
               width: 1.0 * canvasScale,
-              color:
-                  portData.isItemSelected ? Colors.red : portData.borderColor,
+              color: portData.borderColor,
             ),
           ),
         ),

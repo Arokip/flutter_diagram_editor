@@ -34,7 +34,7 @@ class ComponentHighlight extends StatelessWidget {
           canvasScale *
               (componentData.position.dy + componentData.portSize / 2),
       child: CustomPaint(
-        painter: HighlightPainter(
+        painter: ComponentHighlightPainter(
           width: componentData.size.width * canvasScale,
           height: componentData.size.height * canvasScale,
           color: color,
@@ -47,7 +47,7 @@ class ComponentHighlight extends StatelessWidget {
   }
 }
 
-class HighlightPainter extends CustomPainter {
+class ComponentHighlightPainter extends CustomPainter {
   final double width;
   final double height;
   final Color color;
@@ -55,7 +55,7 @@ class HighlightPainter extends CustomPainter {
   final double dashWidth;
   final double dashSpace;
 
-  HighlightPainter({
+  ComponentHighlightPainter({
     @required this.width,
     @required this.height,
     @required this.color,

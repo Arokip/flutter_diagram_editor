@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Highlight extends StatelessWidget {
-  final Offset position;
-  final double width;
-  final double height;
+import 'model/canvas_model.dart';
+import 'model/component_data.dart';
+
+class ComponentHighlight extends StatelessWidget {
   final Color color;
   final double strokeWidth;
   final double dashWidth;
   final double dashSpace;
 
-  const Highlight({
+  const ComponentHighlight({
     Key key,
-    @required this.position,
-    @required this.width,
-    @required this.height,
     this.color = Colors.red,
     this.strokeWidth = 2,
     this.dashWidth = 10,
@@ -22,22 +20,34 @@ class Highlight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: HighlightPainter(
-        position: position,
-        width: width,
-        height: height,
-        color: color,
-        strokeWidth: strokeWidth,
-        dashWidth: dashWidth,
-        dashSpace: dashSpace,
+    var componentData = Provider.of<ComponentData>(context);
+    var canvasPosition = context
+        .select<CanvasModel, Offset>((CanvasModel model) => model.position);
+    var canvasScale =
+        context.select<CanvasModel, double>((CanvasModel model) => model.scale);
+
+    return Positioned(
+      left: canvasPosition.dx +
+          canvasScale *
+              (componentData.position.dx + componentData.portSize / 2),
+      top: canvasPosition.dy +
+          canvasScale *
+              (componentData.position.dy + componentData.portSize / 2),
+      child: CustomPaint(
+        painter: HighlightPainter(
+          width: componentData.size.width * canvasScale,
+          height: componentData.size.height * canvasScale,
+          color: color,
+          strokeWidth: strokeWidth,
+          dashWidth: dashWidth,
+          dashSpace: dashSpace,
+        ),
       ),
     );
   }
 }
 
 class HighlightPainter extends CustomPainter {
-  final Offset position;
   final double width;
   final double height;
   final Color color;
@@ -46,7 +56,6 @@ class HighlightPainter extends CustomPainter {
   final double dashSpace;
 
   HighlightPainter({
-    @required this.position,
     @required this.width,
     @required this.height,
     @required this.color,
@@ -65,8 +74,8 @@ class HighlightPainter extends CustomPainter {
     if (dashWidth <= 0 || dashSpace <= 0) {
       canvas.drawRect(
           Rect.fromLTWH(
-            this.position.dx,
-            this.position.dy,
+            0,
+            0,
             this.width,
             this.height,
           ),
@@ -79,7 +88,7 @@ class HighlightPainter extends CustomPainter {
     var width = this.width + strokeWidth;
     var height = this.height + strokeWidth;
 
-    var position = this.position - Offset(strokeWidth / 2, 0);
+    var position = Offset(-strokeWidth / 2, 0);
     double pathLength = 0;
 
     if (dashWidth + 2 * dashSpace >= width) {
@@ -103,7 +112,7 @@ class HighlightPainter extends CustomPainter {
       }
     }
 
-    position = this.position - Offset(0, strokeWidth / 2);
+    position = Offset(0, -strokeWidth / 2);
     pathLength = 0;
 
     if (dashWidth + 2 * dashSpace >= height) {

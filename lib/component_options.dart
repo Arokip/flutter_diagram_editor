@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'component_option.dart';
-import 'highlight.dart';
+import 'component_highlight.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 
@@ -66,14 +66,14 @@ class ComponentOptions extends StatelessWidget {
               ),
             ],
           ),
-          Highlight(
-            position: Offset(
-                componentData.optionsData.optionSize / 2,
-                componentData.optionsData.optionSize +
-                    (componentData.portSize / 2) * canvasScale),
-            width: componentData.size.width * canvasScale,
-            height: componentData.size.height * canvasScale,
-          ),
+          // ComponentHighlight(
+          //   position: Offset(
+          //       componentData.optionsData.optionSize / 2,
+          //       componentData.optionsData.optionSize +
+          //           (componentData.portSize / 2) * canvasScale),
+          //   width: componentData.size.width * canvasScale,
+          //   height: componentData.size.height * canvasScale,
+          // ),
         ],
       ),
     );

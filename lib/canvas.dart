@@ -161,6 +161,43 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     return scaleResult;
   }
 
+  Widget addDragTarget(CanvasModel canvasModel) {
+    return SizedBox(
+      // it's here, because DragTarget outside is lagging (draggable cannot be accepted when user drops it on an component)
+      child: DragTarget<MenuComponentData>(
+        builder: (BuildContext context, List<MenuComponentData> candidateData,
+            List<dynamic> rejectedData) {
+          return Container(
+            // color: Color.fromARGB(150, 0, 0, 0),
+            color: Colors.transparent,
+          );
+        },
+        onWillAccept: (MenuComponentData data) => true,
+        onAcceptWithDetails: (details) =>
+            _onAcceptWithDetails(details, context, canvasModel),
+      ),
+    );
+  }
+
+  List<Widget> showComponents(CanvasModel canvasModel) {
+    return canvasModel.componentDataMap.values
+        .map((ComponentData componentData) {
+      return ChangeNotifierProvider<ComponentData>.value(
+        value: componentData,
+        child: Component(),
+      );
+    }).toList();
+  }
+
+  List<Widget> showLinks(CanvasModel canvasModel) {
+    return canvasModel.linkDataMap.values.map((LinkData linkData) {
+      return ChangeNotifierProvider<LinkData>.value(
+        value: linkData,
+        child: Link(),
+      );
+    }).toList();
+  }
+
   Widget showOptions(CanvasModel canvasModel) {
     var data = canvasModel.selectedItem;
     if (data is ComponentData) {
@@ -237,41 +274,12 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                 clipBehavior: Clip.none,
                 fit: StackFit.expand,
                 children: [
-                  SizedBox(
-                    // it's here, because DragTarget outside is lagging (draggable cannot be accepted when user drops it on an component)
-                    child: DragTarget<MenuComponentData>(
-                      builder: (BuildContext context,
-                          List<MenuComponentData> candidateData,
-                          List<dynamic> rejectedData) {
-                        return Container(
-                          // color: Color.fromARGB(150, 0, 0, 0),
-                          color: Colors.transparent,
-                        );
-                      },
-                      onWillAccept: (MenuComponentData data) => true,
-                      onAcceptWithDetails: (details) =>
-                          _onAcceptWithDetails(details, context, canvasModel),
-                    ),
-                  ),
-                  ...canvasModel.componentDataMap.values
-                      .map((ComponentData componentData) {
-                    return ChangeNotifierProvider<ComponentData>.value(
-                      value: componentData,
-                      child: Component(),
-                    );
-                  }).toList(),
-                  ...canvasModel.linkDataMap.values.map((LinkData linkData) {
-                    return ChangeNotifierProvider<LinkData>.value(
-                      value: linkData,
-                      child: Link(),
-                    );
-                  }).toList(),
-
+                  addDragTarget(canvasModel),
+                  ...showComponents(canvasModel),
+                  ...showLinks(canvasModel),
                   showOptions(canvasModel),
                   showComponentHighlight(canvasModel),
                   showPortHighlight(canvasModel),
-
-                  // showPortHighlight(canvasModel),
                 ],
               ),
             ),

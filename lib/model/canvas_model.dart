@@ -58,7 +58,7 @@ class CanvasModel extends ChangeNotifier {
     removeComponentConnections(id);
 
     _componentDataMap.remove(id);
-    selectedItem = deselectItem;
+    selectDeselectItem();
     notifyListeners();
   }
 
@@ -82,8 +82,12 @@ class CanvasModel extends ChangeNotifier {
 
   changeColor(int id) {
     _componentDataMap[id].color = randomColor();
-    // selectedItem = deselectItem;
-    // _componentDataMap[id].notifyListeners();
+    notifyListeners();
+  }
+
+  resizeComponent(int id) {
+    _componentDataMap[id].switchEnableResize();
+    selectDeselectItem();
     notifyListeners();
   }
 
@@ -127,7 +131,7 @@ class CanvasModel extends ChangeNotifier {
     } else if (item is PortData) {
       if (selectedItem is PortData) {
         connectTwoPorts(selectedItem, item);
-        selectedItem = deselectItem;
+        selectDeselectItem();
         notifyListeners();
         return;
       }
@@ -141,6 +145,10 @@ class CanvasModel extends ChangeNotifier {
     selectedItem.isItemSelected = true;
 
     notifyListeners();
+  }
+
+  selectDeselectItem() {
+    selectedItem = deselectItem;
   }
 
   connectTwoPorts(PortData portOut, PortData portIn) {
@@ -177,7 +185,7 @@ class CanvasModel extends ChangeNotifier {
     linkDataMap.remove(linkData.id);
     componentDataMap[linkData.componentOutId].removeConnection(linkData.id);
     componentDataMap[linkData.componentInId].removeConnection(linkData.id);
-    selectedItem = deselectItem;
+    selectDeselectItem();
     notifyListeners();
   }
 
@@ -246,7 +254,7 @@ class CanvasModel extends ChangeNotifier {
             ComponentOptionData(
               color: Colors.red,
               icon: Icons.delete_forever,
-              tooltip: "delete component",
+              tooltip: "Delete",
               onOptionTap: (cid) {
                 removeComponentFromList(cid);
                 print('remove component: $componentId');
@@ -255,7 +263,7 @@ class CanvasModel extends ChangeNotifier {
             ComponentOptionData(
               color: Colors.yellow,
               icon: Icons.copy,
-              tooltip: "duplicate component",
+              tooltip: "Duplicate",
               onOptionTap: (cid) {
                 duplicateComponent(cid);
                 print('duplicate component: $cid');
@@ -264,7 +272,7 @@ class CanvasModel extends ChangeNotifier {
             ComponentOptionData(
               color: randomColor(),
               icon: Icons.color_lens_outlined,
-              tooltip: "change color randomly",
+              tooltip: "Change color randomly",
               onOptionTap: (cid) {
                 changeColor(cid);
                 print('change color: $cid');
@@ -273,12 +281,22 @@ class CanvasModel extends ChangeNotifier {
             ComponentOptionData(
               color: Colors.deepPurple,
               icon: Icons.link_off,
-              tooltip: "remove all component connections",
+              tooltip: "Remove all connections",
               onOptionTap: (cid) {
                 removeComponentConnections(cid);
                 print('remove connections: $cid');
               },
             ),
+            ComponentOptionData(
+              color: Colors.deepOrange,
+              icon: Icons.aspect_ratio,
+              tooltip: "Resize",
+              onOptionTap: (cid) {
+                print("selected: ${_componentDataMap[cid].isItemSelected}");
+                resizeComponent(cid);
+                print('resize: $cid');
+              },
+            )
           ],
         ),
       );

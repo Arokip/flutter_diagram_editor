@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
@@ -50,6 +53,7 @@ class Component extends StatelessWidget with ItemSelected {
           });
         },
         child: Stack(
+          // fit: StackFit.expand,
           children: [
             SizedBox(
               width: canvasScale *
@@ -61,9 +65,6 @@ class Component extends StatelessWidget with ItemSelected {
                 children: [
                   // component body:
                   Container(
-                    // color: componentData.isItemSelected
-                    //     ? Colors.amber
-                    //     : componentData.color,
                     color: componentData.color,
                     width: canvasScale * componentData.size.width,
                     height: canvasScale * componentData.size.height,
@@ -81,7 +82,72 @@ class Component extends StatelessWidget with ItemSelected {
                 ],
               ),
             ),
+            Visibility(
+              visible: componentData.enableResize,
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: (componentData.size.width + componentData.portSize) *
+                        canvasScale,
+                    height:
+                        (componentData.size.height + componentData.portSize) *
+                            canvasScale,
+                    // color: Colors.green,
+                  ),
+                  resizeCorner(componentData, linkMap, canvasScale,
+                      componentData.minSize.shortestSide),
+                ],
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget resizeCorner(
+      ComponentData componentData, linkMap, double scale, double size) {
+    return Positioned(
+      right: 0,
+      bottom: 0,
+      child: GestureDetector(
+        onPanUpdate: (d) {
+          componentData.resize(d.delta / scale);
+
+          componentData.ports.values.forEach((port) {
+            port.connections.forEach((connection) {
+              if (connection is PortConnectionOut) {
+                linkMap[connection.connectionId]
+                    .setStart(componentData.getPortCenterPoint(port.id));
+              } else if (connection is PortConnectionIn) {
+                linkMap[connection.connectionId]
+                    .setEnd(componentData.getPortCenterPoint(port.id));
+              } else {
+                throw ArgumentError('Invalid port connection.');
+              }
+            });
+          });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: componentData.color,
+            shape: BoxShape.circle,
+            border: Border.all(
+              width: 1.0 * scale,
+              color: Colors.black,
+            ),
+          ),
+          width: size * scale,
+          height: size * scale,
+          child: Center(
+            child: Transform.rotate(
+              angle: pi / 2,
+              child: Icon(
+                Icons.open_in_full,
+                size: size / 2 * scale,
+              ),
+            ),
+          ),
         ),
       ),
     );

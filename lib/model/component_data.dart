@@ -10,22 +10,26 @@ class ComponentData extends ChangeNotifier with ItemSelected {
   final int id;
   Offset position;
   Color color;
-  final Size size;
+  Size size;
+  final Size minSize;
   final double portSize;
 
   final HashMap<int, PortData> ports;
 
   final ComponentOptionsData optionsData;
 
+  bool enableResize = false;
+
   ComponentData({
     this.id,
     this.position,
     this.color,
     this.size,
+    this.minSize = const Size(32, 32),
     this.portSize,
     this.ports,
     this.optionsData = const ComponentOptionsData(),
-  });
+  }) : assert(minSize < size);
 
   updateComponentDataPosition(Offset position) {
     this.position += position;
@@ -68,5 +72,27 @@ class ComponentData extends ChangeNotifier with ItemSelected {
       optionsData: optionsData,
       position: Offset(position.dx, position.dy + size.height) + offset,
     );
+  }
+
+  setEnableResize(bool enable) {
+    enableResize = enable;
+    notifyListeners();
+  }
+
+  switchEnableResize() {
+    enableResize = !enableResize;
+    notifyListeners();
+  }
+
+  resize(Offset deltaSize) {
+    var tempSize = size + deltaSize;
+    if (tempSize.width < minSize.width) {
+      tempSize = Size(minSize.width, tempSize.height);
+    }
+    if (tempSize.height < minSize.height) {
+      tempSize = Size(tempSize.width, minSize.height);
+    }
+    size = tempSize;
+    notifyListeners();
   }
 }

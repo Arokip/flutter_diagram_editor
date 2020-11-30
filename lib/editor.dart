@@ -75,11 +75,24 @@ class _EditorState extends State<Editor> {
             bottom: 0,
             right: 0,
             child: Container(
-              color: Colors.white,
+              color: Colors.grey,
               child: Consumer<CanvasModel>(
                 builder: (_, canvasData, __) {
                   return Text(
                       'l:${canvasData.componentDataMap.length}, p:${canvasData.position}, s:${canvasData.scale}');
+                },
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 32,
+            right: 16,
+            child: Container(
+              color: Colors.grey,
+              child: Consumer<CanvasModel>(
+                builder: (_, canvasData, __) {
+                  return Text(
+                      'port rules:\n${canvasData.portRules.rules}\nmax ${canvasData.portRules.maxConnectionCount}');
                 },
               ),
             ),

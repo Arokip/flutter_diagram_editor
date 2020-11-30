@@ -6,12 +6,13 @@ import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
+import 'package:flutter_provider_canvas/model/port_rules.dart';
 
 import 'item_selected.dart';
 import 'link_data.dart';
 
 int componentCount = 50;
-int linkCount = 50;
+int linkCount = 0;
 int portPerComponentMaxCount = 4;
 
 class CanvasModel extends ChangeNotifier {
@@ -30,11 +31,16 @@ class CanvasModel extends ChangeNotifier {
   dynamic selectedItem;
   final DeselectItem deselectItem = DeselectItem();
 
+  final PortRules portRules = PortRules();
+
   CanvasModel() {
     // _componentDataMap = generateComponents(componentCount);
     _componentDataMap = generateRandomComponents(componentCount);
 
     _linkDataMap = generateRandomLinks(linkCount);
+
+    generatePortRules();
+
     // _linkDataMap[-1] =
     //     LinkData(start: Offset(0, 0), end: Offset(200, 100), width: 5);
   }
@@ -130,10 +136,10 @@ class CanvasModel extends ChangeNotifier {
     if (item is ComponentData) {
     } else if (item is PortData) {
       if (selectedItem is PortData) {
-        connectTwoPorts(selectedItem, item);
-        selectDeselectItem();
-        notifyListeners();
-        return;
+        bool connected = tryToConnectTwoPorts(selectedItem, item);
+        if (connected) {
+          return;
+        }
       }
     } else if (item is LinkData) {
     } else if (item is DeselectItem) {
@@ -151,21 +157,76 @@ class CanvasModel extends ChangeNotifier {
     selectedItem = deselectItem;
   }
 
+  bool tryToConnectTwoPorts(PortData firstPort, PortData secondPort) {
+    bool followsPortRules =
+        portRules.canConnect(firstPort.portType, secondPort.portType);
+    bool areAlreadyConnected = arePortsConnected(firstPort, secondPort);
+    bool haveLessThenMaxConnections = hasLessThanMaxConnections(firstPort) &&
+        hasLessThanMaxConnections(secondPort);
+    bool canConnectSameComponent = canConnectIfSameComponent(
+        firstPort, secondPort, portRules.canConnectSameComponent);
+
+    print('followsPortRules: $followsPortRules');
+    print('areAlreadyConnected: ${!areAlreadyConnected}');
+    print('haveLessThenMaxConnections: $haveLessThenMaxConnections');
+    print('canConnectSameComponent: $canConnectSameComponent');
+
+    if (followsPortRules &&
+        !areAlreadyConnected &&
+        haveLessThenMaxConnections &&
+        canConnectSameComponent) {
+      connectTwoPorts(firstPort, secondPort);
+      selectDeselectItem();
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  bool arePortsConnected(PortData firstPort, PortData secondPort) {
+    int index = firstPort.connections.indexWhere((connection) =>
+        connection.componentId == secondPort.componentId &&
+        connection.portId == secondPort.id);
+    return index >= 0;
+  }
+
+  bool hasLessThanMaxConnections(PortData port) {
+    int max = portRules.getMaxConnectionCount(port.portType);
+    if (max == null) {
+      return true;
+    } else {
+      return port.connections.length < max;
+    }
+  }
+
+  bool canConnectIfSameComponent(
+      PortData firstPort, PortData secondPort, bool canSame) {
+    if (canSame) {
+      return true;
+    } else {
+      if (firstPort.componentId != secondPort.componentId) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   connectTwoPorts(PortData portOut, PortData portIn) {
     print('connect two ports');
     generateNextLinkId;
     portOut.addConnection(
       PortConnectionOut(
         linkId: getLastUsedLinkId,
-        componentId: portOut.componentId,
-        portId: portOut.id,
+        componentId: portIn.componentId,
+        portId: portIn.id,
       ),
     );
     portIn.addConnection(
       PortConnectionIn(
         linkId: getLastUsedLinkId,
-        componentId: portIn.componentId,
-        portId: portIn.id,
+        componentId: portOut.componentId,
+        portId: portOut.id,
       ),
     );
     _linkDataMap[getLastUsedLinkId] = LinkData(
@@ -314,6 +375,7 @@ class CanvasModel extends ChangeNotifier {
         borderColor: math.Random().nextBool() ? Colors.black : Colors.white,
         alignment: Alignment(2 * math.Random().nextDouble() - 1,
             2 * math.Random().nextDouble() - 1),
+        portType: math.Random().nextInt(4).toString(),
       );
     }
     return ports;
@@ -372,5 +434,16 @@ class CanvasModel extends ChangeNotifier {
   Color randomColor() {
     return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
         .withOpacity(1.0);
+  }
+
+  generatePortRules() {
+    portRules.addRule("0", "1");
+    portRules.addRule("0", "0");
+    portRules.addRule("1", "1");
+    portRules.addRules("2", ["0", "1"]);
+
+    // portRules.canConnectSameComponent = true;
+
+    portRules.setMaxConnectionCount("0", 2);
   }
 }

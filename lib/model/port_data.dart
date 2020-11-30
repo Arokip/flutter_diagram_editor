@@ -5,16 +5,14 @@ import 'item_selected.dart';
 
 class PortData with ItemSelected {
   final int id;
-  final componentId;
+  final int componentId;
   final Color color;
   final Color borderColor;
   final Color highlightColor;
   final Color highLightBorderColor;
   final Alignment alignment;
 
-  // typ portu.. podle pravidel je pak možné je do sebe zapojovat...
-  // nějak se vyhnout self connection
-  // final int type;
+  final String portType;
 
   final List<PortConnection> _connections = [];
 
@@ -28,6 +26,7 @@ class PortData with ItemSelected {
     this.highlightColor,
     this.highLightBorderColor,
     @required this.alignment,
+    this.portType,
   });
 
   addConnection(PortConnection portConnection) {
@@ -45,6 +44,7 @@ class PortData with ItemSelected {
       color: color,
       alignment: alignment,
       borderColor: borderColor,
+      portType: portType,
     );
   }
 }

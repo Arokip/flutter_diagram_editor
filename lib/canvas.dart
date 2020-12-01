@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/component_highlight.dart';
 import 'package:flutter_provider_canvas/component_options.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
-import 'package:flutter_provider_canvas/port_hightlight.dart';
+import 'package:flutter_provider_canvas/port_highlight.dart';
 import 'package:provider/provider.dart';
 
 import 'component.dart';
@@ -168,7 +168,6 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         builder: (BuildContext context, List<MenuComponentData> candidateData,
             List<dynamic> rejectedData) {
           return Container(
-            // color: Color.fromARGB(150, 0, 0, 0),
             color: Colors.transparent,
           );
         },
@@ -231,6 +230,34 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     return SizedBox();
   }
 
+  List<Widget> showConnectablePortsHighlight(CanvasModel canvasModel) {
+    var selectedPort = canvasModel.selectedItem;
+    if (selectedPort is PortData) {
+      var highlights = canvasModel.componentDataMap.values
+          .map((component) {
+            return component.ports.values.map((port) {
+              if (canvasModel.canConnectTwoPorts(selectedPort, port) &&
+                  port != selectedPort) {
+                return ChangeNotifierProvider<ComponentData>.value(
+                  value: component,
+                  child: ConnectablePortHighlight(
+                    portData: port,
+                    color: Colors.green,
+                  ),
+                );
+              }
+            }).toList();
+          })
+          .expand((element) => element)
+          .toList();
+
+      highlights.removeWhere((element) => element == null);
+
+      return highlights;
+    }
+    return [];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -256,7 +283,6 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
       onPointerSignal: (event) => _receivedPointerSignal(event, canvasModel),
       child: GestureDetector(
         child: Container(
-          // color: Color.fromARGB(255, 148, 41, 111),
           color: Colors.white,
           child: ClipRect(
             child: AnimatedBuilder(
@@ -280,6 +306,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                   showOptions(canvasModel),
                   showComponentHighlight(canvasModel),
                   showPortHighlight(canvasModel),
+                  ...showConnectablePortsHighlight(canvasModel),
                 ],
               ),
             ),

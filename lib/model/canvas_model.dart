@@ -105,18 +105,15 @@ class CanvasModel extends ChangeNotifier {
 
   updateCanvasPosition(Offset position) {
     _position += position;
-    // notifyListeners();
   }
 
   updateCanvasScale(double scale) {
     _scale *= scale;
-    // notifyListeners();
   }
 
   setCanvasData(Offset position, double scale) {
     _scale = scale;
-    _position = position; //+=
-    // notifyListeners();
+    _position = position;
   }
 
   notifyCanvasModelListeners() {
@@ -158,29 +155,32 @@ class CanvasModel extends ChangeNotifier {
   }
 
   bool tryToConnectTwoPorts(PortData firstPort, PortData secondPort) {
-    bool followsPortRules =
-        portRules.canConnect(firstPort.portType, secondPort.portType);
-    bool areAlreadyConnected = arePortsConnected(firstPort, secondPort);
-    bool haveLessThenMaxConnections = hasLessThanMaxConnections(firstPort) &&
-        hasLessThanMaxConnections(secondPort);
-    bool canConnectSameComponent = canConnectIfSameComponent(
-        firstPort, secondPort, portRules.canConnectSameComponent);
-
-    print('followsPortRules: $followsPortRules');
-    print('areAlreadyConnected: ${!areAlreadyConnected}');
-    print('haveLessThenMaxConnections: $haveLessThenMaxConnections');
-    print('canConnectSameComponent: $canConnectSameComponent');
-
-    if (followsPortRules &&
-        !areAlreadyConnected &&
-        haveLessThenMaxConnections &&
-        canConnectSameComponent) {
+    if (canConnectTwoPorts(firstPort, secondPort)) {
       connectTwoPorts(firstPort, secondPort);
       selectDeselectItem();
       notifyListeners();
       return true;
     }
     return false;
+  }
+
+  bool canConnectTwoPorts(PortData firstPort, PortData secondPort) {
+    if (!portRules.canConnect(firstPort.portType, secondPort.portType)) {
+      return false;
+    }
+    if (arePortsConnected(firstPort, secondPort)) {
+      return false;
+    }
+    if (!(hasLessThanMaxConnections(firstPort) &&
+        hasLessThanMaxConnections(secondPort))) {
+      return false;
+    }
+    if (!canConnectIfSameComponent(
+        firstPort, secondPort, portRules.canConnectSameComponent)) {
+      return false;
+    }
+
+    return true;
   }
 
   bool arePortsConnected(PortData firstPort, PortData secondPort) {
@@ -200,8 +200,8 @@ class CanvasModel extends ChangeNotifier {
   }
 
   bool canConnectIfSameComponent(
-      PortData firstPort, PortData secondPort, bool canSame) {
-    if (canSame) {
+      PortData firstPort, PortData secondPort, bool canConnectSame) {
+    if (canConnectSame) {
       return true;
     } else {
       if (firstPort.componentId != secondPort.componentId) {

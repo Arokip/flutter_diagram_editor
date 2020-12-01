@@ -54,6 +54,53 @@ class PortHighlight extends StatelessWidget {
   }
 }
 
+class ConnectablePortHighlight extends StatelessWidget {
+  final PortData portData;
+  final Color color;
+  final double padding;
+  final double strokeWidth;
+  final double dashWidth;
+  final double dashSpace;
+
+  const ConnectablePortHighlight({
+    Key key,
+    @required this.portData,
+    this.color = Colors.red,
+    this.padding = 2,
+    this.strokeWidth = 2,
+    this.dashWidth = 10,
+    this.dashSpace = 5,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var componentData = Provider.of<ComponentData>(context);
+    var canvasPosition = context
+        .select<CanvasModel, Offset>((CanvasModel model) => model.position);
+    var canvasScale =
+        context.select<CanvasModel, double>((CanvasModel model) => model.scale);
+
+    return Positioned(
+      left: canvasPosition.dx +
+          canvasScale *
+              (componentData.position.dx +
+                  componentData.size.width * ((portData.alignment.x + 1) / 2)),
+      top: canvasPosition.dy +
+          canvasScale *
+              (componentData.position.dy +
+                  componentData.size.height * ((portData.alignment.y + 1) / 2)),
+      child: CustomPaint(
+        painter: PortHighlightPainter(
+          portSize: componentData.portSize * canvasScale,
+          padding: padding,
+          color: color,
+          strokeWidth: strokeWidth,
+        ),
+      ),
+    );
+  }
+}
+
 class PortHighlightPainter extends CustomPainter {
   final double portSize;
   final double padding;

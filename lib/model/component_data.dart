@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
+import 'file:///C:/Users/Arokip/Documents/FlutterApps/flutter_provider_canvas/lib/model/custom_component_data.dart';
 
 import 'component_options_data.dart';
 
@@ -20,6 +21,8 @@ class ComponentData extends ChangeNotifier with ItemSelected {
 
   bool enableResize = false;
 
+  CustomComponentData customData;
+
   ComponentData({
     this.id,
     this.position,
@@ -29,7 +32,12 @@ class ComponentData extends ChangeNotifier with ItemSelected {
     this.portSize,
     this.ports,
     this.optionsData = const ComponentOptionsData(),
+    this.customData,
   }) : assert(minSize < size);
+
+  componentNotifyListeners() {
+    notifyListeners();
+  }
 
   updateComponentDataPosition(Offset position) {
     this.position += position;
@@ -71,12 +79,8 @@ class ComponentData extends ChangeNotifier with ItemSelected {
       ports: newPorts,
       optionsData: optionsData,
       position: Offset(position.dx, position.dy + size.height) + offset,
+      customData: customData.duplicate(),
     );
-  }
-
-  setEnableResize(bool enable) {
-    enableResize = enable;
-    notifyListeners();
   }
 
   switchEnableResize() {

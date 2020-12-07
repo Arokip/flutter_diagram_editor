@@ -64,21 +64,12 @@ class Component extends StatelessWidget with ItemSelected {
                 alignment: Alignment.center,
                 children: [
                   // component body:
-                  Container(
-                    color: componentData.color,
-                    width: canvasScale * componentData.size.width,
-                    height: canvasScale * componentData.size.height,
-                    child: Center(
-                      child: Text('${componentData.id}'),
-                    ),
+                  ComponentBody(
+                    componentData: componentData,
+                    canvasScale: canvasScale,
                   ),
                   // ports:
-                  ...componentData.ports.values
-                      .map((portData) => Port(
-                            portData: portData,
-                            size: componentData.portSize,
-                          ))
-                      .toList(),
+                  ...showPorts(componentData),
                 ],
               ),
             ),
@@ -92,7 +83,6 @@ class Component extends StatelessWidget with ItemSelected {
                     height:
                         (componentData.size.height + componentData.portSize) *
                             canvasScale,
-                    // color: Colors.green,
                   ),
                   resizeCorner(componentData, linkMap, canvasScale,
                       componentData.minSize.shortestSide),
@@ -152,4 +142,129 @@ class Component extends StatelessWidget with ItemSelected {
       ),
     );
   }
+}
+
+class ComponentBody extends StatelessWidget {
+  const ComponentBody({
+    Key key,
+    @required this.componentData,
+    @required this.canvasScale,
+  }) : super(key: key);
+
+  final ComponentData componentData;
+  final double canvasScale;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () {
+        showEditComponent(context, componentData);
+      },
+      child: Container(
+        width: canvasScale * componentData.size.width,
+        height: canvasScale * componentData.size.height,
+        child: Center(
+          child: Text(
+            '${componentData.customData.title}',
+            style: TextStyle(fontSize: 16 * canvasScale),
+            maxLines: 1,
+          ),
+        ),
+        decoration: BoxDecoration(
+          color: componentData.color,
+          border: Border.all(
+            width: 2.0 * canvasScale,
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+void showEditComponent(BuildContext context, ComponentData componentData) {
+  final titleController = TextEditingController(
+      text: componentData.customData.title ?? 'fail null');
+  final descriptionController = TextEditingController(
+      text: componentData.customData.description ?? 'fail null');
+
+  disposeControllers() {
+    titleController.dispose();
+    descriptionController.dispose();
+  }
+
+  showDialog(
+    barrierDismissible: false,
+    useSafeArea: true,
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Column(
+          children: [
+            SizedBox(width: 600),
+            Container(
+              width: 50,
+              height: 50,
+              color: Colors.red,
+            ),
+            Container(
+              color: Colors.purple,
+              child: Text('whatever'),
+            ),
+            TextField(
+              controller: titleController,
+              maxLines: 1,
+              decoration: InputDecoration(
+                // hintText: 'Find Group',
+                labelText: 'Title',
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.only(left: 13),
+              ),
+            ),
+            SizedBox(height: 8),
+            TextField(
+              controller: descriptionController,
+              textInputAction: TextInputAction.newline,
+              maxLines: null,
+              decoration: InputDecoration(
+                // hintText: 'Find Group',
+                labelText: 'Description',
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.only(left: 13),
+              ),
+            ),
+          ],
+        ),
+        scrollable: true,
+        actions: [
+          FlatButton(
+            onPressed: () {
+              // disposeControllers();
+              Navigator.of(context).pop();
+            },
+            child: Text('DISCARD'),
+          ),
+          FlatButton(
+            onPressed: () {
+              componentData.customData.title = titleController.text;
+              componentData.customData.description = descriptionController.text;
+              componentData.componentNotifyListeners();
+              // disposeControllers();
+              Navigator.of(context).pop();
+            },
+            child: Text('SAVE'),
+          )
+        ],
+      );
+    },
+  );
+}
+
+List<Widget> showPorts(ComponentData componentData) {
+  return componentData.ports.values
+      .map((portData) => Port(
+            portData: portData,
+            size: componentData.portSize,
+          ))
+      .toList();
 }

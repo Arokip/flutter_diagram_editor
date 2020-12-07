@@ -7,11 +7,12 @@ import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
+import 'file:///C:/Users/Arokip/Documents/FlutterApps/flutter_provider_canvas/lib/model/custom_component_data.dart';
 
 import 'item_selected.dart';
 import 'link_data.dart';
 
-int componentCount = 50;
+int componentCount = 100;
 int linkCount = 0;
 int portPerComponentMaxCount = 4;
 
@@ -68,9 +69,9 @@ class CanvasModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  duplicateComponent(int id) {
+  duplicateComponent(int id, Offset offset) {
     int newId = generateNextComponentId;
-    addComponentToList(_componentDataMap[id].duplicate(newId, Offset(0, 24)));
+    addComponentToList(_componentDataMap[id].duplicate(newId, offset));
   }
 
   removeComponentConnections(int id) {
@@ -86,7 +87,7 @@ class CanvasModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeColor(int id) {
+  changeToRandomColor(int id) {
     _componentDataMap[id].color = randomColor();
     notifyListeners();
   }
@@ -326,7 +327,7 @@ class CanvasModel extends ChangeNotifier {
               icon: Icons.copy,
               tooltip: "Duplicate",
               onOptionTap: (cid) {
-                duplicateComponent(cid);
+                duplicateComponent(cid, Offset(0, 24));
                 print('duplicate component: $cid');
               },
             ),
@@ -335,7 +336,7 @@ class CanvasModel extends ChangeNotifier {
               icon: Icons.color_lens_outlined,
               tooltip: "Change color randomly",
               onOptionTap: (cid) {
-                changeColor(cid);
+                changeToRandomColor(cid);
                 print('change color: $cid');
               },
             ),
@@ -360,6 +361,10 @@ class CanvasModel extends ChangeNotifier {
             )
           ],
         ),
+        customData: CustomComponentData(
+          title: 'random title',
+          description: 'loooong description',
+        ),
       );
     }
     return resultMap;
@@ -373,7 +378,9 @@ class CanvasModel extends ChangeNotifier {
         componentId: componentId,
         color: randomColor(),
         borderColor: math.Random().nextBool() ? Colors.black : Colors.white,
-        alignment: Alignment(2 * math.Random().nextDouble() - 1,
+        // alignment: Alignment(2 * math.Random().nextDouble() - 1,
+        //     2 * math.Random().nextDouble() - 1),
+        alignment: Alignment(math.Random().nextBool() ? 1 : -1,
             2 * math.Random().nextDouble() - 1),
         portType: math.Random().nextInt(4).toString(),
       );

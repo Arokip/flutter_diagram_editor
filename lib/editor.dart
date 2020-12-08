@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/multiple_selection_switch_button.dart';
 import 'package:flutter_provider_canvas/reset_view_button.dart';
 import 'package:provider/provider.dart';
 
@@ -57,18 +58,27 @@ class _EditorState extends State<Editor> {
             child: Container(
               width: 80,
               height: 400,
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.black.withOpacity(0.2),
               child: DiagramEditorMenu(
                 menuComponentList: menuComponentList,
               ),
             ),
           ),
           Positioned(
-            bottom: 24,
             left: 24,
-            height: 48,
-            width: 48,
-            child: ResetViewButton(),
+            bottom: 24,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                ResetViewButton(),
+                SizedBox(
+                  width: 8,
+                ),
+                MultipleSelectionSwitchButton(
+                  openDirection: OpenDirection.top,
+                ),
+              ],
+            ),
           ),
           // DEBUG:
           Positioned(

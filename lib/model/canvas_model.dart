@@ -7,6 +7,7 @@ import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
+
 import 'file:///C:/Users/Arokip/Documents/FlutterApps/flutter_provider_canvas/lib/model/custom_component_data.dart';
 
 import 'item_selected.dart';
@@ -101,6 +102,13 @@ class CanvasModel extends ChangeNotifier {
   resetCanvasView() {
     _position = Offset(0, 0);
     _scale = 1.0;
+    notifyListeners();
+  }
+
+  bool isMultipleSelectionOn = false;
+
+  switchMS() {
+    isMultipleSelectionOn = !isMultipleSelectionOn;
     notifyListeners();
   }
 

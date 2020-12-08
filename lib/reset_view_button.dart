@@ -3,17 +3,30 @@ import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:provider/provider.dart';
 
 class ResetViewButton extends StatelessWidget {
+  final double size;
+  final Color color;
+  final Color iconColor;
+
+  const ResetViewButton({
+    Key key,
+    this.size = 48,
+    this.color = const Color(0x44000000),
+    this.iconColor = Colors.white,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CanvasModel>(
       builder: (_, canvasData, __) {
         return Container(
+          width: size,
+          height: size,
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.15),
+            color: color,
             shape: BoxShape.circle,
           ),
           child: IconButton(
-            color: Colors.white,
+            color: iconColor,
             onPressed: () {
               canvasData.resetCanvasView();
             },

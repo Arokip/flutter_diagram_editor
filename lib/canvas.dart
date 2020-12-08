@@ -113,6 +113,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     }
   }
 
+  // TODO: real size, dialog, ports ...
   void _onAcceptWithDetails(
     DragTargetDetails details,
     BuildContext context,
@@ -242,7 +243,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                   value: component,
                   child: ConnectablePortHighlight(
                     portData: port,
-                    color: Colors.green,
+                    color: Colors.amber,
                   ),
                 );
               }

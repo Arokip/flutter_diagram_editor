@@ -66,14 +66,6 @@ class ComponentOptions extends StatelessWidget {
               ),
             ],
           ),
-          // ComponentHighlight(
-          //   position: Offset(
-          //       componentData.optionsData.optionSize / 2,
-          //       componentData.optionsData.optionSize +
-          //           (componentData.portSize / 2) * canvasScale),
-          //   width: componentData.size.width * canvasScale,
-          //   height: componentData.size.height * canvasScale,
-          // ),
         ],
       ),
     );

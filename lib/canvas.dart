@@ -206,7 +206,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         child: ComponentOptions(),
       );
     }
-    return SizedBox();
+    return SizedBox.shrink();
   }
 
   Widget showComponentHighlight(CanvasModel canvasModel) {
@@ -217,7 +217,19 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         child: ComponentHighlight(),
       );
     }
-    return SizedBox();
+    return SizedBox.shrink();
+  }
+
+  List<Widget> showMultipleComponentsHighlight(CanvasModel canvasModel) {
+    if (canvasModel.isMultipleSelectionOn) {
+      return canvasModel.selectedComponents.map((componentId) {
+        return ChangeNotifierProvider<ComponentData>.value(
+          value: canvasModel.componentDataMap[componentId],
+          child: ComponentHighlight(),
+        );
+      }).toList();
+    }
+    return [];
   }
 
   Widget showPortHighlight(CanvasModel canvasModel) {
@@ -228,7 +240,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         child: PortHighlight(),
       );
     }
-    return SizedBox();
+    return SizedBox.shrink();
   }
 
   List<Widget> showConnectablePortsHighlight(CanvasModel canvasModel) {
@@ -308,6 +320,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                   showComponentHighlight(canvasModel),
                   showPortHighlight(canvasModel),
                   ...showConnectablePortsHighlight(canvasModel),
+                  ...showMultipleComponentsHighlight(canvasModel),
                 ],
               ),
             ),
@@ -318,7 +331,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         onScaleEnd: (details) => _onScaleEnd(canvasModel),
         onTap: () {
           print('canvas tapped');
-          canvasModel.selectItem(canvasModel.deselectItem);
+          canvasModel.selectDeselectItem();
+          canvasModel.clearMultipleSelectedComponents();
         },
       ),
     );

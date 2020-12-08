@@ -3,9 +3,9 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
-import 'file:///C:/Users/Arokip/Documents/FlutterApps/flutter_provider_canvas/lib/model/custom_component_data.dart';
 
 import 'component_options_data.dart';
+import 'custom_component_data.dart';
 
 class ComponentData extends ChangeNotifier with ItemSelected {
   final int id;

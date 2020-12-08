@@ -3,12 +3,10 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
-import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:provider/provider.dart';
 
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
-import 'model/port_connection.dart';
 import 'port.dart';
 
 class Component extends StatelessWidget with ItemSelected {
@@ -21,36 +19,39 @@ class Component extends StatelessWidget with ItemSelected {
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
     var canvasSelectItem = context
         .select<CanvasModel, Function>((CanvasModel model) => model.selectItem);
-
+    var isMultipleSelectionOn = context.select<CanvasModel, bool>(
+        (CanvasModel model) => model.isMultipleSelectionOn);
+    var addOrRemoveToMultipleSelection = context.select<CanvasModel, Function>(
+        (CanvasModel model) => model.addOrRemoveToMultipleSelection);
+    var addToMultipleSelection = context.select<CanvasModel, Function>(
+        (CanvasModel model) => model.addToMultipleSelection);
     var componentData = Provider.of<ComponentData>(context);
-    var linkMap = context.select<CanvasModel, Map<int, LinkData>>(
-        (CanvasModel model) => model.linkDataMap);
+    var updateLinkMap = context.select<CanvasModel, Function>(
+        (CanvasModel model) => model.updateLinkMap);
+    var moveSelectedComponents = context.select<CanvasModel, Function>(
+        (CanvasModel model) => model.moveSelectedComponents);
 
     return Positioned(
       left: canvasScale * componentData.position.dx + canvasPosition.dx,
       top: canvasScale * componentData.position.dy + canvasPosition.dy,
       child: GestureDetector(
         onTap: () {
-          print('component tapped: ${componentData.id}');
-          canvasSelectItem(componentData);
+          if (isMultipleSelectionOn) {
+            addOrRemoveToMultipleSelection(componentData.id);
+          } else {
+            canvasSelectItem(componentData);
+          }
         },
         onPanUpdate: (details) {
-          componentData
-              .updateComponentDataPosition(details.delta / canvasScale);
+          if (isMultipleSelectionOn) {
+            addToMultipleSelection(componentData.id);
+            moveSelectedComponents(details.delta / canvasScale);
+          } else {
+            componentData
+                .updateComponentDataPosition(details.delta / canvasScale);
 
-          componentData.ports.values.forEach((port) {
-            port.connections.forEach((connection) {
-              if (connection is PortConnectionOut) {
-                linkMap[connection.connectionId]
-                    .setStart(componentData.getPortCenterPoint(port.id));
-              } else if (connection is PortConnectionIn) {
-                linkMap[connection.connectionId]
-                    .setEnd(componentData.getPortCenterPoint(port.id));
-              } else {
-                throw ArgumentError('Invalid port connection.');
-              }
-            });
-          });
+            updateLinkMap(componentData.id);
+          }
         },
         child: Stack(
           // fit: StackFit.expand,
@@ -84,7 +85,7 @@ class Component extends StatelessWidget with ItemSelected {
                         (componentData.size.height + componentData.portSize) *
                             canvasScale,
                   ),
-                  resizeCorner(componentData, linkMap, canvasScale,
+                  resizeCorner(componentData, updateLinkMap, canvasScale,
                       componentData.minSize.shortestSide),
                 ],
               ),
@@ -95,8 +96,8 @@ class Component extends StatelessWidget with ItemSelected {
     );
   }
 
-  Widget resizeCorner(
-      ComponentData componentData, linkMap, double scale, double size) {
+  Widget resizeCorner(ComponentData componentData, Function updateLinkMap,
+      double scale, double size) {
     return Positioned(
       right: 0,
       bottom: 0,
@@ -104,19 +105,9 @@ class Component extends StatelessWidget with ItemSelected {
         onPanUpdate: (d) {
           componentData.resize(d.delta / scale);
 
-          componentData.ports.values.forEach((port) {
-            port.connections.forEach((connection) {
-              if (connection is PortConnectionOut) {
-                linkMap[connection.connectionId]
-                    .setStart(componentData.getPortCenterPoint(port.id));
-              } else if (connection is PortConnectionIn) {
-                linkMap[connection.connectionId]
-                    .setEnd(componentData.getPortCenterPoint(port.id));
-              } else {
-                throw ArgumentError('Invalid port connection.');
-              }
-            });
-          });
+          updateLinkMap(
+            componentData,
+          );
         },
         child: Container(
           decoration: BoxDecoration(

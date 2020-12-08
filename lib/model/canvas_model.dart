@@ -8,8 +8,7 @@ import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
 
-import 'file:///C:/Users/Arokip/Documents/FlutterApps/flutter_provider_canvas/lib/model/custom_component_data.dart';
-
+import 'custom_component_data.dart';
 import 'item_selected.dart';
 import 'link_data.dart';
 
@@ -88,27 +87,9 @@ class CanvasModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeToRandomColor(int id) {
-    _componentDataMap[id].color = randomColor();
-    notifyListeners();
-  }
-
-  resizeComponent(int id) {
-    _componentDataMap[id].switchEnableResize();
-    selectDeselectItem();
-    notifyListeners();
-  }
-
   resetCanvasView() {
     _position = Offset(0, 0);
     _scale = 1.0;
-    notifyListeners();
-  }
-
-  bool isMultipleSelectionOn = false;
-
-  switchMS() {
-    isMultipleSelectionOn = !isMultipleSelectionOn;
     notifyListeners();
   }
 
@@ -126,6 +107,17 @@ class CanvasModel extends ChangeNotifier {
   }
 
   notifyCanvasModelListeners() {
+    notifyListeners();
+  }
+
+  changeToRandomColor(int id) {
+    _componentDataMap[id].color = randomColor();
+    notifyListeners();
+  }
+
+  resizeComponent(int id) {
+    _componentDataMap[id].switchEnableResize();
+    selectDeselectItem();
     notifyListeners();
   }
 
@@ -156,6 +148,7 @@ class CanvasModel extends ChangeNotifier {
     selectedItem = item;
     selectedItem.isItemSelected = true;
 
+    turnOffMultipleSelection();
     notifyListeners();
   }
 
@@ -257,6 +250,64 @@ class CanvasModel extends ChangeNotifier {
     componentDataMap[linkData.componentInId].removeConnection(linkData.id);
     selectDeselectItem();
     notifyListeners();
+  }
+
+  void updateLinkMap(int componentId) {
+    componentDataMap[componentId].ports.values.forEach((port) {
+      port.connections.forEach((connection) {
+        if (connection is PortConnectionOut) {
+          linkDataMap[connection.connectionId].setStart(
+              componentDataMap[componentId].getPortCenterPoint(port.id));
+        } else if (connection is PortConnectionIn) {
+          linkDataMap[connection.connectionId].setEnd(
+              componentDataMap[componentId].getPortCenterPoint(port.id));
+        } else {
+          throw ArgumentError('Invalid port connection.');
+        }
+      });
+    });
+  }
+
+  // ==== multiple selection ====
+
+  bool isMultipleSelectionOn = false;
+  List<int> selectedComponents = [];
+
+  switchMultipleSelection() {
+    isMultipleSelectionOn = !isMultipleSelectionOn;
+    selectDeselectItem();
+    notifyListeners();
+  }
+
+  addToMultipleSelection(int componentId) {
+    if (!selectedComponents.contains(componentId)) {
+      selectedComponents.add(componentId);
+      notifyListeners();
+    }
+  }
+
+  addOrRemoveToMultipleSelection(int componentId) {
+    if (!selectedComponents.remove(componentId)) {
+      selectedComponents.add(componentId);
+    }
+    notifyListeners();
+  }
+
+  turnOffMultipleSelection() {
+    isMultipleSelectionOn = false;
+    selectedComponents = [];
+  }
+
+  clearMultipleSelectedComponents() {
+    turnOffMultipleSelection();
+    notifyListeners();
+  }
+
+  moveSelectedComponents(Offset position) {
+    selectedComponents.forEach((componentId) {
+      componentDataMap[componentId].updateComponentDataPosition(position);
+      updateLinkMap(componentId);
+    });
   }
 
   // ==== IDs ====

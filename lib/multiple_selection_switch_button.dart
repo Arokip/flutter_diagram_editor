@@ -167,8 +167,8 @@ class MultipleSelectionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var switchMS = context
-        .select<CanvasModel, Function>((CanvasModel model) => model.switchMS);
+    var switchMS = context.select<CanvasModel, Function>(
+        (CanvasModel model) => model.switchMultipleSelection);
 
     return Container(
       width: size,

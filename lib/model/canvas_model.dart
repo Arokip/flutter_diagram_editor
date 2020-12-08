@@ -11,6 +11,7 @@ import 'package:flutter_provider_canvas/model/port_rules.dart';
 import 'custom_component_data.dart';
 import 'item_selected.dart';
 import 'link_data.dart';
+import 'multiple_selection_option_data.dart';
 
 int componentCount = 100;
 int linkCount = 0;
@@ -34,6 +35,11 @@ class CanvasModel extends ChangeNotifier {
 
   final PortRules portRules = PortRules();
 
+  bool isMultipleSelectionOn = false;
+  List<int> selectedComponents = [];
+
+  List<MultipleSelectionOptionData> multipleSelectionOptions = [];
+
   CanvasModel() {
     // _componentDataMap = generateComponents(componentCount);
     _componentDataMap = generateRandomComponents(componentCount);
@@ -41,6 +47,8 @@ class CanvasModel extends ChangeNotifier {
     _linkDataMap = generateRandomLinks(linkCount);
 
     generatePortRules();
+
+    multipleSelectionOptions = generateMultipleSelectedOptions();
 
     // _linkDataMap[-1] =
     //     LinkData(start: Offset(0, 0), end: Offset(200, 100), width: 5);
@@ -270,9 +278,6 @@ class CanvasModel extends ChangeNotifier {
 
   // ==== multiple selection ====
 
-  bool isMultipleSelectionOn = false;
-  List<int> selectedComponents = [];
-
   switchMultipleSelection() {
     isMultipleSelectionOn = !isMultipleSelectionOn;
     selectDeselectItem();
@@ -307,6 +312,19 @@ class CanvasModel extends ChangeNotifier {
     selectedComponents.forEach((componentId) {
       componentDataMap[componentId].updateComponentDataPosition(position);
       updateLinkMap(componentId);
+    });
+  }
+
+  removeAllSelectedComponents() {
+    selectedComponents.forEach((componentId) {
+      removeComponentFromList(componentId);
+    });
+    clearMultipleSelectedComponents();
+  }
+
+  removeAllSelectedConnections() {
+    selectedComponents.forEach((componentId) {
+      removeComponentConnections(componentId);
     });
   }
 
@@ -511,5 +529,20 @@ class CanvasModel extends ChangeNotifier {
     // portRules.canConnectSameComponent = true;
 
     portRules.setMaxConnectionCount("0", 2);
+  }
+
+  List<MultipleSelectionOptionData> generateMultipleSelectedOptions() {
+    return [
+      MultipleSelectionOptionData(
+        icon: Icons.link_off,
+        tooltip: "Delete connections",
+        onOptionTap: removeAllSelectedConnections,
+      ),
+      MultipleSelectionOptionData(
+        icon: Icons.delete_forever,
+        tooltip: "Delete",
+        onOptionTap: removeAllSelectedComponents,
+      ),
+    ];
   }
 }

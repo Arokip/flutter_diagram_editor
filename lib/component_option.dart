@@ -6,14 +6,12 @@ class ComponentOption extends StatelessWidget {
   final int componentId;
   final double optionSize;
   final ComponentOptionData option;
-  final tooltip;
 
   const ComponentOption({
     Key key,
     @required this.componentId,
     @required this.optionSize,
     @required this.option,
-    this.tooltip,
   }) : super(key: key);
 
   @override
@@ -26,7 +24,7 @@ class ComponentOption extends StatelessWidget {
       width: optionSize,
       height: optionSize,
       child: IconButton(
-        tooltip: tooltip,
+        tooltip: option.tooltip,
         icon: Icon(option.icon),
         onPressed: () {
           if (option.onOptionTap != null) {

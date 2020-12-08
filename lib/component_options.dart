@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'component_option.dart';
-import 'component_highlight.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 
@@ -39,7 +38,6 @@ class ComponentOptions extends StatelessWidget {
                         componentId: componentData.id,
                         optionSize: componentData.optionsData.optionSize,
                         option: option,
-                        tooltip: option.tooltip,
                       ),
                     ),
                   ),
@@ -58,7 +56,6 @@ class ComponentOptions extends StatelessWidget {
                         componentId: componentData.id,
                         optionSize: componentData.optionsData.optionSize,
                         option: option,
-                        tooltip: option.tooltip,
                       ),
                     ),
                   ),

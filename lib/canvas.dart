@@ -237,7 +237,10 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     if (data is PortData) {
       return ChangeNotifierProvider<ComponentData>.value(
         value: canvasModel.componentDataMap[data.componentId],
-        child: PortHighlight(),
+        child: PortHighlight(
+          portData: data,
+          color: Colors.green,
+        ),
       );
     }
     return SizedBox.shrink();
@@ -253,7 +256,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                   port != selectedPort) {
                 return ChangeNotifierProvider<ComponentData>.value(
                   value: component,
-                  child: ConnectablePortHighlight(
+                  child: PortHighlight(
                     portData: port,
                     color: Colors.amber,
                   ),

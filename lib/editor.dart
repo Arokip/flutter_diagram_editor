@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/delete_all_button.dart';
 import 'package:flutter_provider_canvas/multiple_selection_switch_button.dart';
+import 'package:flutter_provider_canvas/remove_all_connections_button.dart';
 import 'package:flutter_provider_canvas/reset_view_button.dart';
 import 'package:provider/provider.dart';
 
@@ -71,12 +73,14 @@ class _EditorState extends State<Editor> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 ResetViewButton(),
-                SizedBox(
-                  width: 8,
-                ),
+                SizedBox(width: 8),
                 MultipleSelectionSwitchButton(
                   openDirection: OpenDirection.top,
                 ),
+                SizedBox(width: 8),
+                DeleteAllButton(),
+                SizedBox(width: 8),
+                RemoveAllConnectionsButton(),
               ],
             ),
           ),

@@ -315,20 +315,33 @@ class CanvasModel extends ChangeNotifier {
     });
   }
 
-  removeAllSelectedComponents() {
+  removeSelectedComponents() {
     selectedComponents.forEach((componentId) {
       removeComponentFromList(componentId);
     });
     clearMultipleSelectedComponents();
   }
 
-  removeAllSelectedConnections() {
+  removeSelectedConnections() {
     selectedComponents.forEach((componentId) {
       removeComponentConnections(componentId);
     });
   }
 
-  // ==== IDs ====
+  // ==== functions all ====
+
+  removeAllComponents() {
+    var componentsToRemove = componentDataMap.keys.toList();
+    componentsToRemove.forEach(removeComponentFromList);
+  }
+
+  removeAllConnections() {
+    componentDataMap.values.forEach((component) {
+      removeComponentConnections(component.id);
+    });
+  }
+
+  // ==== IDs ==== TODO: improve
 
   int get generateNextComponentId => _componentIdGen++;
 
@@ -536,12 +549,12 @@ class CanvasModel extends ChangeNotifier {
       MultipleSelectionOptionData(
         icon: Icons.link_off,
         tooltip: "Delete connections",
-        onOptionTap: removeAllSelectedConnections,
+        onOptionTap: removeSelectedConnections,
       ),
       MultipleSelectionOptionData(
         icon: Icons.delete_forever,
         tooltip: "Delete",
-        onOptionTap: removeAllSelectedComponents,
+        onOptionTap: removeSelectedComponents,
       ),
     ];
   }

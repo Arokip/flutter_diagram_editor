@@ -11,6 +11,7 @@ import 'link.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 import 'model/component_options_data.dart';
+import 'model/custom_component_data.dart';
 import 'model/menu_component_data.dart';
 import 'model/port_data.dart';
 
@@ -113,7 +114,6 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     }
   }
 
-  // TODO: real size, dialog, ports ...
   void _onAcceptWithDetails(
     DragTargetDetails details,
     BuildContext context,
@@ -146,6 +146,10 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                 color: Colors.amber,
                 icon: Icons.no_transfer_sharp)
           ],
+        ),
+        customData: CustomComponentData(
+          title: 'random title',
+          description: 'loooong description',
         ),
       ),
     );

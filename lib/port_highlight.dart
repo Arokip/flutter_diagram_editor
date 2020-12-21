@@ -10,8 +10,6 @@ class PortHighlight extends StatelessWidget {
   final Color color;
   final double padding;
   final double strokeWidth;
-  final double dashWidth;
-  final double dashSpace;
 
   const PortHighlight({
     Key key,
@@ -19,9 +17,8 @@ class PortHighlight extends StatelessWidget {
     this.color = Colors.amber,
     this.padding = 2,
     this.strokeWidth = 2,
-    this.dashWidth = 10,
-    this.dashSpace = 5,
-  }) : super(key: key);
+  })  : assert(strokeWidth >= 0),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +60,7 @@ class PortHighlightPainter extends CustomPainter {
     @required this.padding,
     @required this.color,
     @required this.strokeWidth,
-  });
+  }) : assert(strokeWidth > 0);
 
   @override
   void paint(Canvas canvas, Size size) {

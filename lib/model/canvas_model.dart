@@ -357,21 +357,21 @@ class CanvasModel extends ChangeNotifier {
 
   // ==== HELPERS ====
 
-  HashMap<int, ComponentData> generateComponents(int number) {
-    HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
-    for (int j = 0; j < number / 100; j++) {
-      for (int i = 0;
-          i < ((number - j * 100) >= 100 ? 100 : (number % 100));
-          i++) {
-        resultMap[generateNextComponentId] = ComponentData(
-            id: getLastUsedComponentId,
-            position: Offset(i * 3.0, i * 3.0 + 100 * j),
-            color: randomColor(),
-            size: Size(50, 50));
-      }
-    }
-    return resultMap;
-  }
+  // HashMap<int, ComponentData> generateComponents(int number) {
+  //   HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
+  //   for (int j = 0; j < number / 100; j++) {
+  //     for (int i = 0;
+  //         i < ((number - j * 100) >= 100 ? 100 : (number % 100));
+  //         i++) {
+  //       resultMap[generateNextComponentId] = ComponentData(
+  //           id: getLastUsedComponentId,
+  //           position: Offset(i * 3.0, i * 3.0 + 100 * j),
+  //           color: randomColor(),
+  //           size: Size(50, 50));
+  //     }
+  //   }
+  //   return resultMap;
+  // }
 
   HashMap<int, ComponentData> generateRandomComponents(int number) {
     HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();

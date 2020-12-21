@@ -12,7 +12,8 @@ class ComponentOption extends StatelessWidget {
     @required this.componentId,
     @required this.optionSize,
     @required this.option,
-  }) : super(key: key);
+  })  : assert(optionSize > 0),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

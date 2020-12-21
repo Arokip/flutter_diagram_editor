@@ -9,7 +9,7 @@ class ComponentOptionsData {
     this.optionSize = 40,
     this.optionsTop = const [],
     this.optionsBottom = const [],
-  });
+  }) : assert(optionSize > 0);
 }
 
 class ComponentOptionData {

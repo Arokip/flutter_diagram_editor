@@ -15,7 +15,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
   final Size minSize;
   final double portSize;
 
-  final HashMap<int, PortData> ports;
+  HashMap<int, PortData> ports = HashMap<int, PortData>();
 
   final ComponentOptionsData optionsData;
 
@@ -24,16 +24,22 @@ class ComponentData extends ChangeNotifier with ItemSelected {
   CustomComponentData customData;
 
   ComponentData({
-    this.id,
-    this.position,
-    this.color,
-    this.size,
+    @required this.id,
+    this.position = Offset.zero,
+    this.color = Colors.white,
+    this.size = const Size(80, 80),
     this.minSize = const Size(32, 32),
-    this.portSize,
-    this.ports,
+    this.portSize = 20,
+    @required this.ports,
     this.optionsData = const ComponentOptionsData(),
     this.customData,
-  }) : assert(minSize < size);
+  })  : assert(minSize < size),
+        assert(position != null),
+        assert(size != null),
+        assert(portSize != null),
+        assert(portSize > 0),
+        assert(ports != null),
+        assert(optionsData != null);
 
   componentNotifyListeners() {
     notifyListeners();

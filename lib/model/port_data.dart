@@ -8,8 +8,6 @@ class PortData with ItemSelected {
   final int componentId;
   final Color color;
   final Color borderColor;
-  final Color highlightColor;
-  final Color highLightBorderColor;
   final Alignment alignment;
 
   final String portType;
@@ -21,13 +19,11 @@ class PortData with ItemSelected {
   PortData({
     @required this.id,
     @required this.componentId,
-    @required this.color,
-    @required this.borderColor,
-    this.highlightColor,
-    this.highLightBorderColor,
-    @required this.alignment,
+    this.color = Colors.white,
+    this.borderColor = Colors.black,
+    this.alignment = Alignment.center,
     this.portType,
-  });
+  }) : assert(alignment != null);
 
   addConnection(PortConnection portConnection) {
     _connections.add(portConnection);

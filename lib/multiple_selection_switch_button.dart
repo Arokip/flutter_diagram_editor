@@ -222,7 +222,8 @@ class MultipleSelectionOption extends StatelessWidget {
     Key key,
     @required this.size,
     @required this.option,
-  }) : super(key: key);
+  })  : assert(size > 0),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

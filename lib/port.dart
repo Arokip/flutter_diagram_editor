@@ -10,9 +10,10 @@ class Port extends StatelessWidget {
 
   const Port({
     Key key,
-    this.portData,
-    this.size,
-  }) : super(key: key);
+    @required this.portData,
+    this.size = 20,
+  })  : assert(size > 0),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

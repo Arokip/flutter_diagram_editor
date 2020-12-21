@@ -12,7 +12,8 @@ class RemoveAllConnectionsButton extends StatelessWidget {
     this.size = 48,
     this.color = const Color(0x44000000),
     this.iconColor = Colors.white,
-  }) : super(key: key);
+  })  : assert(size > 0),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

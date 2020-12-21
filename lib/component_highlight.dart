@@ -16,7 +16,10 @@ class ComponentHighlight extends StatelessWidget {
     this.strokeWidth = 2,
     this.dashWidth = 10,
     this.dashSpace = 5,
-  }) : super(key: key);
+  })  : assert(strokeWidth > 0),
+        assert(dashWidth > 0),
+        assert(dashSpace >= 0),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

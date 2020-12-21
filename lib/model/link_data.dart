@@ -8,22 +8,20 @@ class LinkData extends ChangeNotifier with ItemSelected {
   final int componentInId;
   final Color color;
   final double width;
-
-  // Offset start;
-  // Offset end;
+  final double tipSize;
 
   final List<Offset> linkPoints;
 
   LinkData({
-    this.id,
-    this.componentOutId,
-    this.componentInId,
+    @required this.id,
+    @required this.componentOutId,
+    @required this.componentInId,
     this.color = Colors.black,
     this.width = 1.0,
-    this.linkPoints,
-    // this.start,
-    // this.end,
-  });
+    this.tipSize = 5.0,
+    @required this.linkPoints,
+  })  : assert(width > 0),
+        assert(tipSize > 0);
 
   setStart(Offset start) {
     linkPoints[0] = start;
@@ -34,17 +32,6 @@ class LinkData extends ChangeNotifier with ItemSelected {
     linkPoints[linkPoints.length - 1] = end;
     notifyListeners();
   }
-
-  // middle pointy zůstávaj
-  // updateLinkDataPosition(Offset position) {
-  //   this.start += position;
-  //   this.end += position;
-  //   middlePoints.forEach((point) {
-  //     point += position;
-  //   });
-  //
-  //   notifyListeners();
-  // }
 
   insertMiddlePoint(Offset point, int index) {
     assert(index <= linkPoints.length);

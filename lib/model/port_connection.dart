@@ -1,12 +1,14 @@
+import 'package:flutter/material.dart';
+
 abstract class PortConnection {
   final int connectionId;
   final int componentId;
   final int portId;
 
   PortConnection({
-    this.connectionId,
-    this.componentId,
-    this.portId,
+    @required this.connectionId,
+    @required this.componentId,
+    @required this.portId,
   });
 }
 

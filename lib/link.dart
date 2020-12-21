@@ -43,6 +43,7 @@ class _LinkState extends State<Link> {
       width: linkData.width,
       scale: canvasScale,
       color: linkData.color,
+      tipSize: linkData.tipSize,
     );
 
     return GestureDetector(
@@ -143,13 +144,16 @@ class LinkPainter extends CustomPainter {
   final double scale;
   final double width;
   final Color color;
+  final double tipSize;
 
   LinkPainter({
-    this.linkPoints,
-    this.scale,
-    this.width,
-    this.color,
-  });
+    @required this.linkPoints,
+    @required this.scale,
+    @required this.width,
+    @required this.color,
+    @required this.tipSize,
+  })  : assert(width > 0),
+        assert(tipSize > 0);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -175,7 +179,7 @@ class LinkPainter extends CustomPainter {
         getTriangleTipPath(
           linkPoints[linkPoints.length - 2],
           linkPoints[linkPoints.length - 1],
-          5,
+          tipSize,
         ),
         paint);
 
@@ -298,10 +302,10 @@ class DeleteIconPainter extends CustomPainter {
   final Color color;
 
   DeleteIconPainter({
-    this.location,
-    this.radius,
-    this.color,
-  });
+    @required this.location,
+    @required this.radius,
+    @required this.color,
+  }) : assert(radius > 0);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -358,11 +362,11 @@ class LinkJointPainter extends CustomPainter {
   final Color color;
 
   LinkJointPainter({
-    this.location,
-    this.radius,
-    this.scale,
-    this.color,
-  });
+    @required this.location,
+    @required this.radius,
+    @required this.scale,
+    @required this.color,
+  }) : assert(radius > 0);
 
   @override
   void paint(Canvas canvas, Size size) {

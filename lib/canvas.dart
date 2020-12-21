@@ -21,10 +21,6 @@ double maxScale = 8.0;
 double minScale = 0.1;
 
 class DiagramEditorCanvas extends StatefulWidget {
-  const DiagramEditorCanvas({
-    Key key,
-  }) : super(key: key);
-
   @override
   _DiagramEditorCanvasState createState() => _DiagramEditorCanvasState();
 }

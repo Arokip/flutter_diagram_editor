@@ -6,7 +6,7 @@ import 'model/menu_component_data.dart';
 class DiagramEditorMenu extends StatelessWidget {
   final List<MenuComponentData> menuComponentList;
 
-  // TODO: horizonatl/vertical menu
+  // TODO: horizontal/vertical menu
 
   const DiagramEditorMenu({
     Key key,

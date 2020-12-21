@@ -106,7 +106,7 @@ class Component extends StatelessWidget with ItemSelected {
           componentData.resize(d.delta / scale);
 
           updateLinkMap(
-            componentData,
+            componentData.id,
           );
         },
         child: Container(

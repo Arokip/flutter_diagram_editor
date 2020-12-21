@@ -10,9 +10,6 @@ import 'component.dart';
 import 'link.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
-import 'model/component_options_data.dart';
-import 'model/custom_component_data.dart';
-import 'model/menu_component_data.dart';
 import 'model/port_data.dart';
 
 double mouseScaleSpeed = 0.8;
@@ -117,37 +114,17 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   ) {
     final RenderBox renderBox = context.findRenderObject();
     final Offset localOffset = renderBox.globalToLocal(details.offset);
-    MenuComponentData menuComponentData = details.data;
+    ComponentData menuComponentData = details.data;
     int componentId = canvasModel.generateNextComponentId;
+    Offset componentPosition = (localOffset - canvasModel.position) /
+            canvasModel.scale +
+        Offset(menuComponentData.size.width / canvasModel.scale / 2,
+            menuComponentData.size.height / canvasModel.scale / 2) -
+        Offset(menuComponentData.size.width / 2,
+            menuComponentData.size.height / 2) -
+        Offset(menuComponentData.portSize / 2, menuComponentData.portSize / 2);
     canvasModel.addComponentToList(
-      ComponentData(
-        id: componentId,
-        color: menuComponentData.color,
-        size: menuComponentData.size,
-        position: (localOffset - canvasModel.position) / canvasModel.scale +
-            Offset(menuComponentData.size.width / canvasModel.scale / 2,
-                menuComponentData.size.height / canvasModel.scale / 2) -
-            Offset(menuComponentData.size.width / 2,
-                menuComponentData.size.height / 2) -
-            Offset(
-                menuComponentData.portSize / 2, menuComponentData.portSize / 2),
-        portSize: menuComponentData.portSize,
-        ports:
-            canvasModel.generatePortData(canvasModel.getLastUsedComponentId, 2),
-        optionsData: ComponentOptionsData(
-          optionSize: 64,
-          optionsTop: [
-            ComponentOptionData(
-                onOptionTap: (cid) => canvasModel.removeComponentFromList(cid),
-                color: Colors.amber,
-                icon: Icons.no_transfer_sharp)
-          ],
-        ),
-        customData: CustomComponentData(
-          title: 'random title',
-          description: 'loooong description',
-        ),
-      ),
+      menuComponentData.duplicate(componentId, componentPosition),
     );
   }
 
@@ -165,14 +142,14 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   Widget addDragTarget(CanvasModel canvasModel) {
     return SizedBox(
       // it's here, because DragTarget outside is lagging (draggable cannot be accepted when user drops it on an component)
-      child: DragTarget<MenuComponentData>(
-        builder: (BuildContext context, List<MenuComponentData> candidateData,
+      child: DragTarget<ComponentData>(
+        builder: (BuildContext context, List<ComponentData> candidateData,
             List<dynamic> rejectedData) {
           return Container(
             color: Colors.transparent,
           );
         },
-        onWillAccept: (MenuComponentData data) => true,
+        onWillAccept: (ComponentData data) => true,
         onAcceptWithDetails: (details) =>
             _onAcceptWithDetails(details, context, canvasModel),
       ),

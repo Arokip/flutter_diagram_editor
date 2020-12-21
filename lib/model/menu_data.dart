@@ -1,9 +1,13 @@
-import 'menu_component_data.dart';
+import 'component_data.dart';
 
 class MenuData {
-  final List<MenuComponentData> menuComponentDataList;
+  List<ComponentData> menuComponentDataList = [];
 
-  MenuData({
-    this.menuComponentDataList,
-  });
+  addComponentToMenu(ComponentData componentData) {
+    menuComponentDataList.add(componentData);
+  }
+
+  addComponentsToMenu(List<ComponentData> componentDataList) {
+    menuComponentDataList.addAll(componentDataList);
+  }
 }

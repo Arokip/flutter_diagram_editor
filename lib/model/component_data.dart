@@ -84,7 +84,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
       portSize: portSize,
       ports: newPorts,
       optionsData: optionsData,
-      position: Offset(position.dx, position.dy + size.height) + offset,
+      position: position + offset,
       customData: customData.duplicate(),
     );
   }

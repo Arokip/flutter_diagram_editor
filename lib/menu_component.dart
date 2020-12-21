@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'model/menu_component_data.dart';
+import 'model/component_data.dart';
 
 class MenuComponent extends StatelessWidget {
-  final MenuComponentData menuComponentData;
+  final ComponentData menuComponentData;
 
   MenuComponent({
     Key key,
@@ -20,26 +20,8 @@ class MenuComponent extends StatelessWidget {
   }
 }
 
-class MenuComponentWhenDragging extends StatelessWidget {
-  final MenuComponentData menuComponentData;
-
-  MenuComponentWhenDragging({
-    Key key,
-    this.menuComponentData,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: menuComponentData.size.width,
-      height: menuComponentData.size.height,
-      color: menuComponentData.color,
-    );
-  }
-}
-
 class DraggableMenuComponent extends StatelessWidget {
-  final MenuComponentData menuComponentData;
+  final ComponentData menuComponentData;
 
   DraggableMenuComponent({
     Key key,
@@ -48,13 +30,13 @@ class DraggableMenuComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Draggable<MenuComponentData>(
+    return Draggable<ComponentData>(
       affinity: Axis.horizontal,
       data: menuComponentData,
       childWhenDragging: MenuComponent(
         menuComponentData: menuComponentData,
       ),
-      feedback: MenuComponentWhenDragging(
+      feedback: MenuComponent(
         menuComponentData: menuComponentData,
       ),
       child: MenuComponent(

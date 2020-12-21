@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/menu_data.dart';
+import 'package:provider/provider.dart';
 
 import 'menu_component.dart';
-import 'model/menu_component_data.dart';
+import 'model/canvas_model.dart';
+import 'model/component_data.dart';
 
 class DiagramEditorMenu extends StatelessWidget {
-  final List<MenuComponentData> menuComponentList;
-
   // TODO: horizontal/vertical menu
 
-  const DiagramEditorMenu({
-    Key key,
-    this.menuComponentList,
-  }) : super(key: key);
-
   Widget menuComponentWithRightSize(
-      MenuComponentData menuComponentData, BoxConstraints size) {
-    if (menuComponentData.size.width > size.maxWidth - 40) {
+      ComponentData componentData, BoxConstraints size) {
+    if (componentData.size.width > size.maxWidth - 40) {
       return AspectRatio(
-        aspectRatio:
-            menuComponentData.size.width / menuComponentData.size.height,
+        aspectRatio: componentData.size.width / componentData.size.height,
         child: DraggableMenuComponent(
-          menuComponentData: menuComponentData,
+          menuComponentData: componentData,
         ),
       );
     } else {
       return Align(
         alignment: Alignment.center,
         child: DraggableMenuComponent(
-          menuComponentData: menuComponentData,
+          menuComponentData: componentData,
         ),
       );
     }
@@ -35,14 +30,16 @@ class DiagramEditorMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var menuData = context
+        .select<CanvasModel, MenuData>((CanvasModel model) => model.menuData);
     return LayoutBuilder(builder: (context, size) {
       return ListView(
         children: <Widget>[
-          ...menuComponentList
+          ...menuData.menuComponentDataList
               .map(
-                (MenuComponentData menuComponentData) => Padding(
+                (ComponentData componentData) => Padding(
                   padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                  child: menuComponentWithRightSize(menuComponentData, size),
+                  child: menuComponentWithRightSize(componentData, size),
                 ),
               )
               .toList(),

@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/component_options_data.dart';
+import 'package:flutter_provider_canvas/model/menu_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
@@ -16,6 +17,7 @@ import 'multiple_selection_option_data.dart';
 int componentCount = 100;
 int linkCount = 0;
 int portPerComponentMaxCount = 4;
+int menuComponentCount = 20;
 
 class CanvasModel extends ChangeNotifier {
   int _componentIdGen = 0;
@@ -26,6 +28,7 @@ class CanvasModel extends ChangeNotifier {
 
   HashMap<int, ComponentData> _componentDataMap;
   HashMap<int, LinkData> _linkDataMap;
+  MenuData menuData = MenuData();
 
   final double _portSize = 20;
   final double _optionSize = 40;
@@ -41,17 +44,16 @@ class CanvasModel extends ChangeNotifier {
   List<MultipleSelectionOptionData> multipleSelectionOptions = [];
 
   CanvasModel() {
-    // _componentDataMap = generateComponents(componentCount);
     _componentDataMap = generateRandomComponents(componentCount);
 
     _linkDataMap = generateRandomLinks(linkCount);
 
     generatePortRules();
 
-    multipleSelectionOptions = generateMultipleSelectedOptions();
+    menuData.addComponentsToMenu(
+        generateRandomComponents(menuComponentCount, true).values.toList());
 
-    // _linkDataMap[-1] =
-    //     LinkData(start: Offset(0, 0), end: Offset(200, 100), width: 5);
+    multipleSelectionOptions = generateMultipleSelectedOptions();
   }
 
   Offset get position => _position;
@@ -80,6 +82,12 @@ class CanvasModel extends ChangeNotifier {
   duplicateComponent(int id, Offset offset) {
     int newId = generateNextComponentId;
     addComponentToList(_componentDataMap[id].duplicate(newId, offset));
+  }
+
+  duplicateComponentBelow(int id, Offset offset) {
+    int newId = generateNextComponentId;
+    addComponentToList(_componentDataMap[id].duplicate(
+        newId, offset + Offset(0, _componentDataMap[id].size.height)));
   }
 
   removeComponentConnections(int id) {
@@ -357,23 +365,8 @@ class CanvasModel extends ChangeNotifier {
 
   // ==== HELPERS ====
 
-  // HashMap<int, ComponentData> generateComponents(int number) {
-  //   HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
-  //   for (int j = 0; j < number / 100; j++) {
-  //     for (int i = 0;
-  //         i < ((number - j * 100) >= 100 ? 100 : (number % 100));
-  //         i++) {
-  //       resultMap[generateNextComponentId] = ComponentData(
-  //           id: getLastUsedComponentId,
-  //           position: Offset(i * 3.0, i * 3.0 + 100 * j),
-  //           color: randomColor(),
-  //           size: Size(50, 50));
-  //     }
-  //   }
-  //   return resultMap;
-  // }
-
-  HashMap<int, ComponentData> generateRandomComponents(int number) {
+  HashMap<int, ComponentData> generateRandomComponents(int number,
+      [bool zeroPosition = false]) {
     HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
 
     for (int i = 0; i < number; i++) {
@@ -383,8 +376,10 @@ class CanvasModel extends ChangeNotifier {
         color: randomColor(),
         size: Size(40 + 200 * math.Random().nextDouble(),
             40 + 120 * math.Random().nextDouble()),
-        position: Offset(1200 * 2 * (math.Random().nextDouble() - 0.5),
-            1200 * 2 * (math.Random().nextDouble() - 0.5)),
+        position: zeroPosition
+            ? Offset.zero
+            : Offset(1200 * 2 * (math.Random().nextDouble() - 0.5),
+                1200 * 2 * (math.Random().nextDouble() - 0.5)),
         portSize: _portSize,
         ports: generatePortData(
             componentId, math.Random().nextInt(portPerComponentMaxCount + 1)),
@@ -417,7 +412,7 @@ class CanvasModel extends ChangeNotifier {
               icon: Icons.copy,
               tooltip: "Duplicate",
               onOptionTap: (cid) {
-                duplicateComponent(cid, Offset(0, 24));
+                duplicateComponentBelow(cid, Offset(0, 24));
                 print('duplicate component: $cid');
               },
             ),

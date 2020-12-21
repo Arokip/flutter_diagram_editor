@@ -336,9 +336,36 @@ class CanvasModel extends ChangeNotifier {
     });
   }
 
+  duplicateSelectedComponents() {
+    print('duplicate');
+    double mostTop = double.infinity;
+    double mostBottom = double.negativeInfinity;
+    selectedComponents.forEach((componentId) {
+      if (mostTop > _componentDataMap[componentId].position.dy) {
+        mostTop = _componentDataMap[componentId].position.dy;
+      }
+      if (mostBottom <
+          _componentDataMap[componentId].position.dy +
+              _componentDataMap[componentId].size.height) {
+        mostBottom = _componentDataMap[componentId].position.dy +
+            _componentDataMap[componentId].size.height;
+      }
+    });
+    selectedComponents.forEach((componentId) {
+      duplicateComponent(componentId, Offset(0, mostBottom - mostTop + 24));
+    });
+  }
+
+  selectAllComponents() {
+    _componentDataMap.keys.forEach((componentId) {
+      addToMultipleSelection(componentId);
+    });
+  }
+
   // ==== functions all ====
 
   removeAllComponents() {
+    clearMultipleSelectedComponents();
     var componentsToRemove = componentDataMap.keys.toList();
     componentsToRemove.forEach(removeComponentFromList);
   }
@@ -550,6 +577,16 @@ class CanvasModel extends ChangeNotifier {
         icon: Icons.delete_forever,
         tooltip: "Delete",
         onOptionTap: removeSelectedComponents,
+      ),
+      MultipleSelectionOptionData(
+        icon: Icons.copy,
+        tooltip: "Duplicate",
+        onOptionTap: duplicateSelectedComponents,
+      ),
+      MultipleSelectionOptionData(
+        icon: Icons.all_inclusive,
+        tooltip: "Select all",
+        onOptionTap: selectAllComponents,
       ),
     ];
   }

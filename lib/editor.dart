@@ -15,23 +15,6 @@ class Editor extends StatefulWidget {
 }
 
 class _EditorState extends State<Editor> {
-  // List<ComponentData> generateMenuComponents(int number) {
-  //   List<ComponentData> resultList = [];
-  //   for (int i = 0; i < number; i++) {
-  //     resultList.add(ComponentData(
-  //       id: 0,
-  //       color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-  //           .withOpacity(1.0),
-  //       size: Size(10 + 80 * math.Random().nextDouble(),
-  //           10 + 80 * math.Random().nextDouble()),
-  //       portSize: 20,
-  //       ports:
-  //           canvasModel.generatePortData(canvasModel.getLastUsedComponentId, 2),
-  //     ));
-  //   }
-  //   return resultList;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<CanvasModel>(
@@ -52,8 +35,10 @@ class _EditorState extends State<Editor> {
             child: Container(
               width: 80,
               height: 400,
-              color: Colors.black.withOpacity(0.2),
-              child: DiagramEditorMenu(),
+              color: Colors.black.withOpacity(0.24),
+              child: DiagramEditorMenu(
+                  // scrollDirection: Axis.horizontal,
+                  ),
             ),
           ),
           Positioned(

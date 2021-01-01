@@ -7,15 +7,25 @@ import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 
 class DiagramEditorMenu extends StatelessWidget {
-  // TODO: horizontal/vertical menu
+  final Axis scrollDirection;
+
+  const DiagramEditorMenu({
+    Key key,
+    this.scrollDirection = Axis.vertical,
+  })  : assert(scrollDirection != null),
+        super(key: key);
 
   Widget menuComponentWithRightSize(
       ComponentData componentData, BoxConstraints size) {
-    if (componentData.size.width > size.maxWidth - 40) {
+    bool useAspectRatio = (scrollDirection == Axis.vertical)
+        ? componentData.size.width > size.maxWidth
+        : componentData.size.height > size.maxHeight;
+    if (useAspectRatio) {
       return AspectRatio(
         aspectRatio: componentData.size.width / componentData.size.height,
         child: DraggableMenuComponent(
           menuComponentData: componentData,
+          affinity: flipAxis(scrollDirection),
         ),
       );
     } else {
@@ -23,6 +33,7 @@ class DiagramEditorMenu extends StatelessWidget {
         alignment: Alignment.center,
         child: DraggableMenuComponent(
           menuComponentData: componentData,
+          affinity: flipAxis(scrollDirection),
         ),
       );
     }
@@ -32,8 +43,10 @@ class DiagramEditorMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     var menuData = context
         .select<CanvasModel, MenuData>((CanvasModel model) => model.menuData);
+
     return LayoutBuilder(builder: (context, size) {
       return ListView(
+        scrollDirection: scrollDirection,
         children: <Widget>[
           ...menuData.menuComponentDataList
               .map(

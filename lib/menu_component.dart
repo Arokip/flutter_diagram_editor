@@ -22,16 +22,19 @@ class MenuComponent extends StatelessWidget {
 
 class DraggableMenuComponent extends StatelessWidget {
   final ComponentData menuComponentData;
+  final Axis affinity;
 
   DraggableMenuComponent({
     Key key,
     this.menuComponentData,
-  }) : super(key: key);
+    this.affinity = Axis.horizontal,
+  })  : assert(affinity != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Draggable<ComponentData>(
-      affinity: Axis.horizontal,
+      affinity: affinity,
       data: menuComponentData,
       childWhenDragging: MenuComponent(
         menuComponentData: menuComponentData,

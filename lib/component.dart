@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:provider/provider.dart';
 
+import 'model/component_body.dart';
 import 'model/canvas_model.dart';
 import 'model/component_data.dart';
 import 'port.dart';
@@ -17,6 +19,9 @@ class Component extends StatelessWidget with ItemSelected {
         .select<CanvasModel, Offset>((CanvasModel model) => model.position);
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
+    var componentBodyMap =
+        context.select<CanvasModel, HashMap<String, ComponentBody>>(
+            (CanvasModel model) => model.componentBodyMap);
     var canvasSelectItem = context
         .select<CanvasModel, Function>((CanvasModel model) => model.selectItem);
     var isMultipleSelectionOn = context.select<CanvasModel, bool>(
@@ -65,9 +70,16 @@ class Component extends StatelessWidget with ItemSelected {
                 alignment: Alignment.center,
                 children: [
                   // component body:
-                  ComponentBody(
-                    componentData: componentData,
-                    canvasScale: canvasScale,
+                  GestureDetector(
+                    onLongPress: () {
+                      showEditComponent(context, componentData);
+                    },
+                    child: SizedBox(
+                      width: canvasScale * componentData.size.width,
+                      height: canvasScale * componentData.size.height,
+                      child: componentBodyMap[componentData.componentBodyName]
+                          .componentBody,
+                    ),
                   ),
                   // ports:
                   ...showPorts(componentData),
@@ -135,43 +147,42 @@ class Component extends StatelessWidget with ItemSelected {
   }
 }
 
-class ComponentBody extends StatelessWidget {
-  const ComponentBody({
-    Key key,
-    @required this.componentData,
-    @required this.canvasScale,
-  }) : super(key: key);
-
-  final ComponentData componentData;
-  final double canvasScale;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        showEditComponent(context, componentData);
-      },
-      child: Container(
-        width: canvasScale * componentData.size.width,
-        height: canvasScale * componentData.size.height,
-        child: Center(
-          child: Text(
-            '${componentData.customData.title}',
-            style: TextStyle(fontSize: 16 * canvasScale),
-            maxLines: 1,
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: componentData.color,
-          border: Border.all(
-            width: 2.0 * canvasScale,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class ComponentBody extends StatelessWidget {
+//   const ComponentBody({
+//     Key key,
+//     @required this.componentData,
+//     @required this.canvasScale,
+//   }) : super(key: key);
+//
+//   final ComponentData componentData;
+//   final double canvasScale;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       width: canvasScale * componentData.size.width,
+//       height: canvasScale * componentData.size.height,
+//       // child: componentData.componentBody,
+//       child: componentData.componentBody,
+//       // child: Container(
+//       //   child: Center(
+//       //     child: Text(
+//       //       '${componentData.customData.title}',
+//       //       style: TextStyle(fontSize: 16 * canvasScale),
+//       //       maxLines: 1,
+//       //     ),
+//       //   ),
+//       //   decoration: BoxDecoration(
+//       //     color: componentData.color,
+//       //     border: Border.all(
+//       //       width: 2.0 * canvasScale,
+//       //       color: Colors.black,
+//       //     ),
+//       //   ),
+//       // ),
+//     );
+//   }
+// }
 
 void showEditComponent(BuildContext context, ComponentData componentData) {
   final titleController = TextEditingController(

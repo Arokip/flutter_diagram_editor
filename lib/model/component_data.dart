@@ -10,7 +10,7 @@ import 'custom_component_data.dart';
 class ComponentData extends ChangeNotifier with ItemSelected {
   final int id;
   Offset position;
-  Color color;
+  Color color; // TODO: remove
   Size size;
   final Size minSize;
   final double portSize;
@@ -23,6 +23,8 @@ class ComponentData extends ChangeNotifier with ItemSelected {
 
   CustomComponentData customData;
 
+  final String componentBodyName;
+
   ComponentData({
     @required this.id,
     this.position = Offset.zero,
@@ -33,6 +35,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
     @required this.ports,
     this.optionsData = const ComponentOptionsData(),
     this.customData,
+    @required this.componentBodyName,
   })  : assert(minSize < size),
         assert(position != null),
         assert(size != null),
@@ -86,6 +89,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
       optionsData: optionsData,
       position: position + offset,
       customData: customData.duplicate(),
+      componentBodyName: componentBodyName,
     );
   }
 

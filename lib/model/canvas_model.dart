@@ -8,7 +8,10 @@ import 'package:flutter_provider_canvas/model/menu_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
+import 'package:flutter_provider_canvas/user/component_body_1.dart';
+import 'package:flutter_provider_canvas/user/component_body_2.dart';
 
+import 'component_body.dart';
 import 'custom_component_data.dart';
 import 'item_selected.dart';
 import 'link_data.dart';
@@ -17,7 +20,7 @@ import 'multiple_selection_option_data.dart';
 int componentCount = 100;
 int linkCount = 0;
 int portPerComponentMaxCount = 4;
-int menuComponentCount = 20;
+int menuComponentCount = 12;
 
 class CanvasModel extends ChangeNotifier {
   int _componentIdGen = 0;
@@ -25,6 +28,9 @@ class CanvasModel extends ChangeNotifier {
 
   Offset _position = Offset(0, 0);
   double _scale = 1.0;
+
+  HashMap<String, ComponentBody> _componentBodyMap =
+      HashMap<String, ComponentBody>();
 
   HashMap<int, ComponentData> _componentDataMap;
   HashMap<int, LinkData> _linkDataMap;
@@ -44,6 +50,8 @@ class CanvasModel extends ChangeNotifier {
   List<MultipleSelectionOptionData> multipleSelectionOptions = [];
 
   CanvasModel() {
+    fillWithBodies();
+
     _componentDataMap = generateRandomComponents(componentCount);
 
     _linkDataMap = generateRandomLinks(linkCount);
@@ -60,9 +68,17 @@ class CanvasModel extends ChangeNotifier {
 
   double get scale => _scale;
 
+  HashMap<String, ComponentBody> get componentBodyMap => _componentBodyMap;
+
   HashMap<int, ComponentData> get componentDataMap => _componentDataMap;
 
   HashMap<int, LinkData> get linkDataMap => _linkDataMap;
+
+  // ==== initializer ====
+
+  addNewComponentBody(String name, ComponentBody body) {
+    _componentBodyMap[name] = body;
+  }
 
   // ==== NOTIFIERS ====
 
@@ -477,6 +493,7 @@ class CanvasModel extends ChangeNotifier {
           title: 'random title',
           description: 'loooong description',
         ),
+        componentBodyName: math.Random().nextBool() ? 'body1' : 'body2',
       );
     }
     return resultMap;
@@ -589,5 +606,22 @@ class CanvasModel extends ChangeNotifier {
         onOptionTap: selectAllComponents,
       ),
     ];
+  }
+
+  fillWithBodies() {
+    addNewComponentBody(
+      "body1",
+      ComponentBody(
+        menuComponentBody: MenuComponentBodyWidget1(),
+        componentBody: ComponentBodyWidget1(),
+      ),
+    );
+    addNewComponentBody(
+      "body2",
+      ComponentBody(
+        menuComponentBody: MenuComponentBodyWidget2(),
+        componentBody: ComponentBodyWidget2(),
+      ),
+    );
   }
 }

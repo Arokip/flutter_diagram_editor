@@ -3,13 +3,12 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/canvas_model.dart';
+import 'package:flutter_provider_canvas/model/component_body.dart';
+import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
+import 'package:flutter_provider_canvas/port.dart';
 import 'package:provider/provider.dart';
-
-import 'model/component_body.dart';
-import 'model/canvas_model.dart';
-import 'model/component_data.dart';
-import 'port.dart';
 
 class Component extends StatelessWidget with ItemSelected {
   @override
@@ -123,7 +122,7 @@ class Component extends StatelessWidget with ItemSelected {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: componentData.color,
+            color: Colors.white,
             shape: BoxShape.circle,
             border: Border.all(
               width: 1.0 * scale,

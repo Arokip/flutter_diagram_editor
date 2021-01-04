@@ -1,4 +1,4 @@
-import 'component_data.dart';
+import 'package:flutter_provider_canvas/model/component_data.dart';
 
 class MenuData {
   List<ComponentData> menuComponentDataList = [];

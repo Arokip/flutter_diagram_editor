@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
+import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dart';
 import 'package:provider/provider.dart';
-
-import 'model/multiple_selection_option_data.dart';
 
 enum OpenDirection { left, top, right, bottom }
 

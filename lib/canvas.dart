@@ -1,16 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/component.dart';
 import 'package:flutter_provider_canvas/component_highlight.dart';
 import 'package:flutter_provider_canvas/component_options.dart';
+import 'package:flutter_provider_canvas/link.dart';
+import 'package:flutter_provider_canvas/model/canvas_model.dart';
+import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
+import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/port_highlight.dart';
 import 'package:provider/provider.dart';
-
-import 'component.dart';
-import 'link.dart';
-import 'model/canvas_model.dart';
-import 'model/component_data.dart';
-import 'model/port_data.dart';
 
 double mouseScaleSpeed = 0.8;
 

@@ -1,10 +1,7 @@
-// import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
+import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:provider/provider.dart';
-
-import 'model/link_data.dart';
 
 class Link extends StatefulWidget {
   @override

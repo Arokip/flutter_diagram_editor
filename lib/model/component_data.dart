@@ -1,16 +1,14 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/component_options_data.dart';
+import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
-
-import 'component_options_data.dart';
-import 'custom_component_data.dart';
 
 class ComponentData extends ChangeNotifier with ItemSelected {
   final int id;
   Offset position;
-  Color color; // TODO: remove
   Size size;
   final Size minSize;
   final double portSize;
@@ -28,7 +26,6 @@ class ComponentData extends ChangeNotifier with ItemSelected {
   ComponentData({
     @required this.id,
     this.position = Offset.zero,
-    this.color = Colors.white,
     this.size = const Size(80, 80),
     this.minSize = const Size(32, 32),
     this.portSize = 20,
@@ -82,7 +79,6 @@ class ComponentData extends ChangeNotifier with ItemSelected {
 
     return ComponentData(
       id: newId,
-      color: Color(color.value),
       size: Size(size.width, size.height),
       portSize: portSize,
       ports: newPorts,

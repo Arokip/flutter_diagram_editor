@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'editor.dart';
+import 'package:flutter_provider_canvas/editor.dart';
 
 void main() => runApp(MyApp());
 

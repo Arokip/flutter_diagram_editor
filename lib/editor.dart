@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/canvas.dart';
 import 'package:flutter_provider_canvas/delete_all_button.dart';
+import 'package:flutter_provider_canvas/menu.dart';
+import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/multiple_selection_switch_button.dart';
 import 'package:flutter_provider_canvas/remove_all_connections_button.dart';
 import 'package:flutter_provider_canvas/reset_view_button.dart';
 import 'package:provider/provider.dart';
-
-import 'canvas.dart';
-import 'menu.dart';
-import 'model/canvas_model.dart';
 
 class Editor extends StatefulWidget {
   @override

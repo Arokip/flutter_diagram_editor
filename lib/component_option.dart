@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'model/component_options_data.dart';
+import 'package:flutter_provider_canvas/model/component_options_data.dart';
 
 class ComponentOption extends StatelessWidget {
   final int componentId;

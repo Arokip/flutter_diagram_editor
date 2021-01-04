@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:provider/provider.dart';
-
-import 'model/canvas_model.dart';
 
 class Port extends StatelessWidget {
   final PortData portData;

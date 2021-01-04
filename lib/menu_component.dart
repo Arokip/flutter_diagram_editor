@@ -1,11 +1,10 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/canvas_model.dart';
+import 'package:flutter_provider_canvas/model/component_body.dart';
+import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:provider/provider.dart';
-
-import 'model/component_body.dart';
-import 'model/canvas_model.dart';
-import 'model/component_data.dart';
 
 class MenuComponent extends StatelessWidget {
   final ComponentData menuComponentData;

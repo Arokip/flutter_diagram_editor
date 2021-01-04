@@ -2,20 +2,19 @@ import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/component_options_data.dart';
+import 'package:flutter_provider_canvas/model/custom_component_data.dart';
+import 'package:flutter_provider_canvas/model/item_selected.dart';
+import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/model/menu_data.dart';
+import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
 import 'package:flutter_provider_canvas/user/component_body_1.dart';
 import 'package:flutter_provider_canvas/user/component_body_2.dart';
-
-import 'component_body.dart';
-import 'custom_component_data.dart';
-import 'item_selected.dart';
-import 'link_data.dart';
-import 'multiple_selection_option_data.dart';
 
 int componentCount = 100;
 int linkCount = 0;
@@ -139,11 +138,6 @@ class CanvasModel extends ChangeNotifier {
   }
 
   notifyCanvasModelListeners() {
-    notifyListeners();
-  }
-
-  changeToRandomColor(int id) {
-    _componentDataMap[id].color = randomColor();
     notifyListeners();
   }
 
@@ -416,7 +410,6 @@ class CanvasModel extends ChangeNotifier {
       int componentId = generateNextComponentId;
       resultMap[componentId] = ComponentData(
         id: componentId,
-        color: randomColor(),
         size: Size(40 + 200 * math.Random().nextDouble(),
             40 + 120 * math.Random().nextDouble()),
         position: zeroPosition
@@ -457,15 +450,6 @@ class CanvasModel extends ChangeNotifier {
               onOptionTap: (cid) {
                 duplicateComponentBelow(cid, Offset(0, 24));
                 print('duplicate component: $cid');
-              },
-            ),
-            ComponentOptionData(
-              color: randomColor(),
-              icon: Icons.color_lens_outlined,
-              tooltip: "Change color randomly",
-              onOptionTap: (cid) {
-                changeToRandomColor(cid);
-                print('change color: $cid');
               },
             ),
             ComponentOptionData(

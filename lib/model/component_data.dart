@@ -3,11 +3,10 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:flutter_provider_canvas/model/custom_component_data.dart';
-import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:uuid/uuid.dart';
 
-class ComponentData extends ChangeNotifier with ItemSelected {
+class ComponentData extends ChangeNotifier {
   var _uuid = Uuid();
 
   String _id;

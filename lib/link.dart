@@ -11,11 +11,12 @@ class Link extends StatefulWidget {
 class _LinkState extends State<Link> {
   Offset tapPosition = Offset(0, 0);
   int segmentIndex = 0;
-  bool isDeleteIconVisible = false;
+  bool isDeleteIconVisible = true;
 
-  setDeleteIconVisibility(bool isVisible) {
+  setDeleteIconVisibility(bool isVisible, [Offset tapPosition = Offset.zero]) {
     setState(() {
       isDeleteIconVisible = isVisible;
+      this.tapPosition = tapPosition;
     });
   }
 
@@ -44,15 +45,8 @@ class _LinkState extends State<Link> {
 
     return GestureDetector(
       onTapUp: (details) {
-        if (selectedItem == linkData) {
-          setState(() {
-            tapPosition =
-                (details.localPosition - canvasPosition) / canvasScale;
-          });
-          setDeleteIconVisibility(true);
-        } else {
-          setDeleteIconVisibility(false);
-        }
+        setDeleteIconVisibility(
+            true, (details.localPosition - canvasPosition) / canvasScale);
         canvasSelectItem(linkData);
       },
       onLongPressStart: (details) {
@@ -79,8 +73,7 @@ class _LinkState extends State<Link> {
           fit: StackFit.expand,
           children: [
             Visibility(
-              visible: linkData.isItemSelected &&
-                  isDeleteIconVisible, // TODO: fix visibility
+              visible: selectedItem == linkData && isDeleteIconVisible,
               child: GestureDetector(
                 onTap: () {
                   removeLink(linkData);
@@ -102,7 +95,7 @@ class _LinkState extends State<Link> {
                   (index, jointPoint) => MapEntry(
                     index,
                     Visibility(
-                      visible: linkData.isItemSelected,
+                      visible: selectedItem == linkData,
                       child: GestureDetector(
                         onPanUpdate: (details) {
                           setDeleteIconVisibility(false);

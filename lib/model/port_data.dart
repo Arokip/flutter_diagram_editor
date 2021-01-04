@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 
-class PortData with ItemSelected {
+class PortData {
   int _id;
   String _componentId;
   final Color color;

@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/item_selected.dart';
+import 'package:flutter_provider_canvas/model/deselect_item.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/model/menu_data.dart';
 import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dart';
@@ -135,10 +135,6 @@ class CanvasModel extends ChangeNotifier {
 
     if (item == null) return;
 
-    if (selectedItem != null) {
-      selectedItem.isItemSelected = false;
-    }
-
     if (item is ComponentData) {
     } else if (item is PortData) {
       if (selectedItem is PortData) {
@@ -154,7 +150,6 @@ class CanvasModel extends ChangeNotifier {
     }
 
     selectedItem = item;
-    selectedItem.isItemSelected = true;
 
     turnOffMultipleSelection();
     notifyListeners();

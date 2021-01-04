@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/port.dart';
 import 'package:provider/provider.dart';
 
-class Component extends StatelessWidget with ItemSelected {
+class Component extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var canvasPosition = context

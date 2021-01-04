@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/canvas.dart';
 import 'package:flutter_provider_canvas/delete_all_button.dart';
@@ -136,22 +134,16 @@ fillWithBodies(CanvasModel model) {
 }
 
 ComponentData generateComponent(CanvasModel model, String name) {
-  var id = math.Random().nextInt(10000);
   return ComponentData(
-    id: id,
-    // TODO: id
     size: Size(120, 80),
     portSize: 20,
     portList: [
       PortData(
-        id: 1,
-        // TODO: id
-        componentId: id,
-        // TODO: id
         color: Colors.red,
         borderColor: Colors.white,
         alignment: Alignment(1, 0),
-        portType: 'A',
+        // portType: ['0', '1', '2', '3'][math.Random().nextInt(4)],
+        portType: '1',
       )
     ],
     optionsData: ComponentOptionsData(

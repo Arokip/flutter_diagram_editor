@@ -3,8 +3,8 @@ import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 
 class PortData with ItemSelected {
-  final int id;
-  final int componentId;
+  int _id;
+  String _componentId;
   final Color color;
   final Color borderColor;
   final Alignment alignment;
@@ -15,27 +15,36 @@ class PortData with ItemSelected {
 
   List<PortConnection> get connections => _connections;
 
+  int get id => _id;
+
+  String get componentId => _componentId;
+
   PortData({
-    @required this.id, // TODO: user should not touch this
-    @required this.componentId,
     this.color = Colors.white,
     this.borderColor = Colors.black,
     this.alignment = Alignment.center,
     this.portType,
   }) : assert(alignment != null);
 
+  setId(int id) {
+    _id = id;
+  }
+
+  setComponentId(String id) {
+    _componentId = id;
+  }
+
   addConnection(PortConnection portConnection) {
     _connections.add(portConnection);
   }
 
-  removeConnection(int connectionId) {
-    _connections.removeWhere((element) => element.connectionId == connectionId);
+  removeConnection(String connectionId) {
+    _connections
+        .removeWhere((connection) => connection.connectionId == connectionId);
   }
 
-  PortData duplicate(int newComponentId, int portId) {
+  PortData duplicate() {
     return PortData(
-      id: portId,
-      componentId: newComponentId,
       color: color,
       alignment: alignment,
       borderColor: borderColor,

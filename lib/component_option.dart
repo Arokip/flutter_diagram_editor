@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/component_options_data.dart';
 
 class ComponentOption extends StatelessWidget {
-  final int componentId;
+  final String componentId;
   final double optionSize;
   final ComponentOptionData option;
 

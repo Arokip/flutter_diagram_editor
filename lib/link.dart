@@ -79,7 +79,8 @@ class _LinkState extends State<Link> {
           fit: StackFit.expand,
           children: [
             Visibility(
-              visible: linkData.isItemSelected && isDeleteIconVisible,
+              visible: linkData.isItemSelected &&
+                  isDeleteIconVisible, // TODO: fix visibility
               child: GestureDetector(
                 onTap: () {
                   removeLink(linkData);

@@ -16,7 +16,7 @@ class ComponentOptionData {
   final Color color;
   final IconData icon;
   final String tooltip;
-  final void Function(int) onOptionTap;
+  final void Function(String) onOptionTap;
 
   const ComponentOptionData({
     this.color = Colors.grey,

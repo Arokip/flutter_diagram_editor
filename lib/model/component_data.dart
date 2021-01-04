@@ -5,9 +5,12 @@ import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
+import 'package:uuid/uuid.dart';
 
 class ComponentData extends ChangeNotifier with ItemSelected {
-  final int id;
+  var _uuid = Uuid();
+
+  String _id;
   Offset position;
   Size size;
   final Size minSize;
@@ -24,8 +27,9 @@ class ComponentData extends ChangeNotifier with ItemSelected {
 
   final String componentBodyName;
 
+  String get id => _id;
+
   ComponentData({
-    @required this.id, // TODO: user should not touch the ID
     this.position = Offset.zero,
     this.size = const Size(80, 80),
     this.minSize = const Size(32, 32),
@@ -42,6 +46,9 @@ class ComponentData extends ChangeNotifier with ItemSelected {
         assert(portList != null),
         assert(optionsData != null) {
     for (int i = 0; i < portList.length; i++) {
+      _id = _uuid.v4();
+      portList[i].setComponentId(id);
+      portList[i].setId(i);
       ports[i] = portList[i];
     }
   }
@@ -62,6 +69,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
   getPortCenterPoint(int portId) {
     var componentCenter = Offset(size.width / 2, size.height / 2);
     var portCenter = Offset(portSize / 2, portSize / 2);
+
     var portPosition = Offset(
       componentCenter.dx * ports[portId].alignment.x,
       componentCenter.dy * ports[portId].alignment.y,
@@ -70,21 +78,20 @@ class ComponentData extends ChangeNotifier with ItemSelected {
     return position + componentCenter + portCenter + portPosition;
   }
 
-  removeConnection(int connectionId) {
+  removeConnection(String connectionId) {
     ports.values.forEach((port) {
       port.removeConnection(connectionId);
     });
   }
 
-  ComponentData duplicate(int newId, [Offset offset = const Offset(0, 0)]) {
+  ComponentData duplicate([Offset offset = const Offset(0, 0)]) {
     final List<PortData> newPorts = [];
 
     ports.values.forEach((port) {
-      newPorts.add(port.duplicate(newId, port.id));
+      newPorts.add(port.duplicate());
     });
 
     return ComponentData(
-      id: newId,
       size: Size(size.width, size.height),
       portSize: portSize,
       portList: newPorts,

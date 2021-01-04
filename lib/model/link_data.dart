@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 
 class LinkData extends ChangeNotifier with ItemSelected {
-  final int id;
+  final String id;
 
-  final int componentOutId;
-  final int componentInId;
+  final String componentOutId;
+  final String componentInId;
   final Color color;
   final double width;
   final double tipSize;

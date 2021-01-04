@@ -114,7 +114,6 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     final RenderBox renderBox = context.findRenderObject();
     final Offset localOffset = renderBox.globalToLocal(details.offset);
     ComponentData menuComponentData = details.data;
-    int componentId = canvasModel.generateNextComponentId;
     Offset componentPosition = (localOffset - canvasModel.position) /
             canvasModel.scale +
         Offset(menuComponentData.size.width / canvasModel.scale / 2,
@@ -122,8 +121,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         Offset(menuComponentData.size.width / 2,
             menuComponentData.size.height / 2) -
         Offset(menuComponentData.portSize / 2, menuComponentData.portSize / 2);
-    canvasModel.addComponentToList(
-      menuComponentData.duplicate(componentId, componentPosition),
+    canvasModel.addComponentToMap(
+      menuComponentData.duplicate(componentPosition),
     );
   }
 
@@ -210,6 +209,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
 
   Widget showPortHighlight(CanvasModel canvasModel) {
     var data = canvasModel.selectedItem;
+
     if (data is PortData) {
       return ChangeNotifierProvider<ComponentData>.value(
         value: canvasModel.componentDataMap[data.componentId],

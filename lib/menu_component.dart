@@ -50,10 +50,13 @@ class DraggableMenuComponent extends StatelessWidget {
         child: componentBodyMap[menuComponentData.componentBodyName]
             .menuComponentBody,
       ),
-      feedback: MenuComponent(
-        menuComponentData: menuComponentData,
-        child: componentBodyMap[menuComponentData.componentBodyName]
-            .menuComponentBody,
+      feedback: Material(
+        color: Colors.transparent,
+        child: MenuComponent(
+          menuComponentData: menuComponentData,
+          child: componentBodyMap[menuComponentData.componentBodyName]
+              .menuComponentBody,
+        ),
       ),
       child: MenuComponent(
         menuComponentData: menuComponentData,

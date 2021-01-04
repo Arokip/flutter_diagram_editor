@@ -19,7 +19,7 @@ class ComponentBodyWidget1 extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          'sadf',
+          'body1',
           style: TextStyle(fontSize: 12 * canvasScale),
         ),
       ),

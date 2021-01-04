@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 class Component extends StatelessWidget with ItemSelected {
   @override
   Widget build(BuildContext context) {
-    // print('COMPONENT build');
     var canvasPosition = context
         .select<CanvasModel, Offset>((CanvasModel model) => model.position);
     var canvasScale =

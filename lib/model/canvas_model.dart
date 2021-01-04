@@ -4,8 +4,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/component_options_data.dart';
-import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 import 'package:flutter_provider_canvas/model/item_selected.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/model/menu_data.dart';
@@ -13,8 +11,6 @@ import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dar
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
-import 'package:flutter_provider_canvas/user/component_body_1.dart';
-import 'package:flutter_provider_canvas/user/component_body_2.dart';
 
 int componentCount = 100;
 int linkCount = 0;
@@ -31,12 +27,12 @@ class CanvasModel extends ChangeNotifier {
   HashMap<String, ComponentBody> _componentBodyMap =
       HashMap<String, ComponentBody>();
 
-  HashMap<int, ComponentData> _componentDataMap;
-  HashMap<int, LinkData> _linkDataMap;
+  HashMap<int, ComponentData> _componentDataMap = HashMap<int, ComponentData>();
+  HashMap<int, LinkData> _linkDataMap = HashMap<int, LinkData>();
   MenuData menuData = MenuData();
 
-  final double _portSize = 20;
-  final double _optionSize = 40;
+  // final double _portSize = 20;
+  // final double _optionSize = 40;
 
   dynamic selectedItem;
   final DeselectItem deselectItem = DeselectItem();
@@ -49,18 +45,18 @@ class CanvasModel extends ChangeNotifier {
   List<MultipleSelectionOptionData> multipleSelectionOptions = [];
 
   CanvasModel() {
-    fillWithBodies();
+    // fillWithBodies();
 
-    _componentDataMap = generateRandomComponents(componentCount);
+    // _componentDataMap = generateRandomComponents(componentCount);
 
-    _linkDataMap = generateRandomLinks(linkCount);
+    // _linkDataMap = generateRandomLinks(linkCount);
 
-    generatePortRules();
+    // generatePortRules();
 
-    menuData.addComponentsToMenu(
-        generateRandomComponents(menuComponentCount, true).values.toList());
+    // menuData.addComponentsToMenu(
+    //     generateRandomComponents(menuComponentCount, true).values.toList());
 
-    multipleSelectionOptions = generateMultipleSelectedOptions();
+    // multipleSelectionOptions = generateMultipleSelectedOptions();
   }
 
   Offset get position => _position;
@@ -77,6 +73,10 @@ class CanvasModel extends ChangeNotifier {
 
   addNewComponentBody(String name, ComponentBody body) {
     _componentBodyMap[name] = body;
+  }
+
+  addMultipleSelectionOption(MultipleSelectionOptionData option) {
+    multipleSelectionOptions.add(option);
   }
 
   // ==== NOTIFIERS ====
@@ -347,7 +347,6 @@ class CanvasModel extends ChangeNotifier {
   }
 
   duplicateSelectedComponents() {
-    print('duplicate');
     double mostTop = double.infinity;
     double mostBottom = double.negativeInfinity;
     selectedComponents.forEach((componentId) {
@@ -402,210 +401,210 @@ class CanvasModel extends ChangeNotifier {
 
   // ==== HELPERS ====
 
-  HashMap<int, ComponentData> generateRandomComponents(int number,
-      [bool zeroPosition = false]) {
-    HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
+  // HashMap<int, ComponentData> generateRandomComponents(int number,
+  //     [bool zeroPosition = false]) {
+  //   HashMap<int, ComponentData> resultMap = HashMap<int, ComponentData>();
+  //
+  //   for (int i = 0; i < number; i++) {
+  //     int componentId = generateNextComponentId;
+  //     resultMap[componentId] = ComponentData(
+  //       id: componentId,
+  //       size: Size(40 + 200 * math.Random().nextDouble(),
+  //           40 + 120 * math.Random().nextDouble()),
+  //       position: zeroPosition
+  //           ? Offset.zero
+  //           : Offset(1200 * 2 * (math.Random().nextDouble() - 0.5),
+  //               1200 * 2 * (math.Random().nextDouble() - 0.5)),
+  //       portSize: _portSize,
+  //       ports: generatePortData(
+  //           componentId, math.Random().nextInt(portPerComponentMaxCount + 1)),
+  //       optionsData: ComponentOptionsData(
+  //         optionSize: _optionSize,
+  //         optionsTop: [
+  //           ComponentOptionData(
+  //             color: Colors.lime,
+  //             icon: Icons.map,
+  //             tooltip: "map",
+  //             onOptionTap: (cid) {
+  //               print('map tap: $cid');
+  //             },
+  //           ),
+  //           ComponentOptionData(),
+  //           ComponentOptionData(tooltip: "nothing"),
+  //         ],
+  //         optionsBottom: [
+  //           ComponentOptionData(
+  //             color: Colors.red,
+  //             icon: Icons.delete_forever,
+  //             tooltip: "Delete",
+  //             onOptionTap: (cid) {
+  //               removeComponentFromList(cid);
+  //               print('remove component: $componentId');
+  //             },
+  //           ),
+  //           ComponentOptionData(
+  //             color: Colors.yellow,
+  //             icon: Icons.copy,
+  //             tooltip: "Duplicate",
+  //             onOptionTap: (cid) {
+  //               duplicateComponentBelow(cid, Offset(0, 24));
+  //               print('duplicate component: $cid');
+  //             },
+  //           ),
+  //           ComponentOptionData(
+  //             color: Colors.deepPurple,
+  //             icon: Icons.link_off,
+  //             tooltip: "Remove all connections",
+  //             onOptionTap: (cid) {
+  //               removeComponentConnections(cid);
+  //               print('remove connections: $cid');
+  //             },
+  //           ),
+  //           ComponentOptionData(
+  //             color: Colors.deepOrange,
+  //             icon: Icons.aspect_ratio,
+  //             tooltip: "Resize",
+  //             onOptionTap: (cid) {
+  //               print("selected: ${_componentDataMap[cid].isItemSelected}");
+  //               resizeComponent(cid);
+  //               print('resize: $cid');
+  //             },
+  //           )
+  //         ],
+  //       ),
+  //       customData: CustomComponentData(
+  //         title: 'random title',
+  //         description: 'loooong description',
+  //       ),
+  //       componentBodyName: math.Random().nextBool() ? 'body1' : 'body2',
+  //     );
+  //   }
+  //   return resultMap;
+  // }
 
-    for (int i = 0; i < number; i++) {
-      int componentId = generateNextComponentId;
-      resultMap[componentId] = ComponentData(
-        id: componentId,
-        size: Size(40 + 200 * math.Random().nextDouble(),
-            40 + 120 * math.Random().nextDouble()),
-        position: zeroPosition
-            ? Offset.zero
-            : Offset(1200 * 2 * (math.Random().nextDouble() - 0.5),
-                1200 * 2 * (math.Random().nextDouble() - 0.5)),
-        portSize: _portSize,
-        ports: generatePortData(
-            componentId, math.Random().nextInt(portPerComponentMaxCount + 1)),
-        optionsData: ComponentOptionsData(
-          optionSize: _optionSize,
-          optionsTop: [
-            ComponentOptionData(
-              color: Colors.lime,
-              icon: Icons.map,
-              tooltip: "map",
-              onOptionTap: (cid) {
-                print('the correct on tap: $cid');
-              },
-            ),
-            ComponentOptionData(),
-            ComponentOptionData(tooltip: "nothing"),
-          ],
-          optionsBottom: [
-            ComponentOptionData(
-              color: Colors.red,
-              icon: Icons.delete_forever,
-              tooltip: "Delete",
-              onOptionTap: (cid) {
-                removeComponentFromList(cid);
-                print('remove component: $componentId');
-              },
-            ),
-            ComponentOptionData(
-              color: Colors.yellow,
-              icon: Icons.copy,
-              tooltip: "Duplicate",
-              onOptionTap: (cid) {
-                duplicateComponentBelow(cid, Offset(0, 24));
-                print('duplicate component: $cid');
-              },
-            ),
-            ComponentOptionData(
-              color: Colors.deepPurple,
-              icon: Icons.link_off,
-              tooltip: "Remove all connections",
-              onOptionTap: (cid) {
-                removeComponentConnections(cid);
-                print('remove connections: $cid');
-              },
-            ),
-            ComponentOptionData(
-              color: Colors.deepOrange,
-              icon: Icons.aspect_ratio,
-              tooltip: "Resize",
-              onOptionTap: (cid) {
-                print("selected: ${_componentDataMap[cid].isItemSelected}");
-                resizeComponent(cid);
-                print('resize: $cid');
-              },
-            )
-          ],
-        ),
-        customData: CustomComponentData(
-          title: 'random title',
-          description: 'loooong description',
-        ),
-        componentBodyName: math.Random().nextBool() ? 'body1' : 'body2',
-      );
-    }
-    return resultMap;
-  }
+  // HashMap<int, PortData> generatePortData(int componentId, int number) {
+  //   HashMap<int, PortData> ports = HashMap<int, PortData>();
+  //   for (int i = 0; i < number; i++) {
+  //     ports[i] = PortData(
+  //       id: i,
+  //       componentId: componentId,
+  //       color: randomColor(),
+  //       borderColor: math.Random().nextBool() ? Colors.black : Colors.white,
+  //       // alignment: Alignment(2 * math.Random().nextDouble() - 1,
+  //       //     2 * math.Random().nextDouble() - 1),
+  //       alignment: Alignment(math.Random().nextBool() ? 1 : -1,
+  //           2 * math.Random().nextDouble() - 1),
+  //       portType: math.Random().nextInt(4).toString(),
+  //     );
+  //   }
+  //   return ports;
+  // }
 
-  HashMap<int, PortData> generatePortData(int componentId, int number) {
-    HashMap<int, PortData> ports = HashMap<int, PortData>();
-    for (int i = 0; i < number; i++) {
-      ports[i] = PortData(
-        id: i,
-        componentId: componentId,
-        color: randomColor(),
-        borderColor: math.Random().nextBool() ? Colors.black : Colors.white,
-        // alignment: Alignment(2 * math.Random().nextDouble() - 1,
-        //     2 * math.Random().nextDouble() - 1),
-        alignment: Alignment(math.Random().nextBool() ? 1 : -1,
-            2 * math.Random().nextDouble() - 1),
-        portType: math.Random().nextInt(4).toString(),
-      );
-    }
-    return ports;
-  }
+  // HashMap<int, LinkData> generateRandomLinks(int number) {
+  //   HashMap<int, LinkData> resultMap = HashMap<int, LinkData>();
+  //   for (int i = 0; i < number; i++) {
+  //     generateNextLinkId;
+  //
+  //     int idOut = math.Random().nextInt(getNextComponentId);
+  //     int idIn = math.Random().nextInt(getNextComponentId);
+  //
+  //     var componentOut = componentDataMap[idOut];
+  //     var componentIn = componentDataMap[idIn];
+  //
+  //     var portCountOut = componentOut.ports.length;
+  //     if (portCountOut == 0) continue;
+  //     var randomPortIdOut = math.Random().nextInt(portCountOut);
+  //
+  //     var portCountIn = componentIn.ports.length;
+  //     if (portCountIn == 0) continue;
+  //     var randomPortIdIn = math.Random().nextInt(portCountIn);
+  //
+  //     componentOut.ports[randomPortIdOut].addConnection(
+  //       PortConnectionOut(
+  //         linkId: getLastUsedLinkId,
+  //         componentId: idOut,
+  //         portId: randomPortIdOut,
+  //       ),
+  //     );
+  //
+  //     componentIn.ports[randomPortIdIn].addConnection(
+  //       PortConnectionIn(
+  //         linkId: getLastUsedLinkId,
+  //         componentId: idIn,
+  //         portId: randomPortIdIn,
+  //       ),
+  //     );
+  //
+  //     resultMap[getLastUsedLinkId] = LinkData(
+  //       id: getLastUsedLinkId,
+  //       componentOutId: idOut,
+  //       componentInId: idIn,
+  //       color: Colors.black,
+  //       width: 1.5,
+  //       linkPoints: [
+  //         componentOut.getPortCenterPoint(randomPortIdOut),
+  //         componentIn.getPortCenterPoint(randomPortIdIn),
+  //       ],
+  //     );
+  //   }
+  //   return resultMap;
+  // }
 
-  HashMap<int, LinkData> generateRandomLinks(int number) {
-    HashMap<int, LinkData> resultMap = HashMap<int, LinkData>();
-    for (int i = 0; i < number; i++) {
-      generateNextLinkId;
+  // Color randomColor() {
+  //   return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+  //       .withOpacity(1.0);
+  // }
 
-      int idOut = math.Random().nextInt(getNextComponentId);
-      int idIn = math.Random().nextInt(getNextComponentId);
+  // generatePortRules() {
+  //   portRules.addRule("0", "1");
+  //   portRules.addRule("0", "0");
+  //   portRules.addRule("1", "1");
+  //   portRules.addRules("2", ["0", "1"]);
+  //
+  //   // portRules.canConnectSameComponent = true;
+  //
+  //   portRules.setMaxConnectionCount("0", 2);
+  // }
 
-      var componentOut = componentDataMap[idOut];
-      var componentIn = componentDataMap[idIn];
+  // List<MultipleSelectionOptionData> generateMultipleSelectedOptions() {
+  //   return [
+  //     MultipleSelectionOptionData(
+  //       icon: Icons.link_off,
+  //       tooltip: "Delete connections",
+  //       onOptionTap: removeSelectedConnections,
+  //     ),
+  //     MultipleSelectionOptionData(
+  //       icon: Icons.delete_forever,
+  //       tooltip: "Delete",
+  //       onOptionTap: removeSelectedComponents,
+  //     ),
+  //     MultipleSelectionOptionData(
+  //       icon: Icons.copy,
+  //       tooltip: "Duplicate",
+  //       onOptionTap: duplicateSelectedComponents,
+  //     ),
+  //     MultipleSelectionOptionData(
+  //       icon: Icons.all_inclusive,
+  //       tooltip: "Select all",
+  //       onOptionTap: selectAllComponents,
+  //     ),
+  //   ];
+  // }
 
-      var portCountOut = componentOut.ports.length;
-      if (portCountOut == 0) continue;
-      var randomPortIdOut = math.Random().nextInt(portCountOut);
-
-      var portCountIn = componentIn.ports.length;
-      if (portCountIn == 0) continue;
-      var randomPortIdIn = math.Random().nextInt(portCountIn);
-
-      componentOut.ports[randomPortIdOut].addConnection(
-        PortConnectionOut(
-          linkId: getLastUsedLinkId,
-          componentId: idOut,
-          portId: randomPortIdOut,
-        ),
-      );
-
-      componentIn.ports[randomPortIdIn].addConnection(
-        PortConnectionIn(
-          linkId: getLastUsedLinkId,
-          componentId: idIn,
-          portId: randomPortIdIn,
-        ),
-      );
-
-      resultMap[getLastUsedLinkId] = LinkData(
-        id: getLastUsedLinkId,
-        componentOutId: idOut,
-        componentInId: idIn,
-        color: Colors.black,
-        width: 1.5,
-        linkPoints: [
-          componentOut.getPortCenterPoint(randomPortIdOut),
-          componentIn.getPortCenterPoint(randomPortIdIn),
-        ],
-      );
-    }
-    return resultMap;
-  }
-
-  Color randomColor() {
-    return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-        .withOpacity(1.0);
-  }
-
-  generatePortRules() {
-    portRules.addRule("0", "1");
-    portRules.addRule("0", "0");
-    portRules.addRule("1", "1");
-    portRules.addRules("2", ["0", "1"]);
-
-    // portRules.canConnectSameComponent = true;
-
-    portRules.setMaxConnectionCount("0", 2);
-  }
-
-  List<MultipleSelectionOptionData> generateMultipleSelectedOptions() {
-    return [
-      MultipleSelectionOptionData(
-        icon: Icons.link_off,
-        tooltip: "Delete connections",
-        onOptionTap: removeSelectedConnections,
-      ),
-      MultipleSelectionOptionData(
-        icon: Icons.delete_forever,
-        tooltip: "Delete",
-        onOptionTap: removeSelectedComponents,
-      ),
-      MultipleSelectionOptionData(
-        icon: Icons.copy,
-        tooltip: "Duplicate",
-        onOptionTap: duplicateSelectedComponents,
-      ),
-      MultipleSelectionOptionData(
-        icon: Icons.all_inclusive,
-        tooltip: "Select all",
-        onOptionTap: selectAllComponents,
-      ),
-    ];
-  }
-
-  fillWithBodies() {
-    addNewComponentBody(
-      "body1",
-      ComponentBody(
-        menuComponentBody: MenuComponentBodyWidget1(),
-        componentBody: ComponentBodyWidget1(),
-      ),
-    );
-    addNewComponentBody(
-      "body2",
-      ComponentBody(
-        menuComponentBody: MenuComponentBodyWidget2(),
-        componentBody: ComponentBodyWidget2(),
-      ),
-    );
-  }
+// fillWithBodies() {
+//   addNewComponentBody(
+//     "body1",
+//     ComponentBody(
+//       menuComponentBody: MenuComponentBodyWidget1(),
+//       componentBody: ComponentBodyWidget1(),
+//     ),
+//   );
+//   addNewComponentBody(
+//     "body2",
+//     ComponentBody(
+//       menuComponentBody: MenuComponentBodyWidget2(),
+//       componentBody: ComponentBodyWidget2(),
+//     ),
+//   );
+// }
 }

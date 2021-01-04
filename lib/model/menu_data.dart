@@ -1,13 +1,15 @@
 import 'package:flutter_provider_canvas/model/component_data.dart';
 
 class MenuData {
-  List<ComponentData> menuComponentDataList = [];
+  List<ComponentData> _menuComponentDataList = [];
+
+  List<ComponentData> get menuComponentDataList => _menuComponentDataList;
 
   addComponentToMenu(ComponentData componentData) {
-    menuComponentDataList.add(componentData);
+    _menuComponentDataList.add(componentData);
   }
 
   addComponentsToMenu(List<ComponentData> componentDataList) {
-    menuComponentDataList.addAll(componentDataList);
+    _menuComponentDataList.addAll(componentDataList);
   }
 }

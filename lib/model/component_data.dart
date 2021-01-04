@@ -13,6 +13,7 @@ class ComponentData extends ChangeNotifier with ItemSelected {
   final Size minSize;
   final double portSize;
 
+  final List<PortData> portList;
   HashMap<int, PortData> ports = HashMap<int, PortData>();
 
   final ComponentOptionsData optionsData;
@@ -24,12 +25,12 @@ class ComponentData extends ChangeNotifier with ItemSelected {
   final String componentBodyName;
 
   ComponentData({
-    @required this.id,
+    @required this.id, // TODO: user should not touch the ID
     this.position = Offset.zero,
     this.size = const Size(80, 80),
     this.minSize = const Size(32, 32),
     this.portSize = 20,
-    @required this.ports,
+    this.portList = const [],
     this.optionsData = const ComponentOptionsData(),
     this.customData,
     @required this.componentBodyName,
@@ -38,8 +39,12 @@ class ComponentData extends ChangeNotifier with ItemSelected {
         assert(size != null),
         assert(portSize != null),
         assert(portSize > 0),
-        assert(ports != null),
-        assert(optionsData != null);
+        assert(portList != null),
+        assert(optionsData != null) {
+    for (int i = 0; i < portList.length; i++) {
+      ports[i] = portList[i];
+    }
+  }
 
   componentNotifyListeners() {
     notifyListeners();
@@ -72,16 +77,17 @@ class ComponentData extends ChangeNotifier with ItemSelected {
   }
 
   ComponentData duplicate(int newId, [Offset offset = const Offset(0, 0)]) {
-    final HashMap<int, PortData> newPorts =
-        HashMap<int, PortData>.from(ports.map((key, port) {
-      return MapEntry<int, PortData>(key, port.duplicate(newId));
-    }));
+    final List<PortData> newPorts = [];
+
+    ports.values.forEach((port) {
+      newPorts.add(port.duplicate(newId, port.id));
+    });
 
     return ComponentData(
       id: newId,
       size: Size(size.width, size.height),
       portSize: portSize,
-      ports: newPorts,
+      portList: newPorts,
       optionsData: optionsData,
       position: position + offset,
       customData: customData.duplicate(),

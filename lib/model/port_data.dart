@@ -16,7 +16,7 @@ class PortData with ItemSelected {
   List<PortConnection> get connections => _connections;
 
   PortData({
-    @required this.id,
+    @required this.id, // TODO: user should not touch this
     @required this.componentId,
     this.color = Colors.white,
     this.borderColor = Colors.black,
@@ -32,9 +32,9 @@ class PortData with ItemSelected {
     _connections.removeWhere((element) => element.connectionId == connectionId);
   }
 
-  PortData duplicate(int newComponentId) {
+  PortData duplicate(int newComponentId, int portId) {
     return PortData(
-      id: id,
+      id: portId,
       componentId: newComponentId,
       color: color,
       alignment: alignment,

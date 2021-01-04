@@ -27,6 +27,8 @@ class PortHighlight extends StatelessWidget {
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
 
+    print('component data in highlight: ${componentData}'); // TODO: null, WHY?
+
     return Positioned(
       left: canvasPosition.dx +
           canvasScale *

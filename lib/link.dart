@@ -21,7 +21,6 @@ class _LinkState extends State<Link> {
 
   @override
   Widget build(BuildContext context) {
-    // print('LINE build');
     var canvasPosition = context
         .select<CanvasModel, Offset>((CanvasModel model) => model.position);
     var canvasScale =

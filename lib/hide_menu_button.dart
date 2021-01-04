@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:provider/provider.dart';
 
-class ResetViewButton extends StatelessWidget {
+class HideMenuButton extends StatelessWidget {
   final double size;
   final Color color;
   final Color iconColor;
 
-  const ResetViewButton({
+  const HideMenuButton({
     Key key,
     this.size = 48,
     this.color = const Color(0x44000000),
@@ -29,10 +29,12 @@ class ResetViewButton extends StatelessWidget {
           child: IconButton(
             color: iconColor,
             onPressed: () {
-              canvasModel.resetCanvasView();
+              canvasModel.menuData.isMenuVisible =
+                  !canvasModel.menuData.isMenuVisible;
+              canvasModel.notifyCanvasModelListeners();
             },
-            tooltip: 'Reset',
-            icon: const Icon(Icons.replay),
+            tooltip: 'Show/Hide menu',
+            icon: const Icon(Icons.view_compact),
           ),
         );
       },

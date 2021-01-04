@@ -18,7 +18,7 @@ class DeleteAllButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CanvasModel>(
-      builder: (_, canvasData, __) {
+      builder: (_, canvasModel, __) {
         return Container(
           width: size,
           height: size,
@@ -29,7 +29,7 @@ class DeleteAllButton extends StatelessWidget {
           child: IconButton(
             color: iconColor,
             onPressed: () {
-              canvasData.removeAllComponents();
+              canvasModel.removeAllComponents();
             },
             tooltip: 'Delete all',
             icon: const Icon(Icons.delete_forever),

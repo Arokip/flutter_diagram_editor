@@ -18,7 +18,7 @@ class RemoveAllConnectionsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CanvasModel>(
-      builder: (_, canvasData, __) {
+      builder: (_, canvasModel, __) {
         return Container(
           width: size,
           height: size,
@@ -29,7 +29,7 @@ class RemoveAllConnectionsButton extends StatelessWidget {
           child: IconButton(
             color: iconColor,
             onPressed: () {
-              canvasData.removeAllConnections();
+              canvasModel.removeAllConnections();
             },
             tooltip: 'Remove all links',
             icon: const Icon(Icons.link_off),

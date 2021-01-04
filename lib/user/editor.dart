@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/canvas.dart';
 import 'package:flutter_provider_canvas/delete_all_button.dart';
+import 'package:flutter_provider_canvas/hide_menu_button.dart';
 import 'package:flutter_provider_canvas/menu.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
@@ -53,17 +54,24 @@ class _EditorState extends State<Editor> {
               child: DiagramEditorCanvas(),
             ),
           ),
-          Container(
-            margin: EdgeInsets.fromLTRB(2, 8, 0, 8),
-            alignment: Alignment.centerLeft,
-            child: Container(
-              width: 80,
-              height: 400,
-              color: Colors.black.withOpacity(0.24),
-              child: DiagramEditorMenu(
-                  // scrollDirection: Axis.horizontal,
+          Consumer(
+            builder: (_, CanvasModel canvasModel, __) {
+              return Visibility(
+                visible: canvasModel.menuData.isMenuVisible,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(2, 8, 0, 8),
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: 80,
+                    height: 400,
+                    color: Colors.black.withOpacity(0.24),
+                    child: DiagramEditorMenu(
+                        // scrollDirection: Axis.horizontal,
+                        ),
                   ),
-            ),
+                ),
+              );
+            },
           ),
           Positioned(
             left: 24,
@@ -71,7 +79,13 @@ class _EditorState extends State<Editor> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                ResetViewButton(),
+                Column(
+                  children: [
+                    HideMenuButton(),
+                    SizedBox(height: 8),
+                    ResetViewButton(),
+                  ],
+                ),
                 SizedBox(width: 8),
                 MultipleSelectionSwitchButton(
                   openDirection: OpenDirection.top,

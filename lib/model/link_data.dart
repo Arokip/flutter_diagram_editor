@@ -47,4 +47,10 @@ class LinkData extends ChangeNotifier {
     linkPoints.removeAt(index);
     notifyListeners();
   }
+
+  updateAllMiddlePoints(Offset position) {
+    for (int i = 1; i < linkPoints.length - 1; i++) {
+      linkPoints[i] += position;
+    }
+  }
 }

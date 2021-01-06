@@ -300,7 +300,12 @@ class CanvasModel extends ChangeNotifier {
   }
 
   moveSelectedComponents(Offset position) {
-    // TODO: move middle link points if both components are selected
+    linkDataMap.values.forEach((value) {
+      if (selectedComponents.contains(value.componentOutId) &&
+          selectedComponents.contains(value.componentInId)) {
+        value.updateAllMiddlePoints(position);
+      }
+    });
     selectedComponents.forEach((componentId) {
       componentDataMap[componentId].updateComponentDataPosition(position);
       updateLinkMap(componentId);

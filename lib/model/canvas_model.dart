@@ -11,11 +11,6 @@ import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
 import 'package:uuid/uuid.dart';
 
-int componentCount = 100;
-int linkCount = 0;
-int portPerComponentMaxCount = 4;
-int menuComponentCount = 12;
-
 class CanvasModel extends ChangeNotifier {
   var _uuid = Uuid();
 
@@ -32,6 +27,10 @@ class CanvasModel extends ChangeNotifier {
 
   dynamic selectedItem;
   final DeselectItem deselectItem = DeselectItem();
+
+  Color selectedPortColor = Colors.cyanAccent;
+  Color otherPortsColor = Colors.teal;
+  Color componentHighLightColor = Colors.red;
 
   final PortRules portRules = PortRules();
 

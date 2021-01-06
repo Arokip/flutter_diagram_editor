@@ -146,6 +146,17 @@ class Component extends StatelessWidget {
       ),
     );
   }
+
+  List<Widget> showPorts(ComponentData componentData) {
+    return componentData.ports.values
+        .map(
+          (portData) => Port(
+            portData: portData,
+            size: componentData.portSize,
+          ),
+        )
+        .toList();
+  }
 }
 
 void showEditComponent(BuildContext context, ComponentData componentData) {
@@ -224,13 +235,4 @@ void showEditComponent(BuildContext context, ComponentData componentData) {
       );
     },
   );
-}
-
-List<Widget> showPorts(ComponentData componentData) {
-  return componentData.ports.values
-      .map((portData) => Port(
-            portData: portData,
-            size: componentData.portSize,
-          ))
-      .toList();
 }

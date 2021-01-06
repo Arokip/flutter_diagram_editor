@@ -189,7 +189,9 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     if (data is ComponentData) {
       return ChangeNotifierProvider<ComponentData>.value(
         value: data,
-        child: ComponentHighlight(),
+        child: ComponentHighlight(
+          color: canvasModel.componentHighLightColor,
+        ),
       );
     }
     return SizedBox.shrink();
@@ -215,7 +217,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         value: canvasModel.componentDataMap[data.componentId],
         child: PortHighlight(
           portData: data,
-          color: Colors.green,
+          color: canvasModel.selectedPortColor,
         ),
       );
     }
@@ -234,7 +236,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
                   value: component,
                   child: PortHighlight(
                     portData: port,
-                    color: Colors.amber,
+                    color: canvasModel.otherPortsColor,
                   ),
                 );
               }

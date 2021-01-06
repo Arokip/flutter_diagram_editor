@@ -34,6 +34,10 @@ class _EditorState extends State<Editor> {
     fillWithBodies(model);
     generatePortRules(model);
 
+    model.selectedPortColor = Colors.cyanAccent;
+    model.otherPortsColor = Colors.teal;
+    model.componentHighLightColor = Colors.deepOrange;
+
     model.menuData.addComponentToMenu(generateComponent3(model));
     model.menuData.addComponentToMenu(generateComponent1(model));
     model.menuData.addComponentToMenu(generateComponent2(model));

@@ -83,17 +83,6 @@ class CrystalPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;
-
-// @override
-// bool hitTest(Offset position) {
-//   Path path = new Path();
-//   path.addOval(Rect.fromCircle(
-//     center: this.location,
-//     radius: scale * radius,
-//   ));
-//
-//   return path.contains(position);
-// }
 }
 
 class MyCustomComponentData extends CustomComponentData {

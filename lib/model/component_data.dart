@@ -7,8 +7,6 @@ import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:uuid/uuid.dart';
 
 class ComponentData extends ChangeNotifier {
-  var _uuid = Uuid();
-
   String _id;
   Offset position;
   Size size;
@@ -45,7 +43,7 @@ class ComponentData extends ChangeNotifier {
         assert(portList != null),
         assert(optionsData != null),
         assert(componentBodyName != null) {
-    _id = _uuid.v4();
+    _id = Uuid().v4();
     for (int i = 0; i < portList.length; i++) {
       portList[i].setComponentId(id);
       portList[i].setId(i);

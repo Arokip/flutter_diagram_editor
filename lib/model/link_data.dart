@@ -22,6 +22,10 @@ class LinkData extends ChangeNotifier {
   })  : assert(width > 0),
         assert(tipSize > 0);
 
+  linkNotifyListeners() {
+    notifyListeners();
+  }
+
   setStart(Offset start) {
     linkPoints[0] = start;
     notifyListeners();

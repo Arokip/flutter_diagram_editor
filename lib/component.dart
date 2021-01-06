@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/port.dart';
 import 'package:provider/provider.dart';
 
@@ -47,12 +46,14 @@ class Component extends StatelessWidget {
             canvasSelectItem(componentData);
           }
         },
+        onPanStart: (_) {
+          deselectIfLinkSelected();
+        },
         onPanUpdate: (details) {
           if (isMultipleSelectionOn) {
             addToMultipleSelection(componentData.id);
             moveSelectedComponents(details.delta / canvasScale);
           } else {
-            deselectIfLinkSelected();
             componentData
                 .updateComponentDataPosition(details.delta / canvasScale);
             updateLinkMap(componentData.id);

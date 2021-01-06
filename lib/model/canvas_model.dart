@@ -156,6 +156,7 @@ class CanvasModel extends ChangeNotifier {
 
   deselectIfLinkSelected() {
     if (selectedItem is LinkData) {
+      selectedItem.linkNotifyListeners();
       selectDeselectItem();
     }
   }

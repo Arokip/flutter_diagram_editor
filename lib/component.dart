@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
+import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/port.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,8 @@ class Component extends StatelessWidget {
             (CanvasModel model) => model.componentBodyMap);
     var canvasSelectItem = context
         .select<CanvasModel, Function>((CanvasModel model) => model.selectItem);
+    var deselectIfLinkSelected = context.select<CanvasModel, Function>(
+        (CanvasModel model) => model.deselectIfLinkSelected);
     var isMultipleSelectionOn = context.select<CanvasModel, bool>(
         (CanvasModel model) => model.isMultipleSelectionOn);
     var addOrRemoveToMultipleSelection = context.select<CanvasModel, Function>(
@@ -49,9 +52,9 @@ class Component extends StatelessWidget {
             addToMultipleSelection(componentData.id);
             moveSelectedComponents(details.delta / canvasScale);
           } else {
+            deselectIfLinkSelected();
             componentData
                 .updateComponentDataPosition(details.delta / canvasScale);
-
             updateLinkMap(componentData.id);
           }
         },
@@ -143,43 +146,6 @@ class Component extends StatelessWidget {
     );
   }
 }
-
-// class ComponentBody extends StatelessWidget {
-//   const ComponentBody({
-//     Key key,
-//     @required this.componentData,
-//     @required this.canvasScale,
-//   }) : super(key: key);
-//
-//   final ComponentData componentData;
-//   final double canvasScale;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: canvasScale * componentData.size.width,
-//       height: canvasScale * componentData.size.height,
-//       // child: componentData.componentBody,
-//       child: componentData.componentBody,
-//       // child: Container(
-//       //   child: Center(
-//       //     child: Text(
-//       //       '${componentData.customData.title}',
-//       //       style: TextStyle(fontSize: 16 * canvasScale),
-//       //       maxLines: 1,
-//       //     ),
-//       //   ),
-//       //   decoration: BoxDecoration(
-//       //     color: componentData.color,
-//       //     border: Border.all(
-//       //       width: 2.0 * canvasScale,
-//       //       color: Colors.black,
-//       //     ),
-//       //   ),
-//       // ),
-//     );
-//   }
-// }
 
 void showEditComponent(BuildContext context, ComponentData componentData) {
   final titleController = TextEditingController(

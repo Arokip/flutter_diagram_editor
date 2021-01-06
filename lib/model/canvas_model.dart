@@ -154,6 +154,12 @@ class CanvasModel extends ChangeNotifier {
     selectedItem = deselectItem;
   }
 
+  deselectIfLinkSelected() {
+    if (selectedItem is LinkData) {
+      selectDeselectItem();
+    }
+  }
+
   bool tryToConnectTwoPorts(PortData firstPort, PortData secondPort) {
     if (canConnectTwoPorts(firstPort, secondPort)) {
       connectTwoPorts(firstPort, secondPort);

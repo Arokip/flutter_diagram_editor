@@ -12,6 +12,7 @@ class MultipleSelectionSwitchButton extends StatelessWidget {
   final Color colorEnabled;
   final Color iconColorEnabled;
   final OpenDirection openDirection;
+  final List<MultipleSelectionOptionData> options;
 
   const MultipleSelectionSwitchButton({
     Key key,
@@ -21,14 +22,13 @@ class MultipleSelectionSwitchButton extends StatelessWidget {
     this.colorEnabled = const Color(0x44ff0000),
     this.iconColorEnabled = Colors.white,
     @required this.openDirection,
-  }) : super(key: key);
+    this.options = const [],
+  })  : assert(openDirection != null),
+        assert(options != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var options =
-        context.select<CanvasModel, List<MultipleSelectionOptionData>>(
-            (CanvasModel model) => model.multipleSelectionOptions);
-
     switch (openDirection) {
       case OpenDirection.left:
         return Selector<CanvasModel, bool>(

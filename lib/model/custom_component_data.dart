@@ -1,15 +1,15 @@
 class CustomComponentData {
-  String title;
+  String someText;
   String description;
 
   CustomComponentData({
-    this.title,
+    this.someText,
     this.description,
   });
 
   CustomComponentData duplicate() {
     return CustomComponentData(
-      title: this.title,
+      someText: this.someText,
       description: this.description,
     );
   }

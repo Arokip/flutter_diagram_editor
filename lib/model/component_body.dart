@@ -5,7 +5,7 @@ class ComponentBody {
   final Widget componentBody;
 
   ComponentBody({
-    this.menuComponentBody,
-    this.componentBody,
+    @required this.menuComponentBody,
+    @required this.componentBody,
   });
 }

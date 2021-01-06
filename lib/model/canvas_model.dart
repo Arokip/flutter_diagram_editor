@@ -6,7 +6,6 @@ import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/deselect_item.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/model/menu_data.dart';
-import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
@@ -39,8 +38,6 @@ class CanvasModel extends ChangeNotifier {
   bool isMultipleSelectionOn = false;
   List<String> selectedComponents = [];
 
-  List<MultipleSelectionOptionData> multipleSelectionOptions = [];
-
   // ==== getters ====
 
   Offset get position => _position;
@@ -56,16 +53,14 @@ class CanvasModel extends ChangeNotifier {
   // ==== initializer ====
 
   addNewComponentBody(String name, ComponentBody body) {
+    assert(body != null);
     _componentBodyMap[name] = body;
-  }
-
-  addMultipleSelectionOption(MultipleSelectionOptionData option) {
-    multipleSelectionOptions.add(option);
   }
 
   // ==== NOTIFIERS ====
 
   addComponentToMap(ComponentData componentData) {
+    print('add component to map: ${componentData.toString()}');
     _componentDataMap[componentData.id] = componentData;
     notifyListeners();
   }
@@ -305,6 +300,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   moveSelectedComponents(Offset position) {
+    // TODO: move middle link points if both components are selected
     selectedComponents.forEach((componentId) {
       componentDataMap[componentId].updateComponentDataPosition(position);
       updateLinkMap(componentId);
@@ -312,6 +308,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   removeSelectedComponents() {
+    assert(isMultipleSelectionOn);
     selectedComponents.forEach((componentId) {
       removeComponentFromList(componentId);
     });
@@ -319,12 +316,14 @@ class CanvasModel extends ChangeNotifier {
   }
 
   removeSelectedConnections() {
+    assert(isMultipleSelectionOn);
     selectedComponents.forEach((componentId) {
       removeComponentConnections(componentId);
     });
   }
 
   duplicateSelectedComponents() {
+    assert(isMultipleSelectionOn);
     double mostTop = double.infinity;
     double mostBottom = double.negativeInfinity;
     selectedComponents.forEach((componentId) {
@@ -344,6 +343,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   selectAllComponents() {
+    assert(isMultipleSelectionOn);
     _componentDataMap.keys.forEach((componentId) {
       addToMultipleSelection(componentId);
     });

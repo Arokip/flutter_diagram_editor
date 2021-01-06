@@ -183,7 +183,7 @@ class Component extends StatelessWidget {
 
 void showEditComponent(BuildContext context, ComponentData componentData) {
   final titleController = TextEditingController(
-      text: componentData.customData.title ?? 'fail null');
+      text: componentData.customData.someText ?? 'fail null');
   final descriptionController = TextEditingController(
       text: componentData.customData.description ?? 'fail null');
 
@@ -245,7 +245,7 @@ void showEditComponent(BuildContext context, ComponentData componentData) {
           ),
           FlatButton(
             onPressed: () {
-              componentData.customData.title = titleController.text;
+              componentData.customData.someText = titleController.text;
               componentData.customData.description = descriptionController.text;
               componentData.componentNotifyListeners();
               // disposeControllers();

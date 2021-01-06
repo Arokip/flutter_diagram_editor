@@ -5,16 +5,15 @@ import 'package:flutter_provider_canvas/hide_menu_button.dart';
 import 'package:flutter_provider_canvas/menu.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
-import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/component_options_data.dart';
-import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dart';
-import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/multiple_selection_switch_button.dart';
 import 'package:flutter_provider_canvas/remove_all_connections_button.dart';
 import 'package:flutter_provider_canvas/reset_view_button.dart';
-import 'package:flutter_provider_canvas/user/component/component_body_1.dart';
-import 'package:flutter_provider_canvas/user/component/component_body_2.dart';
+import 'package:flutter_provider_canvas/user/component/component_1.dart';
+import 'package:flutter_provider_canvas/user/component/component_2.dart';
+import 'package:flutter_provider_canvas/user/component/component_3.dart';
+import 'package:flutter_provider_canvas/user/component/component_crystal.dart';
+import 'package:flutter_provider_canvas/user/component/component_oval.dart';
 import 'package:provider/provider.dart';
 
 class Editor extends StatefulWidget {
@@ -34,10 +33,13 @@ class _EditorState extends State<Editor> {
   initializeModel() {
     fillWithBodies(model);
     generatePortRules(model);
-    model.menuData.addComponentToMenu(generateComponent(model, 'body1'));
-    model.menuData.addComponentToMenu(generateComponent(model, 'body1'));
-    model.menuData.addComponentToMenu(generateComponent(model, 'body2'));
-    addMultipleSelectedOptions(model);
+
+    model.menuData.addComponentToMenu(generateComponent3(model));
+    model.menuData.addComponentToMenu(generateComponent1(model));
+    model.menuData.addComponentToMenu(generateComponent2(model));
+    model.menuData.addComponentToMenu(generateComponent3(model));
+    model.menuData.addComponentToMenu(generateComponentOval(model));
+    model.menuData.addComponentToMenu(generateComponentCrystal(model));
   }
 
   @override
@@ -62,7 +64,7 @@ class _EditorState extends State<Editor> {
                   margin: EdgeInsets.fromLTRB(2, 8, 0, 8),
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    width: 80,
+                    width: 96,
                     height: 400,
                     color: Colors.black.withOpacity(0.24),
                     child: DiagramEditorMenu(
@@ -89,6 +91,28 @@ class _EditorState extends State<Editor> {
                 SizedBox(width: 8),
                 MultipleSelectionSwitchButton(
                   openDirection: OpenDirection.top,
+                  options: [
+                    MultipleSelectionOptionData(
+                      icon: Icons.link_off,
+                      tooltip: "Delete connections",
+                      onOptionTap: model.removeSelectedConnections,
+                    ),
+                    MultipleSelectionOptionData(
+                      icon: Icons.delete_forever,
+                      tooltip: "Delete",
+                      onOptionTap: model.removeSelectedComponents,
+                    ),
+                    MultipleSelectionOptionData(
+                      icon: Icons.copy,
+                      tooltip: "Duplicate",
+                      onOptionTap: model.duplicateSelectedComponents,
+                    ),
+                    MultipleSelectionOptionData(
+                      icon: Icons.all_inclusive,
+                      tooltip: "Select all",
+                      onOptionTap: model.selectAllComponents,
+                    ),
+                  ],
                 ),
                 SizedBox(width: 8),
                 DeleteAllButton(),
@@ -145,79 +169,26 @@ fillWithBodies(CanvasModel model) {
       componentBody: ComponentBodyWidget2(),
     ),
   );
-}
-
-ComponentData generateComponent(CanvasModel model, String name) {
-  return ComponentData(
-    size: Size(120, 80),
-    portSize: 20,
-    portList: [
-      PortData(
-        color: Colors.red,
-        borderColor: Colors.white,
-        alignment: Alignment(1, 0),
-        // portType: ['0', '1', '2', '3'][math.Random().nextInt(4)],
-        portType: '1',
-      )
-    ],
-    optionsData: ComponentOptionsData(
-      optionSize: 40,
-      optionsTop: [
-        ComponentOptionData(
-          color: Colors.lime,
-          icon: Icons.map,
-          tooltip: "map",
-          onOptionTap: (cid) {
-            print('map tap: $cid');
-          },
-        ),
-        ComponentOptionData(),
-        ComponentOptionData(tooltip: "nothing"),
-      ],
-      optionsBottom: [
-        ComponentOptionData(
-          color: Colors.red,
-          icon: Icons.delete_forever,
-          tooltip: "Delete",
-          onOptionTap: (cid) {
-            model.removeComponentFromList(cid);
-            print('remove component: $cid');
-          },
-        ),
-        ComponentOptionData(
-          color: Colors.yellow,
-          icon: Icons.copy,
-          tooltip: "Duplicate",
-          onOptionTap: (cid) {
-            model.duplicateComponentBelow(cid, Offset(0, 24));
-            print('duplicate component: $cid');
-          },
-        ),
-        ComponentOptionData(
-          color: Colors.deepPurple,
-          icon: Icons.link_off,
-          tooltip: "Remove all connections",
-          onOptionTap: (cid) {
-            model.removeComponentConnections(cid);
-            print('remove connections: $cid');
-          },
-        ),
-        ComponentOptionData(
-          color: Colors.deepOrange,
-          icon: Icons.aspect_ratio,
-          tooltip: "Resize",
-          onOptionTap: (cid) {
-            model.resizeComponent(cid);
-            print('resize: $cid');
-          },
-        )
-      ],
+  model.addNewComponentBody(
+    "body3",
+    ComponentBody(
+      menuComponentBody: MenuComponentBodyWidget3(),
+      componentBody: ComponentBodyWidget3(),
     ),
-    customData: CustomComponentData(
-      title: 'random title',
-      description: 'loooong description',
+  );
+  model.addNewComponentBody(
+    "body oval",
+    ComponentBody(
+      menuComponentBody: MenuComponentBodyWidgetOval(),
+      componentBody: ComponentBodyWidgetOval(),
     ),
-    componentBodyName: name,
+  );
+  model.addNewComponentBody(
+    "body crystal",
+    ComponentBody(
+      menuComponentBody: MenuComponentBodyWidgetCrystal(),
+      componentBody: ComponentBodyWidgetCrystal(),
+    ),
   );
 }
 
@@ -230,35 +201,4 @@ generatePortRules(CanvasModel model) {
   // portRules.canConnectSameComponent = true;
 
   model.portRules.setMaxConnectionCount("0", 2);
-}
-
-addMultipleSelectedOptions(CanvasModel model) {
-  model.addMultipleSelectionOption(
-    MultipleSelectionOptionData(
-      icon: Icons.link_off,
-      tooltip: "Delete connections",
-      onOptionTap: model.removeSelectedConnections,
-    ),
-  );
-  model.addMultipleSelectionOption(
-    MultipleSelectionOptionData(
-      icon: Icons.delete_forever,
-      tooltip: "Delete",
-      onOptionTap: model.removeSelectedComponents,
-    ),
-  );
-  model.addMultipleSelectionOption(
-    MultipleSelectionOptionData(
-      icon: Icons.copy,
-      tooltip: "Duplicate",
-      onOptionTap: model.duplicateSelectedComponents,
-    ),
-  );
-  model.addMultipleSelectionOption(
-    MultipleSelectionOptionData(
-      icon: Icons.all_inclusive,
-      tooltip: "Select all",
-      onOptionTap: model.selectAllComponents,
-    ),
-  );
 }

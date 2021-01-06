@@ -7,7 +7,6 @@ class PortData {
   final Color color;
   final Color borderColor;
   final Alignment alignment;
-
   final String portType;
 
   final List<PortConnection> _connections = [];
@@ -49,5 +48,10 @@ class PortData {
       borderColor: borderColor,
       portType: portType,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Port data ($id): componentId($componentId)';
   }
 }

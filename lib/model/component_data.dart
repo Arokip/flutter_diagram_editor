@@ -43,9 +43,10 @@ class ComponentData extends ChangeNotifier {
         assert(portSize != null),
         assert(portSize > 0),
         assert(portList != null),
-        assert(optionsData != null) {
+        assert(optionsData != null),
+        assert(componentBodyName != null) {
+    _id = _uuid.v4();
     for (int i = 0; i < portList.length; i++) {
-      _id = _uuid.v4();
       portList[i].setComponentId(id);
       portList[i].setId(i);
       ports[i] = portList[i];
@@ -116,5 +117,12 @@ class ComponentData extends ChangeNotifier {
     }
     size = tempSize;
     notifyListeners();
+  }
+
+  @override
+  String toString() {
+    return ''' Component data ($id)
+    position: $position
+    ports: $ports''';
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
-import 'package:flutter_provider_canvas/user/component/component_3.dart';
 import 'package:provider/provider.dart';
 
 import 'component_common.dart';
@@ -70,7 +69,9 @@ ComponentData generateComponent1(CanvasModel model) {
     ],
     optionsData: ComponentCommon.optionsData(model),
     customData: MyCustomComponentData(
-      someText: 'my text',
+      firstText: 'first',
+      secondText: 'second',
+      count: 10,
     ),
     componentBodyName: 'body1',
   );

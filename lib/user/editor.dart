@@ -38,12 +38,13 @@ class _EditorState extends State<Editor> {
     model.otherPortsColor = Colors.teal;
     model.componentHighLightColor = Colors.deepOrange;
 
-    model.menuData.addComponentToMenu(generateComponent3(model));
-    model.menuData.addComponentToMenu(generateComponent1(model));
-    model.menuData.addComponentToMenu(generateComponent2(model));
-    model.menuData.addComponentToMenu(generateComponent3(model));
-    model.menuData.addComponentToMenu(generateComponentOval(model));
-    model.menuData.addComponentToMenu(generateComponentCrystal(model));
+    model.menuData.addComponentsToMenu([
+      generateComponentCrystal(model),
+      generateComponentOval(model),
+      generateComponent1(model),
+      generateComponent2(model, context),
+      generateComponent3(model),
+    ]);
   }
 
   @override

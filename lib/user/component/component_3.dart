@@ -53,15 +53,9 @@ class MenuComponentBodyWidget3 extends StatelessWidget {
   }
 }
 
-class MyCustomComponentData extends CustomComponentData {
-  String someText;
-
-  MyCustomComponentData({this.someText});
-}
-
 ComponentData generateComponent3(CanvasModel model) {
   return ComponentData(
-    size: Size(120, 80),
+    size: Size(64, 100),
     portSize: 20,
     portList: [
       PortData(
@@ -79,7 +73,9 @@ ComponentData generateComponent3(CanvasModel model) {
     ],
     optionsData: ComponentCommon.optionsData(model),
     customData: MyCustomComponentData(
-      someText: 'my text',
+      firstText: 'first',
+      secondText: 'second',
+      count: 10,
     ),
     componentBodyName: 'body3',
   );

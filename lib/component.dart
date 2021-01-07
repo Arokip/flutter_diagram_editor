@@ -71,17 +71,23 @@ class Component extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   // component body:
-                  GestureDetector(
-                    onLongPress: () {
-                      showEditComponent(context, componentData);
-                    },
-                    child: SizedBox(
-                      width: canvasScale * componentData.size.width,
-                      height: canvasScale * componentData.size.height,
-                      child: componentBodyMap[componentData.componentBodyName]
-                          .componentBody,
-                    ),
+                  SizedBox(
+                    width: canvasScale * componentData.size.width,
+                    height: canvasScale * componentData.size.height,
+                    child: componentBodyMap[componentData.componentBodyName]
+                        .componentBody,
                   ),
+                  // GestureDetector(
+                  //   onLongPress: () {
+                  //     showEditComponent(context, componentData);
+                  //   },
+                  //   child: SizedBox(
+                  //     width: canvasScale * componentData.size.width,
+                  //     height: canvasScale * componentData.size.height,
+                  //     child: componentBodyMap[componentData.componentBodyName]
+                  //         .componentBody,
+                  //   ),
+                  // ),
                   // ports:
                   ...showPorts(componentData),
                 ],
@@ -159,80 +165,80 @@ class Component extends StatelessWidget {
   }
 }
 
-void showEditComponent(BuildContext context, ComponentData componentData) {
-  final titleController = TextEditingController(
-      text: componentData.customData.someText ?? 'fail null');
-  final descriptionController = TextEditingController(
-      text: componentData.customData.description ?? 'fail null');
-
-  disposeControllers() {
-    titleController.dispose();
-    descriptionController.dispose();
-  }
-
-  showDialog(
-    barrierDismissible: false,
-    useSafeArea: true,
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Column(
-          children: [
-            SizedBox(width: 600),
-            Container(
-              width: 50,
-              height: 50,
-              color: Colors.red,
-            ),
-            Container(
-              color: Colors.purple,
-              child: Text('whatever'),
-            ),
-            TextField(
-              controller: titleController,
-              maxLines: 1,
-              decoration: InputDecoration(
-                // hintText: 'Find Group',
-                labelText: 'Title',
-                fillColor: Colors.white,
-                contentPadding: EdgeInsets.only(left: 13),
-              ),
-            ),
-            SizedBox(height: 8),
-            TextField(
-              controller: descriptionController,
-              textInputAction: TextInputAction.newline,
-              maxLines: null,
-              decoration: InputDecoration(
-                // hintText: 'Find Group',
-                labelText: 'Description',
-                fillColor: Colors.white,
-                contentPadding: EdgeInsets.only(left: 13),
-              ),
-            ),
-          ],
-        ),
-        scrollable: true,
-        actions: [
-          FlatButton(
-            onPressed: () {
-              // disposeControllers();
-              Navigator.of(context).pop();
-            },
-            child: Text('DISCARD'),
-          ),
-          FlatButton(
-            onPressed: () {
-              componentData.customData.someText = titleController.text;
-              componentData.customData.description = descriptionController.text;
-              componentData.componentNotifyListeners();
-              // disposeControllers();
-              Navigator.of(context).pop();
-            },
-            child: Text('SAVE'),
-          )
-        ],
-      );
-    },
-  );
-}
+// void showEditComponent(BuildContext context, ComponentData componentData) {
+//   final titleController = TextEditingController(
+//       text: componentData.customData.someText ?? 'fail null');
+//   final descriptionController = TextEditingController(
+//       text: componentData.customData.description ?? 'fail null');
+//
+//   disposeControllers() {
+//     titleController.dispose();
+//     descriptionController.dispose();
+//   }
+//
+//   showDialog(
+//     barrierDismissible: false,
+//     useSafeArea: true,
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         content: Column(
+//           children: [
+//             SizedBox(width: 600),
+//             Container(
+//               width: 50,
+//               height: 50,
+//               color: Colors.red,
+//             ),
+//             Container(
+//               color: Colors.purple,
+//               child: Text('whatever'),
+//             ),
+//             TextField(
+//               controller: titleController,
+//               maxLines: 1,
+//               decoration: InputDecoration(
+//                 // hintText: 'Find Group',
+//                 labelText: 'Title',
+//                 fillColor: Colors.white,
+//                 contentPadding: EdgeInsets.only(left: 13),
+//               ),
+//             ),
+//             SizedBox(height: 8),
+//             TextField(
+//               controller: descriptionController,
+//               textInputAction: TextInputAction.newline,
+//               maxLines: null,
+//               decoration: InputDecoration(
+//                 // hintText: 'Find Group',
+//                 labelText: 'Description',
+//                 fillColor: Colors.white,
+//                 contentPadding: EdgeInsets.only(left: 13),
+//               ),
+//             ),
+//           ],
+//         ),
+//         scrollable: true,
+//         actions: [
+//           FlatButton(
+//             onPressed: () {
+//               // disposeControllers();
+//               Navigator.of(context).pop();
+//             },
+//             child: Text('DISCARD'),
+//           ),
+//           FlatButton(
+//             onPressed: () {
+//               componentData.customData.someText = titleController.text;
+//               componentData.customData.description = descriptionController.text;
+//               componentData.componentNotifyListeners();
+//               // disposeControllers();
+//               Navigator.of(context).pop();
+//             },
+//             child: Text('SAVE'),
+//           )
+//         ],
+//       );
+//     },
+//   );
+// }

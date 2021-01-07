@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_options_data.dart';
+import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 
 class ComponentCommon {
   static ComponentOptionsData optionsData(CanvasModel model,
@@ -58,4 +59,25 @@ class ComponentCommon {
           )
         ],
       );
+}
+
+class MyCustomComponentData extends CustomComponentData {
+  String firstText;
+  String secondText;
+  int count;
+
+  MyCustomComponentData({
+    this.firstText,
+    this.secondText,
+    this.count,
+  });
+
+  @override
+  CustomComponentData duplicate() {
+    return MyCustomComponentData(
+      firstText: 'count: $count',
+      secondText: secondText,
+      count: count + 1,
+    );
+  }
 }

@@ -49,6 +49,10 @@ class CanvasModel extends ChangeNotifier {
 
   HashMap<String, LinkData> get linkDataMap => _linkDataMap;
 
+  getComponentData(String id) {
+    return componentDataMap[id];
+  }
+
   // ==== initializer ====
 
   addNewComponentBody(String name, ComponentBody body) {

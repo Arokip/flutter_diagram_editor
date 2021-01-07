@@ -55,6 +55,11 @@ class ComponentData extends ChangeNotifier {
     notifyListeners();
   }
 
+  componentUpdateData() {
+    print('component notify update');
+    notifyListeners();
+  }
+
   updateComponentDataPosition(Offset position) {
     this.position += position;
     notifyListeners();

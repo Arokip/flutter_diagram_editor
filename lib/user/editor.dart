@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_provider_canvas/canvas.dart';
 import 'package:flutter_provider_canvas/delete_all_button.dart';
 import 'package:flutter_provider_canvas/hide_menu_button.dart';
@@ -153,6 +155,27 @@ class _EditorState extends State<Editor> {
               ),
             ),
           ),
+          Positioned(
+              width: 40,
+              height: 40,
+              right: 24,
+              top: 240,
+              child: GestureDetector(
+                onTap: () {
+                  print('tap');
+                  if (kIsWeb) {
+                    print('not functional on web');
+                  } else {
+                    print('not web');
+                    model.saveDiagramAsImage(1.0, 32);
+                  }
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  color: Colors.red,
+                  child: Text('save\nimage'),
+                ),
+              )),
         ],
       ),
     );

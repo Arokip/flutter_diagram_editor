@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_provider_canvas/component.dart';
 import 'package:flutter_provider_canvas/component_highlight.dart';
 import 'package:flutter_provider_canvas/component_options.dart';
@@ -273,48 +274,51 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
 
     var canvasModel = Provider.of<CanvasModel>(context, listen: true);
 
-    return Listener(
-      onPointerSignal: (event) => _receivedPointerSignal(event, canvasModel),
-      child: GestureDetector(
-        child: Container(
-          color: Colors.white,
-          child: ClipRect(
-            child: AnimatedBuilder(
-              animation: _animationController,
-              builder: (BuildContext context, Widget child) {
-                canUpdateCanvasModel = true;
-                return Transform(
-                  transform: Matrix4.identity()
-                    ..translate(_transformPosition.dx, _transformPosition.dy)
-                    ..scale(_transformScale),
-                  child: child,
-                );
-              },
-              child: Stack(
-                clipBehavior: Clip.none,
-                fit: StackFit.expand,
-                children: [
-                  addDragTarget(canvasModel),
-                  ...showComponents(canvasModel),
-                  ...showLinks(canvasModel),
-                  showOptions(canvasModel),
-                  showComponentHighlight(canvasModel),
-                  showPortHighlight(canvasModel),
-                  ...showConnectablePortsHighlight(canvasModel),
-                  ...showMultipleComponentsHighlight(canvasModel),
-                ],
+    return RepaintBoundary(
+      key: canvasModel.canvasGlobalKey,
+      child: Listener(
+        onPointerSignal: (event) => _receivedPointerSignal(event, canvasModel),
+        child: GestureDetector(
+          child: Container(
+            color: canvasModel.canvasColor,
+            child: ClipRect(
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (BuildContext context, Widget child) {
+                  canUpdateCanvasModel = true;
+                  return Transform(
+                    transform: Matrix4.identity()
+                      ..translate(_transformPosition.dx, _transformPosition.dy)
+                      ..scale(_transformScale),
+                    child: child,
+                  );
+                },
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  fit: StackFit.expand,
+                  children: [
+                    addDragTarget(canvasModel),
+                    ...showComponents(canvasModel),
+                    ...showLinks(canvasModel),
+                    showOptions(canvasModel),
+                    showComponentHighlight(canvasModel),
+                    showPortHighlight(canvasModel),
+                    ...showConnectablePortsHighlight(canvasModel),
+                    ...showMultipleComponentsHighlight(canvasModel),
+                  ],
+                ),
               ),
             ),
           ),
+          onScaleStart: (details) => _onScaleStart(details, canvasModel),
+          onScaleUpdate: (details) => _onScaleUpdate(details, canvasModel),
+          onScaleEnd: (details) => _onScaleEnd(canvasModel),
+          onTap: () {
+            print('canvas tapped');
+            canvasModel.selectDeselectItem();
+            canvasModel.clearMultipleSelectedComponents();
+          },
         ),
-        onScaleStart: (details) => _onScaleStart(details, canvasModel),
-        onScaleUpdate: (details) => _onScaleUpdate(details, canvasModel),
-        onScaleEnd: (details) => _onScaleEnd(canvasModel),
-        onTap: () {
-          print('canvas tapped');
-          canvasModel.selectDeselectItem();
-          canvasModel.clearMultipleSelectedComponents();
-        },
       ),
     );
   }

@@ -1,6 +1,11 @@
 import 'dart:collection';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/deselect_item.dart';
@@ -9,6 +14,7 @@ import 'package:flutter_provider_canvas/model/menu_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/model/port_rules.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class CanvasModel extends ChangeNotifier {
@@ -27,6 +33,8 @@ class CanvasModel extends ChangeNotifier {
 
   dynamic selectedItem;
   final DeselectItem deselectItem = DeselectItem();
+
+  Color canvasColor = Colors.yellow;
 
   Color selectedPortColor = Colors.cyanAccent;
   Color otherPortsColor = Colors.teal;
@@ -63,7 +71,6 @@ class CanvasModel extends ChangeNotifier {
   // ==== NOTIFIERS ====
 
   addComponentToMap(ComponentData componentData) {
-    print('add component to map: ${componentData.toString()}');
     _componentDataMap[componentData.id] = componentData;
     notifyListeners();
   }
@@ -376,5 +383,158 @@ class CanvasModel extends ChangeNotifier {
     componentDataMap.values.forEach((component) {
       removeComponentConnections(component.id);
     });
+  }
+
+  // ==== screenshot ====
+
+  // TODO: unable canvas moving + loading
+
+  GlobalKey canvasGlobalKey = GlobalKey();
+
+  dynamic screenshotSelectedItem;
+  Offset screenshotPosition;
+  double screenshotScale;
+
+  HashMap<Offset, ui.Image> positionImageMap = HashMap<Offset, ui.Image>();
+
+  _prepareForScreenshot(double scale) async {
+    print('prepare');
+    screenshotSelectedItem = selectedItem;
+    screenshotPosition = position;
+    screenshotScale = _scale;
+
+    selectDeselectItem();
+    turnOffMultipleSelection();
+
+    _scale = scale;
+  }
+
+  _setScreenshotPosition(Offset position) {
+    _position = position;
+    notifyListeners();
+  }
+
+  _resetAfterScreenshot() {
+    print('reset');
+    selectedItem = screenshotSelectedItem;
+    _position = screenshotPosition;
+    _scale = screenshotScale;
+    positionImageMap = HashMap<Offset, ui.Image>();
+    notifyListeners();
+  }
+
+  saveDiagramAsImage(double scale, double edge) async {
+    assert(edge >= 0);
+    _prepareForScreenshot(scale);
+
+    RenderRepaintBoundary boundary =
+        canvasGlobalKey.currentContext.findRenderObject();
+    Rect diagramRect = _getDiagramRect(scale, edge);
+    Size canvasSize = boundary.size;
+
+    print('rect: $diagramRect');
+
+    int horizontal = (diagramRect.width / canvasSize.width).ceil();
+    int vertical = (diagramRect.height / canvasSize.height).ceil();
+
+    List<Offset> positionsForSS = [];
+
+    for (int i = 0; i < vertical; i++) {
+      for (int j = 0; j < horizontal; j++) {
+        positionsForSS.add(
+            -Offset(canvasSize.width * j, canvasSize.height * i) -
+                diagramRect.topLeft);
+      }
+    }
+
+    for (Offset position in positionsForSS) {
+      _setScreenshotPosition(position);
+      await SchedulerBinding.instance.endOfFrame.then((_) async {
+        await _captureImage(boundary, position);
+      });
+    }
+
+    var resultImage = await _mergeImages(diagramRect);
+
+    await _saveToFile(resultImage);
+
+    _resetAfterScreenshot();
+  }
+
+  Future<void> _captureImage(
+      RenderRepaintBoundary boundary, Offset position) async {
+    ui.Image image = await boundary.toImage();
+    positionImageMap[position] = image;
+  }
+
+  Future<ui.Image> _mergeImages(Rect rect) {
+    ui.PictureRecorder recorder = ui.PictureRecorder();
+    final paint = Paint();
+    Canvas canvas = Canvas(recorder);
+
+    canvas.drawColor(canvasColor, BlendMode.srcOver);
+
+    positionImageMap.forEach((position, image) {
+      canvas.drawImage(image, -position - rect.topLeft, paint);
+    });
+
+    return recorder.endRecording().toImage(
+          rect.width.ceil(),
+          rect.height.ceil(),
+        );
+  }
+
+  _saveToFile(ui.Image image) async {
+    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List pngBytes = byteData.buffer.asUint8List();
+    String dir = (await getExternalStorageDirectory()).path;
+    String fullPath = '$dir/${Uuid().v4()}.png';
+    File file = File(fullPath);
+    await file.writeAsBytes(pngBytes);
+  }
+
+  Rect _getDiagramRect(double scale, [double edge = 0]) {
+    double mostTop = double.infinity;
+    double mostBottom = double.negativeInfinity;
+    double mostLeft = double.infinity;
+    double mostRight = double.negativeInfinity;
+
+    if (componentDataMap == null || componentDataMap.isEmpty) {
+      if (edge <= 0) {
+        return Rect.fromLTRB(0, 0, 1, 1);
+      }
+      return Rect.fromLTRB(0, 0, edge, edge);
+    }
+
+    componentDataMap.keys.forEach((componentId) {
+      if (mostTop > _componentDataMap[componentId].position.dy) {
+        mostTop = _componentDataMap[componentId].position.dy;
+      }
+      if (mostLeft > _componentDataMap[componentId].position.dx) {
+        mostLeft = _componentDataMap[componentId].position.dx;
+      }
+      if (mostBottom <
+          _componentDataMap[componentId].position.dy +
+              _componentDataMap[componentId].size.height +
+              _componentDataMap[componentId].portSize) {
+        mostBottom = _componentDataMap[componentId].position.dy +
+            _componentDataMap[componentId].size.height +
+            _componentDataMap[componentId].portSize;
+      }
+      if (mostRight <
+          _componentDataMap[componentId].position.dx +
+              _componentDataMap[componentId].size.width +
+              _componentDataMap[componentId].portSize) {
+        mostRight = _componentDataMap[componentId].position.dx +
+            _componentDataMap[componentId].size.width +
+            _componentDataMap[componentId].portSize;
+      }
+    });
+    return Rect.fromLTRB(
+      scale * mostLeft - edge,
+      scale * mostTop - edge,
+      scale * mostRight + edge,
+      scale * mostBottom + edge,
+    );
   }
 }

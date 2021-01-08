@@ -24,7 +24,7 @@ class ComponentBodyWidgetCrystal extends StatelessWidget {
         painter: CrystalPainter(
           color: Colors.deepPurple,
           borderColor: Colors.grey[100],
-          borderWidth: 4.0,
+          borderWidth: 4.0 * canvasScale,
         ),
         child: Center(
           child: Text(

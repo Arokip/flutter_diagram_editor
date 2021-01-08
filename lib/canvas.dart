@@ -12,11 +12,6 @@ import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/port_highlight.dart';
 import 'package:provider/provider.dart';
 
-double mouseScaleSpeed = 0.8;
-
-double maxScale = 8.0;
-double minScale = 0.1;
-
 class DiagramEditorCanvas extends StatefulWidget {
   @override
   _DiagramEditorCanvasState createState() => _DiagramEditorCanvasState();
@@ -50,7 +45,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
       double previousScale = _transformScale;
 
       _transformPosition += details.focalPoint - _lastFocalPoint;
-      _transformScale = keepScaleInBounds(details.scale, _baseScale);
+      _transformScale =
+          canvasModel.keepScaleInBounds(details.scale, _baseScale);
 
       var focalPoint = (details.localFocalPoint - _transformPosition);
       var focalPointScaled = focalPoint * (_transformScale / previousScale);
@@ -86,10 +82,12 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   void _receivedPointerSignal(
       PointerSignalEvent event, CanvasModel canvasModel) {
     if (event is PointerScrollEvent) {
-      double scaleChange =
-          event.scrollDelta.dy < 0 ? (1 / mouseScaleSpeed) : (mouseScaleSpeed);
+      double scaleChange = event.scrollDelta.dy < 0
+          ? (1 / canvasModel.mouseScaleSpeed)
+          : (canvasModel.mouseScaleSpeed);
 
-      scaleChange = keepScaleInBounds(scaleChange, canvasModel.scale);
+      scaleChange =
+          canvasModel.keepScaleInBounds(scaleChange, canvasModel.scale);
 
       if (scaleChange == 0.0) {
         return;
@@ -125,17 +123,6 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     canvasModel.addComponentToMap(
       menuComponentData.duplicate(componentPosition),
     );
-  }
-
-  double keepScaleInBounds(double scale, double canvasScale) {
-    double scaleResult = scale;
-    if (scale * canvasScale <= minScale) {
-      scaleResult = minScale / canvasScale;
-    }
-    if (scale * canvasScale >= maxScale) {
-      scaleResult = maxScale / canvasScale;
-    }
-    return scaleResult;
   }
 
   Widget addDragTarget(CanvasModel canvasModel) {

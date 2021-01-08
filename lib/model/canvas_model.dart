@@ -23,6 +23,11 @@ class CanvasModel extends ChangeNotifier {
   Offset _position = Offset(0, 0);
   double _scale = 1.0;
 
+  double mouseScaleSpeed = 0.8;
+
+  double maxScale = 8.0;
+  double minScale = 0.1;
+
   HashMap<String, ComponentBody> _componentBodyMap =
       HashMap<String, ComponentBody>();
 
@@ -34,7 +39,7 @@ class CanvasModel extends ChangeNotifier {
   dynamic selectedItem;
   final DeselectItem deselectItem = DeselectItem();
 
-  Color canvasColor = Colors.yellow;
+  Color canvasColor = Colors.white;
 
   Color selectedPortColor = Colors.cyanAccent;
   Color otherPortsColor = Colors.teal;
@@ -59,6 +64,17 @@ class CanvasModel extends ChangeNotifier {
 
   getComponentData(String id) {
     return componentDataMap[id];
+  }
+
+  double keepScaleInBounds(double scale, double canvasScale) {
+    double scaleResult = scale;
+    if (scale * canvasScale <= minScale) {
+      scaleResult = minScale / canvasScale;
+    }
+    if (scale * canvasScale >= maxScale) {
+      scaleResult = maxScale / canvasScale;
+    }
+    return scaleResult;
   }
 
   // ==== initializer ====
@@ -425,33 +441,27 @@ class CanvasModel extends ChangeNotifier {
 
   saveDiagramAsImage(double scale, double edge) async {
     assert(edge >= 0);
+    assert(scale <= maxScale && scale >= minScale);
     _prepareForScreenshot(scale);
 
     RenderRepaintBoundary boundary =
         canvasGlobalKey.currentContext.findRenderObject();
     Rect diagramRect = _getDiagramRect(scale, edge);
-    Size canvasSize = boundary.size;
-
-    print('rect: $diagramRect');
+    Size canvasSize = boundary.size - Offset(1, 1);
 
     int horizontal = (diagramRect.width / canvasSize.width).ceil();
     int vertical = (diagramRect.height / canvasSize.height).ceil();
 
-    List<Offset> positionsForSS = [];
-
     for (int i = 0; i < vertical; i++) {
       for (int j = 0; j < horizontal; j++) {
-        positionsForSS.add(
+        var screenshotPosition =
             -Offset(canvasSize.width * j, canvasSize.height * i) -
-                diagramRect.topLeft);
+                diagramRect.topLeft;
+        _setScreenshotPosition(screenshotPosition);
+        await SchedulerBinding.instance.endOfFrame.then((_) async {
+          await _captureImage(boundary, screenshotPosition);
+        });
       }
-    }
-
-    for (Offset position in positionsForSS) {
-      _setScreenshotPosition(position);
-      await SchedulerBinding.instance.endOfFrame.then((_) async {
-        await _captureImage(boundary, position);
-      });
     }
 
     var resultImage = await _mergeImages(diagramRect);

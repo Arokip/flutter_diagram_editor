@@ -167,7 +167,7 @@ class _EditorState extends State<Editor> {
                     print('not functional on web');
                   } else {
                     print('not web');
-                    model.saveDiagramAsImage(1.0, 32);
+                    model.saveDiagramAsImage(8.0, 32);
                   }
                 },
                 child: Container(

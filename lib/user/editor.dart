@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_provider_canvas/canvas.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dar
 import 'package:flutter_provider_canvas/multiple_selection_switch_button.dart';
 import 'package:flutter_provider_canvas/remove_all_connections_button.dart';
 import 'package:flutter_provider_canvas/reset_view_button.dart';
+import 'package:flutter_provider_canvas/save_as_image_button.dart';
 import 'package:flutter_provider_canvas/user/component/component_1.dart';
 import 'package:flutter_provider_canvas/user/component/component_2.dart';
 import 'package:flutter_provider_canvas/user/component/component_3.dart';
@@ -92,6 +92,8 @@ class _EditorState extends State<Editor> {
                   children: [
                     HideMenuButton(),
                     SizedBox(height: 8),
+                    SaveAsImageButton(),
+                    SizedBox(height: 8),
                     ResetViewButton(),
                   ],
                 ),
@@ -155,27 +157,6 @@ class _EditorState extends State<Editor> {
               ),
             ),
           ),
-          Positioned(
-              width: 40,
-              height: 40,
-              right: 24,
-              top: 240,
-              child: GestureDetector(
-                onTap: () {
-                  print('tap');
-                  if (kIsWeb) {
-                    print('not functional on web');
-                  } else {
-                    print('not web');
-                    model.saveDiagramAsImage(8.0, 32);
-                  }
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Colors.red,
-                  child: Text('save\nimage'),
-                ),
-              )),
         ],
       ),
     );

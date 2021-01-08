@@ -411,10 +411,7 @@ class CanvasModel extends ChangeNotifier {
   Offset screenshotPosition;
   double screenshotScale;
 
-  HashMap<Offset, ui.Image> positionImageMap = HashMap<Offset, ui.Image>();
-
-  _prepareForScreenshot(double scale) async {
-    print('prepare');
+  _prepareCanvasForScreenshot(double scale) async {
     screenshotSelectedItem = selectedItem;
     screenshotPosition = position;
     screenshotScale = _scale;
@@ -430,19 +427,18 @@ class CanvasModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  _resetAfterScreenshot() {
-    print('reset');
+  _resetCanvasAfterScreenshot() {
     selectedItem = screenshotSelectedItem;
     _position = screenshotPosition;
     _scale = screenshotScale;
-    positionImageMap = HashMap<Offset, ui.Image>();
     notifyListeners();
   }
 
-  saveDiagramAsImage(double scale, double edge) async {
+  saveDiagramAsImage(String fileName,
+      [double scale = 1.0, double edge = 0]) async {
     assert(edge >= 0);
     assert(scale <= maxScale && scale >= minScale);
-    _prepareForScreenshot(scale);
+    _prepareCanvasForScreenshot(scale);
 
     RenderRepaintBoundary boundary =
         canvasGlobalKey.currentContext.findRenderObject();
@@ -452,6 +448,8 @@ class CanvasModel extends ChangeNotifier {
     int horizontal = (diagramRect.width / canvasSize.width).ceil();
     int vertical = (diagramRect.height / canvasSize.height).ceil();
 
+    HashMap<Offset, ui.Image> positionImageMap = HashMap<Offset, ui.Image>();
+
     for (int i = 0; i < vertical; i++) {
       for (int j = 0; j < horizontal; j++) {
         var screenshotPosition =
@@ -459,25 +457,26 @@ class CanvasModel extends ChangeNotifier {
                 diagramRect.topLeft;
         _setScreenshotPosition(screenshotPosition);
         await SchedulerBinding.instance.endOfFrame.then((_) async {
-          await _captureImage(boundary, screenshotPosition);
+          await _captureImage(boundary, screenshotPosition, positionImageMap);
         });
       }
     }
 
-    var resultImage = await _mergeImages(diagramRect);
+    _resetCanvasAfterScreenshot();
 
-    await _saveToFile(resultImage);
+    var resultImage = await _mergeImages(diagramRect, positionImageMap);
 
-    _resetAfterScreenshot();
+    await _saveToFile(resultImage, fileName);
   }
 
-  Future<void> _captureImage(
-      RenderRepaintBoundary boundary, Offset position) async {
+  Future<void> _captureImage(RenderRepaintBoundary boundary, Offset position,
+      HashMap<Offset, ui.Image> positionImageMap) async {
     ui.Image image = await boundary.toImage();
     positionImageMap[position] = image;
   }
 
-  Future<ui.Image> _mergeImages(Rect rect) {
+  Future<ui.Image> _mergeImages(
+      Rect diagramRect, HashMap<Offset, ui.Image> positionImageMap) {
     ui.PictureRecorder recorder = ui.PictureRecorder();
     final paint = Paint();
     Canvas canvas = Canvas(recorder);
@@ -485,25 +484,25 @@ class CanvasModel extends ChangeNotifier {
     canvas.drawColor(canvasColor, BlendMode.srcOver);
 
     positionImageMap.forEach((position, image) {
-      canvas.drawImage(image, -position - rect.topLeft, paint);
+      canvas.drawImage(image, -position - diagramRect.topLeft, paint);
     });
 
     return recorder.endRecording().toImage(
-          rect.width.ceil(),
-          rect.height.ceil(),
+          diagramRect.width.ceil(),
+          diagramRect.height.ceil(),
         );
   }
 
-  _saveToFile(ui.Image image) async {
+  _saveToFile(ui.Image image, String fileName) async {
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
     String dir = (await getExternalStorageDirectory()).path;
-    String fullPath = '$dir/${Uuid().v4()}.png';
+    String fullPath = '$dir/$fileName.png';
     File file = File(fullPath);
     await file.writeAsBytes(pngBytes);
   }
 
-  Rect _getDiagramRect(double scale, [double edge = 0]) {
+  Rect _getDiagramRect(double scale, double edge) {
     double mostTop = double.infinity;
     double mostBottom = double.negativeInfinity;
     double mostLeft = double.infinity;

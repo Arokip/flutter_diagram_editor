@@ -406,6 +406,7 @@ class CanvasModel extends ChangeNotifier {
   // TODO: unable canvas moving + loading
 
   GlobalKey canvasGlobalKey = GlobalKey();
+  bool isTakingImage = false;
 
   dynamic screenshotSelectedItem;
   Offset screenshotPosition;
@@ -415,6 +416,8 @@ class CanvasModel extends ChangeNotifier {
     screenshotSelectedItem = selectedItem;
     screenshotPosition = position;
     screenshotScale = _scale;
+
+    isTakingImage = true;
 
     selectDeselectItem();
     turnOffMultipleSelection();
@@ -431,6 +434,9 @@ class CanvasModel extends ChangeNotifier {
     selectedItem = screenshotSelectedItem;
     _position = screenshotPosition;
     _scale = screenshotScale;
+
+    isTakingImage = false;
+
     notifyListeners();
   }
 

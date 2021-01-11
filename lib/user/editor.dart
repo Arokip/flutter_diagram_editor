@@ -63,6 +63,15 @@ class _EditorState extends State<Editor> {
               child: DiagramEditorCanvas(),
             ),
           ),
+          Consumer(builder: (_, CanvasModel canvasModel, __) {
+            return canvasModel.isTakingImage
+                ? Container(
+                    alignment: Alignment.center,
+                    color: Colors.black.withOpacity(0.5),
+                    child: CircularProgressIndicator(),
+                  )
+                : SizedBox.shrink();
+          }),
           Consumer(
             builder: (_, CanvasModel canvasModel, __) {
               return Visibility(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO: předělat options - seznam options vytvořených v modelu stejně jako component body, které budou pojmenovány a přidělovány ke komponentám
 class ComponentOptionsData {
   final double optionSize;
   final List<ComponentOptionData> optionsTop;

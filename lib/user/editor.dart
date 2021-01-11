@@ -10,6 +10,7 @@ import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dar
 import 'package:flutter_provider_canvas/multiple_selection_switch_button.dart';
 import 'package:flutter_provider_canvas/remove_all_connections_button.dart';
 import 'package:flutter_provider_canvas/reset_view_button.dart';
+import 'package:flutter_provider_canvas/save_as_graphml_button.dart';
 import 'package:flutter_provider_canvas/save_as_image_button.dart';
 import 'package:flutter_provider_canvas/user/component/component_1.dart';
 import 'package:flutter_provider_canvas/user/component/component_2.dart';
@@ -133,7 +134,13 @@ class _EditorState extends State<Editor> {
                   ],
                 ),
                 SizedBox(width: 8),
-                DeleteAllButton(),
+                Column(
+                  children: [
+                    SaveAsGraphmlButton(),
+                    SizedBox(height: 8),
+                    DeleteAllButton(),
+                  ],
+                ),
                 SizedBox(width: 8),
                 RemoveAllConnectionsButton(),
               ],

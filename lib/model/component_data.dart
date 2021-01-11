@@ -20,7 +20,7 @@ class ComponentData extends ChangeNotifier {
 
   bool enableResize = false;
 
-  CustomComponentData customData;
+  final CustomComponentData customData;
 
   final String componentBodyName;
 
@@ -33,7 +33,7 @@ class ComponentData extends ChangeNotifier {
     this.portSize = 20,
     this.portList = const [],
     this.optionsData = const ComponentOptionsData(),
-    this.customData,
+    this.customData = const EmptyCustomComponentData(),
     @required this.componentBodyName,
   })  : assert(minSize < size),
         assert(position != null),
@@ -42,6 +42,7 @@ class ComponentData extends ChangeNotifier {
         assert(portSize > 0),
         assert(portList != null),
         assert(optionsData != null),
+        assert(customData != null),
         assert(componentBodyName != null) {
     _id = Uuid().v4();
     for (int i = 0; i < portList.length; i++) {

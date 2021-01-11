@@ -68,11 +68,11 @@ ComponentData generateComponent1(CanvasModel model) {
       )
     ],
     optionsData: ComponentCommon.optionsData(model),
-    customData: MyCustomComponentData(
-      firstText: 'first',
-      secondText: 'second',
-      count: 10,
-    ),
+    // no data: customData: MyCustomComponentData(
+    //   firstText: 'first',
+    //   secondText: 'second',
+    //   count: 10,
+    // ),
     componentBodyName: 'body1',
   );
 }

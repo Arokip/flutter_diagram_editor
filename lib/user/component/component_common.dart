@@ -80,4 +80,14 @@ class MyCustomComponentData extends CustomComponentData {
       count: count + 1,
     );
   }
+
+  @override
+  String serialize() {
+    return 'TODO: *serialized custom component data*';
+  }
+
+  @override
+  CustomComponentData deserialize(String data) {
+    return MyCustomComponentData(); // TODO: deserialize
+  }
 }

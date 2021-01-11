@@ -449,7 +449,7 @@ class CanvasModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  saveDiagramAsImage(String fileName,
+  saveDiagramAsImage(String filePath,
       [double scale = 1.0, double edge = 0]) async {
     assert(edge >= 0);
     assert(scale <= maxScale && scale >= minScale);
@@ -481,7 +481,7 @@ class CanvasModel extends ChangeNotifier {
 
     var resultImage = await _mergeImages(diagramRect, positionImageMap);
 
-    await _saveToFile(resultImage, fileName);
+    await _saveToFile(resultImage, filePath);
   }
 
   Future<void> _captureImage(RenderRepaintBoundary boundary, Offset position,
@@ -508,12 +508,10 @@ class CanvasModel extends ChangeNotifier {
         );
   }
 
-  _saveToFile(ui.Image image, String fileName) async {
+  _saveToFile(ui.Image image, String filePath) async {
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
-    String dir = (await getExternalStorageDirectory()).path;
-    String fullPath = '$dir/$fileName.png';
-    File file = File(fullPath);
+    File file = File(filePath);
     await file.writeAsBytes(pngBytes);
   }
 

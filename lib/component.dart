@@ -25,8 +25,6 @@ class Component extends StatelessWidget {
         (CanvasModel model) => model.deselectIfLinkSelected);
     var isMultipleSelectionOn = context.select<CanvasModel, bool>(
         (CanvasModel model) => model.isMultipleSelectionOn);
-    var addOrRemoveToMultipleSelection = context.select<CanvasModel, Function>(
-        (CanvasModel model) => model.addOrRemoveToMultipleSelection);
     var addToMultipleSelection = context.select<CanvasModel, Function>(
         (CanvasModel model) => model.addToMultipleSelection);
     var componentData = Provider.of<ComponentData>(context);
@@ -40,11 +38,7 @@ class Component extends StatelessWidget {
       top: canvasScale * componentData.position.dy + canvasPosition.dy,
       child: GestureDetector(
         onTap: () {
-          if (isMultipleSelectionOn) {
-            addOrRemoveToMultipleSelection(componentData.id);
-          } else {
-            canvasSelectItem(componentData);
-          }
+          canvasSelectItem(componentData);
         },
         onPanStart: (_) {
           deselectIfLinkSelected();

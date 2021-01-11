@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -30,12 +31,14 @@ class SaveAsImageButton extends StatelessWidget {
           ),
           child: IconButton(
             color: iconColor,
-            onPressed: () {
+            onPressed: () async {
               if (kIsWeb) {
                 print('save as image is not functional on web');
               } else {
                 print('not web');
-                canvasModel.saveDiagramAsImage(Uuid().v4(), 2.0, 32);
+                String dir = (await getExternalStorageDirectory()).path;
+                String filePath = '$dir/${Uuid().v4()}.png';
+                canvasModel.saveDiagramAsImage(filePath, 2.0, 32);
               }
             },
             tooltip: 'Save as image (only mobile)',

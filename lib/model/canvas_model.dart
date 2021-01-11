@@ -411,8 +411,6 @@ class CanvasModel extends ChangeNotifier {
 
   // ==== screenshot ====
 
-  // TODO: unable canvas moving + loading
-
   GlobalKey canvasGlobalKey = GlobalKey();
   bool isTakingImage = false;
 
@@ -550,6 +548,22 @@ class CanvasModel extends ChangeNotifier {
             _componentDataMap[componentId].size.width +
             _componentDataMap[componentId].portSize;
       }
+    });
+    linkDataMap.keys.forEach((linkId) {
+      linkDataMap[linkId].linkPoints.forEach((point) {
+        if (mostTop > point.dy) {
+          mostTop = point.dy;
+        }
+        if (mostLeft > point.dx) {
+          mostLeft = point.dx;
+        }
+        if (mostBottom < point.dy) {
+          mostBottom = point.dy;
+        }
+        if (mostRight < point.dx) {
+          mostRight = point.dx;
+        }
+      });
     });
     return Rect.fromLTRB(
       scale * mostLeft - edge,

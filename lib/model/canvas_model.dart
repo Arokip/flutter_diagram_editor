@@ -152,9 +152,17 @@ class CanvasModel extends ChangeNotifier {
 
   selectItem(dynamic item) {
     print('select item: $item');
-    if (selectedItem == item) return;
 
     if (item == null) return;
+
+    if (isMultipleSelectionOn) {
+      if (item is ComponentData) {
+        addOrRemoveToMultipleSelection(item.id);
+      }
+      return;
+    }
+
+    if (selectedItem == item) return;
 
     if (item is ComponentData) {
     } else if (item is PortData) {
@@ -172,7 +180,6 @@ class CanvasModel extends ChangeNotifier {
 
     selectedItem = item;
 
-    turnOffMultipleSelection();
     notifyListeners();
   }
 

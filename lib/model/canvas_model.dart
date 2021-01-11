@@ -158,6 +158,8 @@ class CanvasModel extends ChangeNotifier {
     if (isMultipleSelectionOn) {
       if (item is ComponentData) {
         addOrRemoveToMultipleSelection(item.id);
+      } else if (item is PortData) {
+        addOrRemoveToMultipleSelection(item.componentId);
       }
       return;
     }

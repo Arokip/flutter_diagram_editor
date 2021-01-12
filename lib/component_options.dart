@@ -1,7 +1,10 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/component_option.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
+import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:provider/provider.dart';
 
 class ComponentOptions extends StatelessWidget {
@@ -12,15 +15,18 @@ class ComponentOptions extends StatelessWidget {
         .select<CanvasModel, Offset>((CanvasModel model) => model.position);
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
+    var componentOptionMap =
+        context.select<CanvasModel, HashMap<String, ComponentOptionData>>(
+            (CanvasModel model) => model.componentOptionMap);
 
     return Positioned(
       left: canvasScale *
               (componentData.position.dx + componentData.portSize / 2) +
           canvasPosition.dx -
-          componentData.optionsData.optionSize / 2,
+          componentData.optionSize / 2,
       top: canvasScale * componentData.position.dy +
           canvasPosition.dy -
-          componentData.optionsData.optionSize,
+          componentData.optionSize,
       child: Stack(
         children: [
           Column(
@@ -28,15 +34,14 @@ class ComponentOptions extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  SizedBox(
-                      height: componentData.optionsData.optionSize, width: 0),
-                  ...componentData.optionsData.optionsTop.map(
-                    (option) => Padding(
+                  SizedBox(height: componentData.optionSize, width: 0),
+                  ...componentData.topOptions.map(
+                    (optionName) => Padding(
                       padding: EdgeInsets.only(right: 8),
                       child: ComponentOption(
                         componentId: componentData.id,
-                        optionSize: componentData.optionsData.optionSize,
-                        option: option,
+                        optionSize: componentData.optionSize,
+                        option: componentOptionMap[optionName],
                       ),
                     ),
                   ),
@@ -48,13 +53,13 @@ class ComponentOptions extends StatelessWidget {
               ),
               Row(
                 children: [
-                  ...componentData.optionsData.optionsBottom.map(
-                    (option) => Padding(
+                  ...componentData.bottomOptions.map(
+                    (optionName) => Padding(
                       padding: EdgeInsets.only(right: 8),
                       child: ComponentOption(
                         componentId: componentData.id,
-                        optionSize: componentData.optionsData.optionSize,
-                        option: option,
+                        optionSize: componentData.optionSize,
+                        option: componentOptionMap[optionName],
                       ),
                     ),
                   ),

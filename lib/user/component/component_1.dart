@@ -67,7 +67,8 @@ ComponentData generateComponent1(CanvasModel model) {
         portType: '1',
       )
     ],
-    optionsData: ComponentCommon.optionsData(model),
+    topOptions: ComponentCommon.topOptions,
+    bottomOptions: ComponentCommon.bottomOptions,
     // no data: customData: MyCustomComponentData(
     //   firstText: 'first',
     //   secondText: 'second',

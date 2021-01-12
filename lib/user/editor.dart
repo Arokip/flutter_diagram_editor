@@ -15,6 +15,7 @@ import 'package:flutter_provider_canvas/save_as_image_button.dart';
 import 'package:flutter_provider_canvas/user/component/component_1.dart';
 import 'package:flutter_provider_canvas/user/component/component_2.dart';
 import 'package:flutter_provider_canvas/user/component/component_3.dart';
+import 'package:flutter_provider_canvas/user/component/component_common.dart';
 import 'package:flutter_provider_canvas/user/component/component_crystal.dart';
 import 'package:flutter_provider_canvas/user/component/component_oval.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ class _EditorState extends State<Editor> {
   initializeModel() {
     fillWithBodies(model);
     generatePortRules(model);
+    fillWithOptions(model);
 
     model.selectedPortColor = Colors.cyanAccent;
     model.otherPortsColor = Colors.teal;
@@ -226,4 +228,10 @@ generatePortRules(CanvasModel model) {
   // portRules.canConnectSameComponent = true;
 
   model.portRules.setMaxConnectionCount("0", 2);
+}
+
+fillWithOptions(CanvasModel model) {
+  ComponentCommon.optionsData(model).forEach((optionName, optionData) {
+    model.addNewComponentOption(optionName, optionData);
+  });
 }

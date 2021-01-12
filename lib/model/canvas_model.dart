@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
+import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:flutter_provider_canvas/model/deselect_item.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/model/menu_data.dart';
@@ -29,6 +30,9 @@ class CanvasModel extends ChangeNotifier {
 
   HashMap<String, ComponentBody> _componentBodyMap =
       HashMap<String, ComponentBody>();
+
+  HashMap<String, ComponentOptionData> _componentOptionMap =
+      HashMap<String, ComponentOptionData>();
 
   HashMap<String, ComponentData> _componentDataMap =
       HashMap<String, ComponentData>();
@@ -57,6 +61,9 @@ class CanvasModel extends ChangeNotifier {
 
   HashMap<String, ComponentBody> get componentBodyMap => _componentBodyMap;
 
+  HashMap<String, ComponentOptionData> get componentOptionMap =>
+      _componentOptionMap;
+
   HashMap<String, ComponentData> get componentDataMap => _componentDataMap;
 
   HashMap<String, LinkData> get linkDataMap => _linkDataMap;
@@ -81,6 +88,11 @@ class CanvasModel extends ChangeNotifier {
   addNewComponentBody(String name, ComponentBody body) {
     assert(body != null);
     _componentBodyMap[name] = body;
+  }
+
+  addNewComponentOption(String name, ComponentOptionData option) {
+    assert(option != null);
+    _componentOptionMap[name] = option;
   }
 
   // ==== NOTIFIERS ====

@@ -57,41 +57,9 @@ class MenuComponentBodyWidget2 extends StatelessWidget {
 ComponentData generateComponent2(CanvasModel model, BuildContext context) {
   return ComponentData(
     size: Size(120, 80),
-    portSize: 20,
     portList: [],
-    optionsData: ComponentOptionsData(
-      optionSize: 64,
-      optionsTop: [
-        ComponentOptionData(
-          color: Colors.lime,
-          icon: Icons.open_in_browser,
-          tooltip: "open",
-          onOptionTap: (cid) {
-            showEditComponent(context, model.getComponentData(cid));
-          },
-        ),
-      ],
-      optionsBottom: [
-        ComponentOptionData(
-          color: Colors.red,
-          icon: Icons.delete_forever,
-          tooltip: "Delete",
-          onOptionTap: (cid) {
-            model.removeComponentFromList(cid);
-            print('remove component: $cid');
-          },
-        ),
-        ComponentOptionData(
-          color: Colors.yellow,
-          icon: Icons.copy,
-          tooltip: "Duplicate",
-          onOptionTap: (cid) {
-            model.duplicateComponentBelow(cid, Offset(0, 24));
-            print('duplicate component: $cid');
-          },
-        ),
-      ],
-    ),
+    optionSize: 64,
+    topOptions: ['delete', 'duplicate'],
     customData: MyCustomComponentData(
       firstText: 'first',
       secondText: 'second',

@@ -124,7 +124,8 @@ ComponentData generateComponentCrystal(CanvasModel model) {
         portType: '1',
       ),
     ],
-    optionsData: ComponentCommon.optionsData(model),
+    topOptions: ComponentCommon.topOptions,
+    bottomOptions: ComponentCommon.bottomOptions,
     customData: MyCustomComponentData(
       firstText: 'crystal',
       secondText: 'first',

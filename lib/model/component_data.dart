@@ -16,7 +16,11 @@ class ComponentData extends ChangeNotifier {
   final List<PortData> portList;
   HashMap<int, PortData> ports = HashMap<int, PortData>();
 
-  final ComponentOptionsData optionsData;
+  // final ComponentOptionsData optionsData;
+
+  final double optionSize;
+  final List<String> topOptions;
+  final List<String> bottomOptions;
 
   bool enableResize = false;
 
@@ -32,7 +36,10 @@ class ComponentData extends ChangeNotifier {
     this.minSize = const Size(32, 32),
     this.portSize = 20,
     this.portList = const [],
-    this.optionsData = const ComponentOptionsData(),
+    // this.optionsData = const ComponentOptionsData(),
+    this.optionSize = 40,
+    this.topOptions = const [],
+    this.bottomOptions = const [],
     this.customData = const EmptyCustomComponentData(),
     @required this.componentBodyName,
   })  : assert(minSize < size),
@@ -41,7 +48,9 @@ class ComponentData extends ChangeNotifier {
         assert(portSize != null),
         assert(portSize > 0),
         assert(portList != null),
-        assert(optionsData != null),
+        // assert(optionsData != null),
+        assert(topOptions != null),
+        assert(bottomOptions != null),
         assert(customData != null),
         assert(componentBodyName != null) {
     _id = Uuid().v4();
@@ -99,7 +108,9 @@ class ComponentData extends ChangeNotifier {
       size: Size(size.width, size.height),
       portSize: portSize,
       portList: newPorts,
-      optionsData: optionsData,
+      // optionsData: optionsData,
+      topOptions: topOptions,
+      bottomOptions: bottomOptions,
       position: position + offset,
       customData: customData.duplicate(),
       componentBodyName: componentBodyName,

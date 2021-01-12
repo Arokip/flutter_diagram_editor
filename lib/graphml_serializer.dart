@@ -36,27 +36,33 @@ class GraphmlSerializer {
 
   static _buildExtraData(XmlBuilder builder) {
     // node:
-    _buildData(builder, 'd0', 'node', 'double', 'position.dx');
-    _buildData(builder, 'd1', 'node', 'double', 'position.dy');
-    _buildData(builder, 'd2', 'node', 'double', 'size.width');
-    _buildData(builder, 'd3', 'node', 'double', 'size.height');
-    _buildData(builder, 'd4', 'node', 'double', 'minSize.width');
-    _buildData(builder, 'd5', 'node', 'double', 'minSize.height');
-    _buildData(builder, 'd6', 'node', 'double', 'portSize');
-    _buildData(builder, 'd7', 'node', 'string', 'optionsData');
-    _buildData(builder, 'd8', 'node', 'string', 'customData');
-    _buildData(builder, 'd9', 'node', 'string', 'componentBodyName');
+    _buildData(builder, 'node-position.dx', 'node', 'double', 'position.dx');
+    _buildData(builder, 'node-position.dy', 'node', 'double', 'position.dy');
+    _buildData(builder, 'node-size.width', 'node', 'double', 'size.width');
+    _buildData(builder, 'node-size.height', 'node', 'double', 'size.height');
+    _buildData(
+        builder, 'node-minSize.width', 'node', 'double', 'minSize.width');
+    _buildData(
+        builder, 'node-minSize.height', 'node', 'double', 'minSize.height');
+    _buildData(builder, 'node-portSize', 'node', 'double', 'portSize');
+    _buildData(builder, 'node-optionSize', 'node', 'double', 'optionSize');
+    _buildData(builder, 'node-topOptions', 'node', 'string', 'topOptions');
+    _buildData(
+        builder, 'node-bottomOptions', 'node', 'string', 'bottomOptions');
+    _buildData(builder, 'node-customData', 'node', 'string', 'customData');
+    _buildData(builder, 'node-componentBodyName', 'node', 'string',
+        'componentBodyName');
     // port:
-    _buildData(builder, 'd10', 'port', 'int', 'color');
-    _buildData(builder, 'd11', 'port', 'int', 'borderColor');
-    _buildData(builder, 'd12', 'port', 'double', 'alignment.x');
-    _buildData(builder, 'd13', 'port', 'double', 'alignment.y');
-    _buildData(builder, 'd14', 'port', 'string', 'portType');
+    _buildData(builder, 'port-color', 'port', 'int', 'color');
+    _buildData(builder, 'port-borderColor', 'port', 'int', 'borderColor');
+    _buildData(builder, 'port-alignment.x', 'port', 'double', 'alignment.x');
+    _buildData(builder, 'port-alignment.y', 'port', 'double', 'alignment.y');
+    _buildData(builder, 'port-portType', 'port', 'string', 'portType');
     // edge:
-    _buildData(builder, 'd15', 'edge', 'int', 'color');
-    _buildData(builder, 'd16', 'edge', 'double', 'width');
-    _buildData(builder, 'd17', 'edge', 'double', 'tipSize');
-    _buildData(builder, 'd18', 'edge', 'string', 'linkPoints');
+    _buildData(builder, 'edge-color', 'edge', 'int', 'color');
+    _buildData(builder, 'edge-width', 'edge', 'double', 'width');
+    _buildData(builder, 'edge-tipSize', 'edge', 'double', 'tipSize');
+    _buildData(builder, 'edge-linkPoints', 'edge', 'string', 'linkPoints');
   }
 
   static _buildData(
@@ -110,16 +116,23 @@ class GraphmlSerializer {
   }
 
   static _buildNodeData(XmlBuilder builder, ComponentData component) {
-    _buildDataInstance(builder, 'd0', component.position.dx);
-    _buildDataInstance(builder, 'd1', component.position.dy);
-    _buildDataInstance(builder, 'd2', component.size.width);
-    _buildDataInstance(builder, 'd3', component.size.height);
-    _buildDataInstance(builder, 'd4', component.minSize.width);
-    _buildDataInstance(builder, 'd5', component.minSize.height);
-    _buildDataInstance(builder, 'd6', component.portSize);
-    _buildDataInstance(builder, 'd7', 'TODO: options data name');
-    _buildDataInstance(builder, 'd8', component.customData.serialize());
-    _buildDataInstance(builder, 'd9', component.componentBodyName);
+    _buildDataInstance(builder, 'node-position.dx', component.position.dx);
+    _buildDataInstance(builder, 'node-position.dy', component.position.dy);
+    _buildDataInstance(builder, 'node-size.width', component.size.width);
+    _buildDataInstance(builder, 'node-size.height', component.size.height);
+    _buildDataInstance(builder, 'node-minSize.width', component.minSize.width);
+    _buildDataInstance(
+        builder, 'node-minSize.height', component.minSize.height);
+    _buildDataInstance(builder, 'node-portSize', component.portSize);
+    _buildDataInstance(builder, 'node-optionSize', component.optionSize);
+    _buildDataInstance(builder, 'node-topOptions',
+        _componentOptionsToString(component.topOptions));
+    _buildDataInstance(builder, 'node-bottomOptions',
+        _componentOptionsToString(component.bottomOptions));
+    _buildDataInstance(
+        builder, 'node-customData', component.customData.serialize());
+    _buildDataInstance(
+        builder, 'node-componentBodyName', component.componentBodyName);
   }
 
   static _buildPort(XmlBuilder builder, PortData port) {
@@ -130,11 +143,11 @@ class GraphmlSerializer {
   }
 
   static _buildPortData(XmlBuilder builder, PortData port) {
-    _buildDataInstance(builder, 'd10', port.color.value);
-    _buildDataInstance(builder, 'd11', port.borderColor.value);
-    _buildDataInstance(builder, 'd12', port.alignment.x);
-    _buildDataInstance(builder, 'd13', port.alignment.y);
-    _buildDataInstance(builder, 'd14', port.portType);
+    _buildDataInstance(builder, 'port-color', port.color.value);
+    _buildDataInstance(builder, 'port-borderColor', port.borderColor.value);
+    _buildDataInstance(builder, 'port-alignment.x', port.alignment.x);
+    _buildDataInstance(builder, 'port-alignment.y', port.alignment.y);
+    _buildDataInstance(builder, 'port-portType', port.portType);
   }
 
   static _buildEdges(XmlBuilder builder, CanvasModel model) {
@@ -170,13 +183,20 @@ class GraphmlSerializer {
     XmlBuilder builder,
     LinkData link,
   ) {
-    _buildDataInstance(builder, 'd15', link.color.value);
-    _buildDataInstance(builder, 'd16', link.width);
-    _buildDataInstance(builder, 'd17', link.tipSize);
-    _buildDataInstance(builder, 'd18', _linkPointsToString(link.linkPoints));
+    _buildDataInstance(builder, 'edge-color', link.color.value);
+    _buildDataInstance(builder, 'edge-width', link.width);
+    _buildDataInstance(builder, 'edge-tipSize', link.tipSize);
+    _buildDataInstance(
+        builder, 'edge-linkPoints', _linkPointsToString(link.linkPoints));
   }
 
   static String _linkPointsToString(List<Offset> points) {
-    return points.map((p) => '(${p.dx},${p.dy})').reduce((pp, p) => '$pp;$p');
+    return (points.isEmpty)
+        ? ''
+        : points.map((p) => '${p.dx},${p.dy}').reduce((pp, p) => '$pp;$p');
+  }
+
+  static String _componentOptionsToString(List<String> optionNames) {
+    return (optionNames.isEmpty) ? '' : optionNames.reduce((ss, s) => '$ss;$s');
   }
 }

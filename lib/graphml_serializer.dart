@@ -6,6 +6,7 @@ import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:xml/xml.dart';
 
 // source: https://cs.brown.edu/people/rtamassi/gdhandbook/chapters/graphml.pdf
+// xml package: https://pub.dev/packages/xml
 
 class GraphmlSerializer {
   static XmlDocument buildDiagramXml(CanvasModel model) {

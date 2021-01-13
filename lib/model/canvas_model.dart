@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_provider_canvas/graphml_serializer.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/component_options_data.dart';
@@ -421,6 +422,19 @@ class CanvasModel extends ChangeNotifier {
     });
   }
 
+  // ==== graphML ====
+
+  saveDiagramAsGraphML(String filePath) {
+    String xmlString =
+        GraphmlSerializer.buildDiagramXml(this).toXmlString(pretty: true);
+    _saveXmlToFile(xmlString, filePath);
+  }
+
+  _saveXmlToFile(String xmlString, String filePath) async {
+    File file = File(filePath);
+    await file.writeAsString(xmlString);
+  }
+
   // ==== screenshot ====
 
   GlobalKey canvasGlobalKey = GlobalKey();
@@ -490,7 +504,7 @@ class CanvasModel extends ChangeNotifier {
 
     var resultImage = await _mergeImages(diagramRect, positionImageMap);
 
-    await _saveToFile(resultImage, filePath);
+    await _saveImageToFile(resultImage, filePath);
   }
 
   Future<void> _captureImage(RenderRepaintBoundary boundary, Offset position,
@@ -517,7 +531,7 @@ class CanvasModel extends ChangeNotifier {
         );
   }
 
-  _saveToFile(ui.Image image, String filePath) async {
+  _saveImageToFile(ui.Image image, String filePath) async {
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
     File file = File(filePath);

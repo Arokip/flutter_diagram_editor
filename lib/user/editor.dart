@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_provider_canvas/canvas.dart';
 import 'package:flutter_provider_canvas/delete_all_button.dart';
 import 'package:flutter_provider_canvas/hide_menu_button.dart';
+import 'package:flutter_provider_canvas/load_diagram_from_graphml_button.dart';
 import 'package:flutter_provider_canvas/menu.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
@@ -138,6 +139,8 @@ class _EditorState extends State<Editor> {
                 SizedBox(width: 8),
                 Column(
                   children: [
+                    LoadDiagramFromGraphmlButton(),
+                    SizedBox(height: 8),
                     SaveAsGraphmlButton(),
                     SizedBox(height: 8),
                     DeleteAllButton(),

@@ -1,19 +1,16 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/graphml_serializer.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-class SaveAsGraphmlButton extends StatelessWidget {
+class LoadDiagramFromGraphmlButton extends StatelessWidget {
   final double size;
   final Color color;
   final Color iconColor;
 
-  const SaveAsGraphmlButton({
+  const LoadDiagramFromGraphmlButton({
     Key key,
     this.size = 48,
     this.color = const Color(0x44000000),
@@ -35,18 +32,12 @@ class SaveAsGraphmlButton extends StatelessWidget {
           child: IconButton(
             color: iconColor,
             onPressed: () async {
-              // log('${GraphmlSerializer.buildDiagramXml(canvasModel).toXmlString(pretty: true)}');
-              if (kIsWeb) {
-                print('save as graphml is not implemented for web yet');
-              } else {
-                print('not web');
-                String dir = (await getExternalStorageDirectory()).path;
-                String filePath = '$dir/${Uuid().v4()}.graphml';
-                await canvasModel.saveDiagramAsGraphML(filePath);
-              }
+              String dir = (await getExternalStorageDirectory()).path;
+              String filePath = '$dir/exported2.graphml';
+              canvasModel.loadDiagramFromFile(filePath);
             },
-            tooltip: 'Save as GraphML',
-            icon: const Icon(Icons.save),
+            tooltip: 'Load from GraphML',
+            icon: const Icon(Icons.drive_folder_upload),
           ),
         );
       },

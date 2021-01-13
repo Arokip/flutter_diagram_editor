@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/component_options_data.dart';
+import 'package:flutter_provider_canvas/model/component_option_data.dart';
 import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 import 'package:provider/provider.dart';
 

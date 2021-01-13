@@ -11,7 +11,7 @@ import 'package:xml/xml.dart';
 class GraphmlSerializer {
   static XmlDocument buildDiagramXml(CanvasModel model) {
     final builder = XmlBuilder();
-    builder.processing('xml', 'version="1.0"');
+    builder.processing('xml', 'version="1.0" encoding="UTF-8"');
 
     builder.element('graphml', nest: () {
       builder.attribute('xmlns', 'http://graphml.graphdrawing.org/xmlns');
@@ -156,8 +156,8 @@ class GraphmlSerializer {
       _buildEdge(
         builder,
         link,
-        model.componentDataMap[link.componentOutId].id,
-        model.componentDataMap[link.componentInId].id,
+        model.componentDataMap[link.componentOutId].getPortId(link.id),
+        model.componentDataMap[link.componentInId].getPortId(link.id),
       );
     });
   }
@@ -165,16 +165,16 @@ class GraphmlSerializer {
   static _buildEdge(
     XmlBuilder builder,
     LinkData link,
-    String sourcePort,
-    String targetPort,
+    int sourcePort,
+    int targetPort,
   ) {
     builder.element('edge', nest: () {
       builder.attribute('id', link.id);
 
       builder.attribute('source', link.componentOutId);
       builder.attribute('target', link.componentInId);
-      builder.attribute('sourceport', sourcePort);
-      builder.attribute('targetport', targetPort);
+      builder.attribute('sourceport', sourcePort.toString());
+      builder.attribute('targetport', targetPort.toString());
 
       _buildEdgeData(builder, link);
     });

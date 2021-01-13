@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -6,10 +7,11 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_provider_canvas/graphml_deserializer.dart';
 import 'package:flutter_provider_canvas/graphml_serializer.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/component_options_data.dart';
+import 'package:flutter_provider_canvas/model/component_option_data.dart';
 import 'package:flutter_provider_canvas/model/deselect_item.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/model/menu_data.dart';
@@ -35,10 +37,13 @@ class CanvasModel extends ChangeNotifier {
   HashMap<String, ComponentOptionData> _componentOptionMap =
       HashMap<String, ComponentOptionData>();
 
+  MenuData menuData = MenuData();
+
+  final PortRules portRules = PortRules();
+
   HashMap<String, ComponentData> _componentDataMap =
       HashMap<String, ComponentData>();
   HashMap<String, LinkData> _linkDataMap = HashMap<String, LinkData>();
-  MenuData menuData = MenuData();
 
   dynamic selectedItem;
   final DeselectItem deselectItem = DeselectItem();
@@ -48,8 +53,6 @@ class CanvasModel extends ChangeNotifier {
   Color selectedPortColor = Colors.cyanAccent;
   Color otherPortsColor = Colors.teal;
   Color componentHighLightColor = Colors.red;
-
-  final PortRules portRules = PortRules();
 
   bool isMultipleSelectionOn = false;
   List<String> selectedComponents = [];
@@ -404,6 +407,7 @@ class CanvasModel extends ChangeNotifier {
   selectAllComponents() {
     assert(isMultipleSelectionOn);
     _componentDataMap.keys.forEach((componentId) {
+      print('select all: $componentId');
       addToMultipleSelection(componentId);
     });
   }
@@ -427,12 +431,26 @@ class CanvasModel extends ChangeNotifier {
   saveDiagramAsGraphML(String filePath) {
     String xmlString =
         GraphmlSerializer.buildDiagramXml(this).toXmlString(pretty: true);
+    log(xmlString);
     _saveXmlToFile(xmlString, filePath);
   }
 
   _saveXmlToFile(String xmlString, String filePath) async {
     File file = File(filePath);
     await file.writeAsString(xmlString);
+  }
+
+  loadDiagramFromFile(String filePath) {
+    resetCanvasView();
+
+    File file = File(filePath);
+    GraphmlDeserializer.buildDiagramFromXml(file, this);
+  }
+
+  replaceDiagram(HashMap<String, ComponentData> newComponentDataMap,
+      HashMap<String, LinkData> newLinkDataMap) {
+    _componentDataMap = newComponentDataMap;
+    _linkDataMap = newLinkDataMap;
   }
 
   // ==== screenshot ====

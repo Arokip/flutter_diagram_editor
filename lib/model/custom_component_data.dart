@@ -8,7 +8,7 @@ abstract class CustomComponentData {
 
   String serialize();
 
-  CustomComponentData deserialize(String data);
+  CustomComponentData deserialize(String data); // TODO: change somehow
 }
 
 class EmptyCustomComponentData extends CustomComponentData {

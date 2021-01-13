@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/component_options_data.dart';
 import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:uuid/uuid.dart';
@@ -15,8 +14,6 @@ class ComponentData extends ChangeNotifier {
 
   final List<PortData> portList;
   HashMap<int, PortData> ports = HashMap<int, PortData>();
-
-  // final ComponentOptionsData optionsData;
 
   final double optionSize;
   final List<String> topOptions;
@@ -36,7 +33,6 @@ class ComponentData extends ChangeNotifier {
     this.minSize = const Size(32, 32),
     this.portSize = 20,
     this.portList = const [],
-    // this.optionsData = const ComponentOptionsData(),
     this.optionSize = 40,
     this.topOptions = const [],
     this.bottomOptions = const [],
@@ -48,14 +44,13 @@ class ComponentData extends ChangeNotifier {
         assert(portSize != null),
         assert(portSize > 0),
         assert(portList != null),
-        // assert(optionsData != null),
         assert(topOptions != null),
         assert(bottomOptions != null),
         assert(customData != null),
         assert(componentBodyName != null) {
     _id = Uuid().v4();
     for (int i = 0; i < portList.length; i++) {
-      portList[i].setComponentId(id);
+      portList[i].setComponentId(_id);
       portList[i].setId(i);
       ports[i] = portList[i];
     }
@@ -89,6 +84,22 @@ class ComponentData extends ChangeNotifier {
     );
 
     return position + componentCenter + portCenter + portPosition;
+  }
+
+  int getPortId(String linkId) {
+    int resultPortId;
+    ports.forEach((int portId, PortData port) {
+      port.connections.forEach((connection) {
+        if (connection.connectionId == linkId) {
+          resultPortId = portId;
+          return resultPortId;
+        }
+      });
+      if (resultPortId != null) {
+        return resultPortId;
+      }
+    });
+    return resultPortId;
   }
 
   removeConnection(String connectionId) {

@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 class LoadDiagramFromGraphmlButton extends StatelessWidget {
   final double size;
@@ -33,8 +34,8 @@ class LoadDiagramFromGraphmlButton extends StatelessWidget {
             color: iconColor,
             onPressed: () async {
               String dir = (await getExternalStorageDirectory()).path;
-              String filePath = '$dir/exported2.graphml';
-              canvasModel.loadDiagramFromFile(filePath);
+              String filePath = '$dir/exported.graphml';
+              canvasModel.loadDiagramFromFile(File(filePath));
             },
             tooltip: 'Load from GraphML',
             icon: const Icon(Icons.drive_folder_upload),

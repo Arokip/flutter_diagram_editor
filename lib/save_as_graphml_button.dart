@@ -1,8 +1,7 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/graphml_serializer.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +41,7 @@ class SaveAsGraphmlButton extends StatelessWidget {
                 print('not web');
                 String dir = (await getExternalStorageDirectory()).path;
                 String filePath = '$dir/${Uuid().v4()}.graphml';
-                await canvasModel.saveDiagramAsGraphML(filePath);
+                await canvasModel.saveDiagramAsGraphML(File(filePath));
               }
             },
             tooltip: 'Save as GraphML',

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
@@ -38,7 +40,7 @@ class SaveAsImageButton extends StatelessWidget {
                 print('not web');
                 String dir = (await getExternalStorageDirectory()).path;
                 String filePath = '$dir/${Uuid().v4()}.png';
-                canvasModel.saveDiagramAsImage(filePath, 2.0, 32);
+                canvasModel.saveDiagramAsImage(File(filePath), 2.0, 32);
               }
             },
             tooltip: 'Save as image (only mobile)',

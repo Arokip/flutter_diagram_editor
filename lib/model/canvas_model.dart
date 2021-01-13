@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -428,22 +427,14 @@ class CanvasModel extends ChangeNotifier {
 
   // ==== graphML ====
 
-  saveDiagramAsGraphML(String filePath) {
+  saveDiagramAsGraphML(File file) async {
     String xmlString =
         GraphmlSerializer.buildDiagramXml(this).toXmlString(pretty: true);
-    log(xmlString);
-    _saveXmlToFile(xmlString, filePath);
-  }
-
-  _saveXmlToFile(String xmlString, String filePath) async {
-    File file = File(filePath);
     await file.writeAsString(xmlString);
   }
 
-  loadDiagramFromFile(String filePath) {
+  loadDiagramFromFile(File file) {
     resetCanvasView();
-
-    File file = File(filePath);
     GraphmlDeserializer.buildDiagramFromXml(file, this);
   }
 
@@ -490,8 +481,7 @@ class CanvasModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  saveDiagramAsImage(String filePath,
-      [double scale = 1.0, double edge = 0]) async {
+  saveDiagramAsImage(File file, [double scale = 1.0, double edge = 0]) async {
     assert(edge >= 0);
     assert(scale <= maxScale && scale >= minScale);
     _prepareCanvasForScreenshot(scale);
@@ -522,7 +512,7 @@ class CanvasModel extends ChangeNotifier {
 
     var resultImage = await _mergeImages(diagramRect, positionImageMap);
 
-    await _saveImageToFile(resultImage, filePath);
+    await _saveImageToFile(resultImage, file);
   }
 
   Future<void> _captureImage(RenderRepaintBoundary boundary, Offset position,
@@ -549,10 +539,9 @@ class CanvasModel extends ChangeNotifier {
         );
   }
 
-  _saveImageToFile(ui.Image image, String filePath) async {
+  _saveImageToFile(ui.Image image, File file) async {
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
-    File file = File(filePath);
     await file.writeAsBytes(pngBytes);
   }
 

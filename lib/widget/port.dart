@@ -29,7 +29,11 @@ class Port extends StatelessWidget {
           canvasSelectItem(portData);
         },
         child: Container(
-          // child: Text(portData.portType),
+          child: Text(
+            portData.portType,
+            style:
+                TextStyle(fontSize: 12 * canvasScale, color: Colors.grey[800]),
+          ),
           alignment: Alignment.center,
           width: size * canvasScale,
           height: size * canvasScale,

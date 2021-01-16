@@ -1,12 +1,13 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
+import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/link_data.dart';
 import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
-import 'package:flutter_provider_canvas/user/component/component_common.dart';
 import 'package:xml/xml.dart';
 
 class GraphmlDeserializer {
@@ -17,7 +18,8 @@ class GraphmlDeserializer {
     var components = graphElement.findElements('node').toList();
     var links = graphElement.findElements('edge').toList();
 
-    var oldIdComponentMap = _getComponentMap(components);
+    var oldIdComponentMap =
+        _getComponentMap(components, model.componentBodyMap);
     var linkMap = _getLinkMap(links, oldIdComponentMap);
 
     _connectPorts(oldIdComponentMap, links);
@@ -31,13 +33,19 @@ class GraphmlDeserializer {
   }
 
   static HashMap<String, ComponentData> _getComponentMap(
-      List<XmlElement> xmlComponents) {
+    List<XmlElement> xmlComponents,
+    HashMap<String, ComponentBody> componentBodyMap,
+  ) {
     HashMap<String, ComponentData> resultMap = HashMap<String, ComponentData>();
 
     xmlComponents.forEach((component) {
       var ports = component.findElements('port');
       var data = component.findElements('data');
-      resultMap[component.getAttribute('id')] = _getComponent(data, ports);
+      resultMap[component.getAttribute('id')] = _getComponent(
+        data,
+        ports,
+        componentBodyMap,
+      );
     });
 
     return resultMap;
@@ -46,6 +54,7 @@ class GraphmlDeserializer {
   static ComponentData _getComponent(
     Iterable<XmlElement> data,
     Iterable<XmlElement> ports,
+    HashMap<String, ComponentBody> componentBodyMap,
   ) {
     return ComponentData(
       position: Offset(
@@ -63,9 +72,10 @@ class GraphmlDeserializer {
           _getDataElementText(data, 'node-topOptions')),
       bottomOptions: _componentOptionsFromString(
           _getDataElementText(data, 'node-bottomOptions')),
-      // TODO: custom data (!!!)
-      customData: MyCustomComponentData(),
-      // TODO: custom data (!!!)
+      customData:
+          componentBodyMap[_getDataElementText(data, 'node-componentBodyName')]
+              .fromJsonCustomData(
+                  jsonDecode(_getDataElementText(data, 'node-customData'))),
       componentBodyName: _getDataElementText(data, 'node-componentBodyName'),
     );
   }
@@ -124,8 +134,6 @@ class GraphmlDeserializer {
           _linkPointsFromString(_getDataElementText(data, 'edge-linkPoints')),
     );
   }
-
-  // TODO: old middle link points are not moving
 
   static _connectPorts(
     HashMap<String, ComponentData> componentMap,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/menu_component.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/menu_data.dart';
+import 'package:flutter_provider_canvas/widget/menu_component.dart';
 import 'package:provider/provider.dart';
 
 class DiagramEditorMenu extends StatelessWidget {

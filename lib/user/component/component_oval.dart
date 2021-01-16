@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
+import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/user/component/component_common.dart';
 import 'package:provider/provider.dart';
@@ -72,21 +73,25 @@ ComponentData generateComponentOval(CanvasModel model) {
         color: Colors.green,
         borderColor: Colors.black,
         alignment: Alignment(-1, 0),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       ),
       PortData(
         color: Colors.red,
         borderColor: Colors.black,
         alignment: Alignment(1, 0),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       ),
     ],
     topOptions: ComponentCommon.topOptions,
     bottomOptions: ComponentCommon.bottomOptions,
-    customData: MyCustomComponentData(
-      firstText: 'first',
-      secondText: 'second',
-      count: 10,
+    // customData: MyCustomComponentData(
+    //   firstText: 'first',
+    //   secondText: 'second',
+    //   count: 10,
+    // ),
+    customData: ExampleCustomComponentData(
+      exampleString: 'exstr',
+      exampleList: [4, 2],
     ),
     componentBodyName: 'body oval',
   );

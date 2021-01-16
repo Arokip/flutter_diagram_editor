@@ -103,25 +103,25 @@ ComponentData generateComponentCrystal(CanvasModel model) {
         color: Colors.lightBlueAccent,
         borderColor: Colors.grey,
         alignment: Alignment(0, -1),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       ),
       PortData(
         color: Colors.lightBlueAccent,
         borderColor: Colors.grey,
         alignment: Alignment(1, 0),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       ),
       PortData(
         color: Colors.lightBlueAccent,
         borderColor: Colors.grey,
         alignment: Alignment(-1, 0),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       ),
       PortData(
         color: Colors.lightBlueAccent,
         borderColor: Colors.grey,
         alignment: Alignment(0, 1),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       ),
     ],
     topOptions: ComponentCommon.topOptions,
@@ -131,6 +131,10 @@ ComponentData generateComponentCrystal(CanvasModel model) {
       secondText: 'first',
       count: 0,
     ),
+    // customData: ExampleCustomComponentData(
+    //   exampleString: 'ex string',
+    //   exampleList: [2, 4],
+    // ),
     componentBodyName: 'body crystal',
   );
 }

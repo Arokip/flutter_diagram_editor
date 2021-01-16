@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
@@ -25,7 +27,6 @@ class GraphmlSerializer {
       builder.element('graph', nest: () {
         builder.attribute('id', 'G');
         builder.attribute('edgedefault', 'directed');
-        _buildGraphData(builder, model);
 
         _buildNodes(builder, model);
         _buildEdges(builder, model);
@@ -96,10 +97,6 @@ class GraphmlSerializer {
     });
   }
 
-  static _buildGraphData(XmlBuilder builder, CanvasModel model) {
-    // builder.element('data');
-  }
-
   static _buildNodes(XmlBuilder builder, CanvasModel model) {
     model.componentDataMap.values.forEach((component) {
       _buildNode(builder, component);
@@ -131,7 +128,7 @@ class GraphmlSerializer {
     _buildDataInstance(builder, 'node-bottomOptions',
         _componentOptionsToString(component.bottomOptions));
     _buildDataInstance(
-        builder, 'node-customData', component.customData.serialize());
+        builder, 'node-customData', jsonEncode(component.customData));
     _buildDataInstance(
         builder, 'node-componentBodyName', component.componentBodyName);
   }

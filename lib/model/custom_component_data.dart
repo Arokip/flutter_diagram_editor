@@ -1,31 +1,52 @@
-/// Used to store any extra component data by extending this class and passing it to the ComponentData object.
-/// Function duplicate have to be overridden. It should return a copy of CustomComponentData object.
-
 abstract class CustomComponentData {
   const CustomComponentData();
 
+  CustomComponentData.fromJson(Map<String, dynamic> json);
+
   CustomComponentData duplicate();
 
-  String serialize();
-
-  CustomComponentData deserialize(String data); // TODO: change somehow
+  Map<String, dynamic> toJson();
 }
 
 class EmptyCustomComponentData extends CustomComponentData {
-  const EmptyCustomComponentData();
+  const EmptyCustomComponentData() : super();
+
+  EmptyCustomComponentData.fromJson(Map<String, dynamic> json);
 
   @override
-  EmptyCustomComponentData duplicate() {
-    return this;
-  }
-
-  @override
-  String serialize() {
-    return '{}';
-  }
-
-  @override
-  EmptyCustomComponentData deserialize(String data) {
+  CustomComponentData duplicate() {
     return EmptyCustomComponentData();
+  }
+
+  @override
+  Map<String, dynamic> toJson() => {};
+}
+
+/// This shows how to extends custom data.
+class ExampleCustomComponentData extends CustomComponentData {
+  final String exampleString;
+  final List<int> exampleList;
+
+  ExampleCustomComponentData({
+    this.exampleString = 'this is an example string',
+    this.exampleList = const [],
+  }) : super();
+
+  ExampleCustomComponentData.fromJson(Map<String, dynamic> json)
+      : exampleString = json['exampleString'],
+        exampleList = List<int>.from(json['exampleList']);
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'exampleString': exampleString,
+        'exampleList': exampleList,
+      };
+
+  @override
+  CustomComponentData duplicate() {
+    return ExampleCustomComponentData(
+      exampleString: this.exampleString,
+      exampleList: List<int>.from(this.exampleList),
+    );
   }
 }

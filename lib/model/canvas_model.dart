@@ -6,8 +6,8 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_provider_canvas/graphml_deserializer.dart';
-import 'package:flutter_provider_canvas/graphml_serializer.dart';
+import 'package:flutter_provider_canvas/graphml/graphml_deserializer.dart';
+import 'package:flutter_provider_canvas/graphml/graphml_serializer.dart';
 import 'package:flutter_provider_canvas/model/component_body.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
 import 'package:flutter_provider_canvas/model/component_option_data.dart';
@@ -484,6 +484,8 @@ class CanvasModel extends ChangeNotifier {
   saveDiagramAsImage(File file, [double scale = 1.0, double edge = 0]) async {
     assert(edge >= 0);
     assert(scale <= maxScale && scale >= minScale);
+    if (isTakingImage) return;
+
     _prepareCanvasForScreenshot(scale);
 
     RenderRepaintBoundary boundary =

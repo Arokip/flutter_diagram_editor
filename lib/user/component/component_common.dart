@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_option_data.dart';
@@ -64,6 +66,10 @@ class ComponentCommon {
     'remove connections',
     'resize',
   ];
+
+  static String randomPortType() {
+    return math.Random().nextInt(3).toString();
+  }
 }
 
 class MyCustomComponentData extends CustomComponentData {
@@ -75,7 +81,19 @@ class MyCustomComponentData extends CustomComponentData {
     this.firstText = '',
     this.secondText = '',
     this.count = 0,
-  });
+  }) : super();
+
+  MyCustomComponentData.fromJson(Map<String, dynamic> json)
+      : firstText = json['firstText'],
+        secondText = json['secondText'],
+        count = json['count'];
+
+  @override
+  Map<String, dynamic> toJson() => {
+        'firstText': firstText,
+        'secondText': secondText,
+        'count': count,
+      };
 
   @override
   CustomComponentData duplicate() {
@@ -84,15 +102,5 @@ class MyCustomComponentData extends CustomComponentData {
       secondText: secondText,
       count: count + 1,
     );
-  }
-
-  @override
-  String serialize() {
-    return 'TODO: *serialized custom component data*';
-  }
-
-  @override
-  CustomComponentData deserialize(String data) {
-    return MyCustomComponentData(); // TODO: deserialize
   }
 }

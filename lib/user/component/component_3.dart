@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
 import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/custom_component_data.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:flutter_provider_canvas/user/component/component_common.dart';
 import 'package:provider/provider.dart';
@@ -62,13 +61,13 @@ ComponentData generateComponent3(CanvasModel model) {
         color: Colors.white,
         borderColor: Colors.grey[800],
         alignment: Alignment(0, -1),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       ),
       PortData(
         color: Colors.white,
         borderColor: Colors.grey[800],
         alignment: Alignment(0, 1),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       ),
     ],
     topOptions: ComponentCommon.topOptions,

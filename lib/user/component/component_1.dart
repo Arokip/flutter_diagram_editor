@@ -64,7 +64,7 @@ ComponentData generateComponent1(CanvasModel model) {
         color: Colors.black,
         borderColor: Colors.white,
         alignment: Alignment(0, 0),
-        portType: '1',
+        portType: ComponentCommon.randomPortType(),
       )
     ],
     topOptions: ComponentCommon.topOptions,

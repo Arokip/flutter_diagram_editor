@@ -435,7 +435,12 @@ class CanvasModel extends ChangeNotifier {
 
   loadDiagramFromFile(File file) {
     resetCanvasView();
-    GraphmlDeserializer.buildDiagramFromXml(file, this);
+    GraphmlDeserializer.buildDiagramFromXml(file.readAsStringSync(), this);
+  }
+
+  loadDiagramFromString(String fileString) {
+    resetCanvasView();
+    GraphmlDeserializer.buildDiagramFromXml(fileString, this);
   }
 
   replaceDiagram(HashMap<String, ComponentData> newComponentDataMap,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
@@ -33,9 +34,24 @@ class LoadDiagramFromGraphmlButton extends StatelessWidget {
           child: IconButton(
             color: iconColor,
             onPressed: () async {
-              String dir = (await getExternalStorageDirectory()).path;
-              String filePath = '$dir/exported.graphml';
-              canvasModel.loadDiagramFromFile(File(filePath));
+              if (kIsWeb) {
+                print('load web');
+                FilePickerResult result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['graphml'],
+                );
+                if (result != null) {
+                  var fileString =
+                      String.fromCharCodes(result.files.single.bytes);
+
+                  canvasModel.loadDiagramFromString(fileString);
+                }
+              } else {
+                print('load not web');
+                String dir = (await getExternalStorageDirectory()).path;
+                String filePath = '$dir/exported.graphml';
+                canvasModel.loadDiagramFromFile(File(filePath));
+              }
             },
             tooltip: 'Load from GraphML',
             icon: const Icon(Icons.drive_folder_upload),

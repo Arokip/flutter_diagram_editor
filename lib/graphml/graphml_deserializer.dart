@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_provider_canvas/model/canvas_model.dart';
@@ -10,9 +11,11 @@ import 'package:flutter_provider_canvas/model/port_connection.dart';
 import 'package:flutter_provider_canvas/model/port_data.dart';
 import 'package:xml/xml.dart';
 
+// TODO: catch Exceptions
+
 class GraphmlDeserializer {
-  static void buildDiagramFromXml(file, CanvasModel model) {
-    final document = XmlDocument.parse(file.readAsStringSync());
+  static void buildDiagramFromXml(String fileString, CanvasModel model) {
+    final document = XmlDocument.parse(fileString);
 
     var graphElement = document.getElement('graphml').getElement('graph');
     var components = graphElement.findElements('node').toList();

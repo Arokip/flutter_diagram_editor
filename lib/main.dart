@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/user/editor.dart';
+import 'package:flutter_diagram_editor/diagram_editor/editor.dart';
 
 void main() => runApp(MyApp());
 

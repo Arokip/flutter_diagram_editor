@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/canvas_model.dart';
-import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/port_data.dart';
-import 'package:flutter_provider_canvas/user/component/component_common.dart';
+import 'package:flutter_diagram_editor/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/model/component_data.dart';
+import 'package:flutter_diagram_editor/model/port_data.dart';
+import 'package:flutter_diagram_editor/user/component/component_common.dart';
 import 'package:provider/provider.dart';
 
 class ComponentBodyWidget3 extends StatelessWidget {

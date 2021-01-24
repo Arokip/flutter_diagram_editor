@@ -1,18 +1,20 @@
-import 'dart:io';
+import 'dart:convert';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_diagram_editor/graphml/graphml_serializer.dart';
 import 'package:flutter_diagram_editor/model/canvas_model.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-class SaveAsImageButton extends StatelessWidget {
+class SaveAsGraphmlButton extends StatelessWidget {
   final double size;
   final Color color;
   final Color iconColor;
 
-  const SaveAsImageButton({
+  const SaveAsGraphmlButton({
     Key key,
     this.size = 48,
     this.color = const Color(0x44000000),
@@ -34,17 +36,19 @@ class SaveAsImageButton extends StatelessWidget {
           child: IconButton(
             color: iconColor,
             onPressed: () async {
-              if (kIsWeb) {
-                print('save as image is not functional on web');
-              } else {
-                print('not web');
-                String dir = (await getExternalStorageDirectory()).path;
-                String filePath = '$dir/diagram_${Uuid().v4()}.png';
-                canvasModel.saveDiagramAsImage(File(filePath), 2.0, 32);
-              }
+              print('save web');
+              String fileString = GraphmlSerializer.buildDiagramXml(canvasModel)
+                  .toXmlString(pretty: true);
+              var bytes = utf8.encode(fileString);
+              final content = base64.encode(bytes);
+              html.AnchorElement(
+                  href:
+                      'data:application/octet-stream;charset=utf-16le;base64,$content')
+                ..setAttribute('download', 'diagram_${Uuid().v4()}.graphml')
+                ..click();
             },
-            tooltip: 'Save as image (only mobile)',
-            icon: const Icon(Icons.image),
+            tooltip: 'Save as GraphML',
+            icon: const Icon(Icons.save),
           ),
         );
       },

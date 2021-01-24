@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/port_connection.dart';
+import 'package:flutter_diagram_editor/model/port_connection.dart';
 
 class PortData {
   int _id;

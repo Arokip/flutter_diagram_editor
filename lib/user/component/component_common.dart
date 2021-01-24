@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/canvas_model.dart';
-import 'package:flutter_provider_canvas/model/component_option_data.dart';
-import 'package:flutter_provider_canvas/model/custom_component_data.dart';
+import 'package:flutter_diagram_editor/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/model/component_option_data.dart';
+import 'package:flutter_diagram_editor/model/custom_component_data.dart';
 
 class ComponentCommon {
   static Map<String, ComponentOptionData> optionsData(CanvasModel model) => {

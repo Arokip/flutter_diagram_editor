@@ -6,17 +6,17 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_provider_canvas/graphml/graphml_deserializer.dart';
-import 'package:flutter_provider_canvas/graphml/graphml_serializer.dart';
-import 'package:flutter_provider_canvas/model/component_body.dart';
-import 'package:flutter_provider_canvas/model/component_data.dart';
-import 'package:flutter_provider_canvas/model/component_option_data.dart';
-import 'package:flutter_provider_canvas/model/deselect_item.dart';
-import 'package:flutter_provider_canvas/model/link_data.dart';
-import 'package:flutter_provider_canvas/model/menu_data.dart';
-import 'package:flutter_provider_canvas/model/port_connection.dart';
-import 'package:flutter_provider_canvas/model/port_data.dart';
-import 'package:flutter_provider_canvas/model/port_rules.dart';
+import 'package:flutter_diagram_editor/graphml/graphml_deserializer.dart';
+import 'package:flutter_diagram_editor/graphml/graphml_serializer.dart';
+import 'package:flutter_diagram_editor/model/component_body.dart';
+import 'package:flutter_diagram_editor/model/component_data.dart';
+import 'package:flutter_diagram_editor/model/component_option_data.dart';
+import 'package:flutter_diagram_editor/model/deselect_item.dart';
+import 'package:flutter_diagram_editor/model/link_data.dart';
+import 'package:flutter_diagram_editor/model/menu_data.dart';
+import 'package:flutter_diagram_editor/model/port_connection.dart';
+import 'package:flutter_diagram_editor/model/port_data.dart';
+import 'package:flutter_diagram_editor/model/port_rules.dart';
 import 'package:uuid/uuid.dart';
 
 class CanvasModel extends ChangeNotifier {

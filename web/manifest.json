@@ -1,11 +1,11 @@
 {
-    "name": "flutter_provider_canvas",
-    "short_name": "flutter_provider_canvas",
+    "name": "flutter_diagram_editor",
+    "short_name": "flutter_diagram_editor",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Diagram editor projects with my diagram editor library.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

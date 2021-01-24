@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/custom_component_data.dart';
+import 'package:flutter_diagram_editor/model/custom_component_data.dart';
 
 typedef CustomComponentData FromJsonFunction(Map<String, dynamic> json);
 

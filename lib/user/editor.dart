@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_provider_canvas/model/canvas_model.dart';
-import 'package:flutter_provider_canvas/model/component_body.dart';
-import 'package:flutter_provider_canvas/model/custom_component_data.dart';
-import 'package:flutter_provider_canvas/model/multiple_selection_option_data.dart';
-import 'package:flutter_provider_canvas/user/button/delete_all_button.dart';
-import 'package:flutter_provider_canvas/user/button/hide_menu_button.dart';
-import 'package:flutter_provider_canvas/user/button/load_diagram_from_graphml_button.dart';
-import 'package:flutter_provider_canvas/user/button/multiple_selection_switch_button.dart';
-import 'package:flutter_provider_canvas/user/button/remove_all_connections_button.dart';
-import 'package:flutter_provider_canvas/user/button/reset_view_button.dart';
-import 'package:flutter_provider_canvas/user/button/save_as_graphml_button.dart';
-import 'package:flutter_provider_canvas/user/button/save_as_image_button.dart';
-import 'package:flutter_provider_canvas/user/component/component_1.dart';
-import 'package:flutter_provider_canvas/user/component/component_2.dart';
-import 'package:flutter_provider_canvas/user/component/component_3.dart';
-import 'package:flutter_provider_canvas/user/component/component_common.dart';
-import 'package:flutter_provider_canvas/user/component/component_crystal.dart';
-import 'package:flutter_provider_canvas/user/component/component_oval.dart';
-import 'package:flutter_provider_canvas/widget/canvas.dart';
-import 'package:flutter_provider_canvas/widget/menu.dart';
+import 'package:flutter_diagram_editor/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/model/component_body.dart';
+import 'package:flutter_diagram_editor/model/custom_component_data.dart';
+import 'package:flutter_diagram_editor/model/multiple_selection_option_data.dart';
+import 'package:flutter_diagram_editor/user/button/delete_all_button.dart';
+import 'package:flutter_diagram_editor/user/button/hide_menu_button.dart';
+import 'package:flutter_diagram_editor/user/button/load_diagram_from_graphml_button.dart';
+import 'package:flutter_diagram_editor/user/button/multiple_selection_switch_button.dart';
+import 'package:flutter_diagram_editor/user/button/remove_all_connections_button.dart';
+import 'package:flutter_diagram_editor/user/button/reset_view_button.dart';
+import 'package:flutter_diagram_editor/user/button/save_as_graphml_button_mobile.dart'
+    if (dart.library.html) 'package:flutter_diagram_editor/user/button/save_as_graphml_button_web.dart';
+import 'package:flutter_diagram_editor/user/button/save_as_image_button.dart';
+import 'package:flutter_diagram_editor/user/component/component_1.dart';
+import 'package:flutter_diagram_editor/user/component/component_2.dart';
+import 'package:flutter_diagram_editor/user/component/component_3.dart';
+import 'package:flutter_diagram_editor/user/component/component_common.dart';
+import 'package:flutter_diagram_editor/user/component/component_crystal.dart';
+import 'package:flutter_diagram_editor/user/component/component_oval.dart';
+import 'package:flutter_diagram_editor/widget/canvas.dart';
+import 'package:flutter_diagram_editor/widget/menu.dart';
 import 'package:provider/provider.dart';
 
 class Editor extends StatefulWidget {

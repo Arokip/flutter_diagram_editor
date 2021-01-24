@@ -1,9 +1,9 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_provider_canvas/model/canvas_model.dart';
-import 'package:flutter_provider_canvas/model/component_body.dart';
-import 'package:flutter_provider_canvas/model/component_data.dart';
+import 'package:flutter_diagram_editor/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/model/component_body.dart';
+import 'package:flutter_diagram_editor/model/component_data.dart';
 import 'package:provider/provider.dart';
 
 class MenuComponent extends StatelessWidget {

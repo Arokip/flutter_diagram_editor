@@ -1,4 +1,4 @@
-package cz.arokip.flutter_provider_canvas;
+package cz.arokip.flutter_diagram_editor;
 
 import io.flutter.embedding.android.FlutterActivity;
 

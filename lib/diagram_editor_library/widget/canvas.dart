@@ -1,15 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_diagram_editor/library/model/canvas_model.dart';
-import 'package:flutter_diagram_editor/library/model/component_data.dart';
-import 'package:flutter_diagram_editor/library/model/link_data.dart';
-import 'package:flutter_diagram_editor/library/model/port_data.dart';
-import 'package:flutter_diagram_editor/library/widget/component.dart';
-import 'package:flutter_diagram_editor/library/widget/component_highlight.dart';
-import 'package:flutter_diagram_editor/library/widget/component_options.dart';
-import 'package:flutter_diagram_editor/library/widget/link.dart';
-import 'package:flutter_diagram_editor/library/widget/port_highlight.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/link_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/widget/component.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/widget/component_highlight.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/widget/component_options.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/widget/link.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/widget/port_highlight.dart';
 import 'package:provider/provider.dart';
 
 class DiagramEditorCanvas extends StatefulWidget {

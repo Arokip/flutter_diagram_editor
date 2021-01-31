@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/library/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
 import 'package:provider/provider.dart';
 
 class DeleteAllButton extends StatelessWidget {

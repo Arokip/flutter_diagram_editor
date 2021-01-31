@@ -1,8 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/library/model/custom_component_data.dart';
-import 'package:flutter_diagram_editor/library/model/port_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/custom_component_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
 import 'package:uuid/uuid.dart';
 
 class ComponentData extends ChangeNotifier {

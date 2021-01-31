@@ -1,4 +1,4 @@
-import 'package:flutter_diagram_editor/library/model/component_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
 
 class MenuData {
   bool isMenuVisible = true;

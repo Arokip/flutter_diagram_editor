@@ -2,15 +2,15 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/library/model/canvas_model.dart';
-import 'package:flutter_diagram_editor/library/model/component_body.dart';
-import 'package:flutter_diagram_editor/library/model/component_data.dart';
-import 'package:flutter_diagram_editor/library/model/link_data.dart';
-import 'package:flutter_diagram_editor/library/model/port_connection.dart';
-import 'package:flutter_diagram_editor/library/model/port_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/component_body.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/link_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/port_connection.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
 import 'package:xml/xml.dart';
 
-// TODO: catch Exceptions
+// TODO: catch Exceptions, if this export/import will be used
 
 class GraphmlDeserializer {
   static void buildDiagramFromXml(String fileString, CanvasModel model) {

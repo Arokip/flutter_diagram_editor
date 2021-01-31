@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diagram_editor/diagram_editor/graphml/graphml_serializer.dart';
-import 'package:flutter_diagram_editor/library/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';

@@ -6,16 +6,18 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_diagram_editor/library/model/component_body.dart';
-import 'package:flutter_diagram_editor/library/model/component_data.dart';
-import 'package:flutter_diagram_editor/library/model/component_option_data.dart';
-import 'package:flutter_diagram_editor/library/model/deselect_item.dart';
-import 'package:flutter_diagram_editor/library/model/link_data.dart';
-import 'package:flutter_diagram_editor/library/model/menu_data.dart';
-import 'package:flutter_diagram_editor/library/model/port_connection.dart';
-import 'package:flutter_diagram_editor/library/model/port_data.dart';
-import 'package:flutter_diagram_editor/library/model/port_rules.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/component_body.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/component_option_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/deselect_item.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/link_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/menu_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/port_connection.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/port_rules.dart';
 import 'package:uuid/uuid.dart';
+
+// TODO: make this file shorter
 
 class CanvasModel extends ChangeNotifier {
   var _uuid = Uuid();
@@ -112,15 +114,18 @@ class CanvasModel extends ChangeNotifier {
   }
 
   duplicateComponent(String id, Offset offset) {
+    assert(_componentDataMap.keys.contains(id));
     addComponentToMap(_componentDataMap[id].duplicate(offset));
   }
 
   duplicateComponentBelow(String id, Offset offset) {
+    assert(_componentDataMap.keys.contains(id));
     addComponentToMap(_componentDataMap[id]
         .duplicate(offset + Offset(0, _componentDataMap[id].size.height)));
   }
 
   removeComponentConnections(String id) {
+    assert(_componentDataMap.keys.contains(id));
     List<LinkData> linksToRemove = [];
 
     _componentDataMap[id].ports.values.forEach((port) {
@@ -157,6 +162,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   resizeComponent(String id) {
+    assert(_componentDataMap.keys.contains(id));
     _componentDataMap[id].switchEnableResize();
     selectDeselectItem();
     notifyListeners();
@@ -176,18 +182,13 @@ class CanvasModel extends ChangeNotifier {
 
     if (selectedItem == item) return;
 
-    if (item is ComponentData) {
-    } else if (item is PortData) {
+    if (item is PortData) {
       if (selectedItem is PortData) {
         bool connected = tryToConnectTwoPorts(selectedItem, item);
         if (connected) {
           return;
         }
       }
-    } else if (item is LinkData) {
-    } else if (item is DeselectItem) {
-    } else {
-      throw ArgumentError("selected item is unknown type: $item");
     }
 
     selectedItem = item;
@@ -205,6 +206,8 @@ class CanvasModel extends ChangeNotifier {
       selectDeselectItem();
     }
   }
+
+  // ==== ports' logic ====
 
   bool tryToConnectTwoPorts(PortData firstPort, PortData secondPort) {
     if (canConnectTwoPorts(firstPort, secondPort)) {
@@ -265,7 +268,6 @@ class CanvasModel extends ChangeNotifier {
   }
 
   connectTwoPorts(PortData portOut, PortData portIn) {
-    print('connect two ports');
     var linkId = _uuid.v4();
     portOut.addConnection(
       PortConnectionOut(
@@ -294,6 +296,8 @@ class CanvasModel extends ChangeNotifier {
       ],
     );
   }
+
+  // ==== links ====
 
   removeLink(LinkData linkData) {
     linkDataMap.remove(linkData.id);

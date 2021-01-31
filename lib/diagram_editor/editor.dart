@@ -15,12 +15,12 @@ import 'package:flutter_diagram_editor/diagram_editor/component/component_3.dart
 import 'package:flutter_diagram_editor/diagram_editor/component/component_common.dart';
 import 'package:flutter_diagram_editor/diagram_editor/component/component_crystal.dart';
 import 'package:flutter_diagram_editor/diagram_editor/component/component_oval.dart';
-import 'package:flutter_diagram_editor/library/model/canvas_model.dart';
-import 'package:flutter_diagram_editor/library/model/component_body.dart';
-import 'package:flutter_diagram_editor/library/model/custom_component_data.dart';
-import 'package:flutter_diagram_editor/library/model/multiple_selection_option_data.dart';
-import 'package:flutter_diagram_editor/library/widget/canvas.dart';
-import 'package:flutter_diagram_editor/library/widget/menu.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/component_body.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/custom_component_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/multiple_selection_option_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/widget/canvas.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/widget/menu.dart';
 import 'package:provider/provider.dart';
 
 class Editor extends StatefulWidget {

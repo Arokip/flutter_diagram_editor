@@ -3,6 +3,7 @@ import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_body.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/custom_component_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/widget/canvas.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/widget/component.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,8 +33,15 @@ void main() {
       ),
     );
 
+    model.portRules.addRule('A', 'A');
+
     var componentData = ComponentData(
       componentBodyName: 'test_body',
+      portList: [
+        PortData(
+          portType: 'A',
+        )
+      ],
     );
 
     testWidgets(
@@ -70,17 +78,46 @@ void main() {
       expect(find.text('test_component'), findsNothing);
     });
 
-    // testWidgets(
-    //     'Given DRAG When component is removed Then canvas contains no components',
-    //     (WidgetTester tester) async {
-    //   await tester.pumpWidget(material);
-    //
-    //   expect(model.position, Offset.zero);
-    //
-    //   await tester.drag(find.byKey(model.canvasGlobalKey), Offset(100.0, 0.0));
-    //   await tester.pumpAndSettle();
-    //
-    //   expect(model.position, Offset(100.0, 0.0));
-    // });
+    testWidgets(
+        'Given canvas with one component When component is duplicated Then canvas contains two components with correct position',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(material);
+
+      model.addComponentToMap(componentData);
+      model.duplicateComponent(componentData.id, Offset(100, 100));
+
+      await tester.pump();
+
+      var secondComponent = model.componentDataMap.values
+          .singleWhere((data) => data.id != componentData.id);
+
+      expect(find.byType(Component), findsNWidgets(2));
+      expect(model.componentDataMap.values.length, 2);
+      expect(secondComponent.position, Offset(100, 100));
+    });
+
+    testWidgets(
+        'Given canvas with two components When canvas is translated Then canvas still contains two components',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(material);
+
+      model.updateCanvasPosition(Offset(10, 0));
+
+      await tester.pump();
+
+      expect(find.byType(Component), findsNWidgets(2));
+    });
+
+    testWidgets(
+        'Given canvas with two components When canvas is scaled Then canvas still contains two components',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(material);
+
+      model.updateCanvasScale(1.5);
+
+      await tester.pump();
+
+      expect(find.byType(Component), findsNWidgets(2));
+    });
   });
 }

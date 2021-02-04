@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   // Tests can be run only all at once, not individually !!!
-  group('Manipulating one component on canvas', () {
+  group('Canvas tests', () {
     CanvasModel model = CanvasModel();
 
     var material = MaterialApp(

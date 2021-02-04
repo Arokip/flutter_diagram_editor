@@ -48,6 +48,9 @@ class LinkData extends ChangeNotifier {
   }
 
   removeMiddlePoint(int index) {
+    assert(linkPoints.length > 2);
+    assert(index != 0);
+    assert(index != linkPoints.length - 1);
     linkPoints.removeAt(index);
     notifyListeners();
   }

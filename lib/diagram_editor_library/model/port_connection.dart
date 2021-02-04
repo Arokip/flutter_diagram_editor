@@ -14,9 +14,9 @@ abstract class PortConnection {
 
 class PortConnectionOut extends PortConnection {
   PortConnectionOut({
-    linkId,
-    componentId,
-    portId,
+    @required linkId,
+    @required componentId,
+    @required portId,
   }) : super(
           connectionId: linkId,
           componentId: componentId,
@@ -26,9 +26,9 @@ class PortConnectionOut extends PortConnection {
 
 class PortConnectionIn extends PortConnection {
   PortConnectionIn({
-    linkId,
-    componentId,
-    portId,
+    @required linkId,
+    @required componentId,
+    @required portId,
   }) : super(
           connectionId: linkId,
           componentId: componentId,

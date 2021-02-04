@@ -74,8 +74,8 @@ class ComponentData extends ChangeNotifier {
     ports[portData.id] = portData;
   }
 
-  getPortCenterPoint(int portId) {
-    var componentCenter = Offset(size.width / 2, size.height / 2);
+  Offset getPortCenterPoint(int portId) {
+    var componentCenter = size.center(Offset.zero);
     var portCenter = Offset(portSize / 2, portSize / 2);
 
     var portPosition = Offset(

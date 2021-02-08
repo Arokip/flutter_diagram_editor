@@ -119,22 +119,22 @@ class _EditorState extends State<Editor> {
                     MultipleSelectionOptionData(
                       icon: Icons.link_off,
                       tooltip: "Delete connections",
-                      onOptionTap: model.removeSelectedConnections,
+                      onOptionTap: model.multipleSelection.removeConnections,
                     ),
                     MultipleSelectionOptionData(
                       icon: Icons.delete_forever,
                       tooltip: "Delete",
-                      onOptionTap: model.removeSelectedComponents,
+                      onOptionTap: model.multipleSelection.removeComponents,
                     ),
                     MultipleSelectionOptionData(
                       icon: Icons.copy,
                       tooltip: "Duplicate",
-                      onOptionTap: model.duplicateSelectedComponents,
+                      onOptionTap: model.multipleSelection.duplicateComponents,
                     ),
                     MultipleSelectionOptionData(
                       icon: Icons.all_inclusive,
                       tooltip: "Select all",
-                      onOptionTap: model.selectAllComponents,
+                      onOptionTap: model.multipleSelection.selectAllComponents,
                     ),
                   ],
                 ),

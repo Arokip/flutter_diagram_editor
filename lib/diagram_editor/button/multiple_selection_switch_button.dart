@@ -32,7 +32,7 @@ class MultipleSelectionSwitchButton extends StatelessWidget {
     switch (openDirection) {
       case OpenDirection.left:
         return Selector<CanvasModel, bool>(
-          selector: (_, canvasModel) => canvasModel.isMultipleSelectionOn,
+          selector: (_, canvasModel) => canvasModel.multipleSelection.isOn,
           builder: (_, isMultipleSelectionOn, __) {
             return Row(
               children: [
@@ -66,7 +66,7 @@ class MultipleSelectionSwitchButton extends StatelessWidget {
         break;
       case OpenDirection.top:
         return Selector<CanvasModel, bool>(
-          selector: (_, canvasModel) => canvasModel.isMultipleSelectionOn,
+          selector: (_, canvasModel) => canvasModel.multipleSelection.isOn,
           builder: (_, isMultipleSelectionOn, __) {
             return Column(
               children: [
@@ -100,7 +100,7 @@ class MultipleSelectionSwitchButton extends StatelessWidget {
         break;
       case OpenDirection.right:
         return Selector<CanvasModel, bool>(
-          selector: (_, canvasModel) => canvasModel.isMultipleSelectionOn,
+          selector: (_, canvasModel) => canvasModel.multipleSelection.isOn,
           builder: (_, isMultipleSelectionOn, __) {
             return Row(
               children: [
@@ -134,7 +134,7 @@ class MultipleSelectionSwitchButton extends StatelessWidget {
         break;
       case OpenDirection.bottom:
         return Selector<CanvasModel, bool>(
-          selector: (_, canvasModel) => canvasModel.isMultipleSelectionOn,
+          selector: (_, canvasModel) => canvasModel.multipleSelection.isOn,
           builder: (_, isMultipleSelectionOn, __) {
             return Column(
               children: [
@@ -190,9 +190,9 @@ class MultipleSelectionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var switchMS = context.select<CanvasModel, Function>(
-        (CanvasModel model) => model.switchMultipleSelection);
+        (CanvasModel model) => model.multipleSelection.switchOnOff);
     var isMultipleSelectionOn = context.select<CanvasModel, bool>(
-        (CanvasModel model) => model.isMultipleSelectionOn);
+        (CanvasModel model) => model.multipleSelection.isOn);
 
     return Container(
       width: size,

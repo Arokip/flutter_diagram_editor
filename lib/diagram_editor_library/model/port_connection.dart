@@ -10,6 +10,10 @@ abstract class PortConnection {
     @required this.componentId,
     @required this.portId,
   });
+
+  bool contains(String id) {
+    return id == connectionId;
+  }
 }
 
 class PortConnectionOut extends PortConnection {

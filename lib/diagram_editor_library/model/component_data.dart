@@ -65,7 +65,7 @@ class ComponentData extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateComponentDataPosition(Offset position) {
+  updatePosition(Offset position) {
     this.position += position;
     notifyListeners();
   }
@@ -86,17 +86,17 @@ class ComponentData extends ChangeNotifier {
     return position + componentCenter + portCenter + portPosition;
   }
 
-  int getPortId(String linkId) {
+  int getPortIdFromLink(String linkId) {
     int resultPortId;
     ports.forEach((int portId, PortData port) {
       port.connections.forEach((connection) {
         if (connection.connectionId == linkId) {
           resultPortId = portId;
-          return resultPortId;
+          return;
         }
       });
       if (resultPortId != null) {
-        return resultPortId;
+        return;
       }
     });
     return resultPortId;

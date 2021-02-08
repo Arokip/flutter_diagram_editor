@@ -23,14 +23,14 @@ class Component extends StatelessWidget {
     var deselectIfLinkSelected = context.select<CanvasModel, Function>(
         (CanvasModel model) => model.deselectIfLinkSelected);
     var isMultipleSelectionOn = context.select<CanvasModel, bool>(
-        (CanvasModel model) => model.isMultipleSelectionOn);
+        (CanvasModel model) => model.multipleSelection.isOn);
     var addToMultipleSelection = context.select<CanvasModel, Function>(
-        (CanvasModel model) => model.addToMultipleSelection);
+        (CanvasModel model) => model.multipleSelection.addComponent);
     var componentData = Provider.of<ComponentData>(context);
     var updateLinkMap = context.select<CanvasModel, Function>(
         (CanvasModel model) => model.updateLinkMap);
     var moveSelectedComponents = context.select<CanvasModel, Function>(
-        (CanvasModel model) => model.moveSelectedComponents);
+        (CanvasModel model) => model.multipleSelection.moveComponents);
 
     return Positioned(
       left: canvasScale * componentData.position.dx + canvasPosition.dx,
@@ -47,8 +47,7 @@ class Component extends StatelessWidget {
             addToMultipleSelection(componentData.id);
             moveSelectedComponents(details.delta / canvasScale);
           } else {
-            componentData
-                .updateComponentDataPosition(details.delta / canvasScale);
+            componentData.updatePosition(details.delta / canvasScale);
             updateLinkMap(componentData.id);
           }
         },
@@ -107,9 +106,7 @@ class Component extends StatelessWidget {
         onPanUpdate: (d) {
           componentData.resize(d.delta / scale);
 
-          updateLinkMap(
-            componentData.id,
-          );
+          updateLinkMap(componentData.id);
         },
         child: Container(
           decoration: BoxDecoration(

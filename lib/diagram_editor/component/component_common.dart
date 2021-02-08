@@ -22,7 +22,7 @@ class ComponentCommon {
           icon: Icons.delete_forever,
           tooltip: "Delete",
           onOptionTap: (cid) {
-            model.removeComponentFromList(cid);
+            model.removeComponent(cid);
             print('remove component: $cid');
           },
         ),

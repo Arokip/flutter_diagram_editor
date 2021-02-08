@@ -36,6 +36,17 @@ class PortData {
     _connections.add(portConnection);
   }
 
+  bool containsConnection(String connectionId) {
+    bool result = false;
+    _connections.forEach((connection) {
+      if (connection.contains(connectionId)) {
+        result = true;
+        return;
+      }
+    });
+    return result;
+  }
+
   removeConnection(String connectionId) {
     _connections
         .removeWhere((connection) => connection.connectionId == connectionId);

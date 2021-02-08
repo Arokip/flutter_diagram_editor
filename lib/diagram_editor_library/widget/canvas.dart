@@ -120,7 +120,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         Offset(menuComponentData.size.width / 2,
             menuComponentData.size.height / 2) -
         Offset(menuComponentData.portSize / 2, menuComponentData.portSize / 2);
-    canvasModel.addComponentToMap(
+    canvasModel.addComponent(
       menuComponentData.duplicate(componentPosition),
     );
   }
@@ -186,8 +186,9 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   }
 
   List<Widget> showMultipleComponentsHighlight(CanvasModel canvasModel) {
-    if (canvasModel.isMultipleSelectionOn) {
-      return canvasModel.selectedComponents.map((componentId) {
+    if (canvasModel.multipleSelection.isOn) {
+      return canvasModel.multipleSelection.selectedComponents
+          .map((componentId) {
         return ChangeNotifierProvider<ComponentData>.value(
           value: canvasModel.componentDataMap[componentId],
           child: ComponentHighlight(),
@@ -218,7 +219,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
       var highlights = canvasModel.componentDataMap.values
           .map((component) {
             return component.ports.values.map((port) {
-              if (canvasModel.canConnectTwoPorts(selectedPort, port) &&
+              if (canvasModel.portRules
+                      .canConnectTwoPorts(selectedPort, port) &&
                   port != selectedPort) {
                 return ChangeNotifierProvider<ComponentData>.value(
                   value: component,
@@ -307,7 +309,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
             onTap: () {
               print('canvas tapped');
               canvasModel.selectDeselectItem();
-              canvasModel.clearMultipleSelectedComponents();
+              canvasModel.multipleSelection.clearSelected();
             },
           ),
         ),

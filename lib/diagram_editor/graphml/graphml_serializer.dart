@@ -153,8 +153,8 @@ class GraphmlSerializer {
       _buildEdge(
         builder,
         link,
-        model.componentDataMap[link.componentOutId].getPortId(link.id),
-        model.componentDataMap[link.componentInId].getPortId(link.id),
+        model.componentDataMap[link.componentOutId].getPortIdFromLink(link.id),
+        model.componentDataMap[link.componentInId].getPortIdFromLink(link.id),
       );
     });
   }

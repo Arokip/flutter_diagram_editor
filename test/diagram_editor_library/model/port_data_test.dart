@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Port data tests', () {
-    var portDataA = PortData(
+    var portData = PortData(
       portType: 'A',
     );
 
@@ -14,12 +14,19 @@ void main() {
       portId: 0,
     );
 
-    test('Add and remove port connection', () {
-      expect(portDataA.connections.length, 0);
-      portDataA.addConnection(connectionIn);
-      expect(portDataA.connections.length, 1);
-      portDataA.removeConnection('linkId');
-      expect(portDataA.connections.length, 0);
+    test('Init portData', () {
+      expect(portData.connections.length, 0);
+    });
+
+    test('Add port connection', () {
+      portData.addConnection(connectionIn);
+      expect(portData.connections.length, 1);
+      expect(portData.containsConnection('linkId'), true);
+    });
+
+    test('Remove and remove port connection', () {
+      portData.removeConnection('linkId');
+      expect(portData.connections.length, 0);
     });
   });
 }

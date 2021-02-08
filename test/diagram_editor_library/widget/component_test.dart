@@ -50,14 +50,14 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(material);
 
-      model.addComponentToMap(firstComponentData);
-      model.addComponentToMap(secondComponentData);
+      model.addComponent(firstComponentData);
+      model.addComponent(secondComponentData);
 
       await tester.pump();
 
       expect(find.byType(Component), findsNWidgets(2));
 
-      secondComponentData.updateComponentDataPosition(Offset(10, 0));
+      secondComponentData.updatePosition(Offset(10, 0));
 
       await tester.pump();
 
@@ -99,7 +99,7 @@ void main() {
 
       expect(find.byType(ComponentHighlight), findsOneWidget);
 
-      secondComponentData.updateComponentDataPosition(Offset(10, 0));
+      secondComponentData.updatePosition(Offset(10, 0));
 
       await tester.pump();
 

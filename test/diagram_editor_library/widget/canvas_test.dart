@@ -56,7 +56,7 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(material);
 
-      model.addComponentToMap(componentData);
+      model.addComponent(componentData);
 
       await tester.pump();
       expect(find.byType(Component), findsOneWidget);
@@ -71,7 +71,7 @@ void main() {
       expect(find.byType(Component), findsOneWidget);
       expect(find.text('test_component'), findsOneWidget);
 
-      model.removeComponentFromList(componentData.id);
+      model.removeComponent(componentData.id);
 
       await tester.pump();
       expect(find.byType(Component), findsNothing);
@@ -83,7 +83,7 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(material);
 
-      model.addComponentToMap(componentData);
+      model.addComponent(componentData);
       model.duplicateComponent(componentData.id, Offset(100, 100));
 
       await tester.pump();

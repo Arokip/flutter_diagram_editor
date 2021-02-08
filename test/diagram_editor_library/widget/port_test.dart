@@ -64,7 +64,7 @@ void main() {
       await tester.pumpWidget(material);
       print('first test');
 
-      model.addComponentToMap(firstComponentData);
+      model.addComponent(firstComponentData);
 
       await tester.pump();
 
@@ -76,7 +76,7 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(material);
 
-      model.addComponentToMap(secondComponentData);
+      model.addComponent(secondComponentData);
 
       await tester.pump();
 

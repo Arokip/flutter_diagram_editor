@@ -56,10 +56,6 @@ class ComponentData extends ChangeNotifier {
     }
   }
 
-  componentNotifyListeners() {
-    notifyListeners();
-  }
-
   componentUpdateData() {
     print('component notify update');
     notifyListeners();
@@ -146,8 +142,6 @@ class ComponentData extends ChangeNotifier {
 
   @override
   String toString() {
-    return ''' Component data ($id)
-    position: $position
-    ports: $ports''';
+    return 'Component data ($id), position: $position, ports: $ports';
   }
 }

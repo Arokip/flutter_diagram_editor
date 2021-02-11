@@ -133,6 +133,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   removeComponent(String id) {
+    multipleSelection.clearSelected();
     removeComponentConnections(id);
 
     _componentDataMap.remove(id);
@@ -151,6 +152,12 @@ class CanvasModel extends ChangeNotifier {
     assert(_componentDataMap.keys.contains(id));
     addComponent(_componentDataMap[id]
         .duplicate(offset + Offset(0, _componentDataMap[id].size.height)));
+  }
+
+  duplicateComponentNextTo(String id, Offset offset) {
+    assert(_componentDataMap.keys.contains(id));
+    addComponent(_componentDataMap[id]
+        .duplicate(offset + Offset(_componentDataMap[id].size.width, 0)));
   }
 
   removeComponentConnections(String id) {
@@ -226,13 +233,6 @@ class CanvasModel extends ChangeNotifier {
 
   selectDeselectItem() {
     selectedItem = deselectItem;
-  }
-
-  deselectIfLinkSelected() {
-    if (selectedItem is LinkData) {
-      selectedItem.linkNotifyListeners();
-      selectDeselectItem();
-    }
   }
 
   // ==== CONNECT PORTS ====

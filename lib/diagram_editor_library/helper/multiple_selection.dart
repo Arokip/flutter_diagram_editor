@@ -16,6 +16,16 @@ class MultipleSelection {
     model.notifyCanvasModelListeners();
   }
 
+  turnOff() {
+    isOn = false;
+    selectedComponents = [];
+  }
+
+  clearSelected() {
+    turnOff();
+    model.notifyCanvasModelListeners();
+  }
+
   addComponent(String componentId) {
     if (!selectedComponents.contains(componentId)) {
       selectedComponents.add(componentId);
@@ -28,16 +38,6 @@ class MultipleSelection {
     if (shouldAdd) {
       selectedComponents.add(componentId);
     }
-    model.notifyCanvasModelListeners();
-  }
-
-  turnOff() {
-    isOn = false;
-    selectedComponents = [];
-  }
-
-  clearSelected() {
-    turnOff();
     model.notifyCanvasModelListeners();
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_body.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/model/link_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/widget/port.dart';
 import 'package:provider/provider.dart';
 
@@ -18,10 +19,12 @@ class Component extends StatelessWidget {
     var componentBodyMap =
         context.select<CanvasModel, HashMap<String, ComponentBody>>(
             (CanvasModel model) => model.componentBodyMap);
+    var canvasSelectedItem = context.select<CanvasModel, dynamic>(
+        (CanvasModel model) => model.selectedItem);
     var canvasSelectItem = context
         .select<CanvasModel, Function>((CanvasModel model) => model.selectItem);
-    var deselectIfLinkSelected = context.select<CanvasModel, Function>(
-        (CanvasModel model) => model.deselectIfLinkSelected);
+    var selectDeselectItem = context.select<CanvasModel, Function>(
+        (CanvasModel model) => model.selectDeselectItem);
     var isMultipleSelectionOn = context.select<CanvasModel, bool>(
         (CanvasModel model) => model.multipleSelection.isOn);
     var addToMultipleSelection = context.select<CanvasModel, Function>(
@@ -40,7 +43,10 @@ class Component extends StatelessWidget {
           canvasSelectItem(componentData);
         },
         onPanStart: (_) {
-          deselectIfLinkSelected();
+          if (canvasSelectedItem is LinkData) {
+            canvasSelectedItem.linkNotifyListeners();
+            selectDeselectItem();
+          }
         },
         onPanUpdate: (details) {
           if (isMultipleSelectionOn) {

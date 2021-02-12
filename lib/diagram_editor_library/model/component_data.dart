@@ -38,7 +38,7 @@ class ComponentData extends ChangeNotifier {
     this.bottomOptions = const [],
     this.customData = const EmptyCustomComponentData(),
     @required this.componentBodyName,
-  })  : assert(minSize < size),
+  })  : assert(minSize <= size),
         assert(position != null),
         assert(size != null),
         assert(portSize != null),

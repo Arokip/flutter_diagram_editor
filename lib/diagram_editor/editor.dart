@@ -13,6 +13,7 @@ import 'package:flutter_diagram_editor/diagram_editor/component/component_1.dart
 import 'package:flutter_diagram_editor/diagram_editor/component/component_2.dart';
 import 'package:flutter_diagram_editor/diagram_editor/component/component_3.dart';
 import 'package:flutter_diagram_editor/diagram_editor/component/component_common.dart';
+import 'package:flutter_diagram_editor/diagram_editor/component/component_complex.dart';
 import 'package:flutter_diagram_editor/diagram_editor/component/component_crystal.dart';
 import 'package:flutter_diagram_editor/diagram_editor/component/component_oval.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
@@ -47,6 +48,7 @@ class _EditorState extends State<Editor> {
     model.componentHighLightColor = Colors.deepOrange;
 
     model.menuData.addComponentsToMenu([
+      generateComponentComplex(model),
       generateComponentCrystal(model),
       generateComponentOval(model),
       generateComponent1(model),
@@ -180,6 +182,21 @@ class _EditorState extends State<Editor> {
               ),
             ),
           ),
+          Positioned(
+            top: 8,
+            left: 8,
+            child: RaisedButton(
+              child: Row(
+                children: [
+                  Icon(Icons.arrow_back, size: 16),
+                  SizedBox(width: 8),
+                  Text('BACK TO MENU'),
+                ],
+              ),
+              color: Colors.blue,
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
         ],
       ),
     );
@@ -224,6 +241,14 @@ fillWithBodies(CanvasModel model) {
     ComponentBody(
       menuComponentBody: MenuComponentBodyWidgetCrystal(),
       componentBody: ComponentBodyWidgetCrystal(),
+      fromJsonCustomData: (json) => MyCustomComponentData.fromJson(json),
+    ),
+  );
+  model.addNewComponentBody(
+    "body complex",
+    ComponentBody(
+      menuComponentBody: MenuComponentBodyWidgetComplex(),
+      componentBody: ComponentBodyWidgetComplex(),
       fromJsonCustomData: (json) => MyCustomComponentData.fromJson(json),
     ),
   );

@@ -98,7 +98,7 @@ class MyCustomComponentData extends CustomComponentData {
   @override
   CustomComponentData duplicate() {
     return MyCustomComponentData(
-      firstText: 'count: $count',
+      firstText: firstText,
       secondText: secondText,
       count: count + 1,
     );

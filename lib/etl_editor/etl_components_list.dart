@@ -64,8 +64,7 @@ class EtlComponentsGraph {
         // TODO: template --> jarTemplate
       } else if ((graphItem['@type'] as List).contains(inputConfPortType)) {
         print('typ confPort');
-        return EtlPortItem.fromJson(
-            graphItem, EtlPortItemType.inputConf); // TODO: only input
+        return EtlPortItem.fromJson(graphItem, EtlPortItemType.inputConf);
       } else if ((graphItem['@type'] as List).contains(inputPortType)) {
         print('typ inputPort');
         return EtlPortItem.fromJson(graphItem, EtlPortItemType.input);

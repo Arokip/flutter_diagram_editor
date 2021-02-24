@@ -30,6 +30,9 @@ class EtlEditor extends StatefulWidget {
 class _EtlEditorState extends State<EtlEditor> {
   CanvasModel model = CanvasModel();
 
+  String diagramName = '';
+  String diagramUrl = '';
+
   @override
   void initState() {
     super.initState();
@@ -105,6 +108,9 @@ class _EtlEditorState extends State<EtlEditor> {
     );
 
     var g = edj.getEtlGraph();
+
+    diagramName = g.graphItems.whereType<EtlPipelineItem>().single.label.first;
+    diagramUrl = g.id;
 
     g.graphItems.forEach((item) {
       if (item is EtlComponentItem) {
@@ -276,6 +282,18 @@ class _EtlEditorState extends State<EtlEditor> {
               ),
             ),
           ),
+          Positioned(
+              top: 24,
+              right: 24,
+              child: Container(
+                color: Colors.grey[250],
+                child: Column(
+                  children: [
+                    Text('name: ${diagramName}'),
+                    Text('url: ${diagramUrl}'),
+                  ],
+                ),
+              )),
           Positioned(
             top: 8,
             left: 8,

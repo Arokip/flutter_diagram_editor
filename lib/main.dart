@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diagram_editor/diagram_editor/editor.dart';
+import 'package:flutter_diagram_editor/etl_editor/etl_editor.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => HomeScreen(),
         '/editor_app': (context) => EditorApp(),
+        '/etl_editor_app': (context) => EtlEditorApp(),
         '/demo_app': (context) => DemoApp(),
       },
     );
@@ -38,10 +40,10 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 8),
               RaisedButton(
-                child: Text('Demo'),
+                child: Text('ETL'),
                 color: Colors.blue,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/demo_app');
+                  Navigator.pushNamed(context, '/etl_editor_app');
                 },
               ),
               SizedBox(height: 8),
@@ -66,6 +68,17 @@ class EditorApp extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Editor(),
+      ),
+    );
+  }
+}
+
+class EtlEditorApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: EtlEditor(),
       ),
     );
   }

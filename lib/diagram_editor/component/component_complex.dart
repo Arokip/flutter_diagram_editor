@@ -37,6 +37,8 @@ class ComponentBodyWidgetComplex extends StatelessWidget {
               child: Text(
                 customData.firstText,
                 style: TextStyle(fontSize: 32 * canvasScale),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             Divider(

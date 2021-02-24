@@ -25,7 +25,7 @@ class Port extends StatelessWidget {
       alignment: portData.alignment,
       child: GestureDetector(
         onTap: () {
-          print('port tapped: ${portData.id}');
+          print('port tapped: ${portData.id}, type: ${portData.portType}');
           canvasSelectItem(portData);
         },
         child: Container(

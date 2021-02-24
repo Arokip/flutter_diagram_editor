@@ -39,6 +39,7 @@ class SaveAsImageButton extends StatelessWidget {
               } else {
                 print('not web');
                 String dir = (await getExternalStorageDirectory()).path;
+                // String dir =                    '/storage/emulated/0/Android/data/cz.arokip.flutter_diagram_editor/files';
                 String filePath = '$dir/diagram_${Uuid().v4()}.png';
                 canvasModel.saveDiagramAsImage(File(filePath), 2.0, 32);
               }

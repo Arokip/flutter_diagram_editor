@@ -39,14 +39,16 @@ void main() {
     test('Are ports already connected', () {
       final PortRules portRules = PortRules();
       var portOut = PortData(
+        id: '0',
         portType: 'A',
       );
       var portIn = PortData(
+        id: '1',
         portType: 'B',
       );
-      portOut.setId(0);
+      // portOut.setId(0);
       portOut.setComponentId('componentIdA');
-      portIn.setId(1);
+      // portIn.setId(1);
       portIn.setComponentId('componentIdB');
 
       expect(portRules.arePortsConnected(portIn, portOut), false);
@@ -72,9 +74,10 @@ void main() {
       final PortRules portRules = PortRules();
 
       var port = PortData(
+        id: '0',
         portType: 'A',
       );
-      port.setId(0);
+      // port.setId(0);
       port.setComponentId('component0');
 
       portRules.setMaxConnectionCount('A', 2);
@@ -86,7 +89,7 @@ void main() {
         PortConnectionOut(
           linkId: 'link1',
           componentId: 'component1',
-          portId: 1,
+          portId: '1',
         ),
       );
 
@@ -96,7 +99,7 @@ void main() {
         PortConnectionOut(
           linkId: 'link2',
           componentId: 'component2',
-          portId: 2,
+          portId: '2',
         ),
       );
 
@@ -107,19 +110,22 @@ void main() {
   test('Can connect ports on the same component', () {
     final PortRules portRules = PortRules();
     var portA = PortData(
+      id: '0',
       portType: 'A',
     );
     var portB = PortData(
+      id: '1',
       portType: 'B',
     );
     var portC = PortData(
+      id: '0',
       portType: 'C',
     );
-    portA.setId(0);
+    // portA.setId(0);
     portA.setComponentId('component');
-    portB.setId(1);
+    // portB.setId(1);
     portB.setComponentId('component');
-    portC.setId(0);
+    // portC.setId(0);
     portC.setComponentId('different');
 
     expect(portRules.canConnectIfSameComponent(portA, portB), false);

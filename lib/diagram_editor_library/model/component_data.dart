@@ -13,7 +13,7 @@ class ComponentData extends ChangeNotifier {
   final double portSize;
 
   final List<PortData> portList;
-  HashMap<int, PortData> ports = HashMap<int, PortData>();
+  HashMap<String, PortData> ports = HashMap<String, PortData>();
 
   final double optionSize;
   final List<String> topOptions;
@@ -51,8 +51,8 @@ class ComponentData extends ChangeNotifier {
     _id = Uuid().v4();
     for (int i = 0; i < portList.length; i++) {
       portList[i].setComponentId(_id);
-      portList[i].setId(i);
-      ports[i] = portList[i];
+      // portList[i].setId(i);
+      ports[portList[i].id] = portList[i];
     }
   }
 
@@ -70,7 +70,7 @@ class ComponentData extends ChangeNotifier {
     ports[portData.id] = portData;
   }
 
-  Offset getPortCenterPoint(int portId) {
+  Offset getPortCenterPoint(String portId) {
     var componentCenter = size.center(Offset.zero);
     var portCenter = Offset(portSize / 2, portSize / 2);
 
@@ -82,9 +82,9 @@ class ComponentData extends ChangeNotifier {
     return position + componentCenter + portCenter + portPosition;
   }
 
-  int getPortIdFromLink(String linkId) {
-    int resultPortId;
-    ports.forEach((int portId, PortData port) {
+  String getPortIdFromLink(String linkId) {
+    String resultPortId;
+    ports.forEach((String portId, PortData port) {
       port.connections.forEach((connection) {
         if (connection.connectionId == linkId) {
           resultPortId = portId;

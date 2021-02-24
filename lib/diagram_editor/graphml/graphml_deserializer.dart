@@ -93,6 +93,7 @@ class GraphmlDeserializer {
   static PortData _getPortData(XmlElement port) {
     var data = port.findElements('data');
     return PortData(
+      id: _getDataElementText(data, 'port-id'),
       color: _parseColor(_getDataElementText(data, 'port-color')),
       borderColor: _parseColor(_getDataElementText(data, 'port-borderColor')),
       portType: _getDataElementText(data, 'port-portType'),

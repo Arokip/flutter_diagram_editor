@@ -4,6 +4,7 @@ import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class ComponentBodyWidgetCrystal extends StatelessWidget {
   @override
@@ -95,29 +96,34 @@ class CrystalPainter extends CustomPainter {
 }
 
 ComponentData generateComponentCrystal(CanvasModel model) {
+  Uuid uuid = Uuid();
   return ComponentData(
     size: Size(100, 120),
     portSize: 20,
     portList: [
       PortData(
+        id: uuid.v4(),
         color: Colors.lightBlueAccent,
         borderColor: Colors.grey,
         alignment: Alignment(0, -1),
         portType: ComponentCommon.randomPortType(),
       ),
       PortData(
+        id: uuid.v4(),
         color: Colors.lightBlueAccent,
         borderColor: Colors.grey,
         alignment: Alignment(1, 0),
         portType: ComponentCommon.randomPortType(),
       ),
       PortData(
+        id: uuid.v4(),
         color: Colors.lightBlueAccent,
         borderColor: Colors.grey,
         alignment: Alignment(-1, 0),
         portType: ComponentCommon.randomPortType(),
       ),
       PortData(
+        id: uuid.v4(),
         color: Colors.lightBlueAccent,
         borderColor: Colors.grey,
         alignment: Alignment(0, 1),

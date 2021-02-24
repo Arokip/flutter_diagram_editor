@@ -43,6 +43,7 @@ void main() {
       position: Offset.zero,
       portList: [
         PortData(
+          id: '0',
           portType: 'A',
         )
       ],
@@ -54,6 +55,7 @@ void main() {
       position: Offset(40, 0),
       portList: [
         PortData(
+          id: '0',
           portType: 'A',
         )
       ],

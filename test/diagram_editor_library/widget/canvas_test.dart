@@ -39,6 +39,7 @@ void main() {
       componentBodyName: 'test_body',
       portList: [
         PortData(
+          id: '0',
           portType: 'A',
         )
       ],

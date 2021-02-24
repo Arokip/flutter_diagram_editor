@@ -80,6 +80,7 @@ ComponentData generateComponentRect({
   for (int i = 0; i < ports.length; i++) {
     portDataList.add(
       PortData(
+        id: ports[i].binding,
         color: Colors.black,
         borderColor: Colors.white,
         alignment: Alignment(0, i / ports.length),

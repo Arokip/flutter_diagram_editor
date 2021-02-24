@@ -55,6 +55,7 @@ class GraphmlSerializer {
     _buildData(builder, 'node-componentBodyName', 'node', 'string',
         'componentBodyName');
     // port:
+    _buildData(builder, 'port-id', 'port', 'String', 'id');
     _buildData(builder, 'port-color', 'port', 'int', 'color');
     _buildData(builder, 'port-borderColor', 'port', 'int', 'borderColor');
     _buildData(builder, 'port-alignment.x', 'port', 'double', 'alignment.x');
@@ -141,6 +142,7 @@ class GraphmlSerializer {
   }
 
   static _buildPortData(XmlBuilder builder, PortData port) {
+    _buildDataInstance(builder, 'port-id', port.id);
     _buildDataInstance(builder, 'port-color', port.color.value);
     _buildDataInstance(builder, 'port-borderColor', port.borderColor.value);
     _buildDataInstance(builder, 'port-alignment.x', port.alignment.x);
@@ -162,8 +164,8 @@ class GraphmlSerializer {
   static _buildEdge(
     XmlBuilder builder,
     LinkData link,
-    int sourcePort,
-    int targetPort,
+    String sourcePort,
+    String targetPort,
   ) {
     builder.element('edge', nest: () {
       builder.attribute('id', link.id);

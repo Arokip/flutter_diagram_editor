@@ -4,6 +4,7 @@ import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class ComponentBodyWidgetComplex extends StatelessWidget {
   @override
@@ -139,29 +140,34 @@ class MenuComponentBodyWidgetComplex extends StatelessWidget {
 }
 
 ComponentData generateComponentComplex(CanvasModel model) {
+  Uuid uuid = Uuid();
   return ComponentData(
     size: Size(400, 300),
     portSize: 32,
     portList: [
       PortData(
+        id: uuid.v4(),
         color: Colors.white,
         borderColor: Colors.grey,
         alignment: Alignment(0, -1),
         portType: '0',
       ),
       PortData(
+        id: uuid.v4(),
         color: Colors.white,
         borderColor: Colors.grey,
         alignment: Alignment(1, 0),
         portType: '2',
       ),
       PortData(
+        id: uuid.v4(),
         color: Colors.white,
         borderColor: Colors.grey,
         alignment: Alignment(-1, 0),
         portType: '1',
       ),
       PortData(
+        id: uuid.v4(),
         color: Colors.white,
         borderColor: Colors.grey,
         alignment: Alignment(0, 1),

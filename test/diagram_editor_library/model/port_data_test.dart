@@ -5,13 +5,14 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Port data tests', () {
     var portData = PortData(
+      id: '0',
       portType: 'A',
     );
 
     var connectionIn = PortConnectionIn(
       linkId: 'linkId',
       componentId: 'componentId',
-      portId: 0,
+      portId: '0',
     );
 
     test('Init portData', () {

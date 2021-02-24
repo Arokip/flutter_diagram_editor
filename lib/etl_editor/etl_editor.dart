@@ -95,11 +95,13 @@ class _EtlEditorState extends State<EtlEditor> {
     });
 
     print('====');
-
+    //
     var edj = EtlDiagramJsonObject(
       etlJson: pipeline,
       pipelineUrlId:
-          'https://demo.etl.linkedpipes.com/resources/pipelines/1611664269714',
+          // 'https://demo.etl.linkedpipes.com/resources/pipelines/1611664269714',
+          // 'https://demo.etl.linkedpipes.com/resources/pipelines/created-1517825741149',
+          'https://demo.etl.linkedpipes.com/resources/pipelines/created-1524160642014',
     );
 
     var g = edj.getEtlGraph();
@@ -108,25 +110,29 @@ class _EtlEditorState extends State<EtlEditor> {
       if (item is EtlComponentItem) {
         var a = ecj.getComponentGraphFromTemplateId(item.template);
 
-        EtlJarTemplateItem template;
-        List<EtlPortItem> ports = [];
-        a.graphItems.forEach((item) {
-          if (item is EtlJarTemplateItem) {
-            template = item;
-          } else if (item is EtlPortItem) {
-            ports.add(item);
-          }
-        });
+        if (a == null) {
+          print('a == null (template w/o jar): ${item.template}');
+        } else {
+          EtlJarTemplateItem template;
+          List<EtlPortItem> ports = [];
+          a.graphItems.forEach((item) {
+            if (item is EtlJarTemplateItem) {
+              template = item;
+            } else if (item is EtlPortItem) {
+              ports.add(item);
+            }
+          });
 
-        model.addComponent(
-          generateComponentRect(
-            model: model,
-            template: template,
-            ports: ports,
-            position: Offset(item.x, item.y),
-            size: Size(120, 80),
-          ),
-        );
+          model.addComponent(
+            generateComponentRect(
+              model: model,
+              template: template,
+              ports: ports,
+              position: Offset(item.x, item.y),
+              size: Size(120, 80),
+            ),
+          );
+        }
       }
     });
   }
@@ -266,24 +272,6 @@ class _EtlEditorState extends State<EtlEditor> {
                 builder: (_, canvasData, __) {
                   return Text(
                       'l:${canvasData.componentDataMap.length}, p:${canvasData.position}, s:${canvasData.scale}');
-                },
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 32,
-            right: 16,
-            child: Container(
-              color: Colors.grey,
-              child: Consumer<CanvasModel>(
-                builder: (_, canvasData, __) {
-                  return GestureDetector(
-                    onTap: () {
-                      print('rules: ${canvasData.portRules.rules}');
-                    },
-                    child: Text(
-                        'port rules:\n${canvasData.portRules.rules}\nmax ${canvasData.portRules.maxConnectionCount}'),
-                  );
                 },
               ),
             ),

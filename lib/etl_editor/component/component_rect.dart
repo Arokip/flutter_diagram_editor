@@ -33,6 +33,7 @@ class ComponentBodyRect extends StatelessWidget {
       child: Center(
         child: Text(
           customData.label,
+          textAlign: TextAlign.center,
           style: TextStyle(fontSize: 12 * canvasScale),
         ),
       ),
@@ -62,6 +63,7 @@ class MenuComponentBodyRect extends StatelessWidget {
       child: Center(
         child: Text(
           template.label,
+          textAlign: TextAlign.center,
           style: TextStyle(fontSize: 10),
         ),
       ),
@@ -77,17 +79,63 @@ ComponentData generateComponentRect({
   Size size = const Size(120, 80),
 }) {
   List<PortData> portDataList = [];
-  for (int i = 0; i < ports.length; i++) {
+  int inPortCount = ports
+      .where((port) =>
+          port.io == EtlPortItemType.inputConf ||
+          port.io == EtlPortItemType.input)
+      .length;
+  int outPortCount =
+      ports.where((port) => port.io == EtlPortItemType.output).length;
+  int inPortIndex = 1;
+  int outPortIndex = 1;
+
+  ports.forEach((port) {
+    Color portColor;
+    if (port.io == EtlPortItemType.inputConf) {
+      portColor = Colors.pink;
+    } else if (port.io == EtlPortItemType.input) {
+      portColor = Colors.green;
+    } else if (port.io == EtlPortItemType.output) {
+      portColor = Colors.yellow;
+    }
+    bool isPortInput = port.io == EtlPortItemType.inputConf ||
+        port.io == EtlPortItemType.input;
     portDataList.add(
       PortData(
-        id: ports[i].binding,
-        color: Colors.black,
-        borderColor: Colors.white,
-        alignment: Alignment(0, i / ports.length),
-        portType: ports[i].portType + ports[i].io.toString(),
+        id: port.binding,
+        color: portColor,
+        borderColor: Colors.black,
+        alignment: Alignment(
+            (isPortInput) ? -1 : 1,
+            (isPortInput)
+                ? ((2 * inPortIndex++ - 1) / (inPortCount * 2)) * 2 - 1
+                : ((2 * outPortIndex++ - 1) / (outPortCount * 2)) * 2 - 1),
+        portType:
+            '${port.portType}${(isPortInput) ? EtlPortItemType.input.toString() : EtlPortItemType.output.toString()}',
       ),
     );
-  }
+  });
+
+  // for (int i = 0; i < ports.length; i++) {
+  //   Color portColor;
+  //   if (ports[i].io == EtlPortItemType.inputConf) {
+  //     portColor = Colors.pink;
+  //   } else if (ports[i].io == EtlPortItemType.input) {
+  //     portColor = Colors.green;
+  //   } else if (ports[i].io == EtlPortItemType.output) {
+  //     portColor = Colors.yellow;
+  //   }
+  //   portDataList.add(
+  //     PortData(
+  //       id: ports[i].binding,
+  //       color: portColor,
+  //       borderColor: Colors.black,
+  //       alignment: Alignment(0, i / ports.length),
+  //       portType:
+  //           '${ports[i].portType}${(ports[i].io == EtlPortItemType.inputConf) ? EtlPortItemType.input.toString() : ports[i].io.toString()}',
+  //     ),
+  //   );
+  // }
 
   return ComponentData(
     position: position,

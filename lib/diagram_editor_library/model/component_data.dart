@@ -47,11 +47,12 @@ class ComponentData extends ChangeNotifier {
         assert(topOptions != null),
         assert(bottomOptions != null),
         assert(customData != null),
-        assert(componentBodyName != null) {
+        assert(componentBodyName != null),
+        assert(portList.map((e) => e.id).length ==
+            portList.map((e) => e.id).toSet().length) {
     _id = Uuid().v4();
     for (int i = 0; i < portList.length; i++) {
       portList[i].setComponentId(_id);
-      // portList[i].setId(i);
       ports[portList[i].id] = portList[i];
     }
   }

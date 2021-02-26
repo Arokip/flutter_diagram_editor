@@ -144,12 +144,16 @@ class EtlEditorLoader {
         //     }
         //   });
 
+        print('item template: ${item.template}');
         var componentData = model.menuData.menuComponentDataList
             .where((cd) => cd.componentBodyName == item.template)
             .single
             .duplicate(offset: Offset(item.x, item.y), newId: item.id);
 
-        componentData.position = Offset(item.x, item.y);
+        (componentData.customData as RectCustomComponentData).color =
+            item.color;
+        (componentData.customData as RectCustomComponentData).description =
+            item.description;
 
         model.addComponent(componentData);
         print('added comp: ${componentData.id}');
@@ -190,6 +194,7 @@ class EtlEditorLoader {
         model.tryToConnectTwoPorts(sourcePort, targetPort);
 
         if (item.vertices.isNotEmpty) {
+          print('middle vertices');
           String connectionId = sourcePort.connections
               .singleWhere((connection) =>
                   connection.portId == targetPort.id &&
@@ -205,7 +210,6 @@ class EtlEditorLoader {
             vertexMap[vertexItem.order] = Offset(vertexItem.x, vertexItem.y);
           });
           for (final int index in vertexMap.keys) {
-            print("$index : ${vertexMap[index]}");
             link.insertMiddlePoint(vertexMap[index], index);
           }
         }

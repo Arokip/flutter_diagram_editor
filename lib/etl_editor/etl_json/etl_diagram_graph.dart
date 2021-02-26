@@ -19,6 +19,9 @@ String targetComponentType = 'http://linkedpipes.com/ontology/targetComponent';
 String sourceBindingType = 'http://linkedpipes.com/ontology/sourceBinding';
 String targetBindingType = 'http://linkedpipes.com/ontology/targetBinding';
 
+String descriptionType = 'http://purl.org/dc/terms/description';
+String colorType = 'http://linkedpipes.com/ontology/color';
+
 class EtlDiagramJsonObject {
   final String pipelineUrlId;
   final String etlJson;
@@ -26,9 +29,9 @@ class EtlDiagramJsonObject {
   EtlDiagramJsonObject({this.pipelineUrlId, this.etlJson});
 
   EtlDiagramGraph getEtlGraphDiagram() {
-    return (jsonDecode(etlJson) as List).map((graph) {
-      return EtlDiagramGraph.fromJson(graph);
-    }).firstWhere((EtlDiagramGraph graph) => graph.id == pipelineUrlId);
+    var pipelineGraph = (jsonDecode(etlJson) as List)
+        .singleWhere((graph) => graph['@id'] == pipelineUrlId);
+    return EtlDiagramGraph.fromJson(pipelineGraph);
   }
 }
 
@@ -39,7 +42,7 @@ class EtlDiagramGraph {
   EtlDiagramGraph({this.id, this.graphItems});
 
   factory EtlDiagramGraph.fromJson(Map<String, dynamic> json) {
-    print('EtlJsonGraph.fromJson');
+    print('EtlJsonGraph.fromJson graph id:${json['@id']}');
     print('EtlJsonGraph json type: ${json.runtimeType}');
 
     var graphItems = (json['@graph'] as List).map((graphItem) {
@@ -89,30 +92,36 @@ class EtlPipelineItem extends EtlPipelineGraphItem {
 
 class EtlComponentItem extends EtlPipelineGraphItem {
   final String id;
-
-  // final List<String> type;
   final String label;
   final String template;
   final double x;
   final double y;
+  final String description;
+  final String color;
 
   EtlComponentItem({
     this.id,
-    // this.type,
     this.label,
     this.template,
     this.x,
     this.y,
+    this.description,
+    this.color,
   });
 
   factory EtlComponentItem.fromJson(Map<String, dynamic> json) {
     return EtlComponentItem(
       id: json['@id'],
-      // type: (json['@type'] as List).map((type) => type.toString()).toList(),
       template: (json[itemTemplateType] as List).first['@id'],
       label: (json[labelType] as List).first['@value'],
       x: double.parse((json[xPosType] as List).first['@value']),
       y: double.parse((json[yPosType] as List).first['@value']),
+      description: json[descriptionType] == null
+          ? null
+          : (json[descriptionType] as List).first['@value'],
+      color: json[colorType] == null
+          ? null
+          : (json[colorType] as List).first['@value'],
     );
   }
 }

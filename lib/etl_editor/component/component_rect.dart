@@ -23,8 +23,11 @@ class ComponentBodyRect extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Color(
-            int.parse(template.color.substring(1), radix: 16) + 0xFF000000),
+        color: customData.color == null
+            ? Color(
+                int.parse(template.color.substring(1), radix: 16) + 0xFF000000)
+            : Color(int.parse(customData.color.substring(1), radix: 16) +
+                0xFF000000),
         border: Border.all(
           width: 2.0 * canvasScale,
           color: Colors.black,
@@ -153,23 +156,33 @@ ComponentData generateComponentRect({
 
 class RectCustomComponentData extends CustomComponentData {
   String label;
+  String description;
+  String color;
 
   RectCustomComponentData({
     this.label = '',
+    this.description = '',
+    this.color,
   }) : super();
 
   RectCustomComponentData.fromJson(Map<String, dynamic> json)
-      : label = json['label'];
+      : label = json['label'],
+        description = json['description'],
+        color = json['color'];
 
   @override
   Map<String, dynamic> toJson() => {
         'label': label,
+        'description': description,
+        'color': color,
       };
 
   @override
   CustomComponentData duplicate() {
     return RectCustomComponentData(
       label: label,
+      description: description,
+      color: color,
     );
   }
 }

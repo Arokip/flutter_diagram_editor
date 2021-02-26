@@ -35,7 +35,10 @@ class _EtlEditorState extends State<EtlEditor> {
 
   final pipelineUrlController = TextEditingController(
       text:
-          'https://demo.etl.linkedpipes.com/resources/pipelines/created-1497543801843');
+          // 'https://demo.etl.linkedpipes.com/resources/pipelines/created-1519816576397');
+          // 'https://demo.etl.linkedpipes.com/resources/pipelines/created-1497543801843');
+          // 'https://demo.etl.linkedpipes.com/resources/pipelines/created-1468331256943');
+          'https://demo.etl.linkedpipes.com/resources/pipelines/created-1468324550431'); // red comps
 
   @override
   void initState() {
@@ -204,7 +207,7 @@ class _EtlEditorState extends State<EtlEditor> {
             top: 24,
             child: Column(children: [
               Container(
-                width: 400,
+                width: 320,
                 height: 64,
                 child: TextField(
                   controller: pipelineUrlController,

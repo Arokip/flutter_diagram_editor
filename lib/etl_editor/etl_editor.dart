@@ -39,7 +39,8 @@ class _EtlEditorState extends State<EtlEditor> {
           // 'https://demo.etl.linkedpipes.com/resources/pipelines/created-1519816576397');
           // 'https://demo.etl.linkedpipes.com/resources/pipelines/created-1497543801843');
           // 'https://demo.etl.linkedpipes.com/resources/pipelines/created-1468331256943');
-          'https://demo.etl.linkedpipes.com/resources/pipelines/created-1468324550431'); // red comps
+          // 'https://demo.etl.linkedpipes.com/resources/pipelines/created-1468324550431'); // red comps
+          'https://demo.etl.linkedpipes.com/resources/pipelines/1560425451529');
 
   @override
   void initState() {

@@ -22,26 +22,26 @@ String targetBindingType = 'http://linkedpipes.com/ontology/targetBinding';
 String descriptionType = 'http://purl.org/dc/terms/description';
 String colorType = 'http://linkedpipes.com/ontology/color';
 
-class EtlDiagramJsonObject {
+class EtlPipelineJsonObject {
   final String pipelineUrlId;
   final String etlJson;
 
-  EtlDiagramJsonObject({this.pipelineUrlId, this.etlJson});
+  EtlPipelineJsonObject({this.pipelineUrlId, this.etlJson});
 
-  EtlDiagramGraph getEtlGraphDiagram() {
+  EtlPipelineGraph getEtlPipelineGraph() {
     var pipelineGraph = (jsonDecode(etlJson) as List)
         .singleWhere((graph) => graph['@id'] == pipelineUrlId);
-    return EtlDiagramGraph.fromJson(pipelineGraph);
+    return EtlPipelineGraph.fromJson(pipelineGraph);
   }
 }
 
-class EtlDiagramGraph {
+class EtlPipelineGraph {
   final String id;
   final List<EtlPipelineGraphItem> graphItems;
 
-  EtlDiagramGraph({this.id, this.graphItems});
+  EtlPipelineGraph({this.id, this.graphItems});
 
-  factory EtlDiagramGraph.fromJson(Map<String, dynamic> json) {
+  factory EtlPipelineGraph.fromJson(Map<String, dynamic> json) {
     print('EtlJsonGraph.fromJson graph id:${json['@id']}');
     print('EtlJsonGraph json type: ${json.runtimeType}');
 
@@ -63,7 +63,7 @@ class EtlDiagramGraph {
       return null;
     }).toList();
     graphItems.removeWhere((value) => value == null);
-    return EtlDiagramGraph(
+    return EtlPipelineGraph(
       id: json['@id'],
       graphItems: graphItems,
     );
@@ -110,6 +110,9 @@ class EtlComponentItem extends EtlPipelineGraphItem {
   });
 
   factory EtlComponentItem.fromJson(Map<String, dynamic> json) {
+    print('LABEL: ${(json[labelType] as List).first['@value']}');
+    print(
+        'DESC: ${json[descriptionType] == null ? null : (json[descriptionType] as List).first['@value']}');
     return EtlComponentItem(
       id: json['@id'],
       template: (json[itemTemplateType] as List).first['@id'],

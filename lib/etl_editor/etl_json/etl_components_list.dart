@@ -28,22 +28,21 @@ class EtlComponentsJsonObject {
   }
 
   EtlComponentsGraph getComponentGraphFromTemplateId(String templateId) {
-    EtlComponentsGraph etlComponentsGraph;
-    graphList.forEach((graph) {
-      //TODO: template w/o jar
-      if (graph.graphItems.whereType<EtlJarTemplateItem>().length > 0) {
+    print('getComponentGraphFromTemplateId');
+    return graphList.firstWhere((graph) {
+      if (graph.graphItems.whereType<EtlJarTemplateItem>().isNotEmpty) {
         if (graph.graphItems.whereType<EtlJarTemplateItem>().single.id ==
             templateId) {
-          etlComponentsGraph = graph;
+          return true;
         }
-      } else if (graph.graphItems.whereType<EtlTemplateItem>().length > 0) {
+      } else {
         if (graph.graphItems.whereType<EtlTemplateItem>().single.id ==
             templateId) {
-          etlComponentsGraph = graph;
+          return true;
         }
       }
+      return false;
     });
-    return etlComponentsGraph;
   }
 
   EtlComponentsGraph searchForTemplate(String template) {
@@ -75,9 +74,9 @@ class EtlComponentsGraph {
         return EtlJarTemplateItem.fromJson(graphItem);
       } else if (graphItemAsList.contains(templateType)) {
         print('typ temp');
-        print('return null');
-        // return EtlTemplateItem.fromJson(graphItem);
-        return null;
+        // print('return null');
+        return EtlTemplateItem.fromJson(graphItem);
+        // return null;
       } else if (graphItemAsList.contains(inputConfPortType)) {
         print('typ confPort');
         return EtlPortItem.fromJson(graphItem, EtlPortItemType.inputConf);
@@ -100,7 +99,7 @@ class EtlComponentsGraph {
   }
 }
 
-class EtlComponentsGraphItem {}
+abstract class EtlComponentsGraphItem {}
 
 class EtlJarTemplateItem extends EtlComponentsGraphItem {
   final String id;

@@ -121,7 +121,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
             menuComponentData.size.height / 2) -
         Offset(menuComponentData.portSize / 2, menuComponentData.portSize / 2);
     canvasModel.addComponent(
-      menuComponentData.duplicate(componentPosition),
+      menuComponentData.duplicate(offset: componentPosition),
     );
   }
 

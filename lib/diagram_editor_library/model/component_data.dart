@@ -6,7 +6,7 @@ import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.da
 import 'package:uuid/uuid.dart';
 
 class ComponentData extends ChangeNotifier {
-  String _id;
+  String id;
   Offset position;
   Size size;
   final Size minSize;
@@ -25,9 +25,8 @@ class ComponentData extends ChangeNotifier {
 
   final String componentBodyName;
 
-  String get id => _id;
-
   ComponentData({
+    this.id,
     this.position = Offset.zero,
     this.size = const Size(80, 80),
     this.minSize = const Size(32, 32),
@@ -50,9 +49,11 @@ class ComponentData extends ChangeNotifier {
         assert(componentBodyName != null),
         assert(portList.map((e) => e.id).length ==
             portList.map((e) => e.id).toSet().length) {
-    _id = Uuid().v4();
+    if (id == null) {
+      id = Uuid().v4();
+    }
     for (int i = 0; i < portList.length; i++) {
-      portList[i].setComponentId(_id);
+      portList[i].setComponentId(id);
       ports[portList[i].id] = portList[i];
     }
   }
@@ -105,7 +106,7 @@ class ComponentData extends ChangeNotifier {
     });
   }
 
-  ComponentData duplicate([Offset offset = const Offset(0, 0)]) {
+  ComponentData duplicate({Offset offset = const Offset(0, 0), String newId}) {
     final List<PortData> newPorts = [];
 
     ports.values.forEach((port) {
@@ -113,6 +114,7 @@ class ComponentData extends ChangeNotifier {
     });
 
     return ComponentData(
+      id: newId,
       size: Size(size.width, size.height),
       portSize: portSize,
       portList: newPorts,

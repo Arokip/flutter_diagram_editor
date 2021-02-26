@@ -3,7 +3,7 @@ import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/custom_component_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
-import 'package:flutter_diagram_editor/etl_editor/etl_components_list.dart';
+import 'package:flutter_diagram_editor/etl_editor/etl_json/etl_components_list.dart';
 import 'package:provider/provider.dart';
 
 class ComponentBodyRect extends StatelessWidget {

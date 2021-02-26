@@ -128,6 +128,7 @@ class CanvasModel extends ChangeNotifier {
   }
 
   addComponent(ComponentData componentData) {
+    assert(!_componentDataMap.keys.contains(componentData.id));
     _componentDataMap[componentData.id] = componentData;
     notifyListeners();
   }
@@ -145,19 +146,19 @@ class CanvasModel extends ChangeNotifier {
 
   duplicateComponent(String id, Offset offset) {
     assert(_componentDataMap.keys.contains(id));
-    addComponent(_componentDataMap[id].duplicate(offset));
+    addComponent(_componentDataMap[id].duplicate(offset: offset));
   }
 
   duplicateComponentBelow(String id, Offset offset) {
     assert(_componentDataMap.keys.contains(id));
-    addComponent(_componentDataMap[id]
-        .duplicate(offset + Offset(0, _componentDataMap[id].size.height)));
+    addComponent(_componentDataMap[id].duplicate(
+        offset: offset + Offset(0, _componentDataMap[id].size.height)));
   }
 
   duplicateComponentNextTo(String id, Offset offset) {
     assert(_componentDataMap.keys.contains(id));
-    addComponent(_componentDataMap[id]
-        .duplicate(offset + Offset(_componentDataMap[id].size.width, 0)));
+    addComponent(_componentDataMap[id].duplicate(
+        offset: offset + Offset(_componentDataMap[id].size.width, 0)));
   }
 
   removeComponentConnections(String id) {
@@ -278,6 +279,10 @@ class CanvasModel extends ChangeNotifier {
   }
 
   // ==== LINKS ====
+
+  LinkData getLinkData(String id) {
+    return _linkDataMap[id];
+  }
 
   removeLink(LinkData linkData) {
     linkDataMap.remove(linkData.id);

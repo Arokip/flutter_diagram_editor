@@ -24,23 +24,6 @@ class ComponentBodyRect extends StatelessWidget {
     var componentData = Provider.of<ComponentData>(context, listen: true);
     var customData = componentData.customData as RectCustomComponentData;
 
-    // double width;
-    // double height;
-    // double pixelsPerLetter = 8.0;
-    //
-    // if (customData.description == null) {
-    //   height = 40;
-    //   width = customData.label.length * pixelsPerLetter;
-    // } else {
-    //   height = 60;
-    //   var len = customData.description.length > customData.label.length
-    //       ? customData.description.length
-    //       : customData.label.length;
-    //   width = len * pixelsPerLetter;
-    // }
-    //
-    // componentData.resize(Size(width, height), updateLinkMap);
-
     return GestureDetector(
       onLongPress: () {
         showEditComponentDialog(context, componentData);
@@ -63,6 +46,7 @@ class ComponentBodyRect extends StatelessWidget {
             children: [
               Text(
                 customData.label,
+                maxLines: 1,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12 * canvasScale),
               ),
@@ -70,6 +54,7 @@ class ComponentBodyRect extends StatelessWidget {
                 Text(
                   customData.description,
                   textAlign: TextAlign.center,
+                  maxLines: 1,
                   style: TextStyle(fontSize: 12 * canvasScale),
                 ),
             ],
@@ -163,6 +148,7 @@ ComponentData generateComponentRect({
     topOptions: [
       'delete',
       'duplicate',
+      'edit',
     ],
     customData: RectCustomComponentData(label: template.label),
     componentBodyName: template.id,
@@ -234,7 +220,7 @@ void showEditComponentDialog(
             TextField(
               controller: descriptionController,
               textInputAction: TextInputAction.newline,
-              maxLines: null,
+              maxLines: 1,
               decoration: InputDecoration(
                 // hintText: 'Find Group',
                 labelText: 'Description',
@@ -242,7 +228,7 @@ void showEditComponentDialog(
                 contentPadding: EdgeInsets.only(left: 13),
               ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 16),
             Align(
               alignment: Alignment.centerLeft,
               child: FlatButton(

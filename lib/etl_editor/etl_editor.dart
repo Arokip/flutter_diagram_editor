@@ -1,3 +1,4 @@
+import 'package:flutter_diagram_editor/etl_editor/component/component_rect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_diagram_editor/diagram_editor/button/delete_all_button.dart';
@@ -67,6 +68,17 @@ class _EtlEditorState extends State<EtlEditor> {
           onOptionTap: (cid) {
             model.duplicateComponentBelow(cid, Offset(0, 24));
             print('duplicate component: $cid');
+          },
+        ));
+    model.addNewComponentOption(
+        'edit',
+        ComponentOptionData(
+          color: Colors.lightGreen,
+          icon: Icons.edit,
+          tooltip: "Edit",
+          onOptionTap: (cid) {
+            showEditComponentDialog(context, model.getComponentData(cid));
+            print('edit component: $cid');
           },
         ));
     isComponentSetLoading = etlEditorLoader.loadComponentSet(model);

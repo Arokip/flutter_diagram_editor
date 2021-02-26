@@ -92,8 +92,9 @@ class _EditorState extends State<Editor> {
                     height: 400,
                     color: Colors.black.withOpacity(0.24),
                     child: DiagramEditorMenu(
-                        // scrollDirection: Axis.horizontal,
-                        ),
+                      // scrollDirection: Axis.horizontal,
+                      menuComponentRatio: MenuComponentRatio.realSizeRatio,
+                    ),
                   ),
                 ),
               );

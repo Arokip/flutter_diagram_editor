@@ -5,7 +5,7 @@ import 'package:flutter_diagram_editor/diagram_editor_library/model/menu_data.da
 import 'package:flutter_diagram_editor/diagram_editor_library/widget/menu_component.dart';
 import 'package:provider/provider.dart';
 
-enum MenuComponentRatio { ratio34, realSizeRatio }
+enum MenuComponentRatio { ratio34, ratio169, ratio23, realSizeRatio }
 
 class DiagramEditorMenu extends StatelessWidget {
   final Axis scrollDirection;
@@ -14,11 +14,11 @@ class DiagramEditorMenu extends StatelessWidget {
   const DiagramEditorMenu({
     Key key,
     this.scrollDirection = Axis.vertical,
-    this.menuComponentRatio = MenuComponentRatio.ratio34,
+    this.menuComponentRatio = MenuComponentRatio.ratio23,
   })  : assert(scrollDirection != null),
         super(key: key);
 
-  Widget menuComponentWithRightSize(
+  Widget menuComponentWithRealSizeRatio(
       ComponentData componentData, BoxConstraints size) {
     bool useAspectRatio = (scrollDirection == Axis.vertical)
         ? componentData.size.width > size.maxWidth
@@ -42,9 +42,9 @@ class DiagramEditorMenu extends StatelessWidget {
     }
   }
 
-  Widget menuComponentWithRightSize34(ComponentData componentData) {
+  Widget menuComponentWithRatio(ComponentData componentData, double ratio) {
     return AspectRatio(
-      aspectRatio: 4 / 3,
+      aspectRatio: ratio,
       child: DraggableMenuComponent(
         menuComponentData: componentData,
         affinity: flipAxis(scrollDirection),
@@ -53,12 +53,16 @@ class DiagramEditorMenu extends StatelessWidget {
   }
 
   Widget menuByRatio(ComponentData componentData, BoxConstraints size) {
-    if (menuComponentRatio == MenuComponentRatio.ratio34) {
-      return menuComponentWithRightSize34(componentData);
+    if (menuComponentRatio == MenuComponentRatio.ratio23) {
+      return menuComponentWithRatio(componentData, 3 / 2);
+    } else if (menuComponentRatio == MenuComponentRatio.ratio34) {
+      return menuComponentWithRatio(componentData, 4 / 3);
+    } else if (menuComponentRatio == MenuComponentRatio.ratio169) {
+      return menuComponentWithRatio(componentData, 16 / 9);
     } else if (menuComponentRatio == MenuComponentRatio.realSizeRatio) {
-      return menuComponentWithRightSize(componentData, size);
+      return menuComponentWithRealSizeRatio(componentData, size);
     } else {
-      return menuComponentWithRightSize34(componentData);
+      return menuComponentWithRatio(componentData, 3 / 2);
     }
   }
 

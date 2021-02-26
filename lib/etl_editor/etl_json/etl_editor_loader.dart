@@ -161,17 +161,18 @@ class EtlEditorLoader {
 
         double width;
         double height;
-        double pixelsPerLetter = 8.0;
+        double pixelsPerLetter = 6.0;
+        double baseWidth = 40;
 
         if (item.description == null) {
           height = 40;
-          width = item.label.length * pixelsPerLetter;
+          width = baseWidth + item.label.length * pixelsPerLetter;
         } else {
           height = 60;
           var len = item.description.length > item.label.length
               ? item.description.length
               : item.label.length;
-          width = len * pixelsPerLetter;
+          width = baseWidth + len * pixelsPerLetter;
         }
 
         componentData.size = Size(width, height);

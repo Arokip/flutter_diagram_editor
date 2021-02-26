@@ -228,6 +228,14 @@ class _EtlEditorState extends State<EtlEditor> {
             ]),
           ),
           Positioned(
+            bottom: 24,
+            right: 24,
+            child: Container(
+              color: Colors.grey[200],
+              child: Text('hint: long press on component to edit'),
+            ),
+          ),
+          Positioned(
             top: 8,
             left: 8,
             child: RaisedButton(

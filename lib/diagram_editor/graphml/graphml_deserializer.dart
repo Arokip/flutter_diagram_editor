@@ -84,8 +84,9 @@ class GraphmlDeserializer {
 
   static List<PortData> _getPortList(Iterable<XmlElement> ports) {
     List<PortData> resultList = []..length = ports.length;
-    ports.forEach((port) {
-      resultList[int.parse(port.getAttribute('name'))] = _getPortData(port);
+    var portList = ports.toList();
+    portList.forEach((port) {
+      resultList[portList.indexOf(port)] = _getPortData(port);
     });
     return resultList;
   }
@@ -144,9 +145,9 @@ class GraphmlDeserializer {
   ) {
     links.forEach((link) {
       var portOut = componentMap[link.getAttribute('source')]
-          .ports[int.parse(link.getAttribute('sourceport'))];
+          .ports[link.getAttribute('sourceport')];
       var portIn = componentMap[link.getAttribute('target')]
-          .ports[int.parse(link.getAttribute('targetport'))];
+          .ports[link.getAttribute('targetport')];
 
       portOut.addConnection(
         PortConnectionOut(

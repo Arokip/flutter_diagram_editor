@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/custom_component_data.dart';
@@ -40,34 +41,39 @@ class ComponentBodyRect extends StatelessWidget {
     //
     // componentData.resize(Size(width, height), updateLinkMap);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: customData.color == null
-            ? Color(
-                int.parse(template.color.substring(1), radix: 16) + 0xFF000000)
-            : Color(int.parse(customData.color.substring(1), radix: 16) +
-                0xFF000000),
-        border: Border.all(
-          width: 2.0 * canvasScale,
-          color: Colors.black,
+    return GestureDetector(
+      onLongPress: () {
+        showEditComponentDialog(context, componentData);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: customData.color == null
+              ? Color(int.parse(template.color.substring(1), radix: 16) +
+                  0xFF000000)
+              : Color(int.parse(customData.color.substring(1), radix: 16) +
+                  0xFF000000),
+          border: Border.all(
+            width: 2.0 * canvasScale,
+            color: Colors.black,
+          ),
         ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              customData.label,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12 * canvasScale),
-            ),
-            if (customData.description != null)
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Text(
-                customData.description,
+                customData.label,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12 * canvasScale),
               ),
-          ],
+              if (customData.description != null)
+                Text(
+                  customData.description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12 * canvasScale),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -194,4 +200,127 @@ class RectCustomComponentData extends CustomComponentData {
       color: color,
     );
   }
+}
+
+void showEditComponentDialog(
+    BuildContext context, ComponentData componentData) {
+  RectCustomComponentData customData = componentData.customData;
+
+  final labelController = TextEditingController(text: customData.label ?? '');
+  final descriptionController =
+      TextEditingController(text: customData.description ?? '');
+
+  showDialog(
+    barrierDismissible: false,
+    useSafeArea: true,
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Column(
+          children: [
+            SizedBox(width: 600),
+            Text('Edit component', style: TextStyle(fontSize: 20)),
+            TextField(
+              controller: labelController,
+              maxLines: 1,
+              decoration: InputDecoration(
+                // hintText: 'Find Group',
+                labelText: 'Label',
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.only(left: 13),
+              ),
+            ),
+            SizedBox(height: 8),
+            TextField(
+              controller: descriptionController,
+              textInputAction: TextInputAction.newline,
+              maxLines: null,
+              decoration: InputDecoration(
+                // hintText: 'Find Group',
+                labelText: 'Description',
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.only(left: 13),
+              ),
+            ),
+            SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: FlatButton(
+                color: Colors.grey[300],
+                onPressed: () {
+                  showPickColorDialog(context, componentData);
+                },
+                child: Text('Change color'),
+              ),
+            ),
+          ],
+        ),
+        scrollable: true,
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('DISCARD'),
+          ),
+          FlatButton(
+            onPressed: () {
+              customData.label = labelController.text;
+              customData.description = descriptionController.text == ''
+                  ? null
+                  : descriptionController.text;
+              componentData.componentUpdateData();
+              Navigator.of(context).pop();
+            },
+            child: Text('SAVE'),
+          )
+        ],
+      );
+    },
+  );
+}
+
+void showPickColorDialog(BuildContext context, ComponentData componentData) {
+  RectCustomComponentData customData = componentData.customData;
+  Color pickerColor = customData.color == null
+      ? Colors.white
+      : Color(int.parse(customData.color.substring(1), radix: 16) + 0xFF000000);
+  Color currentColor = customData.color == null
+      ? Colors.white
+      : Color(int.parse(customData.color.substring(1), radix: 16) + 0xFF000000);
+
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    useSafeArea: true,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Pick a component color'),
+        content: SingleChildScrollView(
+          child: ColorPicker(
+            pickerColor: pickerColor,
+            onColorChanged: (color) => currentColor = color,
+            showLabel: true,
+            pickerAreaHeightPercent: 0.8,
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('Close'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: const Text('Set color'),
+            onPressed: () {
+              customData.color = '#${currentColor.value.toRadixString(16)}';
+              componentData.componentUpdateData();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

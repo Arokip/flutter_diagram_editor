@@ -131,7 +131,7 @@ class ComponentData extends ChangeNotifier {
     notifyListeners();
   }
 
-  resize(Offset deltaSize) {
+  resizeDelta(Offset deltaSize, updateLinkMap) {
     var tempSize = size + deltaSize;
     if (tempSize.width < minSize.width) {
       tempSize = Size(minSize.width, tempSize.height);
@@ -140,6 +140,7 @@ class ComponentData extends ChangeNotifier {
       tempSize = Size(tempSize.width, minSize.height);
     }
     size = tempSize;
+    updateLinkMap(this.id);
     notifyListeners();
   }
 

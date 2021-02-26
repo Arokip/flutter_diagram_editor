@@ -18,8 +18,27 @@ class ComponentBodyRect extends StatelessWidget {
   Widget build(BuildContext context) {
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
-    var customData = context.select<ComponentData, CustomComponentData>(
-        (ComponentData cmp) => cmp.customData) as RectCustomComponentData;
+    var updateLinkMap = context.select<CanvasModel, Function>(
+        (CanvasModel model) => model.updateLinkMap);
+    var componentData = Provider.of<ComponentData>(context, listen: true);
+    var customData = componentData.customData as RectCustomComponentData;
+
+    // double width;
+    // double height;
+    // double pixelsPerLetter = 8.0;
+    //
+    // if (customData.description == null) {
+    //   height = 40;
+    //   width = customData.label.length * pixelsPerLetter;
+    // } else {
+    //   height = 60;
+    //   var len = customData.description.length > customData.label.length
+    //       ? customData.description.length
+    //       : customData.label.length;
+    //   width = len * pixelsPerLetter;
+    // }
+    //
+    // componentData.resize(Size(width, height), updateLinkMap);
 
     return Container(
       decoration: BoxDecoration(
@@ -34,10 +53,21 @@ class ComponentBodyRect extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Text(
-          customData.label,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12 * canvasScale),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              customData.label,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12 * canvasScale),
+            ),
+            if (customData.description != null)
+              Text(
+                customData.description,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12 * canvasScale),
+              ),
+          ],
         ),
       ),
     );
@@ -119,27 +149,6 @@ ComponentData generateComponentRect({
     );
   });
 
-  // for (int i = 0; i < ports.length; i++) {
-  //   Color portColor;
-  //   if (ports[i].io == EtlPortItemType.inputConf) {
-  //     portColor = Colors.pink;
-  //   } else if (ports[i].io == EtlPortItemType.input) {
-  //     portColor = Colors.green;
-  //   } else if (ports[i].io == EtlPortItemType.output) {
-  //     portColor = Colors.yellow;
-  //   }
-  //   portDataList.add(
-  //     PortData(
-  //       id: ports[i].binding,
-  //       color: portColor,
-  //       borderColor: Colors.black,
-  //       alignment: Alignment(0, i / ports.length),
-  //       portType:
-  //           '${ports[i].portType}${(ports[i].io == EtlPortItemType.inputConf) ? EtlPortItemType.input.toString() : ports[i].io.toString()}',
-  //     ),
-  //   );
-  // }
-
   return ComponentData(
     position: position,
     size: size,
@@ -161,7 +170,7 @@ class RectCustomComponentData extends CustomComponentData {
 
   RectCustomComponentData({
     this.label = '',
-    this.description = '',
+    this.description,
     this.color,
   }) : super();
 

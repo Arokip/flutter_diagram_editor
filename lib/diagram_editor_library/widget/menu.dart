@@ -5,12 +5,16 @@ import 'package:flutter_diagram_editor/diagram_editor_library/model/menu_data.da
 import 'package:flutter_diagram_editor/diagram_editor_library/widget/menu_component.dart';
 import 'package:provider/provider.dart';
 
+enum MenuComponentRatio { ratio34, realSizeRatio }
+
 class DiagramEditorMenu extends StatelessWidget {
   final Axis scrollDirection;
+  final MenuComponentRatio menuComponentRatio;
 
   const DiagramEditorMenu({
     Key key,
     this.scrollDirection = Axis.vertical,
+    this.menuComponentRatio = MenuComponentRatio.ratio34,
   })  : assert(scrollDirection != null),
         super(key: key);
 
@@ -38,6 +42,26 @@ class DiagramEditorMenu extends StatelessWidget {
     }
   }
 
+  Widget menuComponentWithRightSize34(ComponentData componentData) {
+    return AspectRatio(
+      aspectRatio: 4 / 3,
+      child: DraggableMenuComponent(
+        menuComponentData: componentData,
+        affinity: flipAxis(scrollDirection),
+      ),
+    );
+  }
+
+  Widget menuByRatio(ComponentData componentData, BoxConstraints size) {
+    if (menuComponentRatio == MenuComponentRatio.ratio34) {
+      return menuComponentWithRightSize34(componentData);
+    } else if (menuComponentRatio == MenuComponentRatio.realSizeRatio) {
+      return menuComponentWithRightSize(componentData, size);
+    } else {
+      return menuComponentWithRightSize34(componentData);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var menuData = context
@@ -51,7 +75,7 @@ class DiagramEditorMenu extends StatelessWidget {
               .map(
                 (ComponentData componentData) => Padding(
                   padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                  child: menuComponentWithRightSize(componentData, size),
+                  child: menuByRatio(componentData, size),
                 ),
               )
               .toList(),

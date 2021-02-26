@@ -91,11 +91,15 @@ class EtlEditorLoader {
                 RectCustomComponentData.fromJson(json),
           ),
         );
+
+        var componentSize = Size(40 + template.label.length * 6.0, 60);
+
         model.menuData.addComponentsToMenu([
           generateComponentRect(
             model: model,
             ports: ports,
             template: template,
+            size: componentSize,
           ),
         ]);
       }
@@ -154,6 +158,23 @@ class EtlEditorLoader {
             item.color;
         (componentData.customData as RectCustomComponentData).description =
             item.description;
+
+        double width;
+        double height;
+        double pixelsPerLetter = 8.0;
+
+        if (item.description == null) {
+          height = 40;
+          width = item.label.length * pixelsPerLetter;
+        } else {
+          height = 60;
+          var len = item.description.length > item.label.length
+              ? item.description.length
+              : item.label.length;
+          width = len * pixelsPerLetter;
+        }
+
+        componentData.size = Size(width, height);
 
         model.addComponent(componentData);
         print('added comp: ${componentData.id}');

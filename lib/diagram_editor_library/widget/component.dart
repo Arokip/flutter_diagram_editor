@@ -110,9 +110,9 @@ class Component extends StatelessWidget {
       bottom: 0,
       child: GestureDetector(
         onPanUpdate: (d) {
-          componentData.resize(d.delta / scale);
+          componentData.resizeDelta(d.delta / scale, updateLinkMap);
 
-          updateLinkMap(componentData.id);
+          // updateLinkMap(componentData.id);
         },
         child: Container(
           decoration: BoxDecoration(

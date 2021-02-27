@@ -58,6 +58,7 @@ class GraphmlDeserializer {
     Iterable<XmlElement> ports,
     HashMap<String, ComponentBody> componentBodyMap,
   ) {
+    print('CUSTOM: ${_getDataElementText(data, 'node-customData')}');
     return ComponentData(
       position: Offset(
           double.parse(_getDataElementText(data, 'node-position.dx')),

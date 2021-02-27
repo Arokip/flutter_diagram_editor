@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -43,7 +44,7 @@ class LoadDiagramFromGraphmlButton extends StatelessWidget {
                 );
                 if (result != null) {
                   var fileString =
-                      String.fromCharCodes(result.files.single.bytes);
+                      Utf8Decoder().convert(result.files.single.bytes);
 
                   canvasModel.resetCanvasView();
                   GraphmlDeserializer.buildDiagramFromXml(
@@ -90,7 +91,8 @@ class LoadDiagramFromGraphmlButton extends StatelessWidget {
                         onTap: () {
                           model.resetCanvasView();
                           GraphmlDeserializer.buildDiagramFromXml(
-                              file.readAsStringSync(), model);
+                              file.readAsStringSync(encoding: Utf8Codec()),
+                              model);
                           Navigator.of(context).pop();
                         },
                         child: Container(

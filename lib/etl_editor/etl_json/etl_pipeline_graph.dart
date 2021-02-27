@@ -110,9 +110,6 @@ class EtlComponentItem extends EtlPipelineGraphItem {
   });
 
   factory EtlComponentItem.fromJson(Map<String, dynamic> json) {
-    print('LABEL: ${(json[labelType] as List).first['@value']}');
-    print(
-        'DESC: ${json[descriptionType] == null ? null : (json[descriptionType] as List).first['@value']}');
     return EtlComponentItem(
       id: json['@id'],
       template: (json[itemTemplateType] as List).first['@id'],

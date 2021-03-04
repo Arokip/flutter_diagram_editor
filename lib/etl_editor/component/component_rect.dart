@@ -19,8 +19,6 @@ class ComponentBodyRect extends StatelessWidget {
   Widget build(BuildContext context) {
     var canvasScale =
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
-    var updateLinkMap = context.select<CanvasModel, Function>(
-        (CanvasModel model) => model.updateLinkMap);
     var componentData = Provider.of<ComponentData>(context, listen: true);
     var customData = componentData.customData as RectCustomComponentData;
 
@@ -231,8 +229,10 @@ void showEditComponentDialog(
             SizedBox(height: 16),
             Align(
               alignment: Alignment.centerLeft,
-              child: FlatButton(
-                color: Colors.grey[300],
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
+                ),
                 onPressed: () {
                   showPickColorDialog(context, componentData);
                 },
@@ -243,13 +243,13 @@ void showEditComponentDialog(
         ),
         scrollable: true,
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
             child: Text('DISCARD'),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () {
               customData.label = labelController.text;
               customData.description = descriptionController.text == ''
@@ -291,13 +291,13 @@ void showPickColorDialog(BuildContext context, ComponentData componentData) {
           ),
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: const Text('Close'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: const Text('Set color'),
             onPressed: () {
               customData.color = '#${currentColor.value.toRadixString(16)}';

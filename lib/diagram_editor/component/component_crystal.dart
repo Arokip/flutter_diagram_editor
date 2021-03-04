@@ -197,13 +197,13 @@ void showEditComponent(BuildContext context, ComponentData componentData) {
         ),
         scrollable: true,
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
             child: Text('DISCARD'),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () {
               customData.firstText = firstTextController.text;
               customData.secondText = secondTextController.text;

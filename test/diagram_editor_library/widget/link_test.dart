@@ -5,7 +5,6 @@ import 'package:flutter_diagram_editor/diagram_editor_library/model/component_da
 import 'package:flutter_diagram_editor/diagram_editor_library/model/custom_component_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/port_data.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/widget/canvas.dart';
-import 'package:flutter_diagram_editor/diagram_editor_library/widget/component.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/widget/link.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/widget/port.dart';
 import 'package:flutter_test/flutter_test.dart';

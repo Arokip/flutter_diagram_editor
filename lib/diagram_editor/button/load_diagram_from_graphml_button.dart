@@ -108,7 +108,7 @@ class LoadDiagramFromGraphmlButton extends StatelessWidget {
           ),
           scrollable: true,
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },

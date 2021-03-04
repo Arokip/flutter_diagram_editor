@@ -186,7 +186,10 @@ class _EditorState extends State<Editor> {
           Positioned(
             top: 8,
             left: 8,
-            child: RaisedButton(
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
               child: Row(
                 children: [
                   Icon(Icons.arrow_back, size: 16),
@@ -194,7 +197,6 @@ class _EditorState extends State<Editor> {
                   Text('BACK TO MENU'),
                 ],
               ),
-              color: Colors.blue,
               onPressed: () => Navigator.pop(context),
             ),
           ),

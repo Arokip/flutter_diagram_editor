@@ -31,25 +31,31 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              RaisedButton(
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
                 child: Text('Editor'),
-                color: Colors.blue,
                 onPressed: () {
                   Navigator.pushNamed(context, '/editor_app');
                 },
               ),
               SizedBox(height: 8),
-              RaisedButton(
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
                 child: Text('ETL'),
-                color: Colors.blue,
                 onPressed: () {
                   Navigator.pushNamed(context, '/etl_editor_app');
                 },
               ),
               SizedBox(height: 8),
-              RaisedButton(
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
                 child: Text('Another demo'),
-                color: Colors.blue,
                 onPressed: () {
                   Navigator.pushNamed(context, '/demo_app');
                 },
@@ -92,8 +98,10 @@ class DemoApp extends StatelessWidget {
         body: Container(
           color: Colors.red,
           child: Center(
-            child: RaisedButton(
-              color: Colors.blue,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
               child: Text('return'),
               onPressed: () => Navigator.pop(context),
             ),

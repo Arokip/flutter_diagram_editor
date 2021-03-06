@@ -231,7 +231,10 @@ void showEditComponentDialog(
               alignment: Alignment.centerLeft,
               child: TextButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
+                  // backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
+                  textStyle: MaterialStateProperty.all(
+                    TextStyle(color: Colors.grey[300]),
+                  ),
                 ),
                 onPressed: () {
                   showPickColorDialog(context, componentData);

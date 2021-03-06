@@ -13,22 +13,51 @@ class ComponentBodyWidget1 extends StatelessWidget {
         context.select<CanvasModel, double>((CanvasModel model) => model.scale);
     var componentIdString =
         context.select<ComponentData, String>((ComponentData cmp) => cmp.id);
+    var componentSize =
+        context.select<ComponentData, Size>((ComponentData cmp) => cmp.size);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.limeAccent,
-        borderRadius: BorderRadius.circular(10 * canvasScale),
-        border: Border.all(
-          width: 1.0 * canvasScale,
-          color: Colors.black,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.limeAccent,
+            borderRadius: BorderRadius.circular(10 * canvasScale),
+            border: Border.all(
+              width: 1.0 * canvasScale,
+              color: Colors.black,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              componentIdString,
+              style: TextStyle(fontSize: 12 * canvasScale),
+            ),
+          ),
         ),
-      ),
-      child: Center(
-        child: Text(
-          componentIdString,
-          style: TextStyle(fontSize: 12 * canvasScale),
+        Positioned(
+          top: -20,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Text(
+              'label above',
+              style: TextStyle(fontSize: 12 * canvasScale),
+            ),
+          ),
         ),
-      ),
+        Positioned(
+          top: componentSize.height + 40,
+          right: -60,
+          child: Text(
+            'label anywhere',
+            style: TextStyle(
+              fontSize: 10 * canvasScale,
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -112,16 +112,17 @@ ComponentData generateComponentRect({
   int outPortIndex = 1;
 
   ports.forEach((port) {
-    Color portColor;
-    if (port.io == EtlPortItemType.inputConf) {
-      portColor = Colors.pink;
-    } else if (port.io == EtlPortItemType.input) {
-      portColor = Colors.green;
-    } else if (port.io == EtlPortItemType.output) {
-      portColor = Colors.yellow;
-    }
+    // if (port.io == EtlPortItemType.inputConf) {
+    //   portColor = Colors.pink;
+    // } else if (port.io == EtlPortItemType.input) {
+    //   portColor = Colors.green;
+    // } else if (port.io == EtlPortItemType.output) {
+    //   portColor = Colors.yellow;
+    // }
     bool isPortInput = port.io == EtlPortItemType.inputConf ||
         port.io == EtlPortItemType.input;
+    Color portColor =
+        Color('${port.portType}${port.io.toString()}'.hashCode | 0xFF000000);
     portDataList.add(
       PortData(
         id: port.binding,

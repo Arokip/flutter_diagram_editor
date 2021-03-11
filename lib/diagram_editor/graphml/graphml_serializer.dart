@@ -183,9 +183,10 @@ class GraphmlSerializer {
     XmlBuilder builder,
     LinkData link,
   ) {
-    _buildDataInstance(builder, 'edge-color', link.color.value);
-    _buildDataInstance(builder, 'edge-width', link.width);
-    _buildDataInstance(builder, 'edge-tipSize', link.tipSize);
+    // TODO: linkStyle
+    // _buildDataInstance(builder, 'edge-color', link.color.value);
+    // _buildDataInstance(builder, 'edge-width', link.width);
+    // _buildDataInstance(builder, 'edge-tipSize', link.tipSize);
     _buildDataInstance(
         builder, 'edge-linkPoints', _linkPointsToString(link.linkPoints));
   }

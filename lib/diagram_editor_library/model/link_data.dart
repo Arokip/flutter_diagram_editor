@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/helper/link_style.dart';
 
 class LinkData extends ChangeNotifier {
   final String id;
 
   final String componentOutId;
   final String componentInId;
-  final Color color;
-  final double width;
-  final double tipSize;
+  // final Color color;
+  // final double width;
+  // final double tipSize;
+  final LinkStyle linkStyle;
 
   final List<Offset> linkPoints;
 
@@ -15,12 +17,12 @@ class LinkData extends ChangeNotifier {
     @required this.id,
     @required this.componentOutId,
     @required this.componentInId,
-    this.color = Colors.black,
-    this.width = 1.0,
-    this.tipSize = 5.0,
+    // this.color = Colors.black,
+    // this.width = 1.0,
+    // this.tipSize = 5.0,
     @required this.linkPoints,
-  })  : assert(width > 0),
-        assert(tipSize > 0);
+    this.linkStyle = const LinkStyle(),
+  });
 
   linkNotifyListeners() {
     notifyListeners();

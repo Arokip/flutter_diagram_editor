@@ -132,9 +132,10 @@ class GraphmlDeserializer {
       id: link.getAttribute('id'),
       componentOutId: componentMap[link.getAttribute('source')].id,
       componentInId: componentMap[link.getAttribute('target')].id,
-      color: _parseColor(_getDataElementText(data, 'edge-color')),
-      width: double.parse(_getDataElementText(data, 'edge-width')),
-      tipSize: double.parse(_getDataElementText(data, 'edge-tipSize')),
+      // TODO: linkStyle
+      // color: _parseColor(_getDataElementText(data, 'edge-color')),
+      // width: double.parse(_getDataElementText(data, 'edge-width')),
+      // tipSize: double.parse(_getDataElementText(data, 'edge-tipSize')),
       linkPoints:
           _linkPointsFromString(_getDataElementText(data, 'edge-linkPoints')),
     );

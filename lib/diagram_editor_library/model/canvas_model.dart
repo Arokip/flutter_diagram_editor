@@ -1,9 +1,11 @@
 import 'dart:collection';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/helper/canvas_screenshot.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/helper/link_style.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/helper/multiple_selection.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_body.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/component_data.dart';
@@ -269,12 +271,19 @@ class CanvasModel extends ChangeNotifier {
       id: linkId,
       componentOutId: portOut.componentId,
       componentInId: portIn.componentId,
-      color: Colors.black,
-      width: 1.5,
+      // color: Colors.black,
+      // width: 1.5,
       linkPoints: [
         componentDataMap[portOut.componentId].getPortCenterPoint(portOut.id),
         componentDataMap[portIn.componentId].getPortCenterPoint(portIn.id),
       ],
+      linkStyle: LinkStyle(
+        arrowSize: Random().nextDouble() * 20 + 1,
+        color: Colors.brown[700],
+        width: Random().nextDouble() * 10 + 1,
+        arrowType: ArrowType.values[Random().nextInt(ArrowType.values.length)],
+        linkType: LineType.values[Random().nextInt(LineType.values.length)],
+      ),
     );
   }
 

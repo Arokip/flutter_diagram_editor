@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default_component_policy.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default/default_policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/policy_set.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_state.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/model/component_data.dart';
 import 'package:provider/provider.dart';
 
 class Component extends StatelessWidget {
-  final DefaultComponentPolicy componentPolicy;
+  final DefaultPolicySet policy;
 
   const Component({
     Key key,
-    this.componentPolicy,
+    this.policy,
   }) : super(key: key);
 
   @override
@@ -22,13 +23,13 @@ class Component extends StatelessWidget {
       top: componentData.position.dy + canvasState.position.dy,
       child: GestureDetector(
         onTap: () {
-          componentPolicy.onTap(componentData.id);
+          policy.onComponentTap(componentData.id);
         },
         onTapDown: (TapDownDetails details) {
-          componentPolicy.onTapDown(componentData.id, details);
+          policy.onComponentTapDown(componentData.id, details);
         },
         onPanUpdate: (DragUpdateDetails details) {
-          componentPolicy.onPanUpdate(componentData.id, details);
+          policy.onComponentPanUpdate(componentData.id, details);
         },
         child: Container(
           color: Colors.red,

@@ -1,5 +1,5 @@
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_context.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_misc.dart';
+import 'package:flutter_diagram_editor/architecture/canvas_context/diagram_editor_context.dart';
+import 'package:flutter_diagram_editor/architecture/canvas_context/component_definition.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_model.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_state.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/model/component_data.dart';
@@ -33,7 +33,7 @@ class CanvasStateReader {
 }
 
 class CanvasMiscReader {
-  final CanvasMisc canvasMisc;
+  final ComponentDefinition canvasMisc;
 
   CanvasMiscReader(this.canvasMisc);
 }

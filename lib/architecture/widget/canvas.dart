@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default_canvas_policy.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default_component_policy.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_context.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default/default_policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/canvas_context/diagram_editor_context.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_model.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/model/component_data.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/model/link_data.dart';
@@ -10,22 +9,17 @@ import 'package:flutter_diagram_editor/architecture/widget/link.dart';
 import 'package:provider/provider.dart';
 
 class DiagramEditorCanvas extends StatelessWidget {
-  final CanvasContext canvasContext;
+  final DefaultPolicySet policy;
   final double width;
   final double height;
   final Color color;
 
-  final DefaultComponentPolicy componentPolicy;
-  final DefaultCanvasPolicy canvasPolicy;
-
   const DiagramEditorCanvas({
     Key key,
-    @required this.canvasContext,
+    @required this.policy,
     this.width,
     this.height,
     this.color,
-    this.componentPolicy,
-    this.canvasPolicy,
   }) : super(key: key);
 
   List<Widget> showComponents(CanvasModel canvasModel) {
@@ -33,7 +27,7 @@ class DiagramEditorCanvas extends StatelessWidget {
       return ChangeNotifierProvider<ComponentData>.value(
         value: componentData,
         child: Component(
-          componentPolicy: this.componentPolicy,
+          policy: policy,
         ),
       );
     }).toList();
@@ -67,13 +61,13 @@ class DiagramEditorCanvas extends StatelessWidget {
       ),
       onTap: () {
         print('canvas tap');
-        canvasPolicy.onTap();
+        policy.onCanvasTap();
       },
       onTapDown: (details) {
-        canvasPolicy.onTapDown(details);
+        policy.onCanvasTapDown(details);
       },
       onPanUpdate: (details) {
-        canvasPolicy.onPanUpdate(details);
+        policy.onCanvasPanUpdate(details);
       },
     );
   }

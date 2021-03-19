@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default_canvas_policy.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default_component_policy.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_context.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_misc.dart';
+import 'package:flutter_diagram_editor/architecture/canvas_context/diagram_editor_context.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_model.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_state.dart';
+import 'package:flutter_diagram_editor/architecture/canvas_context/component_definition.dart';
 import 'package:flutter_diagram_editor/architecture/widget/canvas.dart';
 import 'package:provider/provider.dart';
 
 class DiagramEditor extends StatelessWidget {
-  final CanvasContext canvasContext;
+  final DiagramEditorContext canvasContext;
   final double width;
   final double height;
   final Color color;
-
-  final DefaultCanvasPolicy _canvasPolicy;
-  final DefaultComponentPolicy _componentPolicy;
 
   DiagramEditor({
     Key key,
@@ -23,15 +18,7 @@ class DiagramEditor extends StatelessWidget {
     this.width = 0,
     this.height = 0,
     this.color,
-    DefaultCanvasPolicy canvasPolicy,
-    DefaultComponentPolicy componentPolicy,
-  })  : this._canvasPolicy = (canvasPolicy == null)
-            ? DefaultCanvasPolicy(canvasContext)
-            : canvasPolicy,
-        this._componentPolicy = (componentPolicy == null)
-            ? DefaultComponentPolicy(canvasContext)
-            : componentPolicy,
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +30,8 @@ class DiagramEditor extends StatelessWidget {
         ChangeNotifierProvider<CanvasState>.value(
           value: canvasContext.canvasState,
         ),
-        ChangeNotifierProvider<CanvasMisc>.value(
-          value: canvasContext.canvasMisc,
+        ChangeNotifierProvider<ComponentDefinition>.value(
+          value: canvasContext.componentDefinition,
         ),
       ],
       builder: (context, child) {
@@ -52,9 +39,7 @@ class DiagramEditor extends StatelessWidget {
           width: width,
           height: height,
           color: color,
-          canvasContext: canvasContext,
-          canvasPolicy: _canvasPolicy,
-          componentPolicy: _componentPolicy,
+          policy: canvasContext.policySet,
         );
       },
     );

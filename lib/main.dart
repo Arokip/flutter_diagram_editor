@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_diagram_editor/architecture/architecture.dart';
 import 'package:flutter_diagram_editor/diagram_editor/editor.dart';
 import 'package:flutter_diagram_editor/etl_editor/etl_editor.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => HomeScreen(),
         '/editor_app': (context) => EditorApp(),
         '/etl_editor_app': (context) => EtlEditorApp(),
+        '/architecture': (context) => ArchitectureApp(),
         '/demo_app': (context) => DemoApp(),
       },
     );
@@ -55,6 +57,16 @@ class HomeScreen extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blue),
                 ),
+                child: Text('Architecture'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/architecture');
+                },
+              ),
+              SizedBox(height: 8),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
                 child: Text('Another demo'),
                 onPressed: () {
                   Navigator.pushNamed(context, '/demo_app');
@@ -85,6 +97,17 @@ class EtlEditorApp extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: EtlEditor(),
+      ),
+    );
+  }
+}
+
+class ArchitectureApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Architecture(),
       ),
     );
   }

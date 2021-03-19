@@ -12,9 +12,14 @@ class CanvasModel extends ChangeNotifier {
 
   addComponent(ComponentData componentData) {
     components[componentData.id] = componentData;
+    notifyListeners();
   }
 
   addLink(LinkData linkData) {
     links[linkData.id] = linkData;
+  }
+
+  moveComponent(String id, Offset offset) {
+    components[id].move(offset);
   }
 }

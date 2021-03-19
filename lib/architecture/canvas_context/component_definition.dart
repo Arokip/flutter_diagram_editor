@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-class CanvasMisc extends ChangeNotifier {
+class ComponentDefinition extends ChangeNotifier {
   Color canvasColor = Colors.grey;
 }

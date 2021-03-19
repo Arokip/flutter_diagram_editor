@@ -121,8 +121,7 @@ ComponentData generateComponentRect({
     // }
     bool isPortInput = port.io == EtlPortItemType.inputConf ||
         port.io == EtlPortItemType.input;
-    Color portColor =
-        Color('${port.portType}${port.io.toString()}'.hashCode | 0xFF000000);
+    Color portColor = Color('a${port.portType}'.hashCode | 0xFF000000);
     portDataList.add(
       PortData(
         id: port.binding,

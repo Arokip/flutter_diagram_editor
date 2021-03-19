@@ -64,7 +64,7 @@ class LinkStyle {
         return getSolidLinePath(point1, point2);
         break;
       case LineType.dashed:
-        return getDashedLinePath(point1, point2, scale, 20, 40);
+        return getDashedLinePath(point1, point2, scale, 32, 32);
         break;
       case LineType.dotted:
         return getDashedLinePath(point1, point2, scale, width, width * 5);

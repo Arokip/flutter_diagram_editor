@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_context.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_misc.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_model.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_state.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/model/component_data.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/model/link_data.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/basic/basic_policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/canvas_context/diagram_editor_context.dart';
 import 'package:flutter_diagram_editor/architecture/widget/editor.dart';
-
-void main() {
-  runApp(Architecture());
-}
 
 class Architecture extends StatefulWidget {
   @override
@@ -17,113 +9,83 @@ class Architecture extends StatefulWidget {
 }
 
 class _ArchitectureState extends State<Architecture> {
-  CanvasModel model1 = CanvasModel();
-  CanvasModel model2 = CanvasModel();
-
-  CanvasState state1 = CanvasState();
-  CanvasState state2 = CanvasState();
+  DiagramEditorContext diagramEditorContext1;
+  DiagramEditorContext diagramEditorContext2;
+  DiagramEditorContext diagramEditorContext3;
+  DiagramEditorContext diagramEditorContext4;
 
   @override
   void initState() {
-    model1.addComponent(ComponentData(position: Offset(120, 20)));
-    model1.addComponent(ComponentData(position: Offset(320, 240)));
-    model1.addLink(LinkData(position: Offset(100, 160)));
+    diagramEditorContext1 = DiagramEditorContext(
+      policySet: BasicPolicySet(),
+    );
+    diagramEditorContext2 = DiagramEditorContext.withSharedModel(
+      diagramEditorContext1,
+      policySet: BasicPolicySet(),
+    );
+    diagramEditorContext3 = DiagramEditorContext.withSharedState(
+      diagramEditorContext1,
+      policySet: BasicPolicySet(),
+    );
+    diagramEditorContext4 = DiagramEditorContext.withSharedModelAndState(
+      diagramEditorContext1,
+      policySet: BasicPolicySet(),
+    );
 
-    model2.addComponent(ComponentData(position: Offset(180, 40)));
-    model2.addComponent(ComponentData(position: Offset(120, 140)));
-    model2.addComponent(ComponentData(position: Offset(160, 200)));
-    model2.addLink(LinkData(position: Offset(80, 80)));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.blue),
-          ),
+    return MaterialApp(
+      home: Scaffold(
+        body: SafeArea(
           child: Row(
             children: [
-              Icon(Icons.arrow_back, size: 16),
-              SizedBox(width: 8),
-              Text('BACK TO MENU'),
+              SizedBox(width: 16),
+              Column(
+                children: [
+                  Container(child: Text('new context')),
+                  DiagramEditor(
+                    canvasContext: diagramEditorContext1,
+                    width: 400,
+                    height: 300,
+                    color: Colors.green,
+                  ),
+                  SizedBox(height: 16),
+                  Container(child: Text('shared model')),
+                  DiagramEditor(
+                    canvasContext: diagramEditorContext2,
+                    width: 400,
+                    height: 300,
+                    color: Colors.pink,
+                  ),
+                ],
+              ),
+              SizedBox(width: 16),
+              Column(
+                children: [
+                  Container(child: Text('shared state')),
+                  DiagramEditor(
+                    canvasContext: diagramEditorContext3,
+                    width: 400,
+                    height: 300,
+                    color: Colors.blue,
+                  ),
+                  SizedBox(height: 16),
+                  Container(child: Text('shared model state')),
+                  DiagramEditor(
+                    canvasContext: diagramEditorContext4,
+                    width: 400,
+                    height: 300,
+                    color: Colors.lightGreenAccent,
+                  ),
+                ],
+              ),
             ],
           ),
-          onPressed: () => Navigator.pop(context),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              height: 300,
-              child: Text('state1'),
-            ),
-            Container(
-              height: 300,
-              child: Text('state2'),
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            Container(
-              child: Text('model1'),
-            ),
-            DiagramEditor(
-              canvasContext: CanvasContext(
-                canvasModel: model1,
-                canvasState: state1,
-                canvasMisc: CanvasMisc(),
-              ),
-              width: 400,
-              height: 300,
-              color: Colors.green,
-            ),
-            SizedBox(height: 16),
-            DiagramEditor(
-              canvasContext: CanvasContext(
-                canvasModel: model1,
-                canvasState: state2,
-                canvasMisc: CanvasMisc(),
-              ),
-              width: 400,
-              height: 300,
-              color: Colors.pink,
-            ),
-          ],
-        ),
-        SizedBox(width: 16),
-        Column(
-          children: [
-            Container(
-              child: Text('model2'),
-            ),
-            DiagramEditor(
-              canvasContext: CanvasContext(
-                canvasModel: model2,
-                canvasState: state1,
-                canvasMisc: CanvasMisc(),
-              ),
-              width: 400,
-              height: 300,
-              color: Colors.blue,
-            ),
-            SizedBox(height: 16),
-            DiagramEditor(
-              canvasContext: CanvasContext(
-                canvasModel: model2,
-                canvasState: state2,
-                canvasMisc: CanvasMisc(),
-              ),
-              width: 400,
-              height: 300,
-              color: Colors.lightGreenAccent,
-            ),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }

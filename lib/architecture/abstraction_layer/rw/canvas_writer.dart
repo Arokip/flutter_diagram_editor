@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_misc.dart';
+import 'package:flutter_diagram_editor/architecture/canvas_context/component_definition.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_model.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_state.dart';
+import 'package:flutter_diagram_editor/architecture/canvas_context/model/component_data.dart';
+import 'package:uuid/uuid.dart';
 
 class CanvasWriter {
   final CanvasModelWriter model;
@@ -12,27 +14,31 @@ class CanvasWriter {
 }
 
 class CanvasModelWriter {
-  final CanvasModel canvasModel;
+  final CanvasModel _canvasModel;
 
-  CanvasModelWriter(this.canvasModel);
+  CanvasModelWriter(this._canvasModel);
 
   moveComponent(String id, Offset offset) {
-    canvasModel.components[id].move(offset);
+    _canvasModel.moveComponent(id, offset);
+  }
+
+  addComponent(ComponentData componentData) {
+    _canvasModel.addComponent(componentData);
   }
 }
 
 class CanvasStateWriter {
-  final CanvasState canvasState;
+  final CanvasState _canvasState;
 
-  CanvasStateWriter(this.canvasState);
+  CanvasStateWriter(this._canvasState);
 
   moveCanvas(Offset offset) {
-    canvasState.move(offset);
+    _canvasState.move(offset);
   }
 }
 
 class CanvasMiscWriter {
-  final CanvasMisc canvasMisc;
+  final ComponentDefinition _canvasMisc;
 
-  CanvasMiscWriter(this.canvasMisc);
+  CanvasMiscWriter(this._canvasMisc);
 }

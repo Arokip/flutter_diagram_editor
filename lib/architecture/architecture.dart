@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/basic/basic_policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policy/basics/basic_policy_set.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/diagram_editor_context.dart';
 import 'package:flutter_diagram_editor/architecture/widget/editor.dart';
 

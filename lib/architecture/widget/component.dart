@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default/default_policy_set.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policy/defaults/default_policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policy/policy_set.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_state.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/model/component_data.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,5 @@
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default/default_policy_set.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policy/defaults/default_policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policy/policy_set.dart';
 import 'package:flutter_diagram_editor/architecture/abstraction_layer/rw/canvas_reader.dart';
 import 'package:flutter_diagram_editor/architecture/abstraction_layer/rw/canvas_writer.dart';
 import 'package:flutter_diagram_editor/architecture/canvas_context/canvas_model.dart';

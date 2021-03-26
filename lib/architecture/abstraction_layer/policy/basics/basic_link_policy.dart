@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/default/default_link_policy.dart';
-import 'package:flutter_diagram_editor/architecture/abstraction_layer/policies/policy_set.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policy/defaults/default_link_policy.dart';
+import 'package:flutter_diagram_editor/architecture/abstraction_layer/policy/policy_set.dart';
 
 mixin BasicLinkPolicy implements DefaultLinkPolicy {
   onLinkTap(String componentId) {

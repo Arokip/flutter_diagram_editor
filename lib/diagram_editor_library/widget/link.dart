@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/helper/link_style.dart';
-import 'package:flutter_diagram_editor/diagram_editor_library/helper/painter_helper.dart';
+import 'package:flutter_diagram_editor/diagram_editor_library/helper/painter_utils.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/canvas_model.dart';
 import 'package:flutter_diagram_editor/diagram_editor_library/model/link_data.dart';
 import 'package:provider/provider.dart';
@@ -165,7 +165,7 @@ class LinkPainter extends CustomPainter {
         canvas.drawPath(
           linkStyle.getLinePath(
             linkPoints[i],
-            PainterHelper.getShorterLineEnd(
+            PainterUtils.getShorterLineEnd(
               linkPoints[i],
               linkPoints[i + 1],
               scale * linkStyle.getEndShortening(),
@@ -214,12 +214,11 @@ class LinkPainter extends CustomPainter {
       var point2 = linkPoints[i + 1];
 
       if (i == 0)
-        point1 = PainterHelper.getShorterLineStart(point1, point2, scale * 10);
+        point1 = PainterUtils.getShorterLineStart(point1, point2, scale * 10);
       if (i == linkPoints.length - 2)
-        point2 = PainterHelper.getShorterLineEnd(point1, point2, scale * 10);
+        point2 = PainterUtils.getShorterLineEnd(point1, point2, scale * 10);
 
-      path.addPath(
-          PainterHelper.getRectAroundLine(point1, point2, hitAreaWidth),
+      path.addPath(PainterUtils.getRectAroundLine(point1, point2, hitAreaWidth),
           Offset(0, 0));
     }
     return path;
@@ -282,7 +281,7 @@ class LinkPainter extends CustomPainter {
       var point1 = linkPoints[i];
       var point2 = linkPoints[i + 1];
 
-      Path rect = PainterHelper.getRectAroundLine(point1, point2, hitAreaWidth);
+      Path rect = PainterUtils.getRectAroundLine(point1, point2, hitAreaWidth);
 
       if (rect.contains(position)) {
         return i + 1;

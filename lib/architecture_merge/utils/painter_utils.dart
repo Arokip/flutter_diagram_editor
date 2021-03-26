@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PainterHelper {
+class PainterUtils {
   static Offset getDirectionVector(Offset point1, Offset point2) {
     return Offset((point2.dx - point1.dx), (point2.dy - point1.dy));
   }
@@ -27,8 +27,8 @@ class PainterHelper {
 
   static Path getRectAroundLine(Offset point1, Offset point2, rectWidth) {
     Path path = Path();
-    Offset pnsv = PainterHelper.normalizeVector(
-            PainterHelper.getPerpendicularVector(point1, point2)) *
+    Offset pnsv = PainterUtils.normalizeVector(
+            PainterUtils.getPerpendicularVector(point1, point2)) *
         rectWidth;
 
     // rect around line

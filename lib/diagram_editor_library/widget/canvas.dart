@@ -126,19 +126,11 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
   }
 
   Widget addDragTarget(CanvasModel canvasModel) {
-    return SizedBox(
-      // it's here, because DragTarget outside is lagging (draggable cannot be accepted when user drops it on an component)
-      child: DragTarget<ComponentData>(
-        builder: (BuildContext context, List<ComponentData> candidateData,
-            List<dynamic> rejectedData) {
-          return Container(
-            color: Colors.transparent,
-          );
-        },
-        onWillAccept: (ComponentData data) => true,
-        onAcceptWithDetails: (details) =>
-            _onAcceptWithDetails(details, context, canvasModel),
-      ),
+    return DragTarget<ComponentData>(
+      builder: (_, __, ___) => null,
+      onWillAccept: (ComponentData data) => true,
+      onAcceptWithDetails: (DragTargetDetails<ComponentData> details) =>
+          _onAcceptWithDetails(details, context, canvasModel),
     );
   }
 

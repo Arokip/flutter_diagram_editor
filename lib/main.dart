@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_diagram_editor/architecture/architecture.dart';
+import 'package:flutter_diagram_editor/architecture_merge/architecture_merge.dart';
 import 'package:flutter_diagram_editor/diagram_editor/editor.dart';
 import 'package:flutter_diagram_editor/etl_editor/etl_editor.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         '/editor_app': (context) => EditorApp(),
         '/etl_editor_app': (context) => EtlEditorApp(),
         '/architecture': (context) => ArchitectureApp(),
+        '/architecture_merge': (context) => ArchitectureMergeApp(),
         '/demo_app': (context) => DemoApp(),
       },
     );
@@ -67,6 +69,16 @@ class HomeScreen extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blue),
                 ),
+                child: Text('Architecture merge'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/architecture_merge');
+                },
+              ),
+              SizedBox(height: 8),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
                 child: Text('Another demo'),
                 onPressed: () {
                   Navigator.pushNamed(context, '/demo_app');
@@ -108,6 +120,17 @@ class ArchitectureApp extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Architecture(),
+      ),
+    );
+  }
+}
+
+class ArchitectureMergeApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: ArchitectureEditorMerge(),
       ),
     );
   }

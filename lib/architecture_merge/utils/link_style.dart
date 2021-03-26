@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_diagram_editor/diagram_editor_library/helper/painter_utils.dart';
+import 'package:flutter_diagram_editor/architecture_merge/utils/painter_utils.dart';
 
 enum ArrowType {
   none,

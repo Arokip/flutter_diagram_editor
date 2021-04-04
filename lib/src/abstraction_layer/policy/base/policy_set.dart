@@ -1,3 +1,4 @@
+import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/canvas_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/canvas_widgets_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/component_design_policy.dart';
@@ -17,4 +18,5 @@ class PolicySet extends BasePolicySet
         LinkPolicy,
         LinkJointPolicy,
         LinkAttachmentPolicy,
-        CanvasWidgetsPolicy {}
+        CanvasWidgetsPolicy,
+        ComponentWidgetsPolicy {}

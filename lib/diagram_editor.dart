@@ -1,5 +1,6 @@
 export 'src/abstraction_layer/policy/base/canvas_policy.dart';
 export 'src/abstraction_layer/policy/base/canvas_widgets_policy.dart';
+export 'src/abstraction_layer/policy/base/component_widgets_policy.dart';
 export 'src/abstraction_layer/policy/base/component_design_policy.dart';
 export 'src/abstraction_layer/policy/base/component_policy.dart';
 export 'src/abstraction_layer/policy/base/init_policy.dart';

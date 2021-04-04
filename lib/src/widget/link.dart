@@ -1,7 +1,6 @@
 import 'package:diagram_editor/src/abstraction_layer/policy/base/policy_set.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_state.dart';
 import 'package:diagram_editor/src/canvas_context/model/link_data.dart';
-import 'package:diagram_editor/src/utils/painter/delete_icon_painter.dart';
 import 'package:diagram_editor/src/utils/painter/link_joint_painter.dart';
 import 'package:diagram_editor/src/utils/painter/link_painter.dart';
 import 'package:flutter/gestures.dart';
@@ -43,13 +42,16 @@ class Link extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => policy.onDeleteLinkIconTap(linkData.id),
                   child: CustomPaint(
-                    painter: DeleteIconPainter(
-                      location:
-                          linkData.deleteIconPosition * canvasState.scale +
-                              canvasState.position,
-                      radius: 16,
-                      color: Colors.red,
-                    ),
+                    painter: policy.deleteIconPainter(canvasState
+                        .toCanvasCoordinates(linkData.deleteIconPosition)),
+                    // painter: DeleteIconPainter(
+                    //   location: canvasState
+                    //       .toCanvasCoordinates(linkData.deleteIconPosition),
+                    //   // linkData.deleteIconPosition * canvasState.scale +
+                    //   //     canvasState.position,
+                    //   radius: 16,
+                    //   color: Colors.red,
+                    // ),
                   ),
                 ),
               ),

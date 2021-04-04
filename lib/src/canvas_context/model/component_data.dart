@@ -8,12 +8,11 @@ class ComponentData with ChangeNotifier {
   Size size;
   final Size minSize;
   final String type;
+  int zOrder = 0;
   String parentId;
   final List<String> childrenIds = [];
 
   final List<Connection> connections = [];
-
-  int zOrder = 0;
 
   final dynamic data;
 
@@ -23,7 +22,6 @@ class ComponentData with ChangeNotifier {
     this.size = const Size(80, 80),
     this.minSize = const Size(4, 4),
     this.type,
-    this.parentId,
     this.data,
   })  : assert(minSize <= size),
         assert(position != null),

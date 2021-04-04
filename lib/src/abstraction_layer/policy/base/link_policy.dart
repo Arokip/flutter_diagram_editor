@@ -33,4 +33,8 @@ mixin LinkPolicy on BasePolicySet {
   //
 
   onDeleteLinkIconTap(String linkId) {}
+
+  CustomPainter deleteIconPainter(Offset location) {
+    return null;
+  }
 }

@@ -28,6 +28,7 @@ class CanvasModelReader {
     return canvasModel.getAllLinks();
   }
 
+  /// If a link is compound from more than one segments this returns an index of the link segment, which was tapped on. If there is no link segment on the tap location it returns null. It should take a localPosition from a link tap.
   int determineLinkSegmentIndex(
     String linkId,
     Offset tapPosition,

@@ -73,6 +73,10 @@ mixin ComponentWriter on ModelWriter {
     });
   }
 
+  removeComponentConnections(String componentId) {
+    _canvasModel.removeComponentConnections(componentId);
+  }
+
   updateComponentLinks(String componentId) {
     _canvasModel.updateLinks(componentId);
   }

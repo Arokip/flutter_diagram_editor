@@ -3,15 +3,18 @@ import 'package:diagram_editor/src/canvas_context/model/component_data.dart';
 import 'package:flutter/material.dart';
 
 mixin ComponentWidgetsPolicy on BasePolicySet {
-  Widget showCustomWidgetWithComponentDataUnder(ComponentData componentData) {
+  Widget showCustomWidgetWithComponentDataUnder(
+      BuildContext context, ComponentData componentData) {
     return SizedBox.shrink();
   }
 
-  Widget showCustomWidgetWithComponentData(ComponentData componentData) {
+  Widget showCustomWidgetWithComponentData(
+      BuildContext context, ComponentData componentData) {
     return SizedBox.shrink();
   }
 
-  Widget showCustomWidgetWithComponentDataOver(ComponentData componentData) {
+  Widget showCustomWidgetWithComponentDataOver(
+      BuildContext context, ComponentData componentData) {
     return SizedBox.shrink();
   }
 }

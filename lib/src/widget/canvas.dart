@@ -68,7 +68,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
           builder: (context, child) {
             return Consumer<ComponentData>(
               builder: (context, data, child) {
-                return widget.policy.showCustomWidgetWithComponentData(data);
+                return widget.policy
+                    .showCustomWidgetWithComponentData(context, data);
               },
             );
           },
@@ -96,7 +97,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         builder: (context, child) {
           return Consumer<ComponentData>(
             builder: (context, data, child) {
-              return widget.policy.showCustomWidgetWithComponentDataUnder(data);
+              return widget.policy
+                  .showCustomWidgetWithComponentDataUnder(context, data);
             },
           );
         },
@@ -111,7 +113,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         builder: (context, child) {
           return Consumer<ComponentData>(
             builder: (context, data, child) {
-              return widget.policy.showCustomWidgetWithComponentDataOver(data);
+              return widget.policy
+                  .showCustomWidgetWithComponentDataOver(context, data);
             },
           );
         },

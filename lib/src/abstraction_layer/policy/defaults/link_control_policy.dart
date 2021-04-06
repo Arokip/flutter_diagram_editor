@@ -1,6 +1,5 @@
 import 'package:diagram_editor/src/abstraction_layer/policy/base/link_joints_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/link_policy.dart';
-import 'package:diagram_editor/src/utils/painter/delete_icon_painter.dart';
 import 'package:flutter/material.dart';
 
 mixin LinkControlPolicy implements LinkPolicy, LinkJointPolicy {
@@ -15,37 +14,24 @@ mixin LinkControlPolicy implements LinkPolicy, LinkJointPolicy {
   var segmentIndex;
 
   @override
-  onLinkLongPressStart(String linkId, LongPressStartDetails details) {
+  onLinkScaleStart(String linkId, ScaleStartDetails details) {
     canvasWriter.model.hideLinkDeleteIcon(linkId);
     canvasWriter.model.showLinkJoints(linkId);
     segmentIndex = canvasReader.model
-        .determineLinkSegmentIndex(linkId, details.localPosition);
+        .determineLinkSegmentIndex(linkId, details.localFocalPoint);
     if (segmentIndex != null) {
       canvasWriter.model
-          .insertLinkMiddlePoint(linkId, details.localPosition, segmentIndex);
+          .insertLinkMiddlePoint(linkId, details.localFocalPoint, segmentIndex);
       canvasWriter.model.updateLink(linkId);
     }
   }
 
   @override
-  onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {
+  onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {
     if (segmentIndex != null) {
       canvasWriter.model.setLinkMiddlePointPosition(
-          linkId, details.localPosition, segmentIndex);
+          linkId, details.localFocalPoint, segmentIndex);
       canvasWriter.model.updateLink(linkId);
     }
-  }
-
-  @override
-  onDeleteLinkIconTap(String linkId) {
-    canvasWriter.model.removeLink(linkId);
-  }
-
-  CustomPainter deleteIconPainter(Offset location) {
-    return DeleteIconPainter(
-      location: location,
-      radius: 12,
-      color: Colors.red,
-    );
   }
 }

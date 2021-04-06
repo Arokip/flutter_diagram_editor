@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:diagram_editor/src/utils/painter_utils.dart';
+import 'package:diagram_editor/src/utils/vector_utils.dart';
 import 'package:flutter/material.dart';
 
 enum ArrowType {
@@ -76,22 +76,22 @@ class LinkStyle {
   Path getArrowPath(
       Offset point1, Offset point2, double scale, double pointed) {
     Offset left = point2 +
-        PainterUtils.normalizeVector(
-                PainterUtils.getPerpendicularVector(point1, point2)) *
+        VectorUtils.normalizeVector(
+                VectorUtils.getPerpendicularVector(point1, point2)) *
             arrowSize *
             scale -
-        PainterUtils.normalizeVector(
-                PainterUtils.getDirectionVector(point1, point2)) *
+        VectorUtils.normalizeVector(
+                VectorUtils.getDirectionVector(point1, point2)) *
             pointed *
             arrowSize *
             scale;
     Offset right = point2 -
-        PainterUtils.normalizeVector(
-                PainterUtils.getPerpendicularVector(point1, point2)) *
+        VectorUtils.normalizeVector(
+                VectorUtils.getPerpendicularVector(point1, point2)) *
             arrowSize *
             scale -
-        PainterUtils.normalizeVector(
-                PainterUtils.getDirectionVector(point1, point2)) *
+        VectorUtils.normalizeVector(
+                VectorUtils.getDirectionVector(point1, point2)) *
             pointed *
             arrowSize *
             scale;
@@ -113,8 +113,8 @@ class LinkStyle {
       path.addOval(Rect.fromCircle(center: point2, radius: scale * arrowSize));
     } else {
       Offset circleCenter = point2 -
-          PainterUtils.normalizeVector(
-                  PainterUtils.getDirectionVector(point1, point2)) *
+          VectorUtils.normalizeVector(
+                  VectorUtils.getDirectionVector(point1, point2)) *
               arrowSize *
               scale;
       path.addOval(
@@ -126,8 +126,8 @@ class LinkStyle {
   Path getSemiCirclePath(Offset point1, Offset point2, double scale) {
     Path path = new Path();
     Offset circleCenter = point2 -
-        PainterUtils.normalizeVector(
-                PainterUtils.getDirectionVector(point1, point2)) *
+        VectorUtils.normalizeVector(
+                VectorUtils.getDirectionVector(point1, point2)) *
             arrowSize *
             scale;
     path.addArc(
@@ -179,8 +179,8 @@ class LinkStyle {
   ) {
     Path path = new Path();
 
-    Offset normalized = PainterUtils.normalizeVector(
-        PainterUtils.getDirectionVector(point1, point2));
+    Offset normalized = VectorUtils.normalizeVector(
+        VectorUtils.getDirectionVector(point1, point2));
     double lineDistance = (point2 - point1).distance;
     Offset currentPoint = Offset(point1.dx, point1.dy);
 

@@ -29,12 +29,4 @@ mixin LinkPolicy on BasePolicySet {
   onLinkLongPressUp(String linkId) {}
 
   onLinkPointerSignal(String linkId, PointerSignalEvent event) {}
-
-  //
-
-  onDeleteLinkIconTap(String linkId) {}
-
-  CustomPainter deleteIconPainter(Offset location) {
-    return null;
-  }
 }

@@ -1,5 +1,5 @@
 import 'package:diagram_editor/src/utils/link_style.dart';
-import 'package:diagram_editor/src/utils/painter_utils.dart';
+import 'package:diagram_editor/src/utils/vector_utils.dart';
 import 'package:flutter/material.dart';
 
 class LinkData with ChangeNotifier {
@@ -16,6 +16,9 @@ class LinkData with ChangeNotifier {
   bool isDeleteIconVisible = false;
   Offset deleteIconPosition = Offset.zero;
 
+  String startLabel = '';
+  String endLabel = '';
+
   LinkData({
     this.id,
     this.sourceComponentId,
@@ -23,6 +26,10 @@ class LinkData with ChangeNotifier {
     this.linkStyle,
     this.linkPoints,
   });
+
+  updateLink() {
+    notifyListeners();
+  }
 
   setStart(Offset start) {
     linkPoints[0] = start;
@@ -84,7 +91,7 @@ class LinkData with ChangeNotifier {
       var point1 = linkPoints[i] * canvasScale + canvasPosition;
       var point2 = linkPoints[i + 1] * canvasScale + canvasPosition;
 
-      Path rect = PainterUtils.getRectAroundLine(
+      Path rect = VectorUtils.getRectAroundLine(
           point1, point2, canvasScale * (linkStyle.width + 5));
 
       if (rect.contains(position)) {
@@ -116,6 +123,16 @@ class LinkData with ChangeNotifier {
 
   setDeleteIconPosition(Offset position) {
     deleteIconPosition = position;
+    notifyListeners();
+  }
+
+  setStartLabel(String label) {
+    startLabel = label;
+    notifyListeners();
+  }
+
+  setEndLabel(String label) {
+    endLabel = label;
     notifyListeners();
   }
 }

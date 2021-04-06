@@ -3,6 +3,7 @@ import 'package:diagram_editor/src/canvas_context/canvas_state.dart';
 import 'package:diagram_editor/src/canvas_context/model/link_data.dart';
 import 'package:diagram_editor/src/utils/painter/link_joint_painter.dart';
 import 'package:diagram_editor/src/utils/painter/link_painter.dart';
+import 'package:diagram_editor/src/utils/vector_utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,22 @@ class Link extends StatelessWidget {
       linkStyle: linkData.linkStyle,
     );
 
+    double linkLabelSize = 16;
+    var linkStartLabelPosition = labelPosition(
+      canvasState,
+      linkData.linkPoints.first,
+      linkData.linkPoints[1],
+      linkLabelSize,
+      false,
+    );
+    var linkEndLabelPosition = labelPosition(
+      canvasState,
+      linkData.linkPoints.last,
+      linkData.linkPoints[linkData.linkPoints.length - 2],
+      linkLabelSize,
+      true,
+    );
+
     return Listener(
       onPointerSignal: (PointerSignalEvent event) =>
           policy.onLinkPointerSignal(linkData.id, event),
@@ -44,14 +61,6 @@ class Link extends StatelessWidget {
                   child: CustomPaint(
                     painter: policy.deleteIconPainter(canvasState
                         .toCanvasCoordinates(linkData.deleteIconPosition)),
-                    // painter: DeleteIconPainter(
-                    //   location: canvasState
-                    //       .toCanvasCoordinates(linkData.deleteIconPosition),
-                    //   // linkData.deleteIconPosition * canvasState.scale +
-                    //   //     canvasState.position,
-                    //   radius: 16,
-                    //   color: Colors.red,
-                    // ),
                   ),
                 ),
               ),
@@ -91,8 +100,7 @@ class Link extends StatelessWidget {
                           policy.onLinkJointLongPressUp(index, linkData.id),
                       child: CustomPaint(
                         painter: LinkJointPainter(
-                          location: jointPoint * canvasState.scale +
-                              canvasState.position,
+                          location: canvasState.toCanvasCoordinates(jointPoint),
                           radius: 8,
                           scale: canvasState.scale,
                           color: linkData.linkStyle.color.withOpacity(0.5),
@@ -102,6 +110,34 @@ class Link extends StatelessWidget {
                   );
                 },
               ).toList(),
+              Positioned(
+                left: linkStartLabelPosition.dx,
+                top: linkStartLabelPosition.dy,
+                width: 2 * linkLabelSize * canvasState.scale,
+                height: 2 * linkLabelSize * canvasState.scale,
+                child: Center(
+                  child: Text(
+                    linkData.startLabel,
+                    style: TextStyle(
+                      fontSize: 12 * canvasState.scale,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: linkEndLabelPosition.dx,
+                top: linkEndLabelPosition.dy,
+                width: 2 * linkLabelSize * canvasState.scale,
+                height: 2 * linkLabelSize * canvasState.scale,
+                child: Center(
+                  child: Text(
+                    linkData.endLabel,
+                    style: TextStyle(
+                      fontSize: 12 * canvasState.scale,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -127,5 +163,20 @@ class Link extends StatelessWidget {
         onLongPressUp: () => policy.onLinkLongPressUp(linkData.id),
       ),
     );
+  }
+
+  Offset labelPosition(
+    CanvasState canvasState,
+    Offset point1,
+    Offset point2,
+    double labelSize,
+    bool left,
+  ) {
+    var v1 = VectorUtils.normalizeVector(point2 - point1);
+
+    return canvasState.toCanvasCoordinates(point1 -
+        Offset(labelSize, labelSize) +
+        v1 * labelSize +
+        VectorUtils.getPerpendicularVectorToVector(v1, left) * labelSize);
   }
 }

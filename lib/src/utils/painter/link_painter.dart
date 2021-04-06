@@ -1,5 +1,5 @@
 import 'package:diagram_editor/src/utils/link_style.dart';
-import 'package:diagram_editor/src/utils/painter_utils.dart';
+import 'package:diagram_editor/src/utils/vector_utils.dart';
 import 'package:flutter/material.dart';
 
 class LinkPainter extends CustomPainter {
@@ -25,7 +25,7 @@ class LinkPainter extends CustomPainter {
         canvas.drawPath(
           linkStyle.getLinePath(
             linkPoints[i],
-            PainterUtils.getShorterLineEnd(
+            VectorUtils.getShorterLineEnd(
               linkPoints[i],
               linkPoints[i + 1],
               scale * linkStyle.getEndShortening(),
@@ -78,7 +78,7 @@ class LinkPainter extends CustomPainter {
       // if (i == linkPoints.length - 2)
       //   point2 = PainterUtils.getShorterLineEnd(point1, point2, scale * 10);
 
-      path.addPath(PainterUtils.getRectAroundLine(point1, point2, hitAreaWidth),
+      path.addPath(VectorUtils.getRectAroundLine(point1, point2, hitAreaWidth),
           Offset(0, 0));
     }
     return path;

@@ -5,6 +5,7 @@ import 'package:diagram_editor/src/abstraction_layer/policy/base/component_desig
 import 'package:diagram_editor/src/abstraction_layer/policy/base/component_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/init_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/link_attachment_policy.dart';
+import 'package:diagram_editor/src/abstraction_layer/policy/base/link_delete_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/link_joints_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/link_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base_policy_set.dart';
@@ -15,6 +16,7 @@ class PolicySet extends BasePolicySet
         CanvasPolicy,
         ComponentPolicy,
         ComponentDesignPolicy,
+        LinkDeletePolicy,
         LinkPolicy,
         LinkJointPolicy,
         LinkAttachmentPolicy,

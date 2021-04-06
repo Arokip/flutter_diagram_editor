@@ -20,7 +20,10 @@ class DiagramEditor extends StatefulWidget {
 class _DiagramEditorState extends State<DiagramEditor> {
   @override
   void initState() {
-    this.widget.diagramEditorContext.policySet.initializeDiagram();
+    if (!widget.diagramEditorContext.canvasState.isInitialized) {
+      this.widget.diagramEditorContext.policySet.initializeDiagramEditor();
+      widget.diagramEditorContext.canvasState.isInitialized = true;
+    }
     super.initState();
   }
 

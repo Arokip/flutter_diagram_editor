@@ -15,6 +15,8 @@ class CanvasState with ChangeNotifier {
 
   bool shouldAbsorbPointer = false;
 
+  bool isInitialized = false;
+
   Offset get position => _position;
 
   double get scale => _scale;

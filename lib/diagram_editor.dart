@@ -17,6 +17,7 @@ export 'src/abstraction_layer/policy/defaults/link_delete_icon_policy.dart';
 export 'src/abstraction_layer/policy/defaults/link_joint_control_policy.dart';
 export 'src/canvas_context/diagram_editor_context.dart';
 export 'src/canvas_context/model/component_data.dart';
+export 'src/canvas_context/model/connection.dart';
 export 'src/canvas_context/model/link_data.dart';
 export 'src/utils/link_style.dart';
 export 'src/utils/painter/grid_painter.dart';

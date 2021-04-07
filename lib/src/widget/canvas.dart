@@ -166,7 +166,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
 
   @override
   Widget build(BuildContext context) {
-    print('CANVAS build');
+    print('CANVAS build: ${widget.policy.runtimeType}');
     final canvasModel = Provider.of<CanvasModel>(context);
     final canvasState = Provider.of<CanvasState>(context);
 

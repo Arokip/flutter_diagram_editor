@@ -163,17 +163,18 @@ mixin LinkWriter on ModelWriter {
   }
 
   insertLinkMiddlePoint(String linkId, Offset point, int index) {
-    _canvasModel.links[linkId].insertMiddlePoint(
-        (point - _canvasState.position) / _canvasState.scale, index);
+    _canvasModel.links[linkId]
+        .insertMiddlePoint(_canvasState.fromCanvasCoordinates(point), index);
   }
 
   setLinkMiddlePointPosition(String linkId, Offset point, int index) {
     _canvasModel.links[linkId].setMiddlePointPosition(
-        (point - _canvasState.position) / _canvasState.scale, index);
+        _canvasState.fromCanvasCoordinates(point), index);
   }
 
   moveLinkMiddlePoint(String linkId, Offset offset, int index) {
-    _canvasModel.links[linkId].moveMiddlePoint(offset, index);
+    _canvasModel.links[linkId]
+        .moveMiddlePoint(offset / _canvasState.scale, index);
   }
 
   removeLinkMiddlePoint(String linkId, int index) {
@@ -181,7 +182,8 @@ mixin LinkWriter on ModelWriter {
   }
 
   moveAllLinkMiddlePoints(String linkId, Offset position) {
-    _canvasModel.links[linkId].moveAllMiddlePoints(position);
+    _canvasModel.links[linkId]
+        .moveAllMiddlePoints(position / _canvasState.scale);
   }
 }
 

@@ -20,5 +20,6 @@ class PolicySet extends BasePolicySet
         LinkPolicy,
         LinkJointPolicy,
         LinkAttachmentPolicy,
+        LinkWidgetsPolicy,
         CanvasWidgetsPolicy,
         ComponentWidgetsPolicy {}

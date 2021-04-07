@@ -16,8 +16,7 @@ class LinkData with ChangeNotifier {
   bool isDeleteIconVisible = false;
   Offset deleteIconPosition = Offset.zero;
 
-  String startLabel = '';
-  String endLabel = '';
+  dynamic data;
 
   LinkData({
     this.id,
@@ -25,6 +24,7 @@ class LinkData with ChangeNotifier {
     this.targetComponentId,
     this.linkStyle,
     this.linkPoints,
+    this.data,
   });
 
   updateLink() {
@@ -123,16 +123,6 @@ class LinkData with ChangeNotifier {
 
   setDeleteIconPosition(Offset position) {
     deleteIconPosition = position;
-    notifyListeners();
-  }
-
-  setStartLabel(String label) {
-    startLabel = label;
-    notifyListeners();
-  }
-
-  setEndLabel(String label) {
-    endLabel = label;
     notifyListeners();
   }
 }

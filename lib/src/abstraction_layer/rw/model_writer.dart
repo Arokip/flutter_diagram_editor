@@ -191,7 +191,7 @@ mixin ConnectionWriter on ModelWriter {
   String connectTwoComponents({
     String sourceComponentId,
     String targetComponentId,
-    LinkStyle linkStyle = const LinkStyle(),
+    LinkStyle linkStyle,
     dynamic data,
   }) {
     return _canvasModel.connectTwoComponents(

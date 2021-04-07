@@ -158,7 +158,7 @@ class CanvasModel with ChangeNotifier {
         targetComponent.position +
             targetComponent.getPointOnComponent(targetLinkAlignment),
       ],
-      linkStyle: linkStyle,
+      linkStyle: linkStyle == null ? LinkStyle() : linkStyle,
       data: data,
     );
 

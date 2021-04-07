@@ -8,7 +8,7 @@ class LinkData with ChangeNotifier {
   final String sourceComponentId;
   final String targetComponentId;
 
-  final LinkStyle linkStyle;
+  LinkStyle linkStyle;
 
   final List<Offset> linkPoints;
 

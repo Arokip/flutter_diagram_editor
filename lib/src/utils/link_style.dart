@@ -18,13 +18,13 @@ enum LineType {
 }
 
 class LinkStyle {
-  final ArrowType arrowType;
-  final LineType linkType;
-  final double arrowSize;
-  final double width;
-  final Color color;
+  ArrowType arrowType;
+  LineType linkType;
+  double arrowSize;
+  double width;
+  Color color;
 
-  const LinkStyle({
+  LinkStyle({
     this.arrowType = ArrowType.none,
     this.linkType = LineType.solid,
     this.arrowSize = 5,
@@ -32,6 +32,10 @@ class LinkStyle {
     this.color = Colors.black,
   })  : assert(width > 0),
         assert(arrowSize > 0),
+        assert(arrowType != null),
+        assert(linkType != null),
+        assert(arrowSize != null),
+        assert(width != null),
         assert(color != null);
 
   Path getArrowTipPath(Offset point1, Offset point2, double scale) {

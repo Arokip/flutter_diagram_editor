@@ -38,14 +38,9 @@ class Link extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               Visibility(
-                visible: linkData.isDeleteIconVisible,
-                child: GestureDetector(
-                  onTap: () => policy.onDeleteLinkIconTap(linkData.id),
-                  child: CustomPaint(
-                    painter: policy.deleteIconPainter(canvasState
-                        .toCanvasCoordinates(linkData.deleteIconPosition)),
-                  ),
-                ),
+                visible: linkData.isTapLinkWidgetVisible,
+                child: policy.showOnLinkTapWidget(context, linkData,
+                    canvasState.toCanvasCoordinates(linkData.tapLinkPosition)),
               ),
               ...linkData.linkPoints
                   .getRange(1, linkData.linkPoints.length - 1)
@@ -93,7 +88,7 @@ class Link extends StatelessWidget {
                   );
                 },
               ).toList(),
-              ...policy.showCustomWidgetWithLinkData(context, linkData),
+              ...policy.showWidgetsWithLinkData(context, linkData),
             ],
           ),
         ),

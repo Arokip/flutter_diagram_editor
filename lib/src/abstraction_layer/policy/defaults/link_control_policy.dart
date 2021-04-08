@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 mixin LinkControlPolicy implements LinkPolicy, LinkJointPolicy {
   @override
   onLinkTapUp(String linkId, TapUpDetails details) {
-    canvasWriter.model.hideAllLinkDeleteIcons();
+    canvasWriter.model.hideAllTapLinkWidgets();
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
 
-    canvasWriter.model.showDeleteIconOnPosition(linkId,
+    canvasWriter.model.showTapLinkWidgetOnPosition(linkId,
         canvasReader.state.fromCanvasCoordinates(details.localPosition));
   }
 
@@ -17,7 +17,7 @@ mixin LinkControlPolicy implements LinkPolicy, LinkJointPolicy {
 
   @override
   onLinkScaleStart(String linkId, ScaleStartDetails details) {
-    canvasWriter.model.hideAllLinkDeleteIcons();
+    canvasWriter.model.hideAllTapLinkWidgets();
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
     segmentIndex = canvasReader.model

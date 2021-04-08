@@ -142,18 +142,18 @@ mixin LinkWriter on ModelWriter {
     });
   }
 
-  showDeleteIconOnPosition(String linkId, Offset position) {
-    _canvasModel.links[linkId].showDeleteIcon();
-    _canvasModel.links[linkId].setDeleteIconPosition(position);
+  showTapLinkWidgetOnPosition(String linkId, Offset position) {
+    _canvasModel.links[linkId].showTapLinkWidget();
+    _canvasModel.links[linkId].setTapLinkPosition(position);
   }
 
-  hideLinkDeleteIcon(String linkId) {
-    _canvasModel.links[linkId].hideLinkDeleteIcon();
+  hideTapLinkWidget(String linkId) {
+    _canvasModel.links[linkId].hideTapLinkWidget();
   }
 
-  hideAllLinkDeleteIcons() {
+  hideAllTapLinkWidgets() {
     _canvasModel.links.values.forEach((link) {
-      link.hideLinkDeleteIcon();
+      link.hideTapLinkWidget();
     });
   }
 

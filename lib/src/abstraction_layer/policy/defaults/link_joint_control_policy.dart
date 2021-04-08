@@ -7,13 +7,13 @@ mixin LinkJointControlPolicy implements LinkJointPolicy {
     canvasWriter.model.removeLinkMiddlePoint(linkId, jointIndex);
     canvasWriter.model.updateLink(linkId);
 
-    canvasWriter.model.hideAllLinkDeleteIcons();
+    canvasWriter.model.hideAllTapLinkWidgets();
   }
 
   @override
   onLinkJointScaleStart(
       int jointIndex, String linkId, ScaleStartDetails details) {
-    canvasWriter.model.hideLinkDeleteIcon(linkId);
+    canvasWriter.model.hideTapLinkWidget(linkId);
   }
 
   @override
@@ -23,6 +23,6 @@ mixin LinkJointControlPolicy implements LinkJointPolicy {
         linkId, details.localFocalPoint, jointIndex);
     canvasWriter.model.updateLink(linkId);
 
-    canvasWriter.model.hideAllLinkDeleteIcons();
+    canvasWriter.model.hideAllTapLinkWidgets();
   }
 }

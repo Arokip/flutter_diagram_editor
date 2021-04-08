@@ -17,7 +17,7 @@ class LinkPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = linkStyle.color
-      ..strokeWidth = linkStyle.width * scale
+      ..strokeWidth = linkStyle.lineWidth * scale
       ..style = PaintingStyle.stroke;
 
     for (int i = 0; i < linkPoints.length - 1; i++) {
@@ -54,8 +54,9 @@ class LinkPainter extends CustomPainter {
     paint
       ..color = Colors.green
       ..style = PaintingStyle.stroke
-      ..strokeWidth = scale * linkStyle.width / 5;
-    canvas.drawPath(makeWiderLinePath(scale * (5 + linkStyle.width)), paint);
+      ..strokeWidth = scale * 0.2;
+    canvas.drawPath(
+        makeWiderLinePath(scale * (5 + linkStyle.lineWidth)), paint);
   }
 
   @override
@@ -63,7 +64,7 @@ class LinkPainter extends CustomPainter {
 
   @override
   bool hitTest(Offset position) {
-    Path path = makeWiderLinePath(scale * (5 + linkStyle.width));
+    Path path = makeWiderLinePath(scale * (5 + linkStyle.lineWidth));
     return path.contains(position);
   }
 

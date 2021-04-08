@@ -19,23 +19,23 @@ enum LineType {
 
 class LinkStyle {
   ArrowType arrowType;
-  LineType linkType;
+  LineType lineType;
   double arrowSize;
-  double width;
+  double lineWidth;
   Color color;
 
   LinkStyle({
     this.arrowType = ArrowType.none,
-    this.linkType = LineType.solid,
+    this.lineType = LineType.solid,
     this.arrowSize = 5,
-    this.width = 1,
+    this.lineWidth = 1,
     this.color = Colors.black,
-  })  : assert(width > 0),
+  })  : assert(lineWidth > 0),
         assert(arrowSize > 0),
         assert(arrowType != null),
-        assert(linkType != null),
+        assert(lineType != null),
         assert(arrowSize != null),
-        assert(width != null),
+        assert(lineWidth != null),
         assert(color != null);
 
   Path getArrowTipPath(Offset point1, Offset point2, double scale) {
@@ -63,15 +63,16 @@ class LinkStyle {
   }
 
   Path getLinePath(Offset point1, Offset point2, double scale) {
-    switch (linkType) {
+    switch (lineType) {
       case LineType.solid:
         return getSolidLinePath(point1, point2);
         break;
       case LineType.dashed:
-        return getDashedLinePath(point1, point2, scale, 32, 32);
+        return getDashedLinePath(point1, point2, scale, 16, 16);
         break;
       case LineType.dotted:
-        return getDashedLinePath(point1, point2, scale, width, width * 5);
+        return getDashedLinePath(
+            point1, point2, scale, lineWidth, lineWidth * 5);
         break;
     }
     return Path();
@@ -206,8 +207,8 @@ class LinkStyle {
     }
 
     path.moveTo(
-      point2.dx - normalized.dx * width * scale,
-      point2.dy - normalized.dy * width * scale,
+      point2.dx - normalized.dx * lineWidth * scale,
+      point2.dy - normalized.dy * lineWidth * scale,
     );
     path.lineTo(point2.dx, point2.dy);
     return path;

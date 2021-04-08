@@ -89,9 +89,10 @@ mixin ComponentWriter on ModelWriter {
     return _canvasModel.moveComponentToTheFront(componentId);
   }
 
-  moveComponentToTheFrontWithChildren(String componentId) {
+  int moveComponentToTheFrontWithChildren(String componentId) {
     int zOrder = moveComponentToTheFront(componentId);
     _setZOrderToChildren(componentId, zOrder);
+    return zOrder;
   }
 
   _setZOrderToChildren(String componentId, int zOrder) {
@@ -103,6 +104,12 @@ mixin ComponentWriter on ModelWriter {
 
   int moveComponentToTheBack(String componentId) {
     return _canvasModel.moveComponentToTheBack(componentId);
+  }
+
+  int moveComponentToTheBackWithChildren(String componentId) {
+    int zOrder = moveComponentToTheBack(componentId);
+    _setZOrderToChildren(componentId, zOrder);
+    return zOrder;
   }
 
   resizeComponent(String componentId, Offset deltaSize) {

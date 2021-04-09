@@ -37,4 +37,27 @@ mixin LinkControlPolicy implements LinkPolicy, LinkJointPolicy {
       canvasWriter.model.updateLink(linkId);
     }
   }
+
+  @override
+  onLinkLongPressStart(String linkId, LongPressStartDetails details) {
+    canvasWriter.model.hideAllTapLinkWidgets();
+    canvasWriter.model.hideAllLinkJoints();
+    canvasWriter.model.showLinkJoints(linkId);
+    segmentIndex = canvasReader.model
+        .determineLinkSegmentIndex(linkId, details.localPosition);
+    if (segmentIndex != null) {
+      canvasWriter.model
+          .insertLinkMiddlePoint(linkId, details.localPosition, segmentIndex);
+      canvasWriter.model.updateLink(linkId);
+    }
+  }
+
+  @override
+  onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {
+    if (segmentIndex != null) {
+      canvasWriter.model.setLinkMiddlePointPosition(
+          linkId, details.localPosition, segmentIndex);
+      canvasWriter.model.updateLink(linkId);
+    }
+  }
 }

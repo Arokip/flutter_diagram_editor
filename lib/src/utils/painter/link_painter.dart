@@ -21,14 +21,27 @@ class LinkPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     for (int i = 0; i < linkPoints.length - 1; i++) {
-      if (i == linkPoints.length - 2) {
+      if (i == 0) {
+        canvas.drawPath(
+          linkStyle.getLinePath(
+            VectorUtils.getShorterLineStart(
+              linkPoints[i],
+              linkPoints[i + 1],
+              scale * linkStyle.getEndShortening(linkStyle.backArrowType),
+            ),
+            linkPoints[i + 1],
+            scale,
+          ),
+          paint,
+        );
+      } else if (i == linkPoints.length - 2) {
         canvas.drawPath(
           linkStyle.getLinePath(
             linkPoints[i],
             VectorUtils.getShorterLineEnd(
               linkPoints[i],
               linkPoints[i + 1],
-              scale * linkStyle.getEndShortening(),
+              scale * linkStyle.getEndShortening(linkStyle.arrowType),
             ),
             scale,
           ),
@@ -44,8 +57,20 @@ class LinkPainter extends CustomPainter {
     paint..style = PaintingStyle.fill;
     canvas.drawPath(
         linkStyle.getArrowTipPath(
+          linkStyle.arrowType,
+          linkStyle.arrowSize,
           linkPoints[linkPoints.length - 2],
           linkPoints[linkPoints.length - 1],
+          scale,
+        ),
+        paint);
+
+    canvas.drawPath(
+        linkStyle.getArrowTipPath(
+          linkStyle.backArrowType,
+          linkStyle.backArrowSize,
+          linkPoints[1],
+          linkPoints[0],
           scale,
         ),
         paint);

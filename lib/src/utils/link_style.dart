@@ -18,16 +18,20 @@ enum LineType {
 }
 
 class LinkStyle {
-  ArrowType arrowType;
   LineType lineType;
+  ArrowType arrowType;
+  ArrowType backArrowType;
   double arrowSize;
+  double backArrowSize;
   double lineWidth;
   Color color;
 
   LinkStyle({
-    this.arrowType = ArrowType.none,
     this.lineType = LineType.solid,
+    this.arrowType = ArrowType.none,
+    this.backArrowType = ArrowType.none,
     this.arrowSize = 5,
+    this.backArrowSize = 5,
     this.lineWidth = 1,
     this.color = Colors.black,
   })  : assert(lineWidth > 0),
@@ -38,25 +42,31 @@ class LinkStyle {
         assert(lineWidth != null),
         assert(color != null);
 
-  Path getArrowTipPath(Offset point1, Offset point2, double scale) {
+  Path getArrowTipPath(
+    ArrowType arrowType,
+    double arrowSize,
+    Offset point1,
+    Offset point2,
+    double scale,
+  ) {
     switch (arrowType) {
       case ArrowType.none:
         return Path();
         break;
       case ArrowType.arrow:
-        return getArrowPath(point1, point2, scale, 1);
+        return getArrowPath(arrowSize, point1, point2, scale, 1);
         break;
       case ArrowType.pointedArrow:
-        return getArrowPath(point1, point2, scale, 2);
+        return getArrowPath(arrowSize, point1, point2, scale, 2);
         break;
       case ArrowType.circle:
-        return getCirclePath(point1, point2, scale, false);
+        return getCirclePath(arrowSize, point1, point2, scale, false);
         break;
       case ArrowType.centerCircle:
-        return getCirclePath(point1, point2, scale, true);
+        return getCirclePath(arrowSize, point1, point2, scale, true);
         break;
       case ArrowType.semiCircle:
-        return getSemiCirclePath(point1, point2, scale);
+        return getSemiCirclePath(arrowSize, point1, point2, scale);
         break;
     }
     return Path();
@@ -78,8 +88,8 @@ class LinkStyle {
     return Path();
   }
 
-  Path getArrowPath(
-      Offset point1, Offset point2, double scale, double pointed) {
+  Path getArrowPath(double arrowSize, Offset point1, Offset point2,
+      double scale, double pointed) {
     Offset left = point2 +
         VectorUtils.normalizeVector(
                 VectorUtils.getPerpendicularVector(point1, point2)) *
@@ -111,8 +121,8 @@ class LinkStyle {
     return path;
   }
 
-  Path getCirclePath(
-      Offset point1, Offset point2, double scale, bool isCenter) {
+  Path getCirclePath(double arrowSize, Offset point1, Offset point2,
+      double scale, bool isCenter) {
     Path path = new Path();
     if (isCenter) {
       path.addOval(Rect.fromCircle(center: point2, radius: scale * arrowSize));
@@ -128,7 +138,8 @@ class LinkStyle {
     return path;
   }
 
-  Path getSemiCirclePath(Offset point1, Offset point2, double scale) {
+  Path getSemiCirclePath(
+      double arrowSize, Offset point1, Offset point2, double scale) {
     Path path = new Path();
     Offset circleCenter = point2 -
         VectorUtils.normalizeVector(
@@ -143,7 +154,7 @@ class LinkStyle {
     return path;
   }
 
-  double getEndShortening() {
+  double getEndShortening(ArrowType arrowType) {
     double eps = 0.05;
     switch (arrowType) {
       case ArrowType.none:

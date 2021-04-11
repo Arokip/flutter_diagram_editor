@@ -37,11 +37,6 @@ class Link extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Visibility(
-                visible: linkData.isTapLinkWidgetVisible,
-                child: policy.showOnLinkTapWidget(context, linkData,
-                    canvasState.toCanvasCoordinates(linkData.tapLinkPosition)),
-              ),
               ...linkData.linkPoints
                   .getRange(1, linkData.linkPoints.length - 1)
                   .map(

@@ -7,9 +7,4 @@ mixin LinkWidgetsPolicy on BasePolicySet {
       BuildContext context, LinkData linkData) {
     return [];
   }
-
-  Widget showOnLinkTapWidget(
-      BuildContext context, LinkData linkData, Offset tapPosition) {
-    return SizedBox.shrink();
-  }
 }

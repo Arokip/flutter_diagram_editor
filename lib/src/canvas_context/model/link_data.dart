@@ -13,8 +13,6 @@ class LinkData with ChangeNotifier {
   final List<Offset> linkPoints;
 
   bool areJointsVisible = false;
-  bool isTapLinkWidgetVisible = false;
-  Offset tapLinkPosition = Offset.zero;
 
   dynamic data;
 
@@ -108,21 +106,6 @@ class LinkData with ChangeNotifier {
 
   hideJoints() {
     areJointsVisible = false;
-    notifyListeners();
-  }
-
-  showTapLinkWidget() {
-    isTapLinkWidgetVisible = true;
-    notifyListeners();
-  }
-
-  hideTapLinkWidget() {
-    isTapLinkWidgetVisible = false;
-    notifyListeners();
-  }
-
-  setTapLinkPosition(Offset position) {
-    tapLinkPosition = position;
     notifyListeners();
   }
 }

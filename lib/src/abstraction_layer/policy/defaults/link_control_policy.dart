@@ -1,23 +1,17 @@
-import 'package:diagram_editor/src/abstraction_layer/policy/base/link_joints_policy.dart';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/link_policy.dart';
 import 'package:flutter/material.dart';
 
-mixin LinkControlPolicy implements LinkPolicy, LinkJointPolicy {
+mixin LinkControlPolicy implements LinkPolicy {
   @override
   onLinkTapUp(String linkId, TapUpDetails details) {
-    canvasWriter.model.hideAllTapLinkWidgets();
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
-
-    canvasWriter.model.showTapLinkWidgetOnPosition(linkId,
-        canvasReader.state.fromCanvasCoordinates(details.localPosition));
   }
 
   var segmentIndex;
 
   @override
   onLinkScaleStart(String linkId, ScaleStartDetails details) {
-    canvasWriter.model.hideAllTapLinkWidgets();
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
     segmentIndex = canvasReader.model
@@ -40,7 +34,6 @@ mixin LinkControlPolicy implements LinkPolicy, LinkJointPolicy {
 
   @override
   onLinkLongPressStart(String linkId, LongPressStartDetails details) {
-    canvasWriter.model.hideAllTapLinkWidgets();
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
     segmentIndex = canvasReader.model

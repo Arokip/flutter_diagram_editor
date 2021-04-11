@@ -17,19 +17,19 @@ abstract class Connection {
 class ConnectionOut extends Connection {
   ConnectionOut({
     @required connectionId,
-    @required componentId,
+    @required otherComponentId,
   }) : super(
           connectionId: connectionId,
-          otherComponentId: componentId,
+          otherComponentId: otherComponentId,
         );
 }
 
 class ConnectionIn extends Connection {
   ConnectionIn({
     @required connectionId,
-    @required componentId,
+    @required otherComponentId,
   }) : super(
           connectionId: connectionId,
-          otherComponentId: componentId,
+          otherComponentId: otherComponentId,
         );
 }

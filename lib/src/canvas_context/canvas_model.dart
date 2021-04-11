@@ -129,13 +129,13 @@ class CanvasModel with ChangeNotifier {
     sourceComponent.addConnection(
       ConnectionOut(
         connectionId: linkId,
-        componentId: targetComponentId,
+        otherComponentId: targetComponentId,
       ),
     );
     targetComponent.addConnection(
       ConnectionIn(
         connectionId: linkId,
-        componentId: sourceComponentId,
+        otherComponentId: sourceComponentId,
       ),
     );
 

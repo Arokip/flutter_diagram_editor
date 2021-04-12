@@ -1,6 +1,77 @@
+import 'dart:math' as math;
+
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor/example/my_component_data.dart';
 import 'package:flutter/material.dart';
+
+void main() => runApp(DiagramApp());
+
+class DiagramApp extends StatefulWidget {
+  @override
+  _DiagramAppState createState() => _DiagramAppState();
+}
+
+class _DiagramAppState extends State<DiagramApp> {
+  MyPolicySet myPolicySet = MyPolicySet();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Container(color: Colors.grey),
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Container(
+                  color: Colors.green,
+                  child: DiagramEditor(
+                    diagramEditorContext: DiagramEditorContext(
+                      policySet: myPolicySet,
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () => myPolicySet.deleteAllComponents(),
+                child: Container(
+                  width: 64,
+                  height: 32,
+                  color: Colors.red,
+                  child: Center(child: Text('delete all')),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Custom component Data
+
+class MyComponentData {
+  bool isHighlightVisible;
+  Color color =
+      Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+
+  MyComponentData({this.isHighlightVisible = false});
+
+  switchHighlight() {
+    isHighlightVisible = !isHighlightVisible;
+  }
+
+  showHighlight() {
+    isHighlightVisible = true;
+  }
+
+  hideHighlight() {
+    isHighlightVisible = false;
+  }
+}
+
+// Policy set and individual policy implementations.
 
 class MyPolicySet extends PolicySet
     with

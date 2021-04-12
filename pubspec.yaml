@@ -1,7 +1,6 @@
 name: diagram_editor
 description: A flutter diagram editor library.
 version: 0.0.1
-author: Arokip
 homepage: https://github.com/Arokip/fdl
 
 environment:

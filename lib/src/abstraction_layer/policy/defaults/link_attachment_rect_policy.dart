@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 /// Attaches a link endpoint to border of a rectangle.
 mixin LinkAttachmentRectPolicy implements LinkAttachmentPolicy {
+  @override
   Alignment getLinkEndpointAlignment(
     ComponentData componentData,
     Offset targetPoint,

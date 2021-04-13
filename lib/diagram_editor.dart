@@ -11,6 +11,8 @@ export 'src/abstraction_layer/policy/base/link_widgets_policy.dart';
 export 'src/abstraction_layer/policy/base/policy_set.dart';
 export 'src/abstraction_layer/policy/defaults/canvas_control_policy.dart';
 export 'src/abstraction_layer/policy/defaults/link_attachment_rect_policy.dart';
+export 'src/abstraction_layer/policy/defaults/link_attachment_oval_policy.dart';
+export 'src/abstraction_layer/policy/defaults/link_attachment_crystal_policy.dart';
 export 'src/abstraction_layer/policy/defaults/link_control_policy.dart';
 export 'src/abstraction_layer/policy/defaults/link_joint_control_policy.dart';
 export 'src/canvas_context/diagram_editor_context.dart';

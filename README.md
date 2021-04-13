@@ -2,8 +2,6 @@
 
 [![pub package](https://img.shields.io/pub/v/diagram_editor.svg)](https://pub.dev/packages/diagram_editor)
 
-[Github](https://github.com/Arokip/fdl)
-
 Flutter diagram editor library for showing and editing diagrams of custom type. It provides DiagramEditor widget and a possibility to customize all editor design and behavior.
 
 <img src="https://user-images.githubusercontent.com/20387953/114435850-f1f20f00-9bc4-11eb-8d97-a16c40c326cb.png">
@@ -12,8 +10,6 @@ Flutter diagram editor library for showing and editing diagrams of custom type. 
 
 
 ## Getting Started
-
-Simple example of this package usage is in [`/example`](https://github.com/Arokip/fdl/tree/master/example) folder.
 
 Use of `DiagramEditor` widget:
 

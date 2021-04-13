@@ -22,6 +22,7 @@ class CanvasModelWriter extends ModelWriter
 
   removeComponent(String componentId) {
     removeComponentParent(componentId);
+    removeParentFromChildren(componentId);
     _canvasModel.removeComponent(componentId);
   }
 
@@ -121,8 +122,22 @@ mixin ComponentWriter on ModelWriter {
   }
 
   setComponentParent(String componentId, String parentId) {
-    _canvasModel.getComponent(componentId).setParent(parentId);
-    _canvasModel.getComponent(parentId).addChild(componentId);
+    removeComponentParent(componentId);
+    if (_checkParentChildLoop(componentId, parentId)) {
+      _canvasModel.getComponent(componentId).setParent(parentId);
+      _canvasModel.getComponent(parentId).addChild(componentId);
+    }
+  }
+
+  bool _checkParentChildLoop(String componentId, String parentId) {
+    if (componentId == parentId) return false;
+
+    String parentIdOfParent = _canvasModel.getComponent(parentId).parentId;
+    if (parentIdOfParent != null) {
+      return _checkParentChildLoop(componentId, parentIdOfParent);
+    }
+
+    return true;
   }
 
   removeComponentParent(String componentId) {
@@ -131,6 +146,14 @@ mixin ComponentWriter on ModelWriter {
       _canvasModel.getComponent(componentId).removeParent();
       _canvasModel.getComponent(parentId).removeChild(componentId);
     }
+  }
+
+  removeParentFromChildren(componentId) {
+    var component = _canvasModel.getComponent(componentId);
+    var childrenToRemove = List.from(component.childrenIds);
+    childrenToRemove.forEach((childId) {
+      removeComponentParent(childId);
+    });
   }
 }
 

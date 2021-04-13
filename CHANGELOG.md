@@ -1,4 +1,9 @@
 
+# 0.0.5
+
+* Fix add/remove component parent.
+* Prevent parent-child loops.
+
 # 0.0.4
 
 * Other link attachment policies.

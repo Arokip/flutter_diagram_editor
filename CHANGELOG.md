@@ -1,4 +1,8 @@
 
+# 0.0.6
+
+* Update example and add comments.
+
 # 0.0.5
 
 * Fix add/remove component parent.

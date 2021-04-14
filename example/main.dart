@@ -58,10 +58,6 @@ class MyComponentData {
 
   MyComponentData({this.isHighlightVisible = false});
 
-  switchHighlight() {
-    isHighlightVisible = !isHighlightVisible;
-  }
-
   showHighlight() {
     isHighlightVisible = true;
   }
@@ -110,37 +106,38 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
   }
 }
 
+// You can override the behavior of any gesture on canvas here.
+// Note that it also implements CustomPolicy where own variables and functions can be defined and used here.
 mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
   @override
-  onCanvasTapUp(TapUpDetails details) {
-    hideComponentHighlight(selectedComponentId);
-    selectedComponentId = null;
+  onCanvasTapUp(TapUpDetails details) async {
     canvasWriter.model.hideAllLinkJoints();
-
-    canvasWriter.model.addComponent(
-      ComponentData(
-        size: Size(96, 72),
-        position:
-            canvasReader.state.fromCanvasCoordinates(details.localPosition),
-        data: MyComponentData(),
-      ),
-    );
+    if (selectedComponentId != null) {
+      hideComponentHighlight(selectedComponentId);
+    } else {
+      canvasWriter.model.addComponent(
+        ComponentData(
+          size: Size(96, 72),
+          position:
+              canvasReader.state.fromCanvasCoordinates(details.localPosition),
+          data: MyComponentData(),
+        ),
+      );
+    }
   }
 }
 
 mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
+  // variable used to calculate delta offset
   Offset lastFocalPoint;
 
   @override
   onComponentTap(String componentId) {
-    hideComponentHighlight(selectedComponentId);
     canvasWriter.model.hideAllLinkJoints();
 
     bool connected = connectComponents(selectedComponentId, componentId);
-    if (connected) {
-      selectedComponentId = null;
-    } else {
-      selectedComponentId = componentId;
+    hideComponentHighlight(selectedComponentId);
+    if (!connected) {
       highlightComponent(componentId);
     }
   }
@@ -148,7 +145,6 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   @override
   onComponentLongPress(String componentId) {
     hideComponentHighlight(selectedComponentId);
-    selectedComponentId = null;
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.removeComponent(componentId);
   }
@@ -161,20 +157,20 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   @override
   onComponentScaleUpdate(componentId, details) {
     Offset positionDelta = details.localFocalPoint - lastFocalPoint;
-
     canvasWriter.model.moveComponent(componentId, positionDelta);
-
     lastFocalPoint = details.localFocalPoint;
   }
 
+  // tests if it's possible to connect the components and if yes, connects them
   bool connectComponents(String sourceComponentId, String targetComponentId) {
-    if (sourceComponentId == null) {
+    if (sourceComponentId == null || targetComponentId == null) {
       return false;
     }
+    // tests if the ids are not same (the same component)
     if (sourceComponentId == targetComponentId) {
       return false;
     }
-    // test if the connection between two components already exists (one way)
+    // tests if the connection between two components already exists (one way)
     if (canvasReader.model.getComponent(sourceComponentId).connections.any(
         (connection) =>
             (connection is ConnectionOut) &&
@@ -182,6 +178,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
       return false;
     }
 
+    // connects components (creates a link between), you can define the design of the link
     canvasWriter.model.connectTwoComponents(
       sourceComponentId: sourceComponentId,
       targetComponentId: targetComponentId,
@@ -196,18 +193,21 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   }
 }
 
+// You can create your own Policy to define own variables and functions.
 mixin CustomPolicy implements PolicySet {
   String selectedComponentId;
 
   highlightComponent(String componentId) {
     canvasReader.model.getComponent(componentId).data.showHighlight();
     canvasReader.model.getComponent(componentId).updateComponent();
+    selectedComponentId = componentId;
   }
 
   hideComponentHighlight(String componentId) {
-    if (selectedComponentId != null) {
+    if (componentId != null) {
       canvasReader.model.getComponent(componentId).data.hideHighlight();
       canvasReader.model.getComponent(componentId).updateComponent();
+      selectedComponentId = null;
     }
   }
 

@@ -9,19 +9,22 @@ import 'package:diagram_editor/src/canvas_context/canvas_model.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_state.dart';
 import 'package:flutter/material.dart';
 
-/// [DiagramEditorContext] is taken as parameter by [DiagramEditor] widget.
-///
-/// Its not generated automatically because you want to use it to copy model or state to another [DiagramEditor].
 class DiagramEditorContext {
   final CanvasModel _canvasModel;
   final CanvasState _canvasState;
 
+  /// Set of policies where all the diagram customization is defined.
   final PolicySet policySet;
 
+  /// Canvas model containing all components and links with all the functions.
   CanvasModel get canvasModel => _canvasModel;
 
+  /// Canvas state containing for example canvas position and scale.
   CanvasState get canvasState => _canvasState;
 
+  /// [DiagramEditorContext] is taken as parameter by [DiagramEditor] widget.
+  ///
+  /// Its not generated automatically because you want to use it to copy model or state to another [DiagramEditor].
   DiagramEditorContext({
     @required this.policySet,
   })  : this._canvasModel = CanvasModel(policySet),

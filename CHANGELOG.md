@@ -1,4 +1,9 @@
 
+# 0.0.7
+
+* Add more documentation comments.
+* Fix readme.
+
 # 0.0.6
 
 * Add documentation comments.

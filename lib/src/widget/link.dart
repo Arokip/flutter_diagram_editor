@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 class Link extends StatelessWidget {
   final PolicySet policy;
 
+  /// Widget that connects two [Component]s on the canvas. Another fundamental unit of the diagram.
   const Link({
     Key key,
     this.policy,

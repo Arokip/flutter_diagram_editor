@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 class DiagramEditorCanvas extends StatefulWidget {
   final PolicySet policy;
 
+  /// The canvas where all components and links are shown on.
   const DiagramEditorCanvas({
     Key key,
     @required this.policy,

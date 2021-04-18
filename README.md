@@ -84,7 +84,7 @@ Some policies are already implemented and ready to use:
 - `LinkJointControlPolicy`
 - `LinkAttachmentRectPolicy`
 
-Possibilities of usage individual policies are described in the documentation.
+Possibilities of usage of individual policies are described in the documentation.
 More in examples (links above).
 
 <img src="https://user-images.githubusercontent.com/20387953/115140531-1bcd8a80-a038-11eb-8c67-d960a92666c2.gif">

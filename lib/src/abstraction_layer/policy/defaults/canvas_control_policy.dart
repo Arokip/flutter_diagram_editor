@@ -2,6 +2,12 @@ import 'package:diagram_editor/src/abstraction_layer/policy/base_policy_set.dart
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+/// Optimized implementation of [CanvasPolicy].
+///
+/// It enabled pan and zoom of the canvas.
+///
+/// It uses [onCanvasScaleStart], [onCanvasScaleUpdate], [onCanvasScaleEnd], [onCanvasPointerSignal].
+/// Feel free to override other functions from [CanvasPolicy] and add them to [PolicySet].
 mixin CanvasControlPolicy on BasePolicySet {
   AnimationController _animationController;
   double _baseScale = 1.0;
@@ -111,6 +117,12 @@ mixin CanvasControlPolicy on BasePolicySet {
   }
 }
 
+/// Optimized implementation of [CanvasPolicy].
+///
+/// It enabled only pan of the canvas.
+///
+/// It uses [onCanvasScaleStart], [onCanvasScaleUpdate], [onCanvasScaleEnd].
+/// Feel free to override other functions from [CanvasPolicy] and add them to [PolicySet].
 mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
   AnimationController _animationController;
 

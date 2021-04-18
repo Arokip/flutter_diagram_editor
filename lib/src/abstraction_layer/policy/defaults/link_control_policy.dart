@@ -1,6 +1,12 @@
 import 'package:diagram_editor/src/abstraction_layer/policy/base/link_policy.dart';
 import 'package:flutter/material.dart';
 
+/// Optimized implementation of [LinkPolicy].
+///
+/// Adding new joints and showing joints on link tap.
+///
+/// It uses [onLinkTapUp], [onLinkScaleStart], [onLinkScaleUpdate], [onLinkLongPressStart], [onLinkLongPressMoveUpdate].
+/// Feel free to override other functions from [LinkPolicy] and add them to [PolicySet].
 mixin LinkControlPolicy implements LinkPolicy {
   @override
   onLinkTapUp(String linkId, TapUpDetails details) {

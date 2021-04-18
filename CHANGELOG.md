@@ -2,6 +2,9 @@
 # 0.0.6
 
 * Update example and add comments.
+* Update readme
+* Add documentation comments.
+* Add asserts - the model must contain id.
 
 # 0.0.5
 

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 mixin LinkAttachmentPolicy on BasePolicySet {
   /// Calculates an alignment of link endpoint on a component from ComponentData and targetPoint (nearest link point from this component).
+  ///
+  /// With no implementation the link will attach to center of the component.
   Alignment getLinkEndpointAlignment(
     ComponentData componentData,
     Offset targetPoint,

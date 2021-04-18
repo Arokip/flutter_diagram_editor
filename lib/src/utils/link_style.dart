@@ -17,13 +17,33 @@ enum LineType {
   dotted,
 }
 
+/// Defines a visual design of a link on the canvas.
 class LinkStyle {
+  /// Defines the design of the link's line.
+  ///
+  /// It can be [LineType.solid], [LineType.dashed] or [LineType.dotted].
   LineType lineType;
+
+  /// Defines the design of the link's front arrowhead.
+  ///
+  /// There are several designs, choose from [ArrowType] enum.
   ArrowType arrowType;
+
+  /// Defines the design of the link's back arrowhead.
+  ///
+  /// There are several designs, choose from [ArrowType] enum.
   ArrowType backArrowType;
+
+  /// Defines the size of the link's front arrowhead.
   double arrowSize;
+
+  /// Defines the size of the link's back arrowhead.
   double backArrowSize;
+
+  /// Defines the width of the link's line.
   double lineWidth;
+
+  /// Defines the color of the link's line and both arrowheads.
   Color color;
 
   LinkStyle({

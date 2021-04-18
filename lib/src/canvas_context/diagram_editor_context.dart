@@ -9,6 +9,9 @@ import 'package:diagram_editor/src/canvas_context/canvas_model.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_state.dart';
 import 'package:flutter/material.dart';
 
+/// [DiagramEditorContext] is taken as parameter by [DiagramEditor] widget.
+///
+/// Its not generated automatically because you want to use it to copy model or state to another [DiagramEditor].
 class DiagramEditorContext {
   final CanvasModel _canvasModel;
   final CanvasState _canvasState;
@@ -26,7 +29,9 @@ class DiagramEditorContext {
     policySet.initializePolicy(_getReader(), _getWriter());
   }
 
-  /// Some policies are used in CanvasModel, so they will be shared as well.
+  /// Allows you to create [DiagramEditorContext] with shared model from another [DiagramEditorContext].
+  ///
+  /// Warning: [LinkAttachmentPolicy] is used in CanvasModel, so this policy will be shared as well, even if you put new one to [PolicySet].
   DiagramEditorContext.withSharedModel(
     DiagramEditorContext oldContext, {
     @required this.policySet,
@@ -35,6 +40,7 @@ class DiagramEditorContext {
     policySet.initializePolicy(_getReader(), _getWriter());
   }
 
+  /// Allows you to create [DiagramEditorContext] with shared state (eg. canvas position and scale) from another [DiagramEditorContext].
   DiagramEditorContext.withSharedState(
     DiagramEditorContext oldContext, {
     @required this.policySet,
@@ -43,7 +49,9 @@ class DiagramEditorContext {
     policySet.initializePolicy(_getReader(), _getWriter());
   }
 
-  /// Some policies are used in CanvasModel, so they will be shared as well.
+  /// Allows you to create [DiagramEditorContext] with shared model and state from another [DiagramEditorContext].
+  ///
+  /// Warning: [LinkAttachmentPolicy] is used in CanvasModel, so this policy will be shared as well, even if you put new one to [PolicySet].
   DiagramEditorContext.withSharedModelAndState(
     DiagramEditorContext oldContext, {
     @required this.policySet,

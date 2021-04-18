@@ -5,6 +5,10 @@ import 'package:diagram_editor/src/widget/canvas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+/// The main widget of diagram_editor library.
+///
+/// It takes [DiagramEditorContext] as required parameter.
+/// You should define its size in its parent widget, eg. Container.
 class DiagramEditor extends StatefulWidget {
   final DiagramEditorContext diagramEditorContext;
 

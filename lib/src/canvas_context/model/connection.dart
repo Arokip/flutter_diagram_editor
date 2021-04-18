@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 abstract class Connection {
+  /// Id of this connection. It corresponds to link id.
   final String connectionId;
+
+  /// Id of a component to which is the component connected.
   final String otherComponentId;
 
   Connection({
@@ -14,6 +17,7 @@ abstract class Connection {
   }
 }
 
+/// Connection type that is saved to source component [connection].
 class ConnectionOut extends Connection {
   ConnectionOut({
     @required connectionId,
@@ -24,6 +28,7 @@ class ConnectionOut extends Connection {
         );
 }
 
+/// Connection type that is saved to target component [connection].
 class ConnectionIn extends Connection {
   ConnectionIn({
     @required connectionId,

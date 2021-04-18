@@ -18,6 +18,9 @@ class GridPainter extends CustomPainter {
   final bool isAntiAlias;
   final bool matchParentSize;
 
+  /// Paints a grid.
+  ///
+  /// Useful if added as canvas background widget.
   GridPainter({
     this.lineWidth = 1.0,
     this.lineColor = Colors.black,

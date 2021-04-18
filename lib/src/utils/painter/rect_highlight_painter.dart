@@ -8,6 +8,9 @@ class ComponentHighlightPainter extends CustomPainter {
   final double dashWidth;
   final double dashSpace;
 
+  /// Rectangular dashed line painter.
+  ///
+  /// Useful if added as component widget to highlight it.
   ComponentHighlightPainter({
     @required this.width,
     @required this.height,

@@ -17,7 +17,6 @@ enum LineType {
   dotted,
 }
 
-/// Defines a visual design of a link on the canvas.
 class LinkStyle {
   /// Defines the design of the link's line.
   ///
@@ -46,6 +45,7 @@ class LinkStyle {
   /// Defines the color of the link's line and both arrowheads.
   Color color;
 
+  /// Defines a visual design of a link on the canvas.
   LinkStyle({
     this.lineType = LineType.solid,
     this.arrowType = ArrowType.none,

@@ -27,6 +27,7 @@ class LinkData with ChangeNotifier {
   /// Dynamic data for you to define your own data for this link.
   dynamic data;
 
+  /// Represents data of a link/connection in the model.
   LinkData({
     this.id,
     this.sourceComponentId,

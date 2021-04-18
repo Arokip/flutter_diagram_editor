@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Simple class with static methods for computing basic vector operation.
+/// It uses Offset as 2D vector.
 class VectorUtils {
   static Offset getDirectionVector(Offset point1, Offset point2) {
     return point2 - point1;

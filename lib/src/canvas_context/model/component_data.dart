@@ -47,6 +47,7 @@ class ComponentData with ChangeNotifier {
   /// Dynamic data for you to define your own data for this component.
   final dynamic data;
 
+  /// Represents data of a component in the model.
   ComponentData({
     this.id,
     this.position = Offset.zero,

@@ -1,4 +1,9 @@
 
+# 0.0.8
+
+* Add some more documentation comments.
+* Fix documentation comments.
+
 # 0.0.7
 
 * Add more documentation comments.

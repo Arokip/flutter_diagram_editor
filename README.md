@@ -13,7 +13,7 @@ Flutter diagram editor library for showing and editing diagrams of custom type. 
 
 Use of `DiagramEditor` widget:
 
-```dart
+```
 DiagramEditor(
   diagramEditorContext: DiagramEditorContext(
     policySet: myPolicySet,
@@ -44,7 +44,29 @@ mixin MyInitPolicy implements InitPolicy {
 }
 ```
 
-There are several editor policies that can be implemented and added to policy set:
+For example in `MyCanvasPolicy` in function `onCanvasTapUp(TapUpDetails details)` a new component is added if no component is selected.
+
+```
+mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
+  @override
+  onCanvasTapUp(TapUpDetails details) async {
+    canvasWriter.model.hideAllLinkJoints();
+    if (selectedComponentId != null) {
+      hideComponentHighlight(selectedComponentId);
+    } else {
+      canvasWriter.model.addComponent(
+        ComponentData(
+          size: Size(96, 72),
+          position: canvasReader.state.fromCanvasCoordinates(details.localPosition),
+          data: MyComponentData(),
+        ),
+      );
+    }
+  }
+}
+```
+
+There are several editor policies that can be implemented and added to the policy set:
 - `InitPolicy`
 - `CanvasPolicy`
 - `ComponentPolicy`
@@ -62,5 +84,7 @@ Some policies are already implemented and ready to use:
 - `LinkJointControlPolicy`
 - `LinkAttachmentRectPolicy`
 
-
+Possibilities of usage individual policies are described in the documentation.
 More in examples (links above).
+
+<img src="https://user-images.githubusercontent.com/20387953/115140531-1bcd8a80-a038-11eb-8c67-d960a92666c2.gif">

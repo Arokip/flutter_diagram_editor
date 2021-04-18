@@ -1,6 +1,7 @@
 import 'package:diagram_editor/src/abstraction_layer/policy/base_policy_set.dart';
 import 'package:flutter/material.dart';
 
+/// Allows you to define the link's joint behaviour on any gesture registered by the link's joint.
 mixin LinkJointPolicy on BasePolicySet {
   onLinkJointTap(int jointIndex, String linkId) {}
 

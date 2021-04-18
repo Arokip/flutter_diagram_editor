@@ -1,10 +1,10 @@
 
 # 0.0.6
 
-* Update example and add comments.
-* Update readme
 * Add documentation comments.
-* Add asserts - the model must contain id.
+* Update the example and add comments to it.
+* Update readme file.
+* Add some asserts ("the model must contain this id").
 
 # 0.0.5
 

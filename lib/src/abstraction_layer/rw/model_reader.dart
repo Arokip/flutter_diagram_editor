@@ -10,6 +10,7 @@ class CanvasModelReader {
   final CanvasModel canvasModel;
   final CanvasState canvasState;
 
+  /// Allows you to read data from the model (component and link data).
   CanvasModelReader(this.canvasModel, this.canvasState);
 
   /// Returns a component with [id].

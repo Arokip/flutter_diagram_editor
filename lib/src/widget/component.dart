@@ -44,6 +44,7 @@ class Component extends StatelessWidget {
                   child: policy.showComponentBody(componentData),
                 ),
               ),
+              policy.showCustomWidgetWithComponentData(context, componentData),
             ],
           ),
           onTap: () => policy.onComponentTap(componentData.id),

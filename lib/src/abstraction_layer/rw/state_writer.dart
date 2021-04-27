@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class CanvasStateWriter {
   final CanvasState _canvasState;
 
+  /// Allows you to change the state of the canvas.
   CanvasStateWriter(this._canvasState);
 
   /// Updates everything on canvas.

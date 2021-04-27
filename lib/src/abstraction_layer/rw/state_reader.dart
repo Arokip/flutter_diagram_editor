@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class CanvasStateReader {
   final CanvasState canvasState;
 
+  /// Allows you to read state (position and scale) of the canvas.
   CanvasStateReader(this.canvasState);
 
   /// Position of the canvas. Coordinates where the (0, 0) of the canvas is currently located.

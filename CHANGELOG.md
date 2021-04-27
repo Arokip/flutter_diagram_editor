@@ -1,4 +1,9 @@
 
+# 0.0.9
+
+* Add documentation comments to reader/writer
+* Move custom components widgets from Canvas to Component
+
 # 0.0.8
 
 * Add some more documentation comments.

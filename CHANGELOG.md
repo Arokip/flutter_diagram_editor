@@ -1,4 +1,8 @@
 
+# 0.0.10
+
+* Fix remove component with children test.
+
 # 0.0.9
 
 * Add documentation comments to reader/writer

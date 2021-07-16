@@ -57,7 +57,7 @@ void main() {
 
       String id1 = policySet.canvasWriter.model.addComponent(componentData);
       String id2 = policySet.canvasWriter.model.addComponent(componentData2);
-      policySet.canvasReader.model.getComponent(id1).addChild(id2);
+      policySet.canvasWriter.model.setComponentParent(id2, id1);
 
       await tester.pump();
 

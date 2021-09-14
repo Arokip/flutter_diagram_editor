@@ -1,4 +1,8 @@
 
+# 0.0.11
+
+* Update pubspec.yaml file
+
 # 0.0.10
 
 * Fix remove component with children test.

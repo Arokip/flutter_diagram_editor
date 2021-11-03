@@ -10,7 +10,6 @@ void main() {
         () {
       PolicySet policySet = PolicySet();
       var model = CanvasModel(policySet);
-      ComponentData componentData = ComponentData();
 
       expect(model.components.isEmpty, true);
     });

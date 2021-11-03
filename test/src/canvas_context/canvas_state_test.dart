@@ -11,7 +11,7 @@ void main() {
         () {
       PolicySet policySet = PolicySet();
 
-      var editor = MaterialApp(
+      MaterialApp(
         home: DiagramEditor(
           diagramEditorContext: DiagramEditorContext(
             policySet: policySet,

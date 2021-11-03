@@ -1,4 +1,8 @@
 
+# 0.0.12
+
+* Update dependencies in pubspec.yaml file 
+
 # 0.0.11
 
 * Update pubspec.yaml file

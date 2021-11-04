@@ -39,7 +39,7 @@ class MyPolicySet extends PolicySet
 mixin MyInitPolicy implements InitPolicy {
   @override
   initializeDiagramEditor() {
-    canvasWriter.state.setCanvasColor(Colors.grey[300]);
+    canvasWriter.state.setCanvasColor(Colors.grey);
   }
 }
 ```

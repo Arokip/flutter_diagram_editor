@@ -12,7 +12,7 @@ void main() {
   group('Link widget tests', () {
     PolicySet policySet = PolicySet();
 
-    String linkId;
+    late String linkId;
 
     var editor = MaterialApp(
       home: DiagramEditor(

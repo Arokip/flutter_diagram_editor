@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 /// It uses [onCanvasScaleStart], [onCanvasScaleUpdate], [onCanvasScaleEnd], [onCanvasPointerSignal].
 /// Feel free to override other functions from [CanvasPolicy] and add them to [PolicySet].
 mixin CanvasControlPolicy on BasePolicySet {
-  AnimationController _animationController;
+  AnimationController? _animationController;
   double _baseScale = 1.0;
   Offset _basePosition = Offset(0, 0);
 
@@ -29,7 +29,7 @@ mixin CanvasControlPolicy on BasePolicySet {
   }
 
   disposeAnimationController() {
-    _animationController.dispose();
+    _animationController?.dispose();
   }
 
   onCanvasScaleStart(ScaleStartDetails details) {
@@ -41,7 +41,7 @@ mixin CanvasControlPolicy on BasePolicySet {
 
   onCanvasScaleUpdate(ScaleUpdateDetails details) {
     if (canUpdateCanvasModel) {
-      _animationController.repeat();
+      _animationController?.repeat();
       _updateCanvasModelWithLastValues();
 
       double previousScale = transformScale;
@@ -56,7 +56,7 @@ mixin CanvasControlPolicy on BasePolicySet {
 
       transformPosition += focalPoint - focalPointScaled;
 
-      _animationController.reset();
+      _animationController?.reset();
     }
   }
 
@@ -65,7 +65,7 @@ mixin CanvasControlPolicy on BasePolicySet {
       _updateCanvasModelWithLastValues();
     }
 
-    _animationController.reset();
+    _animationController?.reset();
 
     transformPosition = Offset(0, 0);
     transformScale = 1.0;
@@ -124,7 +124,7 @@ mixin CanvasControlPolicy on BasePolicySet {
 /// It uses [onCanvasScaleStart], [onCanvasScaleUpdate], [onCanvasScaleEnd].
 /// Feel free to override other functions from [CanvasPolicy] and add them to [PolicySet].
 mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
-  AnimationController _animationController;
+  AnimationController? _animationController;
 
   Offset _basePosition = Offset(0, 0);
 
@@ -144,7 +144,7 @@ mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
   }
 
   disposeAnimationController() {
-    _animationController.dispose();
+    _animationController?.dispose();
   }
 
   onCanvasScaleStart(ScaleStartDetails details) {
@@ -155,14 +155,14 @@ mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
 
   onCanvasScaleUpdate(ScaleUpdateDetails details) {
     if (canUpdateCanvasModel) {
-      _animationController.repeat();
+      _animationController?.repeat();
       _updateCanvasModelWithLastValues();
 
       transformPosition += details.focalPoint - _lastFocalPoint;
 
       _lastFocalPoint = details.focalPoint;
 
-      _animationController.reset();
+      _animationController?.reset();
     }
   }
 
@@ -171,7 +171,7 @@ mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
       _updateCanvasModelWithLastValues();
     }
 
-    _animationController.reset();
+    _animationController?.reset();
 
     transformPosition = Offset(0, 0);
 

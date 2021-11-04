@@ -14,7 +14,7 @@ class LinkData with ChangeNotifier {
   final String targetComponentId;
 
   /// Defines link design such as color, width and arrowheads.
-  LinkStyle linkStyle;
+  final LinkStyle linkStyle;
 
   /// Points from which the link is drawn on canvas.
   ///
@@ -29,13 +29,13 @@ class LinkData with ChangeNotifier {
 
   /// Represents data of a link/connection in the model.
   LinkData({
-    this.id,
-    this.sourceComponentId,
-    this.targetComponentId,
-    this.linkStyle,
-    this.linkPoints,
+    required this.id,
+    required this.sourceComponentId,
+    required this.targetComponentId,
+    LinkStyle? linkStyle,
+    required this.linkPoints,
     this.data,
-  });
+  }) : linkStyle = linkStyle ?? LinkStyle();
 
   /// Updates this link on the canvas.
   ///
@@ -124,7 +124,7 @@ class LinkData with ChangeNotifier {
   /// Segments are indexed from 1.
   /// If there is no link segment on the tap location it returns null.
   /// It should take a [localPosition] from a [onLinkTap] function or similar.
-  int determineLinkSegmentIndex(
+  int? determineLinkSegmentIndex(
     Offset position,
     Offset canvasPosition,
     double canvasScale,

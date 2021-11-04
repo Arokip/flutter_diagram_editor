@@ -8,9 +8,9 @@ class LinkPainter extends CustomPainter {
   final LinkStyle linkStyle;
 
   LinkPainter({
-    @required this.linkPoints,
-    @required this.scale,
-    this.linkStyle,
+    required this.linkPoints,
+    required this.scale,
+    required this.linkStyle,
   });
 
   @override

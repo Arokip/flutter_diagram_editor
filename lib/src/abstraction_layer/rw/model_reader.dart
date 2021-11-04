@@ -13,10 +13,16 @@ class CanvasModelReader {
   /// Allows you to read data from the model (component and link data).
   CanvasModelReader(this.canvasModel, this.canvasState);
 
+  /// Returns [true] if a component with provided [id] exists. Returns [false] otherwise.
+  bool componentExist(String id) {
+    return canvasModel.componentExists(id);
+  }
+
   /// Returns a component with [id].
   ///
   /// If there is no component with [id] in the model, it returns null.
   ComponentData getComponent(String id) {
+    assert(componentExist(id), 'model does not contain this component id: $id');
     return canvasModel.getComponent(id);
   }
 
@@ -27,10 +33,16 @@ class CanvasModelReader {
     return canvasModel.getAllComponents();
   }
 
+  /// Returns [true] if a link with provided [id] exists. Returns [false] otherwise.
+  bool linkExist(String id) {
+    return canvasModel.linkExists(id);
+  }
+
   /// Returns a link with [id].
   ///
   /// If there is no link with [id] in the model, it returns null.
   LinkData getLink(String id) {
+    assert(linkExist(id), 'model does not contain this link id: $id');
     return canvasModel.getLink(id);
   }
 
@@ -46,11 +58,11 @@ class CanvasModelReader {
   /// Segments are indexed from 1.
   /// If there is no link segment on the tap location it returns null.
   /// It should take a localPosition from a onLinkTap or similar.
-  int determineLinkSegmentIndex(
+  int? determineLinkSegmentIndex(
     String linkId,
     Offset tapPosition,
   ) {
-    return canvasModel.links[linkId].determineLinkSegmentIndex(
+    return canvasModel.getLink(linkId).determineLinkSegmentIndex(
         tapPosition, canvasState.position, canvasState.scale);
   }
 }

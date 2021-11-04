@@ -68,7 +68,7 @@ void main() {
       expect(connectionsA.single is ConnectionOut, true);
       expect(connectionsB.single is ConnectionIn, true);
 
-      expect(model.links[linkId].id, linkId);
+      expect(model.getLink(linkId).id, linkId);
     });
 
     test(

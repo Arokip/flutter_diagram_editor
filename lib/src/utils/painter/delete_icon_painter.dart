@@ -6,9 +6,9 @@ class DeleteIconPainter extends CustomPainter {
   final Color color;
 
   DeleteIconPainter({
-    @required this.location,
-    @required this.radius,
-    @required this.color,
+    required this.location,
+    required this.radius,
+    required this.color,
   }) : assert(radius > 0);
 
   @override
@@ -21,7 +21,7 @@ class DeleteIconPainter extends CustomPainter {
 
     paint
       ..style = PaintingStyle.stroke
-      ..color = Colors.grey[800]
+      ..color = Colors.grey
       ..strokeWidth = 2;
 
     canvas.drawCircle(location, radius, paint);

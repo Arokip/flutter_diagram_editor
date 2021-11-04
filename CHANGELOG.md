@@ -1,4 +1,11 @@
 
+# 0.1.0
+
+* ###Migrate to null-safety.
+
+* Adds componentExists function
+* Adds linkExists function
+
 # 0.0.12
 
 * Update dependencies in pubspec.yaml file 

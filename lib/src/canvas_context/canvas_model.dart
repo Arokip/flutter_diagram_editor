@@ -16,16 +16,24 @@ class CanvasModel with ChangeNotifier {
 
   CanvasModel(this.policySet);
 
+  bool componentExists(String id) {
+    return components.containsKey(id);
+  }
+
   ComponentData getComponent(String id) {
-    return components[id];
+    return components[id]!;
   }
 
   HashMap<String, ComponentData> getAllComponents() {
     return components;
   }
 
+  bool linkExists(String id) {
+    return links.containsKey(id);
+  }
+
   LinkData getLink(String id) {
-    return links[id];
+    return links[id]!;
   }
 
   HashMap<String, LinkData> getAllLinks() {
@@ -48,13 +56,13 @@ class CanvasModel with ChangeNotifier {
   removeComponentConnections(String id) {
     assert(components.keys.contains(id));
 
-    List<String> linksToRemove = [];
+    List<String> _linksToRemove = [];
 
-    components[id].connections.forEach((connection) {
-      linksToRemove.add(connection.connectionId);
+    getComponent(id).connections.forEach((connection) {
+      _linksToRemove.add(connection.connectionId);
     });
 
-    linksToRemove.forEach(removeLink);
+    _linksToRemove.forEach(removeLink);
     notifyListeners();
   }
 
@@ -65,20 +73,20 @@ class CanvasModel with ChangeNotifier {
   }
 
   setComponentZOrder(String componentId, int zOrder) {
-    components[componentId].zOrder = zOrder;
+    getComponent(componentId).zOrder = zOrder;
     notifyListeners();
   }
 
   /// You cannot use is during any movement, because the order will change so the moving item will change.
   /// Returns new zOrder
   int moveComponentToTheFront(String componentId) {
-    int zOrderMax = components[componentId].zOrder;
+    int zOrderMax = getComponent(componentId).zOrder;
     components.values.forEach((component) {
       if (component.zOrder > zOrderMax) {
         zOrderMax = component.zOrder;
       }
     });
-    components[componentId].zOrder = zOrderMax + 1;
+    getComponent(componentId).zOrder = zOrderMax + 1;
     notifyListeners();
     return zOrderMax + 1;
   }
@@ -86,13 +94,13 @@ class CanvasModel with ChangeNotifier {
   /// You cannot use is during any movement, because the order will change so the moving item will change.
   /// /// Returns new zOrder
   int moveComponentToTheBack(String componentId) {
-    int zOrderMin = components[componentId].zOrder;
+    int zOrderMin = getComponent(componentId).zOrder;
     components.values.forEach((component) {
       if (component.zOrder < zOrderMin) {
         zOrderMin = component.zOrder;
       }
     });
-    components[componentId].zOrder = zOrderMin - 1;
+    getComponent(componentId).zOrder = zOrderMin - 1;
     notifyListeners();
     return zOrderMin - 1;
   }
@@ -103,8 +111,8 @@ class CanvasModel with ChangeNotifier {
   }
 
   removeLink(String linkId) {
-    components[links[linkId].sourceComponentId].removeConnection(linkId);
-    components[links[linkId].targetComponentId].removeConnection(linkId);
+    getComponent(getLink(linkId).sourceComponentId).removeConnection(linkId);
+    getComponent(getLink(linkId).targetComponentId).removeConnection(linkId);
     links.remove(linkId);
     notifyListeners();
   }
@@ -119,12 +127,12 @@ class CanvasModel with ChangeNotifier {
   String connectTwoComponents(
     String sourceComponentId,
     String targetComponentId,
-    LinkStyle linkStyle,
+    LinkStyle? linkStyle,
     dynamic data,
   ) {
     var linkId = _uuid.v4();
-    var sourceComponent = components[sourceComponentId];
-    var targetComponent = components[targetComponentId];
+    var sourceComponent = getComponent(sourceComponentId);
+    var targetComponent = getComponent(targetComponentId);
 
     sourceComponent.addConnection(
       ConnectionOut(
@@ -167,18 +175,20 @@ class CanvasModel with ChangeNotifier {
   }
 
   updateLinks(String componentId) {
-    var component = components[componentId];
+    assert(componentExists(componentId),
+        'model does not contain this component id: $componentId');
+    var component = getComponent(componentId);
     component.connections.forEach((connection) {
-      var link = links[connection.connectionId];
+      var link = getLink(connection.connectionId);
 
-      var sourceComponent = component;
-      var targetComponent = components[connection.otherComponentId];
+      ComponentData sourceComponent = component;
+      var targetComponent = getComponent(connection.otherComponentId);
 
       if (connection is ConnectionOut) {
         sourceComponent = component;
-        targetComponent = components[connection.otherComponentId];
+        targetComponent = getComponent(connection.otherComponentId);
       } else if (connection is ConnectionIn) {
-        sourceComponent = components[connection.otherComponentId];
+        sourceComponent = getComponent(connection.otherComponentId);
         targetComponent = component;
       } else {
         throw ArgumentError('Invalid port connection.');

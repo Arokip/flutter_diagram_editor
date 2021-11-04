@@ -14,26 +14,26 @@ mixin LinkControlPolicy implements LinkPolicy {
     canvasWriter.model.showLinkJoints(linkId);
   }
 
-  var segmentIndex;
+  var _segmentIndex;
 
   @override
   onLinkScaleStart(String linkId, ScaleStartDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
-    segmentIndex = canvasReader.model
+    _segmentIndex = canvasReader.model
         .determineLinkSegmentIndex(linkId, details.localFocalPoint);
-    if (segmentIndex != null) {
+    if (_segmentIndex != null) {
       canvasWriter.model
-          .insertLinkMiddlePoint(linkId, details.localFocalPoint, segmentIndex);
+          .insertLinkMiddlePoint(linkId, details.localFocalPoint, _segmentIndex);
       canvasWriter.model.updateLink(linkId);
     }
   }
 
   @override
   onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {
-    if (segmentIndex != null) {
+    if (_segmentIndex != null) {
       canvasWriter.model.setLinkMiddlePointPosition(
-          linkId, details.localFocalPoint, segmentIndex);
+          linkId, details.localFocalPoint, _segmentIndex);
       canvasWriter.model.updateLink(linkId);
     }
   }
@@ -42,20 +42,20 @@ mixin LinkControlPolicy implements LinkPolicy {
   onLinkLongPressStart(String linkId, LongPressStartDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
-    segmentIndex = canvasReader.model
+    _segmentIndex = canvasReader.model
         .determineLinkSegmentIndex(linkId, details.localPosition);
-    if (segmentIndex != null) {
+    if (_segmentIndex != null) {
       canvasWriter.model
-          .insertLinkMiddlePoint(linkId, details.localPosition, segmentIndex);
+          .insertLinkMiddlePoint(linkId, details.localPosition, _segmentIndex);
       canvasWriter.model.updateLink(linkId);
     }
   }
 
   @override
   onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {
-    if (segmentIndex != null) {
+    if (_segmentIndex != null) {
       canvasWriter.model.setLinkMiddlePointPosition(
-          linkId, details.localPosition, segmentIndex);
+          linkId, details.localPosition, _segmentIndex);
       canvasWriter.model.updateLink(linkId);
     }
   }

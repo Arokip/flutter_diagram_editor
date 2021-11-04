@@ -48,7 +48,7 @@ class _DiagramAppState extends State<DiagramApp> {
 
 // Custom component Data which you can assign to a component to data property.
 class MyComponentData {
-  bool isHighlightVisible;
+  bool isHighlightVisible = false;
   Color color =
       Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
 
@@ -79,7 +79,7 @@ class MyPolicySet extends PolicySet
 mixin MyInitPolicy implements InitPolicy {
   @override
   initializeDiagramEditor() {
-    canvasWriter.state.setCanvasColor(Colors.grey[300]);
+    canvasWriter.state.setCanvasColor(Colors.grey[300]!);
   }
 }
 
@@ -127,7 +127,7 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
 // Mixin where component behaviour is defined. In this example it is the movement, highlight and connecting two components.
 mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   // variable used to calculate delta offset to move the component.
-  Offset lastFocalPoint;
+  late Offset lastFocalPoint;
 
   @override
   onComponentTap(String componentId) {
@@ -160,7 +160,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   }
 
   // This function tests if it's possible to connect the components and if yes, connects them
-  bool connectComponents(String sourceComponentId, String targetComponentId) {
+  bool connectComponents(String? sourceComponentId, String? targetComponentId) {
     if (sourceComponentId == null || targetComponentId == null) {
       return false;
     }
@@ -193,7 +193,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
 
 // You can create your own Policy to define own variables and functions with canvasReader and canvasWriter.
 mixin CustomPolicy implements PolicySet {
-  String selectedComponentId;
+  String? selectedComponentId;
 
   highlightComponent(String componentId) {
     canvasReader.model.getComponent(componentId).data.showHighlight();
@@ -201,7 +201,7 @@ mixin CustomPolicy implements PolicySet {
     selectedComponentId = componentId;
   }
 
-  hideComponentHighlight(String componentId) {
+  hideComponentHighlight(String? componentId) {
     if (componentId != null) {
       canvasReader.model.getComponent(componentId).data.hideHighlight();
       canvasReader.model.getComponent(componentId).updateComponent();

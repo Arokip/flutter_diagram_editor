@@ -7,7 +7,7 @@ mixin ComponentDesignPolicy on BasePolicySet {
   /// Returns a widget that specifies a design of this component.
   ///
   /// Recommendation: type can by used to determine what widget should be returned.
-  Widget showComponentBody(ComponentData componentData) {
+  Widget? showComponentBody(ComponentData componentData) {
     return null;
   }
 }

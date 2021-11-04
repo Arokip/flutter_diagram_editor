@@ -23,8 +23,8 @@ mixin LinkControlPolicy implements LinkPolicy {
     _segmentIndex = canvasReader.model
         .determineLinkSegmentIndex(linkId, details.localFocalPoint);
     if (_segmentIndex != null) {
-      canvasWriter.model
-          .insertLinkMiddlePoint(linkId, details.localFocalPoint, _segmentIndex);
+      canvasWriter.model.insertLinkMiddlePoint(
+          linkId, details.localFocalPoint, _segmentIndex);
       canvasWriter.model.updateLink(linkId);
     }
   }

@@ -7,10 +7,10 @@ class LinkJointPainter extends CustomPainter {
   final Color color;
 
   LinkJointPainter({
-    @required this.location,
-    @required this.radius,
-    @required this.scale,
-    @required this.color,
+    required this.location,
+    required this.radius,
+    required this.scale,
+    required this.color,
   }) : assert(radius > 0);
 
   @override

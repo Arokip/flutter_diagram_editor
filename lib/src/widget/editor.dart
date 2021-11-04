@@ -19,8 +19,8 @@ class DiagramEditor extends StatefulWidget {
   /// It takes [DiagramEditorContext] as required parameter.
   /// You should define its size in its parent widget, eg. Container.
   DiagramEditor({
-    Key key,
-    @required this.diagramEditorContext,
+    Key? key,
+    required this.diagramEditorContext,
   }) : super(key: key);
 
   @override

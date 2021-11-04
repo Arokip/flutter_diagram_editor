@@ -15,8 +15,8 @@ class DiagramEditorCanvas extends StatefulWidget {
 
   /// The canvas where all components and links are shown on.
   const DiagramEditorCanvas({
-    Key key,
-    @required this.policy,
+    Key? key,
+    required this.policy,
   }) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class DiagramEditorCanvas extends StatefulWidget {
 
 class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     with TickerProviderStateMixin {
-  PolicySet withControlPolicy;
+  PolicySet? withControlPolicy;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         ? widget.policy
         : null;
 
-    (withControlPolicy as CanvasControlPolicy)?.setAnimationController(
+    (withControlPolicy as CanvasControlPolicy?)?.setAnimationController(
       AnimationController(
         duration: const Duration(seconds: 1),
         vsync: this,
@@ -45,7 +45,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
 
   @override
   void dispose() {
-    (withControlPolicy as CanvasControlPolicy)?.disposeAnimationController();
+    (withControlPolicy as CanvasControlPolicy?)?.disposeAnimationController();
     super.dispose();
   }
 
@@ -135,7 +135,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
     return AnimatedBuilder(
       animation:
           (withControlPolicy as CanvasControlPolicy).getAnimationController(),
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         (withControlPolicy as CanvasControlPolicy).canUpdateCanvasModel = true;
         return Transform(
           transform: Matrix4.identity()

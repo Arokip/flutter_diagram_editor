@@ -55,12 +55,7 @@ class LinkStyle {
     this.lineWidth = 1,
     this.color = Colors.black,
   })  : assert(lineWidth > 0),
-        assert(arrowSize > 0),
-        assert(arrowType != null),
-        assert(lineType != null),
-        assert(arrowSize != null),
-        assert(lineWidth != null),
-        assert(color != null);
+        assert(arrowSize > 0);
 
   Path getArrowTipPath(
     ArrowType arrowType,
@@ -72,40 +67,29 @@ class LinkStyle {
     switch (arrowType) {
       case ArrowType.none:
         return Path();
-        break;
       case ArrowType.arrow:
         return getArrowPath(arrowSize, point1, point2, scale, 1);
-        break;
       case ArrowType.pointedArrow:
         return getArrowPath(arrowSize, point1, point2, scale, 2);
-        break;
       case ArrowType.circle:
         return getCirclePath(arrowSize, point1, point2, scale, false);
-        break;
       case ArrowType.centerCircle:
         return getCirclePath(arrowSize, point1, point2, scale, true);
-        break;
       case ArrowType.semiCircle:
         return getSemiCirclePath(arrowSize, point1, point2, scale);
-        break;
     }
-    return Path();
   }
 
   Path getLinePath(Offset point1, Offset point2, double scale) {
     switch (lineType) {
       case LineType.solid:
         return getSolidLinePath(point1, point2);
-        break;
       case LineType.dashed:
         return getDashedLinePath(point1, point2, scale, 16, 16);
-        break;
       case LineType.dotted:
         return getDashedLinePath(
             point1, point2, scale, lineWidth, lineWidth * 5);
-        break;
     }
-    return Path();
   }
 
   Path getArrowPath(double arrowSize, Offset point1, Offset point2,
@@ -179,24 +163,17 @@ class LinkStyle {
     switch (arrowType) {
       case ArrowType.none:
         return 0;
-        break;
       case ArrowType.arrow:
         return arrowSize - eps;
-        break;
       case ArrowType.pointedArrow:
         return (arrowSize * 2) - eps;
-        break;
       case ArrowType.circle:
         return arrowSize - eps;
-        break;
       case ArrowType.centerCircle:
         return 0;
-        break;
       case ArrowType.semiCircle:
         return arrowSize - eps;
-        break;
     }
-    return 0;
   }
 
   Path getSolidLinePath(Offset point1, Offset point2) {

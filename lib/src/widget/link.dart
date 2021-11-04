@@ -12,8 +12,8 @@ class Link extends StatelessWidget {
 
   /// Widget that connects two [Component]s on the canvas. Another fundamental unit of the diagram.
   const Link({
-    Key key,
-    this.policy,
+    Key? key,
+    required this.policy,
   }) : super(key: key);
 
   @override

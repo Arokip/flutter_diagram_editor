@@ -10,8 +10,8 @@ class Component extends StatelessWidget {
 
   /// Fundamental building unit of a diagram. Represents one component on the canvas.
   const Component({
-    Key key,
-    this.policy,
+    Key? key,
+    required this.policy,
   }) : super(key: key);
 
   @override
@@ -31,6 +31,7 @@ class Component extends StatelessWidget {
           policy.onComponentPointerSignal(componentData.id, event);
         },
         child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
           child: Stack(
             clipBehavior: Clip.none,
             children: [

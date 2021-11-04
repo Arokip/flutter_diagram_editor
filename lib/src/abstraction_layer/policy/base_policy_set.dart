@@ -3,10 +3,10 @@ import 'package:diagram_editor/src/abstraction_layer/rw/canvas_writer.dart';
 
 class BasePolicySet {
   /// Allows you to read all data from diagram/canvas model.
-  CanvasReader canvasReader;
+  late CanvasReader canvasReader;
 
   /// Allows you to change diagram/canvas model data.
-  CanvasWriter canvasWriter;
+  late CanvasWriter canvasWriter;
 
   /// Initialize policy in [DiagramEditorContext].
   initializePolicy(CanvasReader canvasReader, CanvasWriter canvasWriter) {

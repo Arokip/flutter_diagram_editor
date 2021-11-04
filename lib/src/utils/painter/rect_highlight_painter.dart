@@ -12,8 +12,8 @@ class ComponentHighlightPainter extends CustomPainter {
   ///
   /// Useful if added as component widget to highlight it.
   ComponentHighlightPainter({
-    @required this.width,
-    @required this.height,
+    required this.width,
+    required this.height,
     this.color = Colors.red,
     this.strokeWidth = 2,
     this.dashWidth = 10,

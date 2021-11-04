@@ -7,7 +7,6 @@ import 'package:diagram_editor/src/abstraction_layer/rw/state_reader.dart';
 import 'package:diagram_editor/src/abstraction_layer/rw/state_writer.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_model.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_state.dart';
-import 'package:flutter/material.dart';
 
 class DiagramEditorContext {
   final CanvasModel _canvasModel;
@@ -26,7 +25,7 @@ class DiagramEditorContext {
   ///
   /// Its not generated automatically because you want to use it to copy model or state to another [DiagramEditor].
   DiagramEditorContext({
-    @required this.policySet,
+    required this.policySet,
   })  : this._canvasModel = CanvasModel(policySet),
         this._canvasState = CanvasState() {
     policySet.initializePolicy(_getReader(), _getWriter());
@@ -37,7 +36,7 @@ class DiagramEditorContext {
   /// Warning: [LinkAttachmentPolicy] is used in CanvasModel, so this policy will be shared as well, even if you put new one to [PolicySet].
   DiagramEditorContext.withSharedModel(
     DiagramEditorContext oldContext, {
-    @required this.policySet,
+    required this.policySet,
   })  : this._canvasModel = oldContext.canvasModel,
         this._canvasState = CanvasState() {
     policySet.initializePolicy(_getReader(), _getWriter());
@@ -46,7 +45,7 @@ class DiagramEditorContext {
   /// Allows you to create [DiagramEditorContext] with shared state (eg. canvas position and scale) from another [DiagramEditorContext].
   DiagramEditorContext.withSharedState(
     DiagramEditorContext oldContext, {
-    @required this.policySet,
+    required this.policySet,
   })  : this._canvasModel = CanvasModel(policySet),
         this._canvasState = oldContext.canvasState {
     policySet.initializePolicy(_getReader(), _getWriter());
@@ -57,7 +56,7 @@ class DiagramEditorContext {
   /// Warning: [LinkAttachmentPolicy] is used in CanvasModel, so this policy will be shared as well, even if you put new one to [PolicySet].
   DiagramEditorContext.withSharedModelAndState(
     DiagramEditorContext oldContext, {
-    @required this.policySet,
+    required this.policySet,
   })  : this._canvasModel = oldContext.canvasModel,
         this._canvasState = oldContext.canvasState {
     policySet.initializePolicy(_getReader(), _getWriter());

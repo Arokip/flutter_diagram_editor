@@ -154,4 +154,25 @@ class LinkData with ChangeNotifier {
     areJointsVisible = false;
     notifyListeners();
   }
+
+  LinkData.fromJson(
+    Map<String, dynamic> json, {
+    Function(Map<String, dynamic> json)? decodeCustomLinkData,
+  })  : id = json['id'],
+        sourceComponentId = json['source_component_id'],
+        targetComponentId = json['target_component_id'],
+        linkStyle = LinkStyle.fromJson(json['link_style']),
+        linkPoints = (json['link_points'] as List)
+            .map((point) => Offset(point[0], point[1]))
+            .toList(),
+        data = decodeCustomLinkData?.call(json['dynamic_data']);
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'source_component_id': sourceComponentId,
+        'target_component_id': targetComponentId,
+        'link_style': linkStyle,
+        'link_points': linkPoints.map((point) => [point.dx, point.dy]).toList(),
+        'dynamic_data': data?.toJson(),
+      };
 }

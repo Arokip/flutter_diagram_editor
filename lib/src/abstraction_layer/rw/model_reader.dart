@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:diagram_editor/src/canvas_context/canvas_model.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_state.dart';
@@ -64,5 +65,12 @@ class CanvasModelReader {
   ) {
     return canvasModel.getLink(linkId).determineLinkSegmentIndex(
         tapPosition, canvasState.position, canvasState.scale);
+  }
+
+  /// Returns [String] that contains serialized diagram in JSON format.
+  ///
+  /// To serialize dynamic data of components/links [toJson] function must be defined.
+  String serializeDiagram() {
+    return jsonEncode(canvasModel.getDiagram());
   }
 }

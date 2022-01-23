@@ -165,4 +165,34 @@ class ComponentData with ChangeNotifier {
   String toString() {
     return 'Component data ($id), position: $position';
   }
+
+  ComponentData.fromJson(
+    Map<String, dynamic> json, {
+    Function(Map<String, dynamic> json)? decodeCustomComponentData,
+  })  : id = json['id'],
+        position = Offset(json['position'][0], json['position'][1]),
+        size = Size(json['size'][0], json['size'][1]),
+        minSize = Size(json['min_size'][0], json['min_size'][1]),
+        type = json['type'],
+        zOrder = json['z_order'],
+        parentId = json['parent_id'],
+        data = decodeCustomComponentData?.call(json['dynamic_data']) {
+    this.childrenIds.addAll(
+        (json['children_ids'] as List).map((id) => id as String).toList());
+    this.connections.addAll((json['connections'] as List)
+        .map((connectionJson) => Connection.fromJson(connectionJson)));
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'position': [position.dx, position.dy],
+        'size': [size.width, size.height],
+        'min_size': [minSize.width, minSize.height],
+        'type': type,
+        'z_order': zOrder,
+        'parent_id': parentId,
+        'children_ids': childrenIds,
+        'connections': connections,
+        'dynamic_data': data?.toJson(),
+      };
 }

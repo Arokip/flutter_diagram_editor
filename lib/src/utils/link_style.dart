@@ -221,4 +221,23 @@ class LinkStyle {
     path.lineTo(point2.dx, point2.dy);
     return path;
   }
+
+  LinkStyle.fromJson(Map<String, dynamic> json)
+      : lineType = LineType.values[json['line_type']],
+        arrowType = ArrowType.values[json['arrow_type']],
+        backArrowType = ArrowType.values[json['back_arrow_type']],
+        arrowSize = json['arrow_size'],
+        backArrowSize = json['back_arrow_size'],
+        lineWidth = json['line_width'],
+        color = Color(int.parse(json['color'], radix: 16));
+
+  Map<String, dynamic> toJson() => {
+        'line_type': lineType.index,
+        'arrow_type': arrowType.index,
+        'back_arrow_type': backArrowType.index,
+        'arrow_size': arrowSize,
+        'back_arrow_size': backArrowSize,
+        'line_width': lineWidth,
+        'color': color.toString().split('(0x')[1].split(')')[0],
+      };
 }

@@ -3,9 +3,11 @@ import 'dart:math' as math;
 import 'package:diagram_editor/diagram_editor.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(DiagramApp());
+void main() => runApp(const DiagramApp());
 
 class DiagramApp extends StatefulWidget {
+  const DiagramApp({Key? key}) : super(key: key);
+
   @override
   _DiagramAppState createState() => _DiagramAppState();
 }
@@ -22,20 +24,29 @@ class _DiagramAppState extends State<DiagramApp> {
             children: [
               Container(color: Colors.grey),
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: DiagramEditor(
-                  diagramEditorContext: DiagramEditorContext(
-                    policySet: myPolicySet,
-                  ),
+                  diagramEditorContext:
+                      DiagramEditorContext(policySet: myPolicySet),
                 ),
               ),
-              GestureDetector(
-                onTap: () => myPolicySet.deleteAllComponents(),
-                child: Container(
-                  width: 80,
-                  height: 32,
-                  color: Colors.red,
-                  child: Center(child: Text('delete all')),
+              Padding(
+                padding: const EdgeInsets.all(0),
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                        onPressed: () => myPolicySet.deleteAllComponents(),
+                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        child: const Text('delete all')),
+                    const Spacer(),
+                    ElevatedButton(
+                        onPressed: () => myPolicySet.serialize(),
+                        child: const Text('serialize')),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                        onPressed: () => myPolicySet.deserialize(),
+                        child: const Text('deserialize')),
+                  ],
                 ),
               ),
             ],
@@ -46,8 +57,10 @@ class _DiagramAppState extends State<DiagramApp> {
   }
 }
 
-// Custom component Data which you can assign to a component to data property.
+// Custom component Data which you can assign to a component to dynamic data property.
 class MyComponentData {
+  MyComponentData();
+
   bool isHighlightVisible = false;
   Color color =
       Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
@@ -59,6 +72,17 @@ class MyComponentData {
   hideHighlight() {
     isHighlightVisible = false;
   }
+
+  // Function used to deserialize the diagram. Must be passed to `canvasWriter.model.deserializeDiagram` for proper deserialization.
+  MyComponentData.fromJson(Map<String, dynamic> json)
+      : isHighlightVisible = json['highlight'],
+        color = Color(int.parse(json['color'], radix: 16));
+
+  // Function used to serialization of the diagram. E.g. to save to a file.
+  Map<String, dynamic> toJson() => {
+        'highlight': isHighlightVisible,
+        'color': color.toString().split('(0x')[1].split(')')[0],
+      };
 }
 
 // A set of policies compound of mixins. There are some custom policy implementations and some policies defined by diagram_editor library.
@@ -98,7 +122,7 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
               : Colors.black,
         ),
       ),
-      child: Center(child: Text('component')),
+      child: const Center(child: Text('component')),
     );
   }
 }
@@ -114,7 +138,7 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
     } else {
       canvasWriter.model.addComponent(
         ComponentData(
-          size: Size(96, 72),
+          size: const Size(96, 72),
           position:
               canvasReader.state.fromCanvasCoordinates(details.localPosition),
           data: MyComponentData(),
@@ -194,6 +218,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
 // You can create your own Policy to define own variables and functions with canvasReader and canvasWriter.
 mixin CustomPolicy implements PolicySet {
   String? selectedComponentId;
+  String serializedDiagram = '{"components": [], "links": []}';
 
   highlightComponent(String componentId) {
     canvasReader.model.getComponent(componentId).data.showHighlight();
@@ -212,5 +237,20 @@ mixin CustomPolicy implements PolicySet {
   deleteAllComponents() {
     selectedComponentId = null;
     canvasWriter.model.removeAllComponents();
+  }
+
+  // Save the diagram to String in json format.
+  serialize() {
+    serializedDiagram = canvasReader.model.serializeDiagram();
+  }
+
+  // Load the diagram from json format. Do it cautiously, to prevent unstable state remove the previous diagram (id collision can happen).
+  deserialize() {
+    canvasWriter.model.removeAllComponents();
+    canvasWriter.model.deserializeDiagram(
+      serializedDiagram,
+      decodeCustomComponentData: MyComponentData.fromJson,
+      decodeCustomLinkData: null,
+    );
   }
 }

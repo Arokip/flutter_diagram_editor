@@ -1,3 +1,8 @@
+# 0.1.2
+
+* Add `serializeDiagram()` and `deserializeDiagram()` functions to allow saving the diagram.
+* Update dependencies.
+* Example update -- it should explain how to use serialization.
 
 # 0.1.1
 

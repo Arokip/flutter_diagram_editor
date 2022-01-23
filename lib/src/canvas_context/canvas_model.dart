@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:diagram_editor/src/abstraction_layer/policy/base/policy_set.dart';
 import 'package:diagram_editor/src/canvas_context/model/component_data.dart';
 import 'package:diagram_editor/src/canvas_context/model/connection.dart';
+import 'package:diagram_editor/src/canvas_context/model/diagram_data.dart';
 import 'package:diagram_editor/src/canvas_context/model/link_data.dart';
 import 'package:diagram_editor/src/utils/link_style.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,17 @@ class CanvasModel with ChangeNotifier {
   PolicySet policySet;
 
   CanvasModel(this.policySet);
+
+  DiagramData getDiagram() {
+    return DiagramData(
+      components: components.values.toList(),
+      links: links.values.toList(),
+    );
+  }
+
+  updateCanvas() {
+    notifyListeners();
+  }
 
   bool componentExists(String id) {
     return components.containsKey(id);

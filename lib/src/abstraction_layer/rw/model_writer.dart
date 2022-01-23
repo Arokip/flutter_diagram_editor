@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:diagram_editor/src/canvas_context/canvas_model.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_state.dart';
 import 'package:diagram_editor/src/canvas_context/model/component_data.dart';
+import 'package:diagram_editor/src/canvas_context/model/diagram_data.dart';
 import 'package:diagram_editor/src/utils/link_style.dart';
 import 'package:flutter/material.dart';
 
@@ -67,6 +70,31 @@ class CanvasModelWriter extends ModelWriter
   /// Removes all links from the model.
   removeAllLinks() {
     _canvasModel.removeAllLinks();
+  }
+
+  /// Loads a diagram from json string.
+  ///
+  /// !!! Beware of passing correct json string.
+  /// The diagram may become unstable if any data are manipulated.
+  /// Deleting existing diagram is recommended.
+  deserializeDiagram(
+    String json, {
+    Function(Map<String, dynamic> json)? decodeCustomComponentData,
+    Function(Map<String, dynamic> json)? decodeCustomLinkData,
+  }) {
+    final diagram = DiagramData.fromJson(
+      jsonDecode(json),
+      decodeCustomComponentData: decodeCustomComponentData,
+      decodeCustomLinkData: decodeCustomLinkData,
+    );
+    for (final componentData in diagram.components) {
+      _canvasModel.components[componentData.id] = componentData;
+    }
+    for (final linkData in diagram.links) {
+      _canvasModel.links[linkData.id] = linkData;
+      linkData.updateLink();
+    }
+    _canvasModel.updateCanvas();
   }
 }
 

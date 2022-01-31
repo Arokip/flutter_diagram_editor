@@ -24,6 +24,20 @@ class CanvasModel with ChangeNotifier {
     );
   }
 
+  /// Removes all components and links
+  /// Set all components and links from [diagram]
+  setDiagram(DiagramData diagram) {
+    removeAllComponents();
+    for (final componentData in diagram.components) {
+      components[componentData.id] = componentData;
+    }
+    for (final linkData in diagram.links) {
+      links[linkData.id] = linkData;
+      linkData.updateLink();
+    }
+    updateCanvas();
+  }
+
   updateCanvas() {
     notifyListeners();
   }

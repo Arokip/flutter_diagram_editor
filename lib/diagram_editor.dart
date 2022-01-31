@@ -19,6 +19,7 @@ export 'src/canvas_context/diagram_editor_context.dart';
 export 'src/canvas_context/model/component_data.dart';
 export 'src/canvas_context/model/connection.dart';
 export 'src/canvas_context/model/link_data.dart';
+export 'src/canvas_context/model/diagram_data.dart';
 export 'src/utils/link_style.dart';
 export 'src/utils/painter/grid_painter.dart';
 export 'src/utils/painter/rect_highlight_painter.dart';

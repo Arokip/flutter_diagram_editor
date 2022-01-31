@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:diagram_editor/diagram_editor.dart';
@@ -40,12 +42,20 @@ class _DiagramAppState extends State<DiagramApp> {
                         child: const Text('delete all')),
                     const Spacer(),
                     ElevatedButton(
-                        onPressed: () => myPolicySet.serialize(),
-                        child: const Text('serialize')),
+                        onPressed: () => myPolicySet.serializeStringDiagram(),
+                        child: const Text('serialize string DiagramData')),
                     const SizedBox(width: 8),
                     ElevatedButton(
-                        onPressed: () => myPolicySet.deserialize(),
-                        child: const Text('deserialize')),
+                        onPressed: () => myPolicySet.deserializeStringDiagram(),
+                        child: const Text('deserialize string DiagramData')),
+                    const Spacer(),
+                    ElevatedButton(
+                        onPressed: () => myPolicySet.serializeObjectDiagram(),
+                        child: const Text('serialize object DiagramData')),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                        onPressed: () => myPolicySet.deserializeObjectDiagram(),
+                        child: const Text('deserialize object DiagramData')),
                   ],
                 ),
               ),
@@ -219,6 +229,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
 mixin CustomPolicy implements PolicySet {
   String? selectedComponentId;
   String serializedDiagram = '{"components": [], "links": []}';
+  DiagramData diagramData = DiagramData.empty();
 
   highlightComponent(String componentId) {
     canvasReader.model.getComponent(componentId).data.showHighlight();
@@ -240,17 +251,98 @@ mixin CustomPolicy implements PolicySet {
   }
 
   // Save the diagram to String in json format.
-  serialize() {
+  // To choose an another option, uncomment it and comment the other options in serializeStringDiagram() and deserializeStringDiagram() methods.
+  serializeStringDiagram() {
+    //Option 1: DiagramData as String serialized in variable
     serializedDiagram = canvasReader.model.serializeDiagram();
+
+    //Option 2: DiagramData as String serialized in file as single value
+    // serializedDiagram = canvasReader.model.serializeDiagram();
+    // File('C:/Users/prozhar/Desktop/sting_single.json')
+    //     .writeAsStringSync(serializedDiagramString);
+
+    //Option 3: DiagramData as String serialized in file as child value
+    // serializedDiagram = canvasReader.model.serializeDiagram();
+    // Map<String, dynamic> parentData = {
+    //   'id': 1,
+    //   'name': 'diagram_string',
+    //   'diagram_data': serializedDiagramString,
+    // };
+    // File('C:/Users/prozhar/Desktop/string_in_parent.json')
+    //     .writeAsStringSync(jsonEncode(parentData));
   }
 
   // Load the diagram from json format. Do it cautiously, to prevent unstable state remove the previous diagram (id collision can happen).
-  deserialize() {
-    canvasWriter.model.removeAllComponents();
+  // To choose an another option, uncomment it and comment the other options in serializeStringDiagram() and deserializeStringDiagram() methods.
+  deserializeStringDiagram() {
+    //Option 1: deserialize DiagramData as String from variable
     canvasWriter.model.deserializeDiagram(
       serializedDiagram,
       decodeCustomComponentData: MyComponentData.fromJson,
       decodeCustomLinkData: null,
     );
+
+    //Option 2: deserialize DiagramData as String from file as single value
+    // serializedDiagram = File('C:/Users/prozhar/Desktop/sting_single.json').readAsStringSync();
+    // canvasWriter.model.deserializeDiagram(
+    //   serializedDiagram,
+    //   decodeCustomComponentData: MyComponentData.fromJson,
+    //   decodeCustomLinkData: null,
+    // );
+
+    //Option 3: deserialize DiagramData as String from file as child value
+    // Map<String, dynamic> parentJson = jsonDecode(File('C:/Users/prozhar/Desktop/string_in_parent.json').readAsStringSync());
+    // serializedDiagram = parentJson['diagram_data'];
+    // canvasWriter.model.deserializeDiagram(
+    //   serializedDiagram,
+    //   decodeCustomComponentData: MyComponentData.fromJson,
+    //   decodeCustomLinkData: null,
+    // );
+  }
+
+  // Save the diagram to Object.
+  // To choose an another option, uncomment it and comment the other options in serializeObjectDiagram() and deserializeObjectDiagram() methods.
+  serializeObjectDiagram() {
+    //Option 1: DiagramData as Object serialized in variable
+    diagramData = canvasReader.model.getDiagram();
+
+    //Option 2: DiagramData as Object serialized in file as single value
+    // diagramData = canvasReader.model.getDiagram();
+    // File('C:/Users/prozhar/Desktop/object_single.json')
+    //     .writeAsStringSync(jsonEncode(diagramData));
+
+    //Option 3: DiagramData as Object serialized in file as child value
+    // diagramData = canvasReader.model.getDiagram();
+    // Map<String, dynamic> parentData = {
+    //   'id': 1,
+    //   'name': 'diagram_object',
+    //   'diagram_data': diagramData,
+    // };
+    // File('C:/Users/prozhar/Desktop/object_in_parent.json')
+    //     .writeAsStringSync(jsonEncode(parentData));
+  }
+
+  // Load the diagram from json format. Do it cautiously, to prevent unstable state remove the previous diagram (id collision can happen).
+  // To choose an another option, uncomment it and comment the other options in serializeObjectDiagram() and deserializeObjectDiagram() methods.
+  deserializeObjectDiagram() {
+    //Option 1: deserialize DiagramData as Object from variable
+    canvasWriter.model.setDiagram(diagramData);
+
+    //Option 2: deserialize DiagramData as Object from file as single value
+    // diagramData = DiagramData.fromJson(
+    //   jsonDecode(File('C:/Users/prozhar/Desktop/object_single.json').readAsStringSync()),
+    //   decodeCustomComponentData: MyComponentData.fromJson,
+    //   decodeCustomLinkData: null,
+    // );
+    // canvasWriter.model.setDiagram(diagramData);
+
+    //Option 3: deserialize DiagramData as Object from file as child value
+    // Map<String, dynamic> parentJson = jsonDecode(File('C:/Users/prozhar/Desktop/object_in_parent.json').readAsStringSync());
+    // diagramData = DiagramData.fromJson(
+    //   parentJson['diagram_data'],
+    //   decodeCustomComponentData: MyComponentData.fromJson,
+    //   decodeCustomLinkData: null,
+    // );
+    // canvasWriter.model.setDiagram(diagramData);
   }
 }

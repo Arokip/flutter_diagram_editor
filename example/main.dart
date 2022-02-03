@@ -258,7 +258,7 @@ mixin CustomPolicy implements PolicySet {
 
     //Option 2: DiagramData as String serialized in file as single value
     // serializedDiagram = canvasReader.model.serializeDiagram();
-    // File('C:/Users/prozhar/Desktop/sting_single.json')
+    // File('...put your directory path here.../sting_single.json')
     //     .writeAsStringSync(serializedDiagramString);
 
     //Option 3: DiagramData as String serialized in file as child value
@@ -268,7 +268,7 @@ mixin CustomPolicy implements PolicySet {
     //   'name': 'diagram_string',
     //   'diagram_data': serializedDiagramString,
     // };
-    // File('C:/Users/prozhar/Desktop/string_in_parent.json')
+    // File('...put your directory path here.../string_in_parent.json')
     //     .writeAsStringSync(jsonEncode(parentData));
   }
 
@@ -283,7 +283,7 @@ mixin CustomPolicy implements PolicySet {
     );
 
     //Option 2: deserialize DiagramData as String from file as single value
-    // serializedDiagram = File('C:/Users/prozhar/Desktop/sting_single.json').readAsStringSync();
+    // serializedDiagram = File('...put your directory path here.../sting_single.json').readAsStringSync();
     // canvasWriter.model.deserializeDiagram(
     //   serializedDiagram,
     //   decodeCustomComponentData: MyComponentData.fromJson,
@@ -291,7 +291,7 @@ mixin CustomPolicy implements PolicySet {
     // );
 
     //Option 3: deserialize DiagramData as String from file as child value
-    // Map<String, dynamic> parentJson = jsonDecode(File('C:/Users/prozhar/Desktop/string_in_parent.json').readAsStringSync());
+    // Map<String, dynamic> parentJson = jsonDecode(File('...put your directory path here.../string_in_parent.json').readAsStringSync());
     // serializedDiagram = parentJson['diagram_data'];
     // canvasWriter.model.deserializeDiagram(
     //   serializedDiagram,
@@ -308,7 +308,7 @@ mixin CustomPolicy implements PolicySet {
 
     //Option 2: DiagramData as Object serialized in file as single value
     // diagramData = canvasReader.model.getDiagram();
-    // File('C:/Users/prozhar/Desktop/object_single.json')
+    // File('...put your directory path here.../object_single.json')
     //     .writeAsStringSync(jsonEncode(diagramData));
 
     //Option 3: DiagramData as Object serialized in file as child value
@@ -318,7 +318,7 @@ mixin CustomPolicy implements PolicySet {
     //   'name': 'diagram_object',
     //   'diagram_data': diagramData,
     // };
-    // File('C:/Users/prozhar/Desktop/object_in_parent.json')
+    // File('...put your directory path here.../object_in_parent.json')
     //     .writeAsStringSync(jsonEncode(parentData));
   }
 
@@ -330,14 +330,14 @@ mixin CustomPolicy implements PolicySet {
 
     //Option 2: deserialize DiagramData as Object from file as single value
     // diagramData = DiagramData.fromJson(
-    //   jsonDecode(File('C:/Users/prozhar/Desktop/object_single.json').readAsStringSync()),
+    //   jsonDecode(File('...put your directory path here.../object_single.json').readAsStringSync()),
     //   decodeCustomComponentData: MyComponentData.fromJson,
     //   decodeCustomLinkData: null,
     // );
     // canvasWriter.model.setDiagram(diagramData);
 
     //Option 3: deserialize DiagramData as Object from file as child value
-    // Map<String, dynamic> parentJson = jsonDecode(File('C:/Users/prozhar/Desktop/object_in_parent.json').readAsStringSync());
+    // Map<String, dynamic> parentJson = jsonDecode(File('...put your directory path here.../object_in_parent.json').readAsStringSync());
     // diagramData = DiagramData.fromJson(
     //   parentJson['diagram_data'],
     //   decodeCustomComponentData: MyComponentData.fromJson,

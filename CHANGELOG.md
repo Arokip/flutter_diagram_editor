@@ -1,3 +1,8 @@
+
+# 0.1.3
+
+* Fix flutter analysis issues 
+
 # 0.1.2
 
 * Add `serializeDiagram()` and `deserializeDiagram()` functions to allow saving the diagram.

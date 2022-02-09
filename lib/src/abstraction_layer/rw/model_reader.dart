@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 
+import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_model.dart';
 import 'package:diagram_editor/src/canvas_context/canvas_state.dart';
 import 'package:diagram_editor/src/canvas_context/model/component_data.dart';
@@ -65,6 +66,13 @@ class CanvasModelReader {
   ) {
     return canvasModel.getLink(linkId).determineLinkSegmentIndex(
         tapPosition, canvasState.position, canvasState.scale);
+  }
+
+  /// Returns [DiagramData] that contains components/links.
+  ///
+  /// To serialize dynamic data of components/links [toJson] function must be defined.
+  DiagramData getDiagram() {
+    return canvasModel.getDiagram();
   }
 
   /// Returns [String] that contains serialized diagram in JSON format.

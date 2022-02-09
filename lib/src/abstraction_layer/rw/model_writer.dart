@@ -72,6 +72,12 @@ class CanvasModelWriter extends ModelWriter
     _canvasModel.removeAllLinks();
   }
 
+  /// Removes all components and links
+  /// Set all components and links from [diagram]
+  setDiagram(DiagramData diagram) {
+    _canvasModel.setDiagram(diagram);
+  }
+
   /// Loads a diagram from json string.
   ///
   /// !!! Beware of passing correct json string.
@@ -87,14 +93,7 @@ class CanvasModelWriter extends ModelWriter
       decodeCustomComponentData: decodeCustomComponentData,
       decodeCustomLinkData: decodeCustomLinkData,
     );
-    for (final componentData in diagram.components) {
-      _canvasModel.components[componentData.id] = componentData;
-    }
-    for (final linkData in diagram.links) {
-      _canvasModel.links[linkData.id] = linkData;
-      linkData.updateLink();
-    }
-    _canvasModel.updateCanvas();
+    _canvasModel.setDiagram(diagram);
   }
 }
 

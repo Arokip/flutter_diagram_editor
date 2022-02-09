@@ -10,6 +10,10 @@ class DiagramData {
     required this.links,
   });
 
+  DiagramData.empty()
+      : this.components = <ComponentData>[],
+        this.links = <LinkData>[];
+
   DiagramData.fromJson(
     Map<String, dynamic> json, {
     Function(Map<String, dynamic> json)? decodeCustomComponentData,

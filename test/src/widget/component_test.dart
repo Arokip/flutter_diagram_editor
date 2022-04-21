@@ -20,54 +20,57 @@ void main() {
     );
 
     var componentData = ComponentData(
-      size: Size(40, 40),
-      position: Offset(10, 10),
+      size: const Size(40, 40),
+      position: const Offset(10, 10),
     );
 
     testWidgets(
-        'Given one component When the component is moved Then there is still one component',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(editor);
+      'Given one component When the component is moved Then there is still one component',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(editor);
 
-      policySet.canvasWriter.model.addComponent(componentData);
+        policySet.canvasWriter.model.addComponent(componentData);
 
-      await tester.pump();
+        await tester.pump();
 
-      expect(find.byType(Component), findsOneWidget);
+        expect(find.byType(Component), findsOneWidget);
 
-      componentData.move(Offset(10, 0));
+        componentData.move(const Offset(10, 0));
 
-      await tester.pump();
+        await tester.pump();
 
-      expect(find.byType(Component), findsOneWidget);
-    });
-
-    testWidgets(
-        'Given one component When new position is set to the component Then there is still one component',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(editor);
-
-      expect(find.byType(Component), findsOneWidget);
-
-      componentData.setPosition(Offset(0, 10));
-
-      await tester.pump();
-
-      expect(find.byType(Component), findsOneWidget);
-    });
+        expect(find.byType(Component), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'Given one component When the component is resized Then there is still one component',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(editor);
+      'Given one component When new position is set to the component Then there is still one component',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(editor);
 
-      expect(find.byType(Component), findsOneWidget);
+        expect(find.byType(Component), findsOneWidget);
 
-      componentData.resizeDelta(Offset(10, 10));
+        componentData.setPosition(const Offset(0, 10));
 
-      await tester.pump();
+        await tester.pump();
 
-      expect(find.byType(Component), findsOneWidget);
-    });
+        expect(find.byType(Component), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'Given one component When the component is resized Then there is still one component',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(editor);
+
+        expect(find.byType(Component), findsOneWidget);
+
+        componentData.resizeDelta(const Offset(10, 10));
+
+        await tester.pump();
+
+        expect(find.byType(Component), findsOneWidget);
+      },
+    );
   });
 }

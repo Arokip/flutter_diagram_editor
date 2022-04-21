@@ -18,7 +18,7 @@ class DiagramEditor extends StatefulWidget {
   ///
   /// It takes [DiagramEditorContext] as required parameter.
   /// You should define its size in its parent widget, eg. Container.
-  DiagramEditor({
+  const DiagramEditor({
     Key? key,
     required this.diagramEditorContext,
   }) : super(key: key);
@@ -31,7 +31,7 @@ class _DiagramEditorState extends State<DiagramEditor> {
   @override
   void initState() {
     if (!widget.diagramEditorContext.canvasState.isInitialized) {
-      this.widget.diagramEditorContext.policySet.initializeDiagramEditor();
+      widget.diagramEditorContext.policySet.initializeDiagramEditor();
       widget.diagramEditorContext.canvasState.isInitialized = true;
     }
     super.initState();

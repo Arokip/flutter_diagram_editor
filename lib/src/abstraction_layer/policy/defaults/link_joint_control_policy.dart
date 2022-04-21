@@ -16,9 +16,15 @@ mixin LinkJointControlPolicy implements LinkJointPolicy {
 
   @override
   onLinkJointScaleUpdate(
-      int jointIndex, String linkId, ScaleUpdateDetails details) {
+    int jointIndex,
+    String linkId,
+    ScaleUpdateDetails details,
+  ) {
     canvasWriter.model.setLinkMiddlePointPosition(
-        linkId, details.localFocalPoint, jointIndex);
+      linkId,
+      details.localFocalPoint,
+      jointIndex,
+    );
     canvasWriter.model.updateLink(linkId);
   }
 }

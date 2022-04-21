@@ -57,6 +57,7 @@ class LinkStyle {
   })  : assert(lineWidth > 0),
         assert(arrowSize > 0);
 
+  // ignore: long-parameter-list
   Path getArrowTipPath(
     ArrowType arrowType,
     double arrowSize,
@@ -88,34 +89,49 @@ class LinkStyle {
         return getDashedLinePath(point1, point2, scale, 16, 16);
       case LineType.dotted:
         return getDashedLinePath(
-            point1, point2, scale, lineWidth, lineWidth * 5);
+          point1,
+          point2,
+          scale,
+          lineWidth,
+          lineWidth * 5,
+        );
     }
   }
 
-  Path getArrowPath(double arrowSize, Offset point1, Offset point2,
-      double scale, double pointed) {
+  // ignore: long-parameter-list
+  Path getArrowPath(
+    double arrowSize,
+    Offset point1,
+    Offset point2,
+    double scale,
+    double pointed,
+  ) {
     Offset left = point2 +
         VectorUtils.normalizeVector(
-                VectorUtils.getPerpendicularVector(point1, point2)) *
+              VectorUtils.getPerpendicularVector(point1, point2),
+            ) *
             arrowSize *
             scale -
         VectorUtils.normalizeVector(
-                VectorUtils.getDirectionVector(point1, point2)) *
+              VectorUtils.getDirectionVector(point1, point2),
+            ) *
             pointed *
             arrowSize *
             scale;
     Offset right = point2 -
         VectorUtils.normalizeVector(
-                VectorUtils.getPerpendicularVector(point1, point2)) *
+              VectorUtils.getPerpendicularVector(point1, point2),
+            ) *
             arrowSize *
             scale -
         VectorUtils.normalizeVector(
-                VectorUtils.getDirectionVector(point1, point2)) *
+              VectorUtils.getDirectionVector(point1, point2),
+            ) *
             pointed *
             arrowSize *
             scale;
 
-    Path path = new Path();
+    Path path = Path();
 
     path.moveTo(point2.dx, point2.dy);
     path.lineTo(left.dx, left.dy);
@@ -125,29 +141,43 @@ class LinkStyle {
     return path;
   }
 
-  Path getCirclePath(double arrowSize, Offset point1, Offset point2,
-      double scale, bool isCenter) {
-    Path path = new Path();
+  // ignore: long-parameter-list
+  Path getCirclePath(
+    double arrowSize,
+    Offset point1,
+    Offset point2,
+    double scale,
+    bool isCenter,
+  ) {
+    Path path = Path();
     if (isCenter) {
       path.addOval(Rect.fromCircle(center: point2, radius: scale * arrowSize));
     } else {
       Offset circleCenter = point2 -
           VectorUtils.normalizeVector(
-                  VectorUtils.getDirectionVector(point1, point2)) *
+                VectorUtils.getDirectionVector(point1, point2),
+              ) *
               arrowSize *
               scale;
       path.addOval(
-          Rect.fromCircle(center: circleCenter, radius: scale * arrowSize));
+        Rect.fromCircle(center: circleCenter, radius: scale * arrowSize),
+      );
     }
+
     return path;
   }
 
   Path getSemiCirclePath(
-      double arrowSize, Offset point1, Offset point2, double scale) {
-    Path path = new Path();
+    double arrowSize,
+    Offset point1,
+    Offset point2,
+    double scale,
+  ) {
+    Path path = Path();
     Offset circleCenter = point2 -
         VectorUtils.normalizeVector(
-                VectorUtils.getDirectionVector(point1, point2)) *
+              VectorUtils.getDirectionVector(point1, point2),
+            ) *
             arrowSize *
             scale;
     path.addArc(
@@ -155,6 +185,7 @@ class LinkStyle {
       math.pi - math.atan2(point2.dx - point1.dx, point2.dy - point1.dy),
       -math.pi,
     );
+
     return path;
   }
 
@@ -177,12 +208,14 @@ class LinkStyle {
   }
 
   Path getSolidLinePath(Offset point1, Offset point2) {
-    Path path = new Path();
+    Path path = Path();
     path.moveTo(point1.dx, point1.dy);
     path.lineTo(point2.dx, point2.dy);
+
     return path;
   }
 
+  // ignore: long-parameter-list
   Path getDashedLinePath(
     Offset point1,
     Offset point2,
@@ -190,10 +223,11 @@ class LinkStyle {
     double dashLength,
     double dashSpace,
   ) {
-    Path path = new Path();
+    Path path = Path();
 
     Offset normalized = VectorUtils.normalizeVector(
-        VectorUtils.getDirectionVector(point1, point2));
+      VectorUtils.getDirectionVector(point1, point2),
+    );
     double lineDistance = (point2 - point1).distance;
     Offset currentPoint = Offset(point1.dx, point1.dy);
 
@@ -219,6 +253,7 @@ class LinkStyle {
       point2.dy - normalized.dy * lineWidth * scale,
     );
     path.lineTo(point2.dx, point2.dy);
+
     return path;
   }
 

@@ -7,20 +7,21 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Canvas state tests', () {
     test(
-        'Given new DiagramEditor When no action Then canvas position is zero and scale is 1',
-        () {
-      PolicySet policySet = PolicySet();
+      'Given new DiagramEditor When no action Then canvas position is zero and scale is 1',
+      () {
+        PolicySet policySet = PolicySet();
 
-      MaterialApp(
-        home: DiagramEditor(
-          diagramEditorContext: DiagramEditorContext(
-            policySet: policySet,
+        MaterialApp(
+          home: DiagramEditor(
+            diagramEditorContext: DiagramEditorContext(
+              policySet: policySet,
+            ),
           ),
-        ),
-      );
+        );
 
-      expect(policySet.canvasReader.state.scale, 1);
-      expect(policySet.canvasReader.state.position, Offset.zero);
-    });
+        expect(policySet.canvasReader.state.scale, 1);
+        expect(policySet.canvasReader.state.position, Offset.zero);
+      },
+    );
   });
 }

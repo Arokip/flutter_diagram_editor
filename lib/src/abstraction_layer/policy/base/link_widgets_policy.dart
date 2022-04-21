@@ -10,7 +10,9 @@ mixin LinkWidgetsPolicy on BasePolicySet {
   ///
   /// Recommendation: use Positioned as the root widget.
   List<Widget> showWidgetsWithLinkData(
-      BuildContext context, LinkData linkData) {
+    BuildContext context,
+    LinkData linkData,
+  ) {
     return [];
   }
 }

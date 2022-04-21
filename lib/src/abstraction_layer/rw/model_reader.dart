@@ -24,6 +24,7 @@ class CanvasModelReader {
   /// If there is no component with [id] in the model, it returns null.
   ComponentData getComponent(String id) {
     assert(componentExist(id), 'model does not contain this component id: $id');
+
     return canvasModel.getComponent(id);
   }
 
@@ -44,6 +45,7 @@ class CanvasModelReader {
   /// If there is no link with [id] in the model, it returns null.
   LinkData getLink(String id) {
     assert(linkExist(id), 'model does not contain this link id: $id');
+
     return canvasModel.getLink(id);
   }
 
@@ -64,7 +66,10 @@ class CanvasModelReader {
     Offset tapPosition,
   ) {
     return canvasModel.getLink(linkId).determineLinkSegmentIndex(
-        tapPosition, canvasState.position, canvasState.scale);
+          tapPosition,
+          canvasState.position,
+          canvasState.scale,
+        );
   }
 
   /// Returns [String] that contains serialized diagram in JSON format.

@@ -134,12 +134,16 @@ class LinkData with ChangeNotifier {
       var point2 = linkPoints[i + 1] * canvasScale + canvasPosition;
 
       Path rect = VectorUtils.getRectAroundLine(
-          point1, point2, canvasScale * (linkStyle.lineWidth + 5));
+        point1,
+        point2,
+        canvasScale * (linkStyle.lineWidth + 5),
+      );
 
       if (rect.contains(position)) {
         return i + 1;
       }
     }
+
     return null;
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CanvasState with ChangeNotifier {
-  Offset _position = Offset(0, 0);
+  Offset _position = const Offset(0, 0);
   double _scale = 1.0;
 
   double mouseScaleSpeed = 0.8;
@@ -42,7 +42,7 @@ class CanvasState with ChangeNotifier {
   }
 
   resetCanvasView() {
-    _position = Offset(0, 0);
+    _position = const Offset(0, 0);
     _scale = 1.0;
     notifyListeners();
   }

@@ -14,6 +14,7 @@ class LinkPainter extends CustomPainter {
   });
 
   @override
+  // ignore: long-method
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = linkStyle.color
@@ -66,31 +67,34 @@ class LinkPainter extends CustomPainter {
         );
       } else {
         canvas.drawPath(
-            linkStyle.getLinePath(linkPoints[i], linkPoints[i + 1], scale),
-            paint);
+          linkStyle.getLinePath(linkPoints[i], linkPoints[i + 1], scale),
+          paint,
+        );
       }
     }
 
-    paint..style = PaintingStyle.fill;
+    paint.style = PaintingStyle.fill;
     canvas.drawPath(
-        linkStyle.getArrowTipPath(
-          linkStyle.arrowType,
-          linkStyle.arrowSize,
-          linkPoints[linkPoints.length - 2],
-          linkPoints[linkPoints.length - 1],
-          scale,
-        ),
-        paint);
+      linkStyle.getArrowTipPath(
+        linkStyle.arrowType,
+        linkStyle.arrowSize,
+        linkPoints[linkPoints.length - 2],
+        linkPoints[linkPoints.length - 1],
+        scale,
+      ),
+      paint,
+    );
 
     canvas.drawPath(
-        linkStyle.getArrowTipPath(
-          linkStyle.backArrowType,
-          linkStyle.backArrowSize,
-          linkPoints[1],
-          linkPoints[0],
-          scale,
-        ),
-        paint);
+      linkStyle.getArrowTipPath(
+        linkStyle.backArrowType,
+        linkStyle.backArrowSize,
+        linkPoints[1],
+        linkPoints[0],
+        scale,
+      ),
+      paint,
+    );
 
     // DEBUG:
     // paint
@@ -107,11 +111,12 @@ class LinkPainter extends CustomPainter {
   @override
   bool hitTest(Offset position) {
     Path path = makeWiderLinePath(scale * (5 + linkStyle.lineWidth));
+
     return path.contains(position);
   }
 
   Path makeWiderLinePath(double hitAreaWidth) {
-    Path path = new Path();
+    Path path = Path();
     for (int i = 0; i < linkPoints.length - 1; i++) {
       var point1 = linkPoints[i];
       var point2 = linkPoints[i + 1];
@@ -121,9 +126,12 @@ class LinkPainter extends CustomPainter {
       // if (i == linkPoints.length - 2)
       //   point2 = PainterUtils.getShorterLineEnd(point1, point2, scale * 10);
 
-      path.addPath(VectorUtils.getRectAroundLine(point1, point2, hitAreaWidth),
-          Offset(0, 0));
+      path.addPath(
+        VectorUtils.getRectAroundLine(point1, point2, hitAreaWidth),
+        const Offset(0, 0),
+      );
     }
+
     return path;
   }
 }

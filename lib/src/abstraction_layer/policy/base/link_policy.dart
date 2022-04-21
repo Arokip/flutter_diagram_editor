@@ -1,3 +1,4 @@
+// ignore_for_file: no-empty-block
 import 'package:diagram_editor/src/abstraction_layer/policy/base_policy_set.dart';
 import 'package:flutter/gestures.dart';
 
@@ -22,7 +23,9 @@ mixin LinkPolicy on BasePolicySet {
   onLinkLongPressStart(String linkId, LongPressStartDetails details) {}
 
   onLinkLongPressMoveUpdate(
-      String linkId, LongPressMoveUpdateDetails details) {}
+    String linkId,
+    LongPressMoveUpdateDetails details,
+  ) {}
 
   onLinkLongPressEnd(String linkId, LongPressEndDetails details) {}
 

@@ -21,6 +21,7 @@ class ComponentHighlightPainter extends CustomPainter {
   });
 
   @override
+  // ignore: long-method
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = color
@@ -29,13 +30,15 @@ class ComponentHighlightPainter extends CustomPainter {
 
     if (dashWidth <= 0 || dashSpace <= 0) {
       canvas.drawRect(
-          Rect.fromLTWH(
-            0,
-            0,
-            this.width,
-            this.height,
-          ),
-          paint);
+        Rect.fromLTWH(
+          0,
+          0,
+          this.width,
+          this.height,
+        ),
+        paint,
+      );
+
       return;
     }
 

@@ -1,3 +1,4 @@
+// ignore_for_file: no-empty-block
 import 'package:diagram_editor/src/abstraction_layer/policy/base_policy_set.dart';
 import 'package:flutter/gestures.dart';
 
@@ -20,10 +21,14 @@ mixin ComponentPolicy on BasePolicySet {
   onComponentLongPress(String componentId) {}
 
   onComponentLongPressStart(
-      String componentId, LongPressStartDetails details) {}
+    String componentId,
+    LongPressStartDetails details,
+  ) {}
 
   onComponentLongPressMoveUpdate(
-      String componentId, LongPressMoveUpdateDetails details) {}
+    String componentId,
+    LongPressMoveUpdateDetails details,
+  ) {}
 
   onComponentLongPressEnd(String componentId, LongPressEndDetails details) {}
 

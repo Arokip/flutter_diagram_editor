@@ -43,6 +43,7 @@ class Link extends StatelessWidget {
                   .map(
                 (jointPoint) {
                   var index = linkData.linkPoints.indexOf(jointPoint);
+
                   return Visibility(
                     visible: linkData.areJointsVisible,
                     child: GestureDetector(
@@ -63,11 +64,17 @@ class Link extends StatelessWidget {
                           policy.onLinkJointLongPress(index, linkData.id),
                       onLongPressStart: (LongPressStartDetails details) =>
                           policy.onLinkJointLongPressStart(
-                              index, linkData.id, details),
+                        index,
+                        linkData.id,
+                        details,
+                      ),
                       onLongPressMoveUpdate:
                           (LongPressMoveUpdateDetails details) =>
                               policy.onLinkJointLongPressMoveUpdate(
-                                  index, linkData.id, details),
+                        index,
+                        linkData.id,
+                        details,
+                      ),
                       onLongPressEnd: (LongPressEndDetails details) => policy
                           .onLinkJointLongPressEnd(index, linkData.id, details),
                       onLongPressUp: () =>

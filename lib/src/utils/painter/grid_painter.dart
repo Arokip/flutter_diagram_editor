@@ -37,8 +37,8 @@ class GridPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var lineHorizontalLength;
-    var lineVerticalLength;
+    double lineHorizontalLength;
+    double lineVerticalLength;
     if (matchParentSize) {
       lineHorizontalLength = size.width / scale;
       lineVerticalLength = size.height / scale;

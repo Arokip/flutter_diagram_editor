@@ -137,11 +137,13 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
           (withControlPolicy as CanvasControlPolicy).getAnimationController(),
       builder: (BuildContext context, Widget? child) {
         (withControlPolicy as CanvasControlPolicy).canUpdateCanvasModel = true;
+
         return Transform(
           transform: Matrix4.identity()
             ..translate(
-                (withControlPolicy as CanvasControlPolicy).transformPosition.dx,
-                (withControlPolicy as CanvasControlPolicy).transformPosition.dy)
+              (withControlPolicy as CanvasControlPolicy).transformPosition.dx,
+              (withControlPolicy as CanvasControlPolicy).transformPosition.dy,
+            )
             ..scale((withControlPolicy as CanvasControlPolicy).transformScale),
           child: child,
         );

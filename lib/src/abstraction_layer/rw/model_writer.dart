@@ -163,6 +163,7 @@ mixin ComponentWriter on ModelWriter {
   int moveComponentToTheFront(String componentId) {
     assert(_canvasModel.componentExists(componentId),
         'model does not contain this component id: $componentId');
+
     return _canvasModel.moveComponentToTheFront(componentId);
   }
 
@@ -172,6 +173,7 @@ mixin ComponentWriter on ModelWriter {
         'model does not contain this component id: $componentId');
     int zOrder = moveComponentToTheFront(componentId);
     _setZOrderToChildren(componentId, zOrder);
+
     return zOrder;
   }
 
@@ -188,6 +190,7 @@ mixin ComponentWriter on ModelWriter {
   int moveComponentToTheBack(String componentId) {
     assert(_canvasModel.componentExists(componentId),
         'model does not contain this component id: $componentId');
+
     return _canvasModel.moveComponentToTheBack(componentId);
   }
 
@@ -197,6 +200,7 @@ mixin ComponentWriter on ModelWriter {
         'model does not contain this component id: $componentId');
     int zOrder = moveComponentToTheBack(componentId);
     _setZOrderToChildren(componentId, zOrder);
+
     return zOrder;
   }
 
@@ -257,9 +261,9 @@ mixin ComponentWriter on ModelWriter {
         'model does not contain this component id: $componentId');
     final _component = _canvasModel.getComponent(componentId);
     final _childrenToRemove = List.from(_component.childrenIds);
-    _childrenToRemove.forEach((childId) {
+    for (var childId in _childrenToRemove) {
       removeComponentParent(childId);
-    });
+    }
   }
 }
 
@@ -280,9 +284,9 @@ mixin LinkWriter on ModelWriter {
 
   /// Makes invisible all link joints on the canvas.
   hideAllLinkJoints() {
-    _canvasModel.links.values.forEach((link) {
+    for (var link in _canvasModel.links.values) {
       link.hideJoints();
-    });
+    }
   }
 
   /// Updates the link.
@@ -315,7 +319,9 @@ mixin LinkWriter on ModelWriter {
     assert(_canvasModel.linkExists(linkId),
         'model does not contain this link id: $linkId');
     _canvasModel.getLink(linkId).setMiddlePointPosition(
-        _canvasState.fromCanvasCoordinates(point), index);
+          _canvasState.fromCanvasCoordinates(point),
+          index,
+        );
   }
 
   /// Updates link's joint position by [offset].
@@ -366,6 +372,7 @@ mixin ConnectionWriter on ModelWriter {
   }) {
     assert(_canvasModel.componentExists(sourceComponentId));
     assert(_canvasModel.componentExists(targetComponentId));
+
     return _canvasModel.connectTwoComponents(
       sourceComponentId,
       targetComponentId,

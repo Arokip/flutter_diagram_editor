@@ -1,3 +1,4 @@
+// ignore_for_file: no-empty-block
 import 'package:diagram_editor/src/abstraction_layer/policy/base_policy_set.dart';
 import 'package:flutter/material.dart';
 
@@ -12,23 +13,38 @@ mixin LinkJointPolicy on BasePolicySet {
   onLinkJointTapCancel(int jointIndex, String linkId) {}
 
   onLinkJointScaleStart(
-      int jointIndex, String linkId, ScaleStartDetails details) {}
+    int jointIndex,
+    String linkId,
+    ScaleStartDetails details,
+  ) {}
 
   onLinkJointScaleUpdate(
-      int jointIndex, String linkId, ScaleUpdateDetails details) {}
+    int jointIndex,
+    String linkId,
+    ScaleUpdateDetails details,
+  ) {}
 
   onLinkJointScaleEnd(int jointIndex, String linkId, ScaleEndDetails details) {}
 
   onLinkJointLongPress(int jointIndex, String linkId) {}
 
   onLinkJointLongPressStart(
-      int jointIndex, String linkId, LongPressStartDetails details) {}
+    int jointIndex,
+    String linkId,
+    LongPressStartDetails details,
+  ) {}
 
   onLinkJointLongPressMoveUpdate(
-      int jointIndex, String linkId, LongPressMoveUpdateDetails details) {}
+    int jointIndex,
+    String linkId,
+    LongPressMoveUpdateDetails details,
+  ) {}
 
   onLinkJointLongPressEnd(
-      int jointIndex, String linkId, LongPressEndDetails details) {}
+    int jointIndex,
+    String linkId,
+    LongPressEndDetails details,
+  ) {}
 
   onLinkJointLongPressUp(int jointIndex, String linkId) {}
 }

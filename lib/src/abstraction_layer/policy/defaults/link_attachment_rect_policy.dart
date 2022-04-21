@@ -17,13 +17,16 @@ mixin LinkAttachmentRectPolicy implements LinkAttachmentPolicy {
     );
 
     Offset pointAlignment;
-    if (pointPosition.dx.abs() >= pointPosition.dy.abs()) {
-      pointAlignment = Offset(pointPosition.dx / pointPosition.dx.abs(),
-          pointPosition.dy / pointPosition.dx.abs());
-    } else {
-      pointAlignment = Offset(pointPosition.dx / pointPosition.dy.abs(),
-          pointPosition.dy / pointPosition.dy.abs());
-    }
+    pointAlignment = pointPosition.dx.abs() >= pointPosition.dy.abs()
+        ? Offset(
+            pointPosition.dx / pointPosition.dx.abs(),
+            pointPosition.dy / pointPosition.dx.abs(),
+          )
+        : Offset(
+            pointPosition.dx / pointPosition.dy.abs(),
+            pointPosition.dy / pointPosition.dy.abs(),
+          );
+
     return Alignment(pointAlignment.dx, pointAlignment.dy);
   }
 }

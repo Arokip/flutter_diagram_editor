@@ -1,32 +1,37 @@
 
+# 0.1.4
+
+* Update dependencies.
+* Flutter format to get max pub.dev points.
+
 # 0.1.3
 
-* Fix flutter analysis issues 
+* Fix flutter analysis issues.
 
 # 0.1.2
 
 * Add `serializeDiagram()` and `deserializeDiagram()` functions to allow saving the diagram.
 * Update dependencies.
-* Example update -- it should explain how to use serialization.
+* Example update -- it should now explain how to use the serialization.
 
 # 0.1.1
 
-* Format code
+* Format code.
 
 # 0.1.0
 
 * ### Migrate to null-safety.
 
-* Adds componentExists function
-* Adds linkExists function
+* Adds componentExists function.
+* Adds linkExists function.
 
 # 0.0.12
 
-* Update dependencies in pubspec.yaml file 
+* Update dependencies in pubspec.yaml file.
 
 # 0.0.11
 
-* Update pubspec.yaml file
+* Update pubspec.yaml file.
 
 # 0.0.10
 
@@ -34,8 +39,8 @@
 
 # 0.0.9
 
-* Add documentation comments to reader/writer
-* Move custom components widgets from Canvas to Component
+* Add documentation comments to reader/writer.
+* Move custom components widgets from Canvas to Component.
 
 # 0.0.8
 

@@ -1,6 +1,6 @@
 name: diagram_editor
 description: A flutter diagram editor library that provides DiagramEditor widget and a possibility to customize all editor design and behavior.
-version: 0.1.3
+version: 0.1.4
 homepage: https://arokip.github.io/fdl_demo_app
 repository: https://github.com/Arokip/flutter_diagram_editor
 
@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.0.2
-  uuid: ^3.0.5
+  provider: ^6.0.3
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:

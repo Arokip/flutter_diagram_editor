@@ -11,6 +11,7 @@ enum ArrowType {
   centerCircle,
   semiCircle,
 }
+
 enum LineType {
   solid,
   dashed,

@@ -1,4 +1,7 @@
 
+# 0.1.6
+
+* Update dependencies.
 
 # 0.1.5
 

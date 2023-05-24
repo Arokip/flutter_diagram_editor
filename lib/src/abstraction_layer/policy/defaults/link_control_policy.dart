@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 /// Feel free to override other functions from [LinkPolicy] and add them to [PolicySet].
 mixin LinkControlPolicy implements LinkPolicy {
   @override
-  onLinkTapUp(String linkId, TapUpDetails details) {
+  onLinkTapUp(BuildContext context, String linkId, TapUpDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
   }
@@ -17,7 +17,8 @@ mixin LinkControlPolicy implements LinkPolicy {
   var _segmentIndex;
 
   @override
-  onLinkScaleStart(String linkId, ScaleStartDetails details) {
+  onLinkScaleStart(
+      BuildContext context, String linkId, ScaleStartDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
     _segmentIndex = canvasReader.model
@@ -25,21 +26,23 @@ mixin LinkControlPolicy implements LinkPolicy {
     if (_segmentIndex != null) {
       canvasWriter.model.insertLinkMiddlePoint(
           linkId, details.localFocalPoint, _segmentIndex);
-      canvasWriter.model.updateLink(linkId);
+      canvasWriter.model.updateLink(context, linkId);
     }
   }
 
   @override
-  onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {
+  onLinkScaleUpdate(
+      BuildContext context, String linkId, ScaleUpdateDetails details) {
     if (_segmentIndex != null) {
       canvasWriter.model.setLinkMiddlePointPosition(
           linkId, details.localFocalPoint, _segmentIndex);
-      canvasWriter.model.updateLink(linkId);
+      canvasWriter.model.updateLink(context, linkId);
     }
   }
 
   @override
-  onLinkLongPressStart(String linkId, LongPressStartDetails details) {
+  onLinkLongPressStart(
+      BuildContext context, String linkId, LongPressStartDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
     _segmentIndex = canvasReader.model
@@ -47,16 +50,17 @@ mixin LinkControlPolicy implements LinkPolicy {
     if (_segmentIndex != null) {
       canvasWriter.model
           .insertLinkMiddlePoint(linkId, details.localPosition, _segmentIndex);
-      canvasWriter.model.updateLink(linkId);
+      canvasWriter.model.updateLink(context, linkId);
     }
   }
 
   @override
-  onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {
+  onLinkLongPressMoveUpdate(
+      BuildContext context, String linkId, LongPressMoveUpdateDetails details) {
     if (_segmentIndex != null) {
       canvasWriter.model.setLinkMiddlePointPosition(
           linkId, details.localPosition, _segmentIndex);
-      canvasWriter.model.updateLink(linkId);
+      canvasWriter.model.updateLink(context, linkId);
     }
   }
 }

@@ -1,32 +1,39 @@
 import 'package:diagram_editor/src/abstraction_layer/policy/base_policy_set.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 
 /// Allows you to define the link behaviour on any gesture registered by the [Link].
 mixin LinkPolicy on BasePolicySet {
-  onLinkTap(String linkId) {}
+  onLinkTap(BuildContext context, String linkId) {}
 
-  onLinkTapDown(String linkId, TapDownDetails details) {}
+  onLinkTapDown(BuildContext context, String linkId, TapDownDetails details) {}
 
-  onLinkTapUp(String linkId, TapUpDetails details) {}
+  onLinkTapUp(BuildContext context, String linkId, TapUpDetails details) {}
 
-  onLinkTapCancel(String linkId) {}
+  onLinkTapCancel(BuildContext context, String linkId) {}
 
-  onLinkScaleStart(String linkId, ScaleStartDetails details) {}
+  onLinkScaleStart(
+      BuildContext context, String linkId, ScaleStartDetails details) {}
 
-  onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {}
+  onLinkScaleUpdate(
+      BuildContext context, String linkId, ScaleUpdateDetails details) {}
 
-  onLinkScaleEnd(String linkId, ScaleEndDetails details) {}
+  onLinkScaleEnd(
+      BuildContext context, String linkId, ScaleEndDetails details) {}
 
-  onLinkLongPress(String linkId) {}
+  onLinkLongPress(BuildContext context, String linkId) {}
 
-  onLinkLongPressStart(String linkId, LongPressStartDetails details) {}
+  onLinkLongPressStart(
+      BuildContext context, String linkId, LongPressStartDetails details) {}
 
-  onLinkLongPressMoveUpdate(
-      String linkId, LongPressMoveUpdateDetails details) {}
+  onLinkLongPressMoveUpdate(BuildContext context, String linkId,
+      LongPressMoveUpdateDetails details) {}
 
-  onLinkLongPressEnd(String linkId, LongPressEndDetails details) {}
+  onLinkLongPressEnd(
+      BuildContext context, String linkId, LongPressEndDetails details) {}
 
-  onLinkLongPressUp(String linkId) {}
+  onLinkLongPressUp(BuildContext context, String linkId) {}
 
-  onLinkPointerSignal(String linkId, PointerSignalEvent event) {}
+  onLinkPointerSignal(
+      BuildContext context, String linkId, PointerSignalEvent event) {}
 }

@@ -28,7 +28,11 @@ class Component extends StatelessWidget {
       height: canvasState.scale * componentData.size.height,
       child: Listener(
         onPointerSignal: (PointerSignalEvent event) {
-          policy.onComponentPointerSignal(componentData.id, event);
+          policy.onComponentPointerSignal(
+            context,
+            componentData.id,
+            event,
+          );
         },
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
@@ -42,32 +46,36 @@ class Component extends StatelessWidget {
                 height: componentData.size.height,
                 child: Container(
                   transform: Matrix4.identity()..scale(canvasState.scale),
-                  child: policy.showComponentBody(componentData),
+                  child: policy.showComponentBody(context, componentData),
                 ),
               ),
               policy.showCustomWidgetWithComponentData(context, componentData),
             ],
           ),
-          onTap: () => policy.onComponentTap(componentData.id),
+          onTap: () => policy.onComponentTap(context, componentData.id),
           onTapDown: (TapDownDetails details) =>
-              policy.onComponentTapDown(componentData.id, details),
+              policy.onComponentTapDown(context, componentData.id, details),
           onTapUp: (TapUpDetails details) =>
-              policy.onComponentTapUp(componentData.id, details),
-          onTapCancel: () => policy.onComponentTapCancel(componentData.id),
+              policy.onComponentTapUp(context, componentData.id, details),
+          onTapCancel: () =>
+              policy.onComponentTapCancel(context, componentData.id),
           onScaleStart: (ScaleStartDetails details) =>
-              policy.onComponentScaleStart(componentData.id, details),
+              policy.onComponentScaleStart(context, componentData.id, details),
           onScaleUpdate: (ScaleUpdateDetails details) =>
-              policy.onComponentScaleUpdate(componentData.id, details),
+              policy.onComponentScaleUpdate(context, componentData.id, details),
           onScaleEnd: (ScaleEndDetails details) =>
-              policy.onComponentScaleEnd(componentData.id, details),
-          onLongPress: () => policy.onComponentLongPress(componentData.id),
-          onLongPressStart: (LongPressStartDetails details) =>
-              policy.onComponentLongPressStart(componentData.id, details),
+              policy.onComponentScaleEnd(context, componentData.id, details),
+          onLongPress: () =>
+              policy.onComponentLongPress(context, componentData.id),
+          onLongPressStart: (LongPressStartDetails details) => policy
+              .onComponentLongPressStart(context, componentData.id, details),
           onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) =>
-              policy.onComponentLongPressMoveUpdate(componentData.id, details),
-          onLongPressEnd: (LongPressEndDetails details) =>
-              policy.onComponentLongPressEnd(componentData.id, details),
-          onLongPressUp: () => policy.onComponentLongPressUp(componentData.id),
+              policy.onComponentLongPressMoveUpdate(
+                  context, componentData.id, details),
+          onLongPressEnd: (LongPressEndDetails details) => policy
+              .onComponentLongPressEnd(context, componentData.id, details),
+          onLongPressUp: () =>
+              policy.onComponentLongPressUp(context, componentData.id),
         ),
       ),
     );

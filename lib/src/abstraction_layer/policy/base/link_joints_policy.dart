@@ -3,32 +3,35 @@ import 'package:flutter/material.dart';
 
 /// Allows you to define the link's joint behaviour on any gesture registered by the link's joint.
 mixin LinkJointPolicy on BasePolicySet {
-  onLinkJointTap(int jointIndex, String linkId) {}
+  onLinkJointTap(BuildContext context, int jointIndex, String linkId) {}
 
-  onLinkJointTapDown(int jointIndex, String linkId, TapDownDetails details) {}
+  onLinkJointTapDown(BuildContext context, int jointIndex, String linkId,
+      TapDownDetails details) {}
 
-  onLinkJointTapUp(int jointIndex, String linkId, TapUpDetails details) {}
+  onLinkJointTapUp(BuildContext context, int jointIndex, String linkId,
+      TapUpDetails details) {}
 
-  onLinkJointTapCancel(int jointIndex, String linkId) {}
+  onLinkJointTapCancel(BuildContext context, int jointIndex, String linkId) {}
 
-  onLinkJointScaleStart(
-      int jointIndex, String linkId, ScaleStartDetails details) {}
+  onLinkJointScaleStart(BuildContext context, int jointIndex, String linkId,
+      ScaleStartDetails details) {}
 
-  onLinkJointScaleUpdate(
-      int jointIndex, String linkId, ScaleUpdateDetails details) {}
+  onLinkJointScaleUpdate(BuildContext context, int jointIndex, String linkId,
+      ScaleUpdateDetails details) {}
 
-  onLinkJointScaleEnd(int jointIndex, String linkId, ScaleEndDetails details) {}
+  onLinkJointScaleEnd(BuildContext context, int jointIndex, String linkId,
+      ScaleEndDetails details) {}
 
-  onLinkJointLongPress(int jointIndex, String linkId) {}
+  onLinkJointLongPress(BuildContext context, int jointIndex, String linkId) {}
 
-  onLinkJointLongPressStart(
-      int jointIndex, String linkId, LongPressStartDetails details) {}
+  onLinkJointLongPressStart(BuildContext context, int jointIndex, String linkId,
+      LongPressStartDetails details) {}
 
-  onLinkJointLongPressMoveUpdate(
-      int jointIndex, String linkId, LongPressMoveUpdateDetails details) {}
+  onLinkJointLongPressMoveUpdate(BuildContext context, int jointIndex,
+      String linkId, LongPressMoveUpdateDetails details) {}
 
-  onLinkJointLongPressEnd(
-      int jointIndex, String linkId, LongPressEndDetails details) {}
+  onLinkJointLongPressEnd(BuildContext context, int jointIndex, String linkId,
+      LongPressEndDetails details) {}
 
   onLinkJointLongPressUp(int jointIndex, String linkId) {}
 }

@@ -109,28 +109,30 @@ mixin ComponentWriter on ModelWriter {
   }
 
   /// Sets the position of the component to [position] value.
-  setComponentPosition(String componentId, Offset position) {
+  setComponentPosition(
+      BuildContext context, String componentId, Offset position) {
     assert(_canvasModel.componentExists(componentId),
         'model does not contain this component id: $componentId');
     _canvasModel.getComponent(componentId).setPosition(position);
-    _canvasModel.updateLinks(componentId);
+    _canvasModel.updateLinks(context, componentId);
   }
 
   /// Translates the component by [offset] value.
-  moveComponent(String componentId, Offset offset) {
+  moveComponent(BuildContext context, String componentId, Offset offset) {
     assert(_canvasModel.componentExists(componentId),
         'model does not contain this component id: $componentId');
     _canvasModel.getComponent(componentId).move(offset / _canvasState.scale);
-    _canvasModel.updateLinks(componentId);
+    _canvasModel.updateLinks(context, componentId);
   }
 
   /// Translates the component by [offset] value and all its children as well.
-  moveComponentWithChildren(String componentId, Offset offset) {
+  moveComponentWithChildren(
+      BuildContext context, String componentId, Offset offset) {
     assert(_canvasModel.componentExists(componentId),
         'model does not contain this component id: $componentId');
-    moveComponent(componentId, offset);
+    moveComponent(context, componentId, offset);
     _canvasModel.getComponent(componentId).childrenIds.forEach((childId) {
-      moveComponentWithChildren(childId, offset);
+      moveComponentWithChildren(context, childId, offset);
     });
   }
 
@@ -144,10 +146,10 @@ mixin ComponentWriter on ModelWriter {
   /// Updates all links (their position) connected to the component with [componentId].
   ///
   /// Use it when the component is somehow changed (its size or position) and the links are not updated to their proper positions.
-  updateComponentLinks(String componentId) {
+  updateComponentLinks(BuildContext context, String componentId) {
     assert(_canvasModel.componentExists(componentId),
         'model does not contain this component id: $componentId');
-    _canvasModel.updateLinks(componentId);
+    _canvasModel.updateLinks(context, componentId);
   }
 
   /// Sets the component's z-order to [zOrder].
@@ -288,11 +290,13 @@ mixin LinkWriter on ModelWriter {
   /// Updates the link.
   ///
   /// Use it when something is changed and the link is not updated to its proper positions.
-  updateLink(String linkId) {
+  updateLink(BuildContext context, String linkId) {
     assert(_canvasModel.linkExists(linkId),
         'model does not contain this link id: $linkId');
-    _canvasModel.updateLinks(_canvasModel.getLink(linkId).sourceComponentId);
-    _canvasModel.updateLinks(_canvasModel.getLink(linkId).targetComponentId);
+    _canvasModel.updateLinks(
+        context, _canvasModel.getLink(linkId).sourceComponentId);
+    _canvasModel.updateLinks(
+        context, _canvasModel.getLink(linkId).targetComponentId);
   }
 
   /// Creates a new link's joint on [point] location.
@@ -359,6 +363,7 @@ mixin ConnectionWriter on ModelWriter {
   /// You can define the design of the link with [LinkStyle].
   /// You can add your own dynamic [data] to the link.
   String connectTwoComponents({
+    required BuildContext context,
     required String sourceComponentId,
     required String targetComponentId,
     LinkStyle? linkStyle,
@@ -367,6 +372,7 @@ mixin ConnectionWriter on ModelWriter {
     assert(_canvasModel.componentExists(sourceComponentId));
     assert(_canvasModel.componentExists(targetComponentId));
     return _canvasModel.connectTwoComponents(
+      context,
       sourceComponentId,
       targetComponentId,
       linkStyle,

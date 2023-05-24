@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 mixin LinkAttachmentCrystalPolicy implements LinkAttachmentPolicy {
   @override
   Alignment getLinkEndpointAlignment(
+    BuildContext context,
     ComponentData componentData,
     Offset targetPoint,
   ) {

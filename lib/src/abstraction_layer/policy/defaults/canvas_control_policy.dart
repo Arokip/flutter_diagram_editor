@@ -32,14 +32,14 @@ mixin CanvasControlPolicy on BasePolicySet {
     _animationController?.dispose();
   }
 
-  onCanvasScaleStart(ScaleStartDetails details) {
+  onCanvasScaleStart(BuildContext context, ScaleStartDetails details) {
     _baseScale = canvasReader.state.scale;
     _basePosition = canvasReader.state.position;
 
     _lastFocalPoint = details.focalPoint;
   }
 
-  onCanvasScaleUpdate(ScaleUpdateDetails details) {
+  onCanvasScaleUpdate(BuildContext context, ScaleUpdateDetails details) {
     if (canUpdateCanvasModel) {
       _animationController?.repeat();
       _updateCanvasModelWithLastValues();
@@ -60,7 +60,7 @@ mixin CanvasControlPolicy on BasePolicySet {
     }
   }
 
-  onCanvasScaleEnd(ScaleEndDetails details) {
+  onCanvasScaleEnd(BuildContext context, ScaleEndDetails details) {
     if (canUpdateCanvasModel) {
       _updateCanvasModelWithLastValues();
     }
@@ -80,7 +80,7 @@ mixin CanvasControlPolicy on BasePolicySet {
     canUpdateCanvasModel = false;
   }
 
-  onCanvasPointerSignal(PointerSignalEvent event) {
+  onCanvasPointerSignal(BuildContext context, PointerSignalEvent event) {
     if (event is PointerScrollEvent) {
       double scaleChange = event.scrollDelta.dy < 0
           ? (1 / canvasReader.state.mouseScaleSpeed)
@@ -147,13 +147,13 @@ mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
     _animationController?.dispose();
   }
 
-  onCanvasScaleStart(ScaleStartDetails details) {
+  onCanvasScaleStart(BuildContext context, ScaleStartDetails details) {
     _basePosition = canvasReader.state.position;
 
     _lastFocalPoint = details.focalPoint;
   }
 
-  onCanvasScaleUpdate(ScaleUpdateDetails details) {
+  onCanvasScaleUpdate(BuildContext context, ScaleUpdateDetails details) {
     if (canUpdateCanvasModel) {
       _animationController?.repeat();
       _updateCanvasModelWithLastValues();
@@ -166,7 +166,7 @@ mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
     }
   }
 
-  onCanvasScaleEnd(ScaleEndDetails details) {
+  onCanvasScaleEnd(BuildContext context, ScaleEndDetails details) {
     if (canUpdateCanvasModel) {
       _updateCanvasModelWithLastValues();
     }
@@ -183,7 +183,7 @@ mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
     canUpdateCanvasModel = false;
   }
 
-  onCanvasPointerSignal(PointerSignalEvent event) {}
+  onCanvasPointerSignal(BuildContext context, PointerSignalEvent event) {}
 
   double keepScaleInBounds(double scale, double canvasScale) {
     return 1.0;

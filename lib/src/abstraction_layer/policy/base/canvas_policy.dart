@@ -4,29 +4,30 @@ import 'package:flutter/material.dart';
 
 /// Allows you to define the canvas behaviour on any gesture registered by the [Canvas].
 mixin CanvasPolicy on BasePolicySet {
-  onCanvasTap() {}
+  onCanvasTap(BuildContext context) {}
 
-  onCanvasTapDown(TapDownDetails details) {}
+  onCanvasTapDown(BuildContext context, TapDownDetails details) {}
 
-  onCanvasTapUp(TapUpDetails details) {}
+  onCanvasTapUp(BuildContext context, TapUpDetails details) {}
 
-  onCanvasTapCancel() {}
+  onCanvasTapCancel(BuildContext context) {}
 
-  onCanvasLongPress() {}
+  onCanvasLongPress(BuildContext context) {}
 
-  onCanvasScaleStart(ScaleStartDetails details) {}
+  onCanvasScaleStart(BuildContext context, ScaleStartDetails details) {}
 
-  onCanvasScaleUpdate(ScaleUpdateDetails details) {}
+  onCanvasScaleUpdate(BuildContext context, ScaleUpdateDetails details) {}
 
-  onCanvasScaleEnd(ScaleEndDetails details) {}
+  onCanvasScaleEnd(BuildContext context, ScaleEndDetails details) {}
 
-  onCanvasLongPressStart(LongPressStartDetails details) {}
+  onCanvasLongPressStart(BuildContext context, LongPressStartDetails details) {}
 
-  onCanvasLongPressMoveUpdate(LongPressMoveUpdateDetails details) {}
+  onCanvasLongPressMoveUpdate(
+      BuildContext context, LongPressMoveUpdateDetails details) {}
 
-  onCanvasLongPressEnd(LongPressEndDetails details) {}
+  onCanvasLongPressEnd(BuildContext context, LongPressEndDetails details) {}
 
-  onCanvasLongPressUp() {}
+  onCanvasLongPressUp(BuildContext context) {}
 
-  onCanvasPointerSignal(PointerSignalEvent event) {}
+  onCanvasPointerSignal(BuildContext context, PointerSignalEvent event) {}
 }

@@ -137,6 +137,7 @@ class CanvasModel with ChangeNotifier {
 
   /// Creates a link between components. Returns created link's id.
   String connectTwoComponents(
+    BuildContext context,
     String sourceComponentId,
     String targetComponentId,
     LinkStyle? linkStyle,
@@ -160,10 +161,12 @@ class CanvasModel with ChangeNotifier {
     );
 
     var sourceLinkAlignment = policySet.getLinkEndpointAlignment(
+      context,
       sourceComponent,
       targetComponent.position + targetComponent.size.center(Offset.zero),
     );
     var targetLinkAlignment = policySet.getLinkEndpointAlignment(
+      context,
       targetComponent,
       sourceComponent.position + sourceComponent.size.center(Offset.zero),
     );
@@ -186,7 +189,7 @@ class CanvasModel with ChangeNotifier {
     return linkId;
   }
 
-  updateLinks(String componentId) {
+  updateLinks(BuildContext context, String componentId) {
     assert(componentExists(componentId),
         'model does not contain this component id: $componentId');
     var component = getComponent(componentId);
@@ -206,9 +209,9 @@ class CanvasModel with ChangeNotifier {
         throw ArgumentError('Invalid port connection.');
       }
 
-      Alignment firstLinkAlignment =
-          _getLinkEndpointAlignment(sourceComponent, targetComponent, link, 1);
-      Alignment secondLinkAlignment = _getLinkEndpointAlignment(
+      Alignment firstLinkAlignment = _getLinkEndpointAlignment(
+          context, sourceComponent, targetComponent, link, 1);
+      Alignment secondLinkAlignment = _getLinkEndpointAlignment(context,
           targetComponent, sourceComponent, link, link.linkPoints.length - 2);
 
       _setLinkEndpoints(link, sourceComponent, targetComponent,
@@ -217,6 +220,7 @@ class CanvasModel with ChangeNotifier {
   }
 
   Alignment _getLinkEndpointAlignment(
+    BuildContext context,
     ComponentData component1,
     ComponentData component2,
     LinkData link,
@@ -224,11 +228,13 @@ class CanvasModel with ChangeNotifier {
   ) {
     if (link.linkPoints.length <= 2) {
       return policySet.getLinkEndpointAlignment(
+        context,
         component1,
         component2.position + component2.size.center(Offset.zero),
       );
     } else {
       return policySet.getLinkEndpointAlignment(
+        context,
         component1,
         link.linkPoints[linkPointIndex],
       );

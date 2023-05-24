@@ -161,7 +161,7 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
         absorbing: canvasState.shouldAbsorbPointer,
         child: Listener(
           onPointerSignal: (PointerSignalEvent event) =>
-              widget.policy.onCanvasPointerSignal(event),
+              widget.policy.onCanvasPointerSignal(context, event),
           child: GestureDetector(
             child: Container(
               color: canvasState.color,
@@ -172,24 +172,25 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
               ),
             ),
             onScaleStart: (details) =>
-                widget.policy.onCanvasScaleStart(details),
+                widget.policy.onCanvasScaleStart(context, details),
             onScaleUpdate: (details) =>
-                widget.policy.onCanvasScaleUpdate(details),
-            onScaleEnd: (details) => widget.policy.onCanvasScaleEnd(details),
-            onTap: () => widget.policy.onCanvasTap(),
+                widget.policy.onCanvasScaleUpdate(context, details),
+            onScaleEnd: (details) =>
+                widget.policy.onCanvasScaleEnd(context, details),
+            onTap: () => widget.policy.onCanvasTap(context),
             onTapDown: (TapDownDetails details) =>
-                widget.policy.onCanvasTapDown(details),
+                widget.policy.onCanvasTapDown(context, details),
             onTapUp: (TapUpDetails details) =>
-                widget.policy.onCanvasTapUp(details),
-            onTapCancel: () => widget.policy.onCanvasTapCancel(),
-            onLongPress: () => widget.policy.onCanvasLongPress(),
+                widget.policy.onCanvasTapUp(context, details),
+            onTapCancel: () => widget.policy.onCanvasTapCancel(context),
+            onLongPress: () => widget.policy.onCanvasLongPress(context),
             onLongPressStart: (LongPressStartDetails details) =>
-                widget.policy.onCanvasLongPressStart(details),
+                widget.policy.onCanvasLongPressStart(context, details),
             onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) =>
-                widget.policy.onCanvasLongPressMoveUpdate(details),
+                widget.policy.onCanvasLongPressMoveUpdate(context, details),
             onLongPressEnd: (LongPressEndDetails details) =>
-                widget.policy.onCanvasLongPressEnd(details),
-            onLongPressUp: () => widget.policy.onCanvasLongPressUp(),
+                widget.policy.onCanvasLongPressEnd(context, details),
+            onLongPressUp: () => widget.policy.onCanvasLongPressUp(context),
           ),
         ),
       ),

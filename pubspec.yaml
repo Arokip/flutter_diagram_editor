@@ -5,14 +5,13 @@ homepage: https://arokip.github.io/fdl_demo_app
 repository: https://github.com/Arokip/flutter_diagram_editor
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=1.17.0"
+  sdk: '>=2.12.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.1
-  uuid: ^4.2.1
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

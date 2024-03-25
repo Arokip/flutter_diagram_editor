@@ -26,8 +26,7 @@ class _DiagramAppState extends State<DiagramApp> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: DiagramEditor(
-                  diagramEditorContext:
-                      DiagramEditorContext(policySet: myPolicySet),
+                  diagramEditorContext: DiagramEditorContext(policySet: myPolicySet),
                 ),
               ),
               Padding(
@@ -36,16 +35,12 @@ class _DiagramAppState extends State<DiagramApp> {
                   children: [
                     ElevatedButton(
                         onPressed: () => myPolicySet.deleteAllComponents(),
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                         child: const Text('delete all')),
                     const Spacer(),
-                    ElevatedButton(
-                        onPressed: () => myPolicySet.serialize(),
-                        child: const Text('serialize')),
+                    ElevatedButton(onPressed: () => myPolicySet.serialize(), child: const Text('serialize')),
                     const SizedBox(width: 8),
-                    ElevatedButton(
-                        onPressed: () => myPolicySet.deserialize(),
-                        child: const Text('deserialize')),
+                    ElevatedButton(onPressed: () => myPolicySet.deserialize(), child: const Text('deserialize')),
                   ],
                 ),
               ),
@@ -62,8 +57,7 @@ class MyComponentData {
   MyComponentData();
 
   bool isHighlightVisible = false;
-  Color color =
-      Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+  Color color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
 
   showHighlight() {
     isHighlightVisible = true;
@@ -117,9 +111,7 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
         color: (componentData.data as MyComponentData).color,
         border: Border.all(
           width: 2,
-          color: (componentData.data as MyComponentData).isHighlightVisible
-              ? Colors.pink
-              : Colors.black,
+          color: (componentData.data as MyComponentData).isHighlightVisible ? Colors.pink : Colors.black,
         ),
       ),
       child: const Center(child: Text('component')),
@@ -139,8 +131,7 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
       canvasWriter.model.addComponent(
         ComponentData(
           size: const Size(96, 72),
-          position:
-              canvasReader.state.fromCanvasCoordinates(details.localPosition),
+          position: canvasReader.state.fromCanvasCoordinates(details.localPosition),
           data: MyComponentData(),
         ),
       );
@@ -193,10 +184,10 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
       return false;
     }
     // tests if the connection between two components already exists (one way)
-    if (canvasReader.model.getComponent(sourceComponentId).connections.any(
-        (connection) =>
-            (connection is ConnectionOut) &&
-            (connection.otherComponentId == targetComponentId))) {
+    if (canvasReader.model
+        .getComponent(sourceComponentId)
+        .connections
+        .any((connection) => (connection is ConnectionOut) && (connection.otherComponentId == targetComponentId))) {
       return false;
     }
 

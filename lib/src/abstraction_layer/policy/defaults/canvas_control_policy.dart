@@ -20,9 +20,6 @@ mixin CanvasControlPolicy on BasePolicySet {
 
   bool canUpdateCanvasModel = false;
 
-  bool _displayLinksInFrontOfComponents = true;
-  get displayLinksInFrontOfComponents => _displayLinksInFrontOfComponents;
-
   getAnimationController() {
     return _animationController;
   }

@@ -123,10 +123,10 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
       children: [
         ...showBackgroundWidgets(),
         ...showOtherWithComponentDataUnder(canvasModel),
-        if(widget.policy.displayLinksInFrontOfComponents)
+        if(widget.policy.displayLinksInFrontOfComponents())
         ...showComponents(canvasModel),
         ...showLinks(canvasModel),
-        if(widget.policy.displayLinksInFrontOfComponents)
+        if(widget.policy.displayLinksInFrontOfComponents())
         ...showComponents(canvasModel),
         ...showOtherWithComponentDataOver(canvasModel),
         ...showForegroundWidgets(),

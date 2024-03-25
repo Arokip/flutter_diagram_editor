@@ -29,4 +29,5 @@ mixin CanvasPolicy on BasePolicySet {
   onCanvasLongPressUp() {}
 
   onCanvasPointerSignal(PointerSignalEvent event) {}
+
 }

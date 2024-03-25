@@ -22,5 +22,5 @@ mixin CanvasWidgetsPolicy on BasePolicySet {
   }
 
   /// Allows you to change whether to display links in front of components or vice versa.
-  bool displayLinksInFrontOfComponents() {return true;}
+  bool get showLinksOnTopOfComponents => true;
 }

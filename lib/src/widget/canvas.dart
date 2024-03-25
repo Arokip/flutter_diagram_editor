@@ -123,8 +123,8 @@ class _DiagramEditorCanvasState extends State<DiagramEditorCanvas>
       children: [
         ...showBackgroundWidgets(),
         ...showOtherWithComponentDataUnder(canvasModel),
-        ...showComponents(canvasModel),
         ...showLinks(canvasModel),
+        ...showComponents(canvasModel),
         ...showOtherWithComponentDataOver(canvasModel),
         ...showForegroundWidgets(),
       ],

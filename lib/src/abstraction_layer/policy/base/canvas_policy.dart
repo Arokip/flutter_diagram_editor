@@ -29,4 +29,6 @@ mixin CanvasPolicy on BasePolicySet {
   onCanvasLongPressUp() {}
 
   onCanvasPointerSignal(PointerSignalEvent event) {}
+
+  bool get showLinksOnTopOfComponents => true;
 }

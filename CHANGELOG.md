@@ -1,4 +1,13 @@
 
+# 0.1.9
+
+* Fixed example
+* Added `showLinksOnTopOfComponents` option to canvas_policy.
+
+# 0.1.8
+
+* Update dependencies.
+
 # 0.1.7
 
 * Update dependencies.

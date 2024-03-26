@@ -14,17 +14,15 @@ mixin LinkControlPolicy implements LinkPolicy {
     canvasWriter.model.showLinkJoints(linkId);
   }
 
-  var _segmentIndex;
+  int? _segmentIndex;
 
   @override
   onLinkScaleStart(String linkId, ScaleStartDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
-    _segmentIndex = canvasReader.model
-        .determineLinkSegmentIndex(linkId, details.localFocalPoint);
+    _segmentIndex = canvasReader.model.determineLinkSegmentIndex(linkId, details.localFocalPoint);
     if (_segmentIndex != null) {
-      canvasWriter.model.insertLinkMiddlePoint(
-          linkId, details.localFocalPoint, _segmentIndex);
+      canvasWriter.model.insertLinkMiddlePoint(linkId, details.localFocalPoint, _segmentIndex!);
       canvasWriter.model.updateLink(linkId);
     }
   }
@@ -32,8 +30,7 @@ mixin LinkControlPolicy implements LinkPolicy {
   @override
   onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {
     if (_segmentIndex != null) {
-      canvasWriter.model.setLinkMiddlePointPosition(
-          linkId, details.localFocalPoint, _segmentIndex);
+      canvasWriter.model.setLinkMiddlePointPosition(linkId, details.localFocalPoint, _segmentIndex!);
       canvasWriter.model.updateLink(linkId);
     }
   }
@@ -42,11 +39,9 @@ mixin LinkControlPolicy implements LinkPolicy {
   onLinkLongPressStart(String linkId, LongPressStartDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
-    _segmentIndex = canvasReader.model
-        .determineLinkSegmentIndex(linkId, details.localPosition);
+    _segmentIndex = canvasReader.model.determineLinkSegmentIndex(linkId, details.localPosition);
     if (_segmentIndex != null) {
-      canvasWriter.model
-          .insertLinkMiddlePoint(linkId, details.localPosition, _segmentIndex);
+      canvasWriter.model.insertLinkMiddlePoint(linkId, details.localPosition, _segmentIndex!);
       canvasWriter.model.updateLink(linkId);
     }
   }
@@ -54,8 +49,7 @@ mixin LinkControlPolicy implements LinkPolicy {
   @override
   onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {
     if (_segmentIndex != null) {
-      canvasWriter.model.setLinkMiddlePointPosition(
-          linkId, details.localPosition, _segmentIndex);
+      canvasWriter.model.setLinkMiddlePointPosition(linkId, details.localPosition, _segmentIndex!);
       canvasWriter.model.updateLink(linkId);
     }
   }

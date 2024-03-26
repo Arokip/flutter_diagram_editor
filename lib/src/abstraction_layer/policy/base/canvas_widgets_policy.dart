@@ -20,4 +20,7 @@ mixin CanvasWidgetsPolicy on BasePolicySet {
   List<Widget> showCustomWidgetsOnCanvasForeground(BuildContext context) {
     return [];
   }
+
+  /// Allows you to change whether to display links in front of components or vice versa.
+  bool get showLinksOnTopOfComponents => true;
 }

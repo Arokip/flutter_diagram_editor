@@ -64,18 +64,18 @@ class ComponentData with ChangeNotifier {
   /// Usually this is already called in most functions such as [move] or [setSize] so it's not necessary to call it again.
   ///
   /// It calls [notifyListeners] function of [ChangeNotifier].
-  updateComponent() {
+  void updateComponent() {
     notifyListeners();
   }
 
   /// Translates the component by [offset] value.
-  move(Offset offset) {
+  void move(Offset offset) {
     position += offset;
     notifyListeners();
   }
 
   /// Sets the position of the component to [position] value.
-  setPosition(Offset position) {
+  void setPosition(Offset position) {
     this.position = position;
     notifyListeners();
   }
@@ -83,21 +83,21 @@ class ComponentData with ChangeNotifier {
   /// Adds new connection to this component.
   ///
   /// Do not use it if you are not sure what you do. This is called in [connectTwoComponents] function.
-  addConnection(Connection connection) {
+  void addConnection(Connection connection) {
     connections.add(connection);
   }
 
   /// Removes existing connection.
   ///
   /// Do not use it if you are not sure what you do. This is called eg. in [removeLink] function.
-  removeConnection(String connectionId) {
+  void removeConnection(String connectionId) {
     connections.removeWhere((conn) => conn.connectionId == connectionId);
   }
 
   /// Changes the component's size by [deltaSize].
   ///
   /// You cannot change its size to smaller than [minSize] defined on the component.
-  resizeDelta(Offset deltaSize) {
+  void resizeDelta(Offset deltaSize) {
     var tempSize = size + deltaSize;
     if (tempSize.width < minSize.width) {
       tempSize = Size(minSize.width, tempSize.height);
@@ -110,7 +110,7 @@ class ComponentData with ChangeNotifier {
   }
 
   /// Sets the component's to [size].
-  setSize(Size size) {
+  void setSize(Size size) {
     this.size = size;
     notifyListeners();
   }
@@ -134,14 +134,14 @@ class ComponentData with ChangeNotifier {
   /// It's not possible to make a parent-child loop. (its ancestor cannot be its child)
   ///
   /// You should use it only with [addChild] on the parent's component.
-  setParent(String parentId) {
+  void setParent(String parentId) {
     this.parentId = parentId;
   }
 
   /// Removes parent's id from this component data.
   ///
   /// You should use it only with [removeChild] on the parent's component.
-  removeParent() {
+  void removeParent() {
     parentId = null;
   }
 
@@ -150,14 +150,14 @@ class ComponentData with ChangeNotifier {
   /// It's not possible to make a parent-child loop. (its ancestor cannot be its child)
   ///
   /// You should use it only with [setParent] on the child's component.
-  addChild(String childId) {
+  void addChild(String childId) {
     childrenIds.add(childId);
   }
 
   /// Removes child's id from children.
   ///
   /// You should use it only with [removeParent] on the child's component.
-  removeChild(String childId) {
+  void removeChild(String childId) {
     childrenIds.remove(childId);
   }
 

@@ -43,18 +43,18 @@ class LinkData with ChangeNotifier {
   /// Usually this is already called in most functions such as [setStart] or [insertMiddlePoint] so it's not necessary to call it again.
   ///
   /// It calls [notifyListeners] function of [ChangeNotifier].
-  updateLink() {
+  void updateLink() {
     notifyListeners();
   }
 
   /// Sets the position of the first point of the link which lies on the source component.
-  setStart(Offset start) {
+  void setStart(Offset start) {
     linkPoints[0] = start;
     notifyListeners();
   }
 
   /// Sets the position of the last point of the link which lies on the target component.
-  setEnd(Offset end) {
+  void setEnd(Offset end) {
     linkPoints[linkPoints.length - 1] = end;
     notifyListeners();
   }
@@ -62,7 +62,7 @@ class LinkData with ChangeNotifier {
   /// Sets the position of both first and last point of the link.
   ///
   /// The points lie on the source and target components.
-  setEndpoints(Offset start, Offset end) {
+  void setEndpoints(Offset start, Offset end) {
     linkPoints[0] = start;
     linkPoints[linkPoints.length - 1] = end;
     notifyListeners();
@@ -78,7 +78,7 @@ class LinkData with ChangeNotifier {
   /// [index] is an index of link's segment where you want to insert the point.
   /// Indexed from 1.
   /// When the link is a straight line you want to add a point to index 1.
-  insertMiddlePoint(Offset position, int index) {
+  void insertMiddlePoint(Offset position, int index) {
     assert(index > 0);
     assert(index < linkPoints.length);
     linkPoints.insert(index, position);
@@ -88,7 +88,7 @@ class LinkData with ChangeNotifier {
   /// Sets the new position ([point]) to the existing link's point.
   ///
   /// Middle points are indexed from 1.
-  setMiddlePointPosition(Offset position, int index) {
+  void setMiddlePointPosition(Offset position, int index) {
     linkPoints[index] = position;
     notifyListeners();
   }
@@ -96,7 +96,7 @@ class LinkData with ChangeNotifier {
   /// Updates link's point position by [offset].
   ///
   /// Middle points are indexed from 1.
-  moveMiddlePoint(Offset offset, int index) {
+  void moveMiddlePoint(Offset offset, int index) {
     linkPoints[index] += offset;
     notifyListeners();
   }
@@ -104,7 +104,7 @@ class LinkData with ChangeNotifier {
   /// Removes the point on [index]^th place from the link.
   ///
   /// Middle points are indexed from 1.
-  removeMiddlePoint(int index) {
+  void removeMiddlePoint(int index) {
     assert(linkPoints.length > 2);
     assert(index > 0);
     assert(index < linkPoints.length - 1);
@@ -113,7 +113,7 @@ class LinkData with ChangeNotifier {
   }
 
   /// Updates all link's middle points position by [offset].
-  moveAllMiddlePoints(Offset position) {
+  void moveAllMiddlePoints(Offset position) {
     for (int i = 1; i < linkPoints.length - 1; i++) {
       linkPoints[i] += position;
     }
@@ -147,13 +147,13 @@ class LinkData with ChangeNotifier {
   }
 
   /// Makes all link's joint visible.
-  showJoints() {
+  void showJoints() {
     areJointsVisible = true;
     notifyListeners();
   }
 
   /// Hides all link's joint.
-  hideJoints() {
+  void hideJoints() {
     areJointsVisible = false;
     notifyListeners();
   }

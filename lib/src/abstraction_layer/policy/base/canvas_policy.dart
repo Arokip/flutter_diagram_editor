@@ -4,31 +4,31 @@ import 'package:flutter/material.dart';
 
 /// Allows you to define the canvas behaviour on any gesture registered by the [Canvas].
 mixin CanvasPolicy on BasePolicySet {
-  onCanvasTap() {}
+  void onCanvasTap() {}
 
-  onCanvasTapDown(TapDownDetails details) {}
+  void onCanvasTapDown(TapDownDetails details) {}
 
-  onCanvasTapUp(TapUpDetails details) {}
+  void onCanvasTapUp(TapUpDetails details) {}
 
-  onCanvasTapCancel() {}
+  void onCanvasTapCancel() {}
 
-  onCanvasLongPress() {}
+  void onCanvasLongPress() {}
 
-  onCanvasScaleStart(ScaleStartDetails details) {}
+  void onCanvasScaleStart(ScaleStartDetails details) {}
 
-  onCanvasScaleUpdate(ScaleUpdateDetails details) {}
+  void onCanvasScaleUpdate(ScaleUpdateDetails details) {}
 
-  onCanvasScaleEnd(ScaleEndDetails details) {}
+  void onCanvasScaleEnd(ScaleEndDetails details) {}
 
-  onCanvasLongPressStart(LongPressStartDetails details) {}
+  void onCanvasLongPressStart(LongPressStartDetails details) {}
 
-  onCanvasLongPressMoveUpdate(LongPressMoveUpdateDetails details) {}
+  void onCanvasLongPressMoveUpdate(LongPressMoveUpdateDetails details) {}
 
-  onCanvasLongPressEnd(LongPressEndDetails details) {}
+  void onCanvasLongPressEnd(LongPressEndDetails details) {}
 
-  onCanvasLongPressUp() {}
+  void onCanvasLongPressUp() {}
 
-  onCanvasPointerSignal(PointerSignalEvent event) {}
+  void onCanvasPointerSignal(PointerSignalEvent event) {}
 
   bool get showLinksOnTopOfComponents => true;
 }

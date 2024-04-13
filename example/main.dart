@@ -66,11 +66,11 @@ class MyComponentData {
   bool isHighlightVisible = false;
   Color color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
 
-  showHighlight() {
+  void showHighlight() {
     isHighlightVisible = true;
   }
 
-  hideHighlight() {
+  void hideHighlight() {
     isHighlightVisible = false;
   }
 
@@ -103,7 +103,7 @@ class MyPolicySet extends PolicySet
 // A place where you can init the canvas or your diagram (eg. load an existing diagram).
 mixin MyInitPolicy implements InitPolicy {
   @override
-  initializeDiagramEditor() {
+  void initializeDiagramEditor() {
     canvasWriter.state.setCanvasColor(Colors.grey[300]!);
   }
 }
@@ -130,7 +130,7 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
 // Note that it also implements CustomPolicy where own variables and functions can be defined and used here.
 mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
   @override
-  onCanvasTapUp(TapUpDetails details) {
+  void onCanvasTapUp(TapUpDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     if (selectedComponentId != null) {
       hideComponentHighlight(selectedComponentId);
@@ -152,7 +152,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   late Offset lastFocalPoint;
 
   @override
-  onComponentTap(String componentId) {
+  void onComponentTap(String componentId) {
     canvasWriter.model.hideAllLinkJoints();
 
     bool connected = connectComponents(selectedComponentId, componentId);
@@ -163,19 +163,19 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   }
 
   @override
-  onComponentLongPress(String componentId) {
+  void onComponentLongPress(String componentId) {
     hideComponentHighlight(selectedComponentId);
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.removeComponent(componentId);
   }
 
   @override
-  onComponentScaleStart(componentId, details) {
+  void onComponentScaleStart(componentId, details) {
     lastFocalPoint = details.localFocalPoint;
   }
 
   @override
-  onComponentScaleUpdate(componentId, details) {
+  void onComponentScaleUpdate(componentId, details) {
     Offset positionDelta = details.localFocalPoint - lastFocalPoint;
     canvasWriter.model.moveComponent(componentId, positionDelta);
     lastFocalPoint = details.localFocalPoint;
@@ -217,13 +217,13 @@ mixin CustomPolicy implements PolicySet {
   String? selectedComponentId;
   String serializedDiagram = '{"components": [], "links": []}';
 
-  highlightComponent(String componentId) {
+  void highlightComponent(String componentId) {
     canvasReader.model.getComponent(componentId).data.showHighlight();
     canvasReader.model.getComponent(componentId).updateComponent();
     selectedComponentId = componentId;
   }
 
-  hideComponentHighlight(String? componentId) {
+  void hideComponentHighlight(String? componentId) {
     if (componentId != null) {
       canvasReader.model.getComponent(componentId).data.hideHighlight();
       canvasReader.model.getComponent(componentId).updateComponent();
@@ -231,18 +231,18 @@ mixin CustomPolicy implements PolicySet {
     }
   }
 
-  deleteAllComponents() {
+  void deleteAllComponents() {
     selectedComponentId = null;
     canvasWriter.model.removeAllComponents();
   }
 
   // Save the diagram to String in json format.
-  serialize() {
+  void serialize() {
     serializedDiagram = canvasReader.model.serializeDiagram();
   }
 
   // Load the diagram from json format. Do it cautiously, to prevent unstable state remove the previous diagram (id collision can happen).
-  deserialize() {
+  void deserialize() {
     canvasWriter.model.removeAllComponents();
     canvasWriter.model.deserializeDiagram(
       serializedDiagram,

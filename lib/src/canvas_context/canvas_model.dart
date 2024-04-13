@@ -24,7 +24,7 @@ class CanvasModel with ChangeNotifier {
     );
   }
 
-  updateCanvas() {
+  void updateCanvas() {
     notifyListeners();
   }
 
@@ -59,13 +59,13 @@ class CanvasModel with ChangeNotifier {
     return componentData.id;
   }
 
-  removeComponent(String id) {
+  void removeComponent(String id) {
     removeComponentConnections(id);
     components.remove(id);
     notifyListeners();
   }
 
-  removeComponentConnections(String id) {
+  void removeComponentConnections(String id) {
     assert(components.keys.contains(id));
 
     List<String> linksToRemove = [];
@@ -78,13 +78,13 @@ class CanvasModel with ChangeNotifier {
     notifyListeners();
   }
 
-  removeAllComponents() {
+  void removeAllComponents() {
     links.clear();
     components.clear();
     notifyListeners();
   }
 
-  setComponentZOrder(String componentId, int zOrder) {
+  void setComponentZOrder(String componentId, int zOrder) {
     getComponent(componentId).zOrder = zOrder;
     notifyListeners();
   }
@@ -117,19 +117,19 @@ class CanvasModel with ChangeNotifier {
     return zOrderMin - 1;
   }
 
-  addLink(LinkData linkData) {
+  void addLink(LinkData linkData) {
     links[linkData.id] = linkData;
     notifyListeners();
   }
 
-  removeLink(String linkId) {
+  void removeLink(String linkId) {
     getComponent(getLink(linkId).sourceComponentId).removeConnection(linkId);
     getComponent(getLink(linkId).targetComponentId).removeConnection(linkId);
     links.remove(linkId);
     notifyListeners();
   }
 
-  removeAllLinks() {
+  void removeAllLinks() {
     for (final component in components.values) {
       removeComponentConnections(component.id);
     }
@@ -184,7 +184,7 @@ class CanvasModel with ChangeNotifier {
     return linkId;
   }
 
-  updateLinks(String componentId) {
+  void updateLinks(String componentId) {
     assert(componentExists(componentId), 'model does not contain this component id: $componentId');
     var component = getComponent(componentId);
     for (final connection in component.connections) {
@@ -230,7 +230,7 @@ class CanvasModel with ChangeNotifier {
     }
   }
 
-  _setLinkEndpoints(
+  void _setLinkEndpoints(
     LinkData link,
     ComponentData component1,
     ComponentData component2,

@@ -3,29 +3,29 @@ import 'package:flutter/gestures.dart';
 
 /// Allows you to define the component behaviour on any gesture registered by the [Component].
 mixin ComponentPolicy on BasePolicySet {
-  onComponentTap(String componentId) {}
+  void onComponentTap(String componentId) {}
 
-  onComponentTapDown(String componentId, TapDownDetails details) {}
+  void onComponentTapDown(String componentId, TapDownDetails details) {}
 
-  onComponentTapUp(String componentId, TapUpDetails details) {}
+  void onComponentTapUp(String componentId, TapUpDetails details) {}
 
-  onComponentTapCancel(String componentId) {}
+  void onComponentTapCancel(String componentId) {}
 
-  onComponentScaleStart(String componentId, ScaleStartDetails details) {}
+  void onComponentScaleStart(String componentId, ScaleStartDetails details) {}
 
-  onComponentScaleUpdate(String componentId, ScaleUpdateDetails details) {}
+  void onComponentScaleUpdate(String componentId, ScaleUpdateDetails details) {}
 
-  onComponentScaleEnd(String componentId, ScaleEndDetails details) {}
+  void onComponentScaleEnd(String componentId, ScaleEndDetails details) {}
 
-  onComponentLongPress(String componentId) {}
+  void onComponentLongPress(String componentId) {}
 
-  onComponentLongPressStart(String componentId, LongPressStartDetails details) {}
+  void onComponentLongPressStart(String componentId, LongPressStartDetails details) {}
 
-  onComponentLongPressMoveUpdate(String componentId, LongPressMoveUpdateDetails details) {}
+  void onComponentLongPressMoveUpdate(String componentId, LongPressMoveUpdateDetails details) {}
 
-  onComponentLongPressEnd(String componentId, LongPressEndDetails details) {}
+  void onComponentLongPressEnd(String componentId, LongPressEndDetails details) {}
 
-  onComponentLongPressUp(String componentId) {}
+  void onComponentLongPressUp(String componentId) {}
 
-  onComponentPointerSignal(String componentId, PointerSignalEvent event) {}
+  void onComponentPointerSignal(String componentId, PointerSignalEvent event) {}
 }

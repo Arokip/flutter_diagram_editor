@@ -27,7 +27,7 @@ class CanvasModelWriter extends ModelWriter with ComponentWriter, LinkWriter, Co
   }
 
   /// Removes a component with [componentId] and all its links.
-  removeComponent(String componentId) {
+  void removeComponent(String componentId) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     removeComponentParent(componentId);
     _removeParentFromChildren(componentId);
@@ -35,14 +35,14 @@ class CanvasModelWriter extends ModelWriter with ComponentWriter, LinkWriter, Co
   }
 
   /// Removes a component with [componentId] and also removes all its children components.
-  removeComponentWithChildren(String componentId) {
+  void removeComponentWithChildren(String componentId) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     List<String> componentsToRemove = [];
     _removeComponentWithChildren(componentId, componentsToRemove);
     componentsToRemove.reversed.forEach(removeComponent);
   }
 
-  _removeComponentWithChildren(String componentId, List<String> toRemove) {
+  void _removeComponentWithChildren(String componentId, List<String> toRemove) {
     toRemove.add(componentId);
     _canvasModel.getComponent(componentId).childrenIds.forEach((childId) {
       _removeComponentWithChildren(childId, toRemove);
@@ -50,20 +50,20 @@ class CanvasModelWriter extends ModelWriter with ComponentWriter, LinkWriter, Co
   }
 
   /// Removes all components in the model. All links are also removed with the components.
-  removeAllComponents() {
+  void removeAllComponents() {
     _canvasModel.removeAllComponents();
   }
 
   /// Removes link with [linkId] from the model.
   ///
   /// Also deletes the connection information from both components which were connected with this link.
-  removeLink(String linkId) {
+  void removeLink(String linkId) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.removeLink(linkId);
   }
 
   /// Removes all links from the model.
-  removeAllLinks() {
+  void removeAllLinks() {
     _canvasModel.removeAllLinks();
   }
 
@@ -72,7 +72,7 @@ class CanvasModelWriter extends ModelWriter with ComponentWriter, LinkWriter, Co
   /// !!! Beware of passing correct json string.
   /// The diagram may become unstable if any data are manipulated.
   /// Deleting existing diagram is recommended.
-  deserializeDiagram(
+  void deserializeDiagram(
     String json, {
     Function(Map<String, dynamic> json)? decodeCustomComponentData,
     Function(Map<String, dynamic> json)? decodeCustomLinkData,
@@ -97,28 +97,28 @@ mixin ComponentWriter on ModelWriter {
   /// Update a component with [componentId].
   ///
   /// It calls [notifyListeners] function of [ChangeNotifier] on [ComponentData].
-  updateComponent(String? componentId) {
+  void updateComponent(String? componentId) {
     if (componentId == null) return;
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     _canvasModel.getComponent(componentId).updateComponent();
   }
 
   /// Sets the position of the component to [position] value.
-  setComponentPosition(String componentId, Offset position) {
+  void setComponentPosition(String componentId, Offset position) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     _canvasModel.getComponent(componentId).setPosition(position);
     _canvasModel.updateLinks(componentId);
   }
 
   /// Translates the component by [offset] value.
-  moveComponent(String componentId, Offset offset) {
+  void moveComponent(String componentId, Offset offset) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     _canvasModel.getComponent(componentId).move(offset / _canvasState.scale);
     _canvasModel.updateLinks(componentId);
   }
 
   /// Translates the component by [offset] value and all its children as well.
-  moveComponentWithChildren(String componentId, Offset offset) {
+  void moveComponentWithChildren(String componentId, Offset offset) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     moveComponent(componentId, offset);
     _canvasModel.getComponent(componentId).childrenIds.forEach((childId) {
@@ -127,7 +127,7 @@ mixin ComponentWriter on ModelWriter {
   }
 
   /// Removes all connections that the component with [componentId] has.
-  removeComponentConnections(String componentId) {
+  void removeComponentConnections(String componentId) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     _canvasModel.removeComponentConnections(componentId);
   }
@@ -135,7 +135,7 @@ mixin ComponentWriter on ModelWriter {
   /// Updates all links (their position) connected to the component with [componentId].
   ///
   /// Use it when the component is somehow changed (its size or position) and the links are not updated to their proper positions.
-  updateComponentLinks(String componentId) {
+  void updateComponentLinks(String componentId) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     _canvasModel.updateLinks(componentId);
   }
@@ -143,7 +143,7 @@ mixin ComponentWriter on ModelWriter {
   /// Sets the component's z-order to [zOrder].
   ///
   /// Higher z-order means that the component will be shown on top of another component with lower z-order.
-  setComponentZOrder(String componentId, int zOrder) {
+  void setComponentZOrder(String componentId, int zOrder) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     _canvasModel.setComponentZOrder(componentId, zOrder);
   }
@@ -162,7 +162,7 @@ mixin ComponentWriter on ModelWriter {
     return zOrder;
   }
 
-  _setZOrderToChildren(String componentId, int zOrder) {
+  void _setZOrderToChildren(String componentId, int zOrder) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     setComponentZOrder(componentId, zOrder);
     _canvasModel.getComponent(componentId).childrenIds.forEach((childId) {
@@ -187,13 +187,13 @@ mixin ComponentWriter on ModelWriter {
   /// Changes the component's size by [deltaSize].
   ///
   /// You cannot change its size to smaller than [minSize] defined on the component.
-  resizeComponent(String componentId, Offset deltaSize) {
+  void resizeComponent(String componentId, Offset deltaSize) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     _canvasModel.getComponent(componentId).resizeDelta(deltaSize);
   }
 
   /// Sets the component's to [size].
-  setComponentSize(String componentId, Size size) {
+  void setComponentSize(String componentId, Size size) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     _canvasModel.getComponent(componentId).setSize(size);
   }
@@ -201,7 +201,7 @@ mixin ComponentWriter on ModelWriter {
   /// Sets the component's parent.
   ///
   /// It's not possible to make a parent-child loop. (its ancestor cannot be its child)
-  setComponentParent(String componentId, String parentId) {
+  void setComponentParent(String componentId, String parentId) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     removeComponentParent(componentId);
     if (_checkParentChildLoop(componentId, parentId)) {
@@ -223,7 +223,7 @@ mixin ComponentWriter on ModelWriter {
   /// Removes the component's parent from a component.
   ///
   /// It also removes child from former parent.
-  removeComponentParent(String componentId) {
+  void removeComponentParent(String componentId) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     final parentId = _canvasModel.getComponent(componentId).parentId;
     if (parentId != null) {
@@ -232,7 +232,7 @@ mixin ComponentWriter on ModelWriter {
     }
   }
 
-  _removeParentFromChildren(componentId) {
+  void _removeParentFromChildren(componentId) {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     final component = _canvasModel.getComponent(componentId);
     final childrenToRemove = List.from(component.childrenIds);
@@ -244,19 +244,19 @@ mixin ComponentWriter on ModelWriter {
 
 mixin LinkWriter on ModelWriter {
   /// Makes all link's joints visible.
-  showLinkJoints(String linkId) {
+  void showLinkJoints(String linkId) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.getLink(linkId).showJoints();
   }
 
   /// Makes all link's joints invisible.
-  hideLinkJoints(String linkId) {
+  void hideLinkJoints(String linkId) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.getLink(linkId).hideJoints();
   }
 
   /// Makes invisible all link joints on the canvas.
-  hideAllLinkJoints() {
+  void hideAllLinkJoints() {
     for (final link in _canvasModel.links.values) {
       link.hideJoints();
     }
@@ -265,7 +265,7 @@ mixin LinkWriter on ModelWriter {
   /// Updates the link.
   ///
   /// Use it when something is changed and the link is not updated to its proper positions.
-  updateLink(String linkId) {
+  void updateLink(String linkId) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.updateLinks(_canvasModel.getLink(linkId).sourceComponentId);
     _canvasModel.updateLinks(_canvasModel.getLink(linkId).targetComponentId);
@@ -276,7 +276,7 @@ mixin LinkWriter on ModelWriter {
   /// [index] is an index of link's segment where you want to insert the point.
   /// Indexed from 1.
   /// When the link is a straight line you want to add a point to index 1.
-  insertLinkMiddlePoint(String linkId, Offset point, int index) {
+  void insertLinkMiddlePoint(String linkId, Offset point, int index) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.getLink(linkId).insertMiddlePoint(_canvasState.fromCanvasCoordinates(point), index);
   }
@@ -284,7 +284,7 @@ mixin LinkWriter on ModelWriter {
   /// Sets the new position ([point]) to the existing link's joint point.
   ///
   /// Joints are indexed from 1.
-  setLinkMiddlePointPosition(String linkId, Offset point, int index) {
+  void setLinkMiddlePointPosition(String linkId, Offset point, int index) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.getLink(linkId).setMiddlePointPosition(_canvasState.fromCanvasCoordinates(point), index);
   }
@@ -292,7 +292,7 @@ mixin LinkWriter on ModelWriter {
   /// Updates link's joint position by [offset].
   ///
   /// Joints are indexed from 1.
-  moveLinkMiddlePoint(String linkId, Offset offset, int index) {
+  void moveLinkMiddlePoint(String linkId, Offset offset, int index) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.getLink(linkId).moveMiddlePoint(offset / _canvasState.scale, index);
   }
@@ -300,13 +300,13 @@ mixin LinkWriter on ModelWriter {
   /// Removes the joint on [index]th place from the link.
   ///
   /// Joints are indexed from 1.
-  removeLinkMiddlePoint(String linkId, int index) {
+  void removeLinkMiddlePoint(String linkId, int index) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.getLink(linkId).removeMiddlePoint(index);
   }
 
   /// Updates all link's joints position by [offset].
-  moveAllLinkMiddlePoints(String linkId, Offset position) {
+  void moveAllLinkMiddlePoints(String linkId, Offset position) {
     assert(_canvasModel.linkExists(linkId), 'model does not contain this link id: $linkId');
     _canvasModel.getLink(linkId).moveAllMiddlePoints(position / _canvasState.scale);
   }

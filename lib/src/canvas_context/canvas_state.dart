@@ -21,27 +21,27 @@ class CanvasState with ChangeNotifier {
 
   double get scale => _scale;
 
-  updateCanvas() {
+  void updateCanvas() {
     notifyListeners();
   }
 
-  setPosition(Offset position) {
+  void setPosition(Offset position) {
     _position = position;
   }
 
-  setScale(double scale) {
+  void setScale(double scale) {
     _scale = scale;
   }
 
-  updatePosition(Offset offset) {
+  void updatePosition(Offset offset) {
     _position += offset;
   }
 
-  updateScale(double scale) {
+  void updateScale(double scale) {
     _scale *= scale;
   }
 
-  resetCanvasView() {
+  void resetCanvasView() {
     _position = const Offset(0, 0);
     _scale = 1.0;
     notifyListeners();

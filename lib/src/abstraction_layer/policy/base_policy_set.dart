@@ -9,7 +9,7 @@ class BasePolicySet {
   late CanvasWriter canvasWriter;
 
   /// Initialize policy in [DiagramEditorContext].
-  initializePolicy(CanvasReader canvasReader, CanvasWriter canvasWriter) {
+  void initializePolicy(CanvasReader canvasReader, CanvasWriter canvasWriter) {
     this.canvasReader = canvasReader;
     this.canvasWriter = canvasWriter;
   }

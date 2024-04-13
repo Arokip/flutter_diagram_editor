@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 /// Feel free to override other functions from [LinkJointPolicy] and add them to [PolicySet].
 mixin LinkJointControlPolicy implements LinkJointPolicy {
   @override
-  onLinkJointLongPress(int jointIndex, String linkId) {
+  void onLinkJointLongPress(int jointIndex, String linkId) {
     canvasWriter.model.removeLinkMiddlePoint(linkId, jointIndex);
     canvasWriter.model.updateLink(linkId);
   }
 
   @override
-  onLinkJointScaleUpdate(
+  void onLinkJointScaleUpdate(
     int jointIndex,
     String linkId,
     ScaleUpdateDetails details,

@@ -3,29 +3,29 @@ import 'package:flutter/gestures.dart';
 
 /// Allows you to define the link behaviour on any gesture registered by the [Link].
 mixin LinkPolicy on BasePolicySet {
-  onLinkTap(String linkId) {}
+  void onLinkTap(String linkId) {}
 
-  onLinkTapDown(String linkId, TapDownDetails details) {}
+  void onLinkTapDown(String linkId, TapDownDetails details) {}
 
-  onLinkTapUp(String linkId, TapUpDetails details) {}
+  void onLinkTapUp(String linkId, TapUpDetails details) {}
 
-  onLinkTapCancel(String linkId) {}
+  void onLinkTapCancel(String linkId) {}
 
-  onLinkScaleStart(String linkId, ScaleStartDetails details) {}
+  void onLinkScaleStart(String linkId, ScaleStartDetails details) {}
 
-  onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {}
+  void onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {}
 
-  onLinkScaleEnd(String linkId, ScaleEndDetails details) {}
+  void onLinkScaleEnd(String linkId, ScaleEndDetails details) {}
 
-  onLinkLongPress(String linkId) {}
+  void onLinkLongPress(String linkId) {}
 
-  onLinkLongPressStart(String linkId, LongPressStartDetails details) {}
+  void onLinkLongPressStart(String linkId, LongPressStartDetails details) {}
 
-  onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {}
+  void onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {}
 
-  onLinkLongPressEnd(String linkId, LongPressEndDetails details) {}
+  void onLinkLongPressEnd(String linkId, LongPressEndDetails details) {}
 
-  onLinkLongPressUp(String linkId) {}
+  void onLinkLongPressUp(String linkId) {}
 
-  onLinkPointerSignal(String linkId, PointerSignalEvent event) {}
+  void onLinkPointerSignal(String linkId, PointerSignalEvent event) {}
 }

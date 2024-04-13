@@ -5,5 +5,5 @@ mixin InitPolicy on BasePolicySet {
   /// Allows you to prepare diagram editor before anything.
   ///
   /// It's possible to change canvas state here. Or load a diagram.
-  initializeDiagramEditor() {}
+  void initializeDiagramEditor() {}
 }

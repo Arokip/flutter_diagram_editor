@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 /// Feel free to override other functions from [LinkPolicy] and add them to [PolicySet].
 mixin LinkControlPolicy implements LinkPolicy {
   @override
-  onLinkTapUp(String linkId, TapUpDetails details) {
+  void onLinkTapUp(String linkId, TapUpDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
   }
@@ -17,7 +17,7 @@ mixin LinkControlPolicy implements LinkPolicy {
   int? _segmentIndex;
 
   @override
-  onLinkScaleStart(String linkId, ScaleStartDetails details) {
+  void onLinkScaleStart(String linkId, ScaleStartDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
     _segmentIndex = canvasReader.model.determineLinkSegmentIndex(linkId, details.localFocalPoint);
@@ -28,7 +28,7 @@ mixin LinkControlPolicy implements LinkPolicy {
   }
 
   @override
-  onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {
+  void onLinkScaleUpdate(String linkId, ScaleUpdateDetails details) {
     if (_segmentIndex != null) {
       canvasWriter.model.setLinkMiddlePointPosition(linkId, details.localFocalPoint, _segmentIndex!);
       canvasWriter.model.updateLink(linkId);
@@ -36,7 +36,7 @@ mixin LinkControlPolicy implements LinkPolicy {
   }
 
   @override
-  onLinkLongPressStart(String linkId, LongPressStartDetails details) {
+  void onLinkLongPressStart(String linkId, LongPressStartDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
     _segmentIndex = canvasReader.model.determineLinkSegmentIndex(linkId, details.localPosition);
@@ -47,7 +47,7 @@ mixin LinkControlPolicy implements LinkPolicy {
   }
 
   @override
-  onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {
+  void onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {
     if (_segmentIndex != null) {
       canvasWriter.model.setLinkMiddlePointPosition(linkId, details.localPosition, _segmentIndex!);
       canvasWriter.model.updateLink(linkId);

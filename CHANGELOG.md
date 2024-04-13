@@ -1,4 +1,8 @@
 
+# 0.2.1
+
+* Fix: dart format
+
 # 0.2.0
 
 * Updated to dart >=3.0.0

@@ -181,7 +181,9 @@ class ComponentData with ChangeNotifier {
       (json['children_ids'] as List).map((id) => id as String).toList(),
     );
     connections.addAll(
-      (json['connections'] as List).map((connectionJson) => Connection.fromJson(connectionJson)),
+      (json['connections'] as List).map((connectionJson) {
+        return Connection.fromJson(connectionJson);
+      }),
     );
   }
 

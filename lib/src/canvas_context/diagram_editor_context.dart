@@ -26,8 +26,8 @@ class DiagramEditorContext {
   /// Its not generated automatically because you want to use it to copy model or state to another [DiagramEditor].
   DiagramEditorContext({
     required this.policySet,
-  })  : this._canvasModel = CanvasModel(policySet),
-        this._canvasState = CanvasState() {
+  })  : _canvasModel = CanvasModel(policySet),
+        _canvasState = CanvasState() {
     policySet.initializePolicy(_getReader(), _getWriter());
   }
 
@@ -37,8 +37,8 @@ class DiagramEditorContext {
   DiagramEditorContext.withSharedModel(
     DiagramEditorContext oldContext, {
     required this.policySet,
-  })  : this._canvasModel = oldContext.canvasModel,
-        this._canvasState = CanvasState() {
+  })  : _canvasModel = oldContext.canvasModel,
+        _canvasState = CanvasState() {
     policySet.initializePolicy(_getReader(), _getWriter());
   }
 
@@ -46,8 +46,8 @@ class DiagramEditorContext {
   DiagramEditorContext.withSharedState(
     DiagramEditorContext oldContext, {
     required this.policySet,
-  })  : this._canvasModel = CanvasModel(policySet),
-        this._canvasState = oldContext.canvasState {
+  })  : _canvasModel = CanvasModel(policySet),
+        _canvasState = oldContext.canvasState {
     policySet.initializePolicy(_getReader(), _getWriter());
   }
 
@@ -57,8 +57,8 @@ class DiagramEditorContext {
   DiagramEditorContext.withSharedModelAndState(
     DiagramEditorContext oldContext, {
     required this.policySet,
-  })  : this._canvasModel = oldContext.canvasModel,
-        this._canvasState = oldContext.canvasState {
+  })  : _canvasModel = oldContext.canvasModel,
+        _canvasState = oldContext.canvasState {
     policySet.initializePolicy(_getReader(), _getWriter());
   }
 

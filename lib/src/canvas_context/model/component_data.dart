@@ -56,7 +56,7 @@ class ComponentData with ChangeNotifier {
     this.type,
     this.data,
   })  : assert(minSize <= size),
-        this.id = id ?? Uuid().v4();
+        id = id ?? const Uuid().v4();
 
   /// Updates this component on the canvas.
   ///
@@ -70,7 +70,7 @@ class ComponentData with ChangeNotifier {
 
   /// Translates the component by [offset] value.
   move(Offset offset) {
-    this.position += offset;
+    position += offset;
     notifyListeners();
   }
 
@@ -142,7 +142,7 @@ class ComponentData with ChangeNotifier {
   ///
   /// You should use it only with [removeChild] on the parent's component.
   removeParent() {
-    this.parentId = null;
+    parentId = null;
   }
 
   /// Sets the component's parent.
@@ -177,9 +177,9 @@ class ComponentData with ChangeNotifier {
         zOrder = json['z_order'],
         parentId = json['parent_id'],
         data = decodeCustomComponentData?.call(json['dynamic_data']) {
-    this.childrenIds.addAll(
+    childrenIds.addAll(
         (json['children_ids'] as List).map((id) => id as String).toList());
-    this.connections.addAll((json['connections'] as List)
+    connections.addAll((json['connections'] as List)
         .map((connectionJson) => Connection.fromJson(connectionJson)));
   }
 

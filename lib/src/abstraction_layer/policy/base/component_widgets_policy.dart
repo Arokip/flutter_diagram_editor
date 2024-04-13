@@ -11,7 +11,7 @@ mixin ComponentWidgetsPolicy on BasePolicySet {
   /// You have [ComponentData] here so you can customize the widgets to individual component.
   Widget showCustomWidgetWithComponentDataUnder(
       BuildContext context, ComponentData componentData) {
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
 
   /// Allows you to add any widget to a component.
@@ -21,7 +21,7 @@ mixin ComponentWidgetsPolicy on BasePolicySet {
   /// You have [ComponentData] here so you can customize the widgets to individual component.
   Widget showCustomWidgetWithComponentData(
       BuildContext context, ComponentData componentData) {
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
 
   /// Allows you to add any widget to a component.
@@ -31,6 +31,6 @@ mixin ComponentWidgetsPolicy on BasePolicySet {
   /// You have [ComponentData] here so you can customize the widgets to individual component.
   Widget showCustomWidgetWithComponentDataOver(
       BuildContext context, ComponentData componentData) {
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
 }

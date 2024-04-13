@@ -17,8 +17,7 @@ class ModelWriter {
 class CanvasModelWriter extends ModelWriter
     with ComponentWriter, LinkWriter, ConnectionWriter {
   /// Allows you to change the model.
-  CanvasModelWriter(CanvasModel canvasModel, CanvasState canvasState)
-      : super(canvasModel, canvasState);
+  CanvasModelWriter(super.canvasModel, super.canvasState);
 
   /// Adds [componentData] to the canvas model.
   ///
@@ -231,9 +230,9 @@ mixin ComponentWriter on ModelWriter {
 
   bool _checkParentChildLoop(String componentId, String parentId) {
     if (componentId == parentId) return false;
-    final _parentIdOfParent = _canvasModel.getComponent(parentId).parentId;
-    if (_parentIdOfParent != null) {
-      return _checkParentChildLoop(componentId, _parentIdOfParent);
+    final parentIdOfParent = _canvasModel.getComponent(parentId).parentId;
+    if (parentIdOfParent != null) {
+      return _checkParentChildLoop(componentId, parentIdOfParent);
     }
 
     return true;
@@ -245,21 +244,21 @@ mixin ComponentWriter on ModelWriter {
   removeComponentParent(String componentId) {
     assert(_canvasModel.componentExists(componentId),
         'model does not contain this component id: $componentId');
-    final _parentId = _canvasModel.getComponent(componentId).parentId;
-    if (_parentId != null) {
+    final parentId = _canvasModel.getComponent(componentId).parentId;
+    if (parentId != null) {
       _canvasModel.getComponent(componentId).removeParent();
-      _canvasModel.getComponent(_parentId).removeChild(componentId);
+      _canvasModel.getComponent(parentId).removeChild(componentId);
     }
   }
 
   _removeParentFromChildren(componentId) {
     assert(_canvasModel.componentExists(componentId),
         'model does not contain this component id: $componentId');
-    final _component = _canvasModel.getComponent(componentId);
-    final _childrenToRemove = List.from(_component.childrenIds);
-    _childrenToRemove.forEach((childId) {
+    final component = _canvasModel.getComponent(componentId);
+    final childrenToRemove = List.from(component.childrenIds);
+    for (var childId in childrenToRemove) {
       removeComponentParent(childId);
-    });
+    }
   }
 }
 
@@ -280,9 +279,9 @@ mixin LinkWriter on ModelWriter {
 
   /// Makes invisible all link joints on the canvas.
   hideAllLinkJoints() {
-    _canvasModel.links.values.forEach((link) {
+    for (var link in _canvasModel.links.values) {
       link.hideJoints();
-    });
+    }
   }
 
   /// Updates the link.

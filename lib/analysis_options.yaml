@@ -1,0 +1,13 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude: ["**/*.g.dart", "lib/generated/**"]
+
+linter:
+  rules:
+    # always_use_package_imports: true
+    # always_declare_return_types: true
+    # avoid_multiple_declarations_per_line: true
+    # prefer_final_in_for_each: true
+    # require_trailing_commas: true
+    # unnecessary_lambdas: true

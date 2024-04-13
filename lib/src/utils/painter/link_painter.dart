@@ -71,7 +71,7 @@ class LinkPainter extends CustomPainter {
       }
     }
 
-    paint..style = PaintingStyle.fill;
+    paint.style = PaintingStyle.fill;
     canvas.drawPath(
         linkStyle.getArrowTipPath(
           linkStyle.arrowType,
@@ -111,7 +111,7 @@ class LinkPainter extends CustomPainter {
   }
 
   Path makeWiderLinePath(double hitAreaWidth) {
-    Path path = new Path();
+    Path path = Path();
     for (int i = 0; i < linkPoints.length - 1; i++) {
       var point1 = linkPoints[i];
       var point2 = linkPoints[i + 1];
@@ -122,7 +122,7 @@ class LinkPainter extends CustomPainter {
       //   point2 = PainterUtils.getShorterLineEnd(point1, point2, scale * 10);
 
       path.addPath(VectorUtils.getRectAroundLine(point1, point2, hitAreaWidth),
-          Offset(0, 0));
+          const Offset(0, 0));
     }
     return path;
   }

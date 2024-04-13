@@ -12,9 +12,9 @@ class Link extends StatelessWidget {
 
   /// Widget that connects two [Component]s on the canvas. Another fundamental unit of the diagram.
   const Link({
-    Key? key,
+    super.key,
     required this.policy,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class Link extends StatelessWidget {
                     ),
                   );
                 },
-              ).toList(),
+              ),
               ...policy.showWidgetsWithLinkData(context, linkData),
             ],
           ),

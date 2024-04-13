@@ -41,21 +41,15 @@ abstract class Connection {
 class ConnectionOut extends Connection {
   /// Connection type that is saved to source component [connection].
   ConnectionOut({
-    required connectionId,
-    required otherComponentId,
-  }) : super(
-          connectionId: connectionId,
-          otherComponentId: otherComponentId,
-        );
+    required super.connectionId,
+    required super.otherComponentId,
+  });
 }
 
 class ConnectionIn extends Connection {
   /// Connection type that is saved to target component [connection].
   ConnectionIn({
-    required connectionId,
-    required otherComponentId,
-  }) : super(
-          connectionId: connectionId,
-          otherComponentId: otherComponentId,
-        );
+    required super.connectionId,
+    required super.otherComponentId,
+  });
 }

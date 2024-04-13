@@ -116,7 +116,7 @@ class LinkStyle {
             arrowSize *
             scale;
 
-    Path path = new Path();
+    Path path = Path();
 
     path.moveTo(point2.dx, point2.dy);
     path.lineTo(left.dx, left.dy);
@@ -128,7 +128,7 @@ class LinkStyle {
 
   Path getCirclePath(double arrowSize, Offset point1, Offset point2,
       double scale, bool isCenter) {
-    Path path = new Path();
+    Path path = Path();
     if (isCenter) {
       path.addOval(Rect.fromCircle(center: point2, radius: scale * arrowSize));
     } else {
@@ -145,7 +145,7 @@ class LinkStyle {
 
   Path getSemiCirclePath(
       double arrowSize, Offset point1, Offset point2, double scale) {
-    Path path = new Path();
+    Path path = Path();
     Offset circleCenter = point2 -
         VectorUtils.normalizeVector(
                 VectorUtils.getDirectionVector(point1, point2)) *
@@ -178,7 +178,7 @@ class LinkStyle {
   }
 
   Path getSolidLinePath(Offset point1, Offset point2) {
-    Path path = new Path();
+    Path path = Path();
     path.moveTo(point1.dx, point1.dy);
     path.lineTo(point2.dx, point2.dy);
     return path;
@@ -191,7 +191,7 @@ class LinkStyle {
     double dashLength,
     double dashSpace,
   ) {
-    Path path = new Path();
+    Path path = Path();
 
     Offset normalized = VectorUtils.normalizeVector(
         VectorUtils.getDirectionVector(point1, point2));

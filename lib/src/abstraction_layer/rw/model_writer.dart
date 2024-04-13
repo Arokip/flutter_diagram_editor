@@ -236,7 +236,7 @@ mixin ComponentWriter on ModelWriter {
     assert(_canvasModel.componentExists(componentId), 'model does not contain this component id: $componentId');
     final component = _canvasModel.getComponent(componentId);
     final childrenToRemove = List.from(component.childrenIds);
-    for (var childId in childrenToRemove) {
+    for (final childId in childrenToRemove) {
       removeComponentParent(childId);
     }
   }
@@ -257,7 +257,7 @@ mixin LinkWriter on ModelWriter {
 
   /// Makes invisible all link joints on the canvas.
   hideAllLinkJoints() {
-    for (var link in _canvasModel.links.values) {
+    for (final link in _canvasModel.links.values) {
       link.hideJoints();
     }
   }

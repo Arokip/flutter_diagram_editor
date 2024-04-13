@@ -93,7 +93,7 @@ class CanvasModel with ChangeNotifier {
   /// Returns new zOrder
   int moveComponentToTheFront(String componentId) {
     int zOrderMax = getComponent(componentId).zOrder;
-    for (var component in components.values) {
+    for (final component in components.values) {
       if (component.zOrder > zOrderMax) {
         zOrderMax = component.zOrder;
       }
@@ -107,7 +107,7 @@ class CanvasModel with ChangeNotifier {
   /// /// Returns new zOrder
   int moveComponentToTheBack(String componentId) {
     int zOrderMin = getComponent(componentId).zOrder;
-    for (var component in components.values) {
+    for (final component in components.values) {
       if (component.zOrder < zOrderMin) {
         zOrderMin = component.zOrder;
       }
@@ -130,7 +130,7 @@ class CanvasModel with ChangeNotifier {
   }
 
   removeAllLinks() {
-    for (var component in components.values) {
+    for (final component in components.values) {
       removeComponentConnections(component.id);
     }
   }
@@ -173,10 +173,8 @@ class CanvasModel with ChangeNotifier {
       sourceComponentId: sourceComponentId,
       targetComponentId: targetComponentId,
       linkPoints: [
-        sourceComponent.position +
-            sourceComponent.getPointOnComponent(sourceLinkAlignment),
-        targetComponent.position +
-            targetComponent.getPointOnComponent(targetLinkAlignment),
+        sourceComponent.position + sourceComponent.getPointOnComponent(sourceLinkAlignment),
+        targetComponent.position + targetComponent.getPointOnComponent(targetLinkAlignment),
       ],
       linkStyle: linkStyle ?? LinkStyle(),
       data: data,
@@ -187,10 +185,9 @@ class CanvasModel with ChangeNotifier {
   }
 
   updateLinks(String componentId) {
-    assert(componentExists(componentId),
-        'model does not contain this component id: $componentId');
+    assert(componentExists(componentId), 'model does not contain this component id: $componentId');
     var component = getComponent(componentId);
-    for (var connection in component.connections) {
+    for (final connection in component.connections) {
       var link = getLink(connection.connectionId);
 
       ComponentData sourceComponent = component;
@@ -206,13 +203,11 @@ class CanvasModel with ChangeNotifier {
         throw ArgumentError('Invalid port connection.');
       }
 
-      Alignment firstLinkAlignment =
-          _getLinkEndpointAlignment(sourceComponent, targetComponent, link, 1);
-      Alignment secondLinkAlignment = _getLinkEndpointAlignment(
-          targetComponent, sourceComponent, link, link.linkPoints.length - 2);
+      Alignment firstLinkAlignment = _getLinkEndpointAlignment(sourceComponent, targetComponent, link, 1);
+      Alignment secondLinkAlignment =
+          _getLinkEndpointAlignment(targetComponent, sourceComponent, link, link.linkPoints.length - 2);
 
-      _setLinkEndpoints(link, sourceComponent, targetComponent,
-          firstLinkAlignment, secondLinkAlignment);
+      _setLinkEndpoints(link, sourceComponent, targetComponent, firstLinkAlignment, secondLinkAlignment);
     }
   }
 

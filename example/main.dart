@@ -22,24 +22,27 @@ class DiagramAppState extends State<DiagramApp> {
         body: SafeArea(
           child: Stack(
             children: [
-              Container(color: Colors.grey),
+              const ColoredBox(color: Colors.grey),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: DiagramEditor(
                   diagramEditorContext: DiagramEditorContext(policySet: myPolicySet),
                 ),
               ),
-              Row(
-                children: [
-                  ElevatedButton(
-                      onPressed: () => myPolicySet.deleteAllComponents(),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                      child: const Text('delete all')),
-                  const Spacer(),
-                  ElevatedButton(onPressed: () => myPolicySet.serialize(), child: const Text('serialize')),
-                  const SizedBox(width: 8),
-                  ElevatedButton(onPressed: () => myPolicySet.deserialize(), child: const Text('deserialize')),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(4),
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                        onPressed: () => myPolicySet.deleteAllComponents(),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                        child: const Text('delete all')),
+                    const Spacer(),
+                    ElevatedButton(onPressed: () => myPolicySet.serialize(), child: const Text('serialize')),
+                    const SizedBox(width: 8),
+                    ElevatedButton(onPressed: () => myPolicySet.deserialize(), child: const Text('deserialize')),
+                  ],
+                ),
               ),
             ],
           ),

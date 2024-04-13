@@ -24,8 +24,7 @@ void main() {
       position: const Offset(10, 10),
     );
 
-    testWidgets(
-        'Given one component When the component is moved Then there is still one component',
+    testWidgets('Given one component When the component is moved Then there is still one component',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 
@@ -42,8 +41,7 @@ void main() {
       expect(find.byType(Component), findsOneWidget);
     });
 
-    testWidgets(
-        'Given one component When new position is set to the component Then there is still one component',
+    testWidgets('Given one component When new position is set to the component Then there is still one component',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 
@@ -56,8 +54,7 @@ void main() {
       expect(find.byType(Component), findsOneWidget);
     });
 
-    testWidgets(
-        'Given one component When the component is resized Then there is still one component',
+    testWidgets('Given one component When the component is resized Then there is still one component',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 

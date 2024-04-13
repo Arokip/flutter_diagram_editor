@@ -74,17 +74,15 @@ mixin CanvasControlPolicy on BasePolicySet {
   }
 
   _updateCanvasModelWithLastValues() {
-    canvasWriter.state
-        .setPosition((_basePosition * transformScale) + transformPosition);
+    canvasWriter.state.setPosition((_basePosition * transformScale) + transformPosition);
     canvasWriter.state.setScale(transformScale * _baseScale);
     canUpdateCanvasModel = false;
   }
 
   void onCanvasPointerSignal(PointerSignalEvent event) {
     if (event is PointerScrollEvent) {
-      double scaleChange = event.scrollDelta.dy < 0
-          ? (1 / canvasReader.state.mouseScaleSpeed)
-          : (canvasReader.state.mouseScaleSpeed);
+      double scaleChange =
+          event.scrollDelta.dy < 0 ? (1 / canvasReader.state.mouseScaleSpeed) : (canvasReader.state.mouseScaleSpeed);
 
       scaleChange = keepScaleInBounds(scaleChange, canvasReader.state.scale);
 
@@ -97,8 +95,7 @@ mixin CanvasControlPolicy on BasePolicySet {
       canvasWriter.state.updateScale(scaleChange);
 
       var focalPoint = (event.localPosition - canvasReader.state.position);
-      var focalPointScaled =
-          focalPoint * (canvasReader.state.scale / previousScale);
+      var focalPointScaled = focalPoint * (canvasReader.state.scale / previousScale);
 
       canvasWriter.state.updatePosition(focalPoint - focalPointScaled);
       canvasWriter.state.updateCanvas();

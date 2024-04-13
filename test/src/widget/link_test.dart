@@ -32,8 +32,7 @@ void main() {
       position: const Offset(120, 0),
     );
 
-    testWidgets(
-        'Given two components When components are connected Then a link is created',
+    testWidgets('Given two components When components are connected Then a link is created',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 
@@ -62,8 +61,7 @@ void main() {
       expect(find.byType(Component), findsNWidgets(2));
       expect(find.byType(Link), findsOneWidget);
 
-      policySet.canvasWriter.model
-          .insertLinkMiddlePoint(linkId, const Offset(20, 20), 1);
+      policySet.canvasWriter.model.insertLinkMiddlePoint(linkId, const Offset(20, 20), 1);
 
       await tester.pump();
 
@@ -79,8 +77,7 @@ void main() {
       expect(find.byType(Component), findsNWidgets(2));
       expect(find.byType(Link), findsOneWidget);
 
-      policySet.canvasWriter.model
-          .moveLinkMiddlePoint(linkId, const Offset(20, 20), 1);
+      policySet.canvasWriter.model.moveLinkMiddlePoint(linkId, const Offset(20, 20), 1);
 
       await tester.pump();
 
@@ -104,8 +101,7 @@ void main() {
       expect(find.byType(Link), findsOneWidget);
     });
 
-    testWidgets(
-        'Given two connected components When the link is removed Then there is no link and two components',
+    testWidgets('Given two connected components When the link is removed Then there is no link and two components',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 

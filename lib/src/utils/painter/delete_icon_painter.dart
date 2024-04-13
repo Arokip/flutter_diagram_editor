@@ -48,10 +48,12 @@ class DeleteIconPainter extends CustomPainter {
   @override
   bool hitTest(Offset position) {
     Path path = Path();
-    path.addOval(Rect.fromCircle(
-      center: location,
-      radius: radius,
-    ));
+    path.addOval(
+      Rect.fromCircle(
+        center: location,
+        radius: radius,
+      ),
+    );
 
     return path.contains(position);
   }

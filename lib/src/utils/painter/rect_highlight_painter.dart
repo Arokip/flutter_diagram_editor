@@ -29,13 +29,14 @@ class ComponentHighlightPainter extends CustomPainter {
 
     if (dashWidth <= 0 || dashSpace <= 0) {
       canvas.drawRect(
-          Rect.fromLTWH(
-            0,
-            0,
-            this.width,
-            this.height,
-          ),
-          paint);
+        Rect.fromLTWH(
+          0,
+          0,
+          this.width,
+          this.height,
+        ),
+        paint,
+      );
       return;
     }
 
@@ -55,9 +56,7 @@ class ComponentHighlightPainter extends CustomPainter {
       dashedPath.lineTo(position.dx + width, this.height + position.dy);
     } else {
       while (pathLength < width) {
-        double nextX = (pathLength + dashWidth < width)
-            ? position.dx + pathLength + dashWidth
-            : position.dx + width;
+        double nextX = (pathLength + dashWidth < width) ? position.dx + pathLength + dashWidth : position.dx + width;
         dashedPath.moveTo(position.dx + pathLength, position.dy);
         dashedPath.lineTo(nextX, position.dy);
 
@@ -79,9 +78,7 @@ class ComponentHighlightPainter extends CustomPainter {
       dashedPath.lineTo(this.width + position.dx, height + position.dy);
     } else {
       while (pathLength < height) {
-        double nextY = (pathLength + dashWidth < height)
-            ? position.dy + pathLength + dashWidth
-            : position.dy + height;
+        double nextY = (pathLength + dashWidth < height) ? position.dy + pathLength + dashWidth : position.dy + height;
 
         dashedPath.moveTo(position.dx, position.dy + pathLength);
         dashedPath.lineTo(position.dx, nextY);

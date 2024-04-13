@@ -71,24 +71,26 @@ class LinkPainter extends CustomPainter {
 
     paint.style = PaintingStyle.fill;
     canvas.drawPath(
-        linkStyle.getArrowTipPath(
-          linkStyle.arrowType,
-          linkStyle.arrowSize,
-          linkPoints[linkPoints.length - 2],
-          linkPoints[linkPoints.length - 1],
-          scale,
-        ),
-        paint);
+      linkStyle.getArrowTipPath(
+        linkStyle.arrowType,
+        linkStyle.arrowSize,
+        linkPoints[linkPoints.length - 2],
+        linkPoints[linkPoints.length - 1],
+        scale,
+      ),
+      paint,
+    );
 
     canvas.drawPath(
-        linkStyle.getArrowTipPath(
-          linkStyle.backArrowType,
-          linkStyle.backArrowSize,
-          linkPoints[1],
-          linkPoints[0],
-          scale,
-        ),
-        paint);
+      linkStyle.getArrowTipPath(
+        linkStyle.backArrowType,
+        linkStyle.backArrowSize,
+        linkPoints[1],
+        linkPoints[0],
+        scale,
+      ),
+      paint,
+    );
 
     // DEBUG:
     // paint

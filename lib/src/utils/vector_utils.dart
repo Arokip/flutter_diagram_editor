@@ -15,9 +15,7 @@ class VectorUtils {
     Offset vector, [
     bool clockwise = true,
   ]) {
-    return clockwise
-        ? Offset(-vector.dy, vector.dx)
-        : Offset(vector.dy, -vector.dx);
+    return clockwise ? Offset(-vector.dy, vector.dx) : Offset(vector.dy, -vector.dx);
   }
 
   static Offset normalizeVector(Offset vector) {
@@ -25,21 +23,26 @@ class VectorUtils {
   }
 
   static Offset getShorterLineStart(
-      Offset point1, Offset point2, double shortening) {
-    return point1 +
-        normalizeVector(getDirectionVector(point1, point2)) * shortening;
+    Offset point1,
+    Offset point2,
+    double shortening,
+  ) {
+    return point1 + normalizeVector(getDirectionVector(point1, point2)) * shortening;
   }
 
   static Offset getShorterLineEnd(
-      Offset point1, Offset point2, double shortening) {
-    return point2 -
-        normalizeVector(getDirectionVector(point1, point2)) * shortening;
+    Offset point1,
+    Offset point2,
+    double shortening,
+  ) {
+    return point2 - normalizeVector(getDirectionVector(point1, point2)) * shortening;
   }
 
   static Path getRectAroundLine(Offset point1, Offset point2, rectWidth) {
     Path path = Path();
     Offset pnsv = VectorUtils.normalizeVector(
-            VectorUtils.getPerpendicularVector(point1, point2)) *
+          VectorUtils.getPerpendicularVector(point1, point2),
+        ) *
         rectWidth;
 
     // rect around line

@@ -178,9 +178,11 @@ class ComponentData with ChangeNotifier {
         parentId = json['parent_id'],
         data = decodeCustomComponentData?.call(json['dynamic_data']) {
     childrenIds.addAll(
-        (json['children_ids'] as List).map((id) => id as String).toList());
-    connections.addAll((json['connections'] as List)
-        .map((connectionJson) => Connection.fromJson(connectionJson)));
+      (json['children_ids'] as List).map((id) => id as String).toList(),
+    );
+    connections.addAll(
+      (json['connections'] as List).map((connectionJson) => Connection.fromJson(connectionJson)),
+    );
   }
 
   Map<String, dynamic> toJson() => {

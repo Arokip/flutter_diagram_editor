@@ -64,7 +64,10 @@ class CanvasModelReader {
     Offset tapPosition,
   ) {
     return canvasModel.getLink(linkId).determineLinkSegmentIndex(
-        tapPosition, canvasState.position, canvasState.scale);
+          tapPosition,
+          canvasState.position,
+          canvasState.scale,
+        );
   }
 
   /// Returns [String] that contains serialized diagram in JSON format.

@@ -11,24 +11,19 @@ mixin LinkJointPolicy on BasePolicySet {
 
   onLinkJointTapCancel(int jointIndex, String linkId) {}
 
-  onLinkJointScaleStart(
-      int jointIndex, String linkId, ScaleStartDetails details) {}
+  onLinkJointScaleStart(int jointIndex, String linkId, ScaleStartDetails details) {}
 
-  onLinkJointScaleUpdate(
-      int jointIndex, String linkId, ScaleUpdateDetails details) {}
+  onLinkJointScaleUpdate(int jointIndex, String linkId, ScaleUpdateDetails details) {}
 
   onLinkJointScaleEnd(int jointIndex, String linkId, ScaleEndDetails details) {}
 
   onLinkJointLongPress(int jointIndex, String linkId) {}
 
-  onLinkJointLongPressStart(
-      int jointIndex, String linkId, LongPressStartDetails details) {}
+  onLinkJointLongPressStart(int jointIndex, String linkId, LongPressStartDetails details) {}
 
-  onLinkJointLongPressMoveUpdate(
-      int jointIndex, String linkId, LongPressMoveUpdateDetails details) {}
+  onLinkJointLongPressMoveUpdate(int jointIndex, String linkId, LongPressMoveUpdateDetails details) {}
 
-  onLinkJointLongPressEnd(
-      int jointIndex, String linkId, LongPressEndDetails details) {}
+  onLinkJointLongPressEnd(int jointIndex, String linkId, LongPressEndDetails details) {}
 
   onLinkJointLongPressUp(int jointIndex, String linkId) {}
 }

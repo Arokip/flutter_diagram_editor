@@ -89,29 +89,43 @@ class LinkStyle {
         return getDashedLinePath(point1, point2, scale, 16, 16);
       case LineType.dotted:
         return getDashedLinePath(
-            point1, point2, scale, lineWidth, lineWidth * 5);
+          point1,
+          point2,
+          scale,
+          lineWidth,
+          lineWidth * 5,
+        );
     }
   }
 
-  Path getArrowPath(double arrowSize, Offset point1, Offset point2,
-      double scale, double pointed) {
+  Path getArrowPath(
+    double arrowSize,
+    Offset point1,
+    Offset point2,
+    double scale,
+    double pointed,
+  ) {
     Offset left = point2 +
         VectorUtils.normalizeVector(
-                VectorUtils.getPerpendicularVector(point1, point2)) *
+              VectorUtils.getPerpendicularVector(point1, point2),
+            ) *
             arrowSize *
             scale -
         VectorUtils.normalizeVector(
-                VectorUtils.getDirectionVector(point1, point2)) *
+              VectorUtils.getDirectionVector(point1, point2),
+            ) *
             pointed *
             arrowSize *
             scale;
     Offset right = point2 -
         VectorUtils.normalizeVector(
-                VectorUtils.getPerpendicularVector(point1, point2)) *
+              VectorUtils.getPerpendicularVector(point1, point2),
+            ) *
             arrowSize *
             scale -
         VectorUtils.normalizeVector(
-                VectorUtils.getDirectionVector(point1, point2)) *
+              VectorUtils.getDirectionVector(point1, point2),
+            ) *
             pointed *
             arrowSize *
             scale;
@@ -126,29 +140,41 @@ class LinkStyle {
     return path;
   }
 
-  Path getCirclePath(double arrowSize, Offset point1, Offset point2,
-      double scale, bool isCenter) {
+  Path getCirclePath(
+    double arrowSize,
+    Offset point1,
+    Offset point2,
+    double scale,
+    bool isCenter,
+  ) {
     Path path = Path();
     if (isCenter) {
       path.addOval(Rect.fromCircle(center: point2, radius: scale * arrowSize));
     } else {
       Offset circleCenter = point2 -
           VectorUtils.normalizeVector(
-                  VectorUtils.getDirectionVector(point1, point2)) *
+                VectorUtils.getDirectionVector(point1, point2),
+              ) *
               arrowSize *
               scale;
       path.addOval(
-          Rect.fromCircle(center: circleCenter, radius: scale * arrowSize));
+        Rect.fromCircle(center: circleCenter, radius: scale * arrowSize),
+      );
     }
     return path;
   }
 
   Path getSemiCirclePath(
-      double arrowSize, Offset point1, Offset point2, double scale) {
+    double arrowSize,
+    Offset point1,
+    Offset point2,
+    double scale,
+  ) {
     Path path = Path();
     Offset circleCenter = point2 -
         VectorUtils.normalizeVector(
-                VectorUtils.getDirectionVector(point1, point2)) *
+              VectorUtils.getDirectionVector(point1, point2),
+            ) *
             arrowSize *
             scale;
     path.addArc(
@@ -194,7 +220,8 @@ class LinkStyle {
     Path path = Path();
 
     Offset normalized = VectorUtils.normalizeVector(
-        VectorUtils.getDirectionVector(point1, point2));
+      VectorUtils.getDirectionVector(point1, point2),
+    );
     double lineDistance = (point2 - point1).distance;
     Offset currentPoint = Offset(point1.dx, point1.dy);
 

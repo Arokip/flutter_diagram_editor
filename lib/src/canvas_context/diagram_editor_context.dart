@@ -63,12 +63,16 @@ class DiagramEditorContext {
   }
 
   CanvasReader _getReader() {
-    return CanvasReader(CanvasModelReader(canvasModel, canvasState),
-        CanvasStateReader(canvasState));
+    return CanvasReader(
+      CanvasModelReader(canvasModel, canvasState),
+      CanvasStateReader(canvasState),
+    );
   }
 
   CanvasWriter _getWriter() {
-    return CanvasWriter(CanvasModelWriter(canvasModel, canvasState),
-        CanvasStateWriter(canvasState));
+    return CanvasWriter(
+      CanvasModelWriter(canvasModel, canvasState),
+      CanvasStateWriter(canvasState),
+    );
   }
 }

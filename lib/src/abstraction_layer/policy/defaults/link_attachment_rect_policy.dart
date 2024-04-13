@@ -9,8 +9,7 @@ mixin LinkAttachmentRectPolicy implements LinkAttachmentPolicy {
     ComponentData componentData,
     Offset targetPoint,
   ) {
-    Offset pointPosition = targetPoint -
-        (componentData.position + componentData.size.center(Offset.zero));
+    Offset pointPosition = targetPoint - (componentData.position + componentData.size.center(Offset.zero));
     pointPosition = Offset(
       pointPosition.dx / componentData.size.width,
       pointPosition.dy / componentData.size.height,
@@ -18,11 +17,15 @@ mixin LinkAttachmentRectPolicy implements LinkAttachmentPolicy {
 
     Offset pointAlignment;
     if (pointPosition.dx.abs() >= pointPosition.dy.abs()) {
-      pointAlignment = Offset(pointPosition.dx / pointPosition.dx.abs(),
-          pointPosition.dy / pointPosition.dx.abs());
+      pointAlignment = Offset(
+        pointPosition.dx / pointPosition.dx.abs(),
+        pointPosition.dy / pointPosition.dx.abs(),
+      );
     } else {
-      pointAlignment = Offset(pointPosition.dx / pointPosition.dy.abs(),
-          pointPosition.dy / pointPosition.dy.abs());
+      pointAlignment = Offset(
+        pointPosition.dx / pointPosition.dy.abs(),
+        pointPosition.dy / pointPosition.dy.abs(),
+      );
     }
     return Alignment(pointAlignment.dx, pointAlignment.dy);
   }

@@ -9,10 +9,18 @@ void main() {
         'Given ComponentData with two connections When one connection is removed Then component contains only the second connection.',
         () {
       var componentData = ComponentData();
-      componentData.addConnection(ConnectionIn(
-          otherComponentId: 'componentId1', connectionId: 'connectionId1'));
-      componentData.addConnection(ConnectionIn(
-          otherComponentId: 'componentId2', connectionId: 'connectionId2'));
+      componentData.addConnection(
+        ConnectionIn(
+          otherComponentId: 'componentId1',
+          connectionId: 'connectionId1',
+        ),
+      );
+      componentData.addConnection(
+        ConnectionIn(
+          otherComponentId: 'componentId2',
+          connectionId: 'connectionId2',
+        ),
+      );
 
       expect(componentData.connections.length, 2);
 

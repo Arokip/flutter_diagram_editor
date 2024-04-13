@@ -19,11 +19,9 @@ mixin ComponentPolicy on BasePolicySet {
 
   onComponentLongPress(String componentId) {}
 
-  onComponentLongPressStart(
-      String componentId, LongPressStartDetails details) {}
+  onComponentLongPressStart(String componentId, LongPressStartDetails details) {}
 
-  onComponentLongPressMoveUpdate(
-      String componentId, LongPressMoveUpdateDetails details) {}
+  onComponentLongPressMoveUpdate(String componentId, LongPressMoveUpdateDetails details) {}
 
   onComponentLongPressEnd(String componentId, LongPressEndDetails details) {}
 

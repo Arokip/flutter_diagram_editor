@@ -8,5 +8,5 @@ linter:
     # always_declare_return_types: true
     avoid_multiple_declarations_per_line: true
     prefer_final_in_for_each: true
-    # require_trailing_commas: true
+    require_trailing_commas: true
     # unnecessary_lambdas: true

@@ -34,9 +34,10 @@ class DiagramAppState extends State<DiagramApp> {
                 child: Row(
                   children: [
                     ElevatedButton(
-                        onPressed: () => myPolicySet.deleteAllComponents(),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                        child: const Text('delete all')),
+                      onPressed: () => myPolicySet.deleteAllComponents(),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      child: const Text('delete all'),
+                    ),
                     const Spacer(),
                     ElevatedButton(onPressed: () => myPolicySet.serialize(), child: const Text('serialize')),
                     const SizedBox(width: 8),

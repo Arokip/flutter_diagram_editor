@@ -28,10 +28,12 @@ class LinkJointPainter extends CustomPainter {
   @override
   bool hitTest(Offset position) {
     Path path = Path();
-    path.addOval(Rect.fromCircle(
-      center: location,
-      radius: scale * radius,
-    ));
+    path.addOval(
+      Rect.fromCircle(
+        center: location,
+        radius: scale * radius,
+      ),
+    );
 
     return path.contains(position);
   }

@@ -10,13 +10,8 @@
     },
     "explorer.fileNesting.patterns": {
         "pubspec.yaml": "pubspec.lock,pubspec.semver.js, analysis_options.yaml,dart_test.yaml",
-        "melos.yaml": "melos_*.iml,mason.yaml,mason-lock.json",
         "README.md": "CHANGELOG.md",
-        "firstrun.sh": "firstrun.cmd",
         "*.dart": "${capture}.freezed.dart, ${capture}.g.dart",
-        "*_bloc.dart": "${capture}_event.dart, ${capture}_state.dart",
-        "*_cubit.dart": "${capture}_state.dart",
-        "azure-pipeline-*": "${capture}.yaml,${capture}.yml"
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.expand": false,

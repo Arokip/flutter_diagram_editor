@@ -29,37 +29,17 @@ class DiagramAppState extends State<DiagramApp> {
                   diagramEditorContext: DiagramEditorContext(policySet: myPolicySet),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Row(
-                  children: [
-                    ElevatedButton(
-                        onPressed: () => myPolicySet.deleteAllComponents(),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                        child: const Text('delete all')),
-                    const Spacer(),
-                    ElevatedButton(onPressed: () => myPolicySet.serialize(), child: const Text('serialize')),
-                    const SizedBox(width: 8),
-                    ElevatedButton(onPressed: () => myPolicySet.deserialize(), child: const Text('deserialize')),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 8,
-                left: 8,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.arrow_back, size: 16),
-                      SizedBox(width: 8),
-                      Text('BACK TO MENU'),
-                    ],
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
+              Row(
+                children: [
+                  ElevatedButton(
+                      onPressed: () => myPolicySet.deleteAllComponents(),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      child: const Text('delete all')),
+                  const Spacer(),
+                  ElevatedButton(onPressed: () => myPolicySet.serialize(), child: const Text('serialize')),
+                  const SizedBox(width: 8),
+                  ElevatedButton(onPressed: () => myPolicySet.deserialize(), child: const Text('deserialize')),
+                ],
               ),
             ],
           ),

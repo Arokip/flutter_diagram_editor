@@ -5,21 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flutter_diagram_editor",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "flutter_diagram_editor (profile mode)",
+            "name": "Example",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "program": "example/main.dart",
         },
-        {
-            "name": "flutter_diagram_editor (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
     ]
 }

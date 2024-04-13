@@ -1,0 +1,51 @@
+{
+    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    // Remove .fvm files from search
+    "search.exclude": {
+        "**/.fvm": true
+    },
+    // Remove from file watching
+    "files.watcherExclude": {
+        "**/.fvm": true
+    },
+    "explorer.fileNesting.patterns": {
+        "pubspec.yaml": "pubspec.lock,pubspec.semver.js, analysis_options.yaml,dart_test.yaml",
+        "melos.yaml": "melos_*.iml,mason.yaml,mason-lock.json",
+        "README.md": "CHANGELOG.md",
+        "firstrun.sh": "firstrun.cmd",
+        "*.dart": "${capture}.freezed.dart, ${capture}.g.dart",
+        "*_bloc.dart": "${capture}_event.dart, ${capture}_state.dart",
+        "*_cubit.dart": "${capture}_state.dart",
+        "azure-pipeline-*": "${capture}.yaml,${capture}.yml"
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": false,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            120
+        ],
+        "editor.formatOnPaste": true,
+        "editor.defaultFormatter": "Dart-Code.dart-code",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll": "explicit"
+        }
+    },
+    "editor.foldingImportsByDefault": true,
+    "dart.lineLength": 120,
+    "git.branchPrefix": "features/",
+    "git.branchProtection": [
+        "main",
+        "releases/*"
+    ],
+    "git.branchRandomName.dictionary": [
+        "adjectives",
+        "animals",
+        "colors"
+    ],
+    "git.branchRandomName.enable": true,
+    "dart.previewFlutterUiGuides": true,
+    "dart.previewFlutterUiGuidesCustomTracking": true,
+}

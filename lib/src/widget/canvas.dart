@@ -28,7 +28,8 @@ class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerPro
 
   @override
   void initState() {
-    withControlPolicy = (widget.policy is CanvasControlPolicy || widget.policy is CanvasMovePolicy) ? widget.policy : null;
+    withControlPolicy =
+        (widget.policy is CanvasControlPolicy || widget.policy is CanvasMovePolicy) ? widget.policy : null;
 
     (withControlPolicy as CanvasControlPolicy?)?.setAnimationController(
       AnimationController(
@@ -170,7 +171,8 @@ class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerPro
             onTapCancel: () => widget.policy.onCanvasTapCancel(),
             onLongPress: () => widget.policy.onCanvasLongPress(),
             onLongPressStart: (LongPressStartDetails details) => widget.policy.onCanvasLongPressStart(details),
-            onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) => widget.policy.onCanvasLongPressMoveUpdate(details),
+            onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) =>
+                widget.policy.onCanvasLongPressMoveUpdate(details),
             onLongPressEnd: (LongPressEndDetails details) => widget.policy.onCanvasLongPressEnd(details),
             onLongPressUp: () => widget.policy.onCanvasLongPressUp(),
           ),

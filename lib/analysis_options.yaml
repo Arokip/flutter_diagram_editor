@@ -5,7 +5,6 @@ analyzer:
 
 linter:
   rules:
-    # always_use_package_imports: true
     # always_declare_return_types: true
     # avoid_multiple_declarations_per_line: true
     # prefer_final_in_for_each: true

@@ -20,7 +20,7 @@ mixin CanvasControlPolicy on BasePolicySet {
 
   bool canUpdateCanvasModel = false;
 
-  getAnimationController() {
+  AnimationController? getAnimationController() {
     return _animationController;
   }
 
@@ -80,7 +80,7 @@ mixin CanvasControlPolicy on BasePolicySet {
     canUpdateCanvasModel = false;
   }
 
-  onCanvasPointerSignal(PointerSignalEvent event) {
+  void onCanvasPointerSignal(PointerSignalEvent event) {
     if (event is PointerScrollEvent) {
       double scaleChange = event.scrollDelta.dy < 0
           ? (1 / canvasReader.state.mouseScaleSpeed)
@@ -142,7 +142,7 @@ mixin CanvasMovePolicy on BasePolicySet implements CanvasControlPolicy {
   bool canUpdateCanvasModel = false;
 
   @override
-  getAnimationController() {
+  AnimationController? getAnimationController() {
     return _animationController;
   }
 

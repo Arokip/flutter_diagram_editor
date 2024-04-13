@@ -6,7 +6,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Canvas state tests', () {
-    test('Given new DiagramEditor When no action Then canvas position is zero and scale is 1', () {
+    test(
+        'Given new DiagramEditor When no action Then canvas position is zero and scale is 1',
+        () {
       PolicySet policySet = PolicySet();
 
       MaterialApp(

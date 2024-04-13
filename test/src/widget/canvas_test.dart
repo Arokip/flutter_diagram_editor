@@ -19,12 +19,15 @@ void main() {
     ComponentData componentData = ComponentData();
     ComponentData componentData2 = ComponentData();
 
-    testWidgets('Given new canvas When no action Then canvas contains no components', (WidgetTester tester) async {
+    testWidgets(
+        'Given new canvas When no action Then canvas contains no components',
+        (WidgetTester tester) async {
       await tester.pumpWidget(editor);
       expect(find.byType(Component), findsNothing);
     });
 
-    testWidgets('Given canvas with no components When component is added Then canvas contains that one component',
+    testWidgets(
+        'Given canvas with no components When component is added Then canvas contains that one component',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 
@@ -34,7 +37,8 @@ void main() {
       expect(find.byType(Component), findsOneWidget);
     });
 
-    testWidgets('Given canvas with one component When component is removed Then canvas contains no components',
+    testWidgets(
+        'Given canvas with one component When component is removed Then canvas contains no components',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 
@@ -92,7 +96,8 @@ void main() {
       expect(find.byType(Component), findsOneWidget);
     });
 
-    testWidgets('Given canvas with one component When scale is set to canvas Then canvas still contains one component',
+    testWidgets(
+        'Given canvas with one component When scale is set to canvas Then canvas still contains one component',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 
@@ -103,7 +108,8 @@ void main() {
       expect(find.byType(Component), findsOneWidget);
     });
 
-    testWidgets('Given canvas with one component When canvas scale is updated Then canvas still contains one component',
+    testWidgets(
+        'Given canvas with one component When canvas scale is updated Then canvas still contains one component',
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 

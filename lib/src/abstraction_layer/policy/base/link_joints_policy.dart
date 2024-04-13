@@ -5,25 +5,32 @@ import 'package:flutter/material.dart';
 mixin LinkJointPolicy on BasePolicySet {
   void onLinkJointTap(int jointIndex, String linkId) {}
 
-  void onLinkJointTapDown(int jointIndex, String linkId, TapDownDetails details) {}
+  void onLinkJointTapDown(
+      int jointIndex, String linkId, TapDownDetails details) {}
 
   void onLinkJointTapUp(int jointIndex, String linkId, TapUpDetails details) {}
 
   void onLinkJointTapCancel(int jointIndex, String linkId) {}
 
-  void onLinkJointScaleStart(int jointIndex, String linkId, ScaleStartDetails details) {}
+  void onLinkJointScaleStart(
+      int jointIndex, String linkId, ScaleStartDetails details) {}
 
-  void onLinkJointScaleUpdate(int jointIndex, String linkId, ScaleUpdateDetails details) {}
+  void onLinkJointScaleUpdate(
+      int jointIndex, String linkId, ScaleUpdateDetails details) {}
 
-  void onLinkJointScaleEnd(int jointIndex, String linkId, ScaleEndDetails details) {}
+  void onLinkJointScaleEnd(
+      int jointIndex, String linkId, ScaleEndDetails details) {}
 
   void onLinkJointLongPress(int jointIndex, String linkId) {}
 
-  void onLinkJointLongPressStart(int jointIndex, String linkId, LongPressStartDetails details) {}
+  void onLinkJointLongPressStart(
+      int jointIndex, String linkId, LongPressStartDetails details) {}
 
-  void onLinkJointLongPressMoveUpdate(int jointIndex, String linkId, LongPressMoveUpdateDetails details) {}
+  void onLinkJointLongPressMoveUpdate(
+      int jointIndex, String linkId, LongPressMoveUpdateDetails details) {}
 
-  void onLinkJointLongPressEnd(int jointIndex, String linkId, LongPressEndDetails details) {}
+  void onLinkJointLongPressEnd(
+      int jointIndex, String linkId, LongPressEndDetails details) {}
 
   void onLinkJointLongPressUp(int jointIndex, String linkId) {}
 }

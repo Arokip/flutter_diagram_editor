@@ -15,7 +15,9 @@ class VectorUtils {
     Offset vector, [
     bool clockwise = true,
   ]) {
-    return clockwise ? Offset(-vector.dy, vector.dx) : Offset(vector.dy, -vector.dx);
+    return clockwise
+        ? Offset(-vector.dy, vector.dx)
+        : Offset(vector.dy, -vector.dx);
   }
 
   static Offset normalizeVector(Offset vector) {
@@ -27,7 +29,8 @@ class VectorUtils {
     Offset point2,
     double shortening,
   ) {
-    return point1 + normalizeVector(getDirectionVector(point1, point2)) * shortening;
+    return point1 +
+        normalizeVector(getDirectionVector(point1, point2)) * shortening;
   }
 
   static Offset getShorterLineEnd(
@@ -35,7 +38,8 @@ class VectorUtils {
     Offset point2,
     double shortening,
   ) {
-    return point2 - normalizeVector(getDirectionVector(point1, point2)) * shortening;
+    return point2 -
+        normalizeVector(getDirectionVector(point1, point2)) * shortening;
   }
 
   static Path getRectAroundLine(Offset point1, Offset point2, rectWidth) {

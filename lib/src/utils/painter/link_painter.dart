@@ -65,7 +65,9 @@ class LinkPainter extends CustomPainter {
           paint,
         );
       } else {
-        canvas.drawPath(linkStyle.getLinePath(linkPoints[i], linkPoints[i + 1], scale), paint);
+        canvas.drawPath(
+            linkStyle.getLinePath(linkPoints[i], linkPoints[i + 1], scale),
+            paint);
       }
     }
 
@@ -122,7 +124,8 @@ class LinkPainter extends CustomPainter {
       // if (i == linkPoints.length - 2)
       //   point2 = PainterUtils.getShorterLineEnd(point1, point2, scale * 10);
 
-      path.addPath(VectorUtils.getRectAroundLine(point1, point2, hitAreaWidth), const Offset(0, 0));
+      path.addPath(VectorUtils.getRectAroundLine(point1, point2, hitAreaWidth),
+          const Offset(0, 0));
     }
     return path;
   }

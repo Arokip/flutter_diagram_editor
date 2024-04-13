@@ -57,8 +57,12 @@ class GridPainter extends CustomPainter {
       var count = (lineVerticalLength / horizontalGap).round();
       for (int i = -count + 1; i < count; i++) {
         canvas.drawLine(
-          (Offset(-lineHorizontalLength, i * horizontalGap) + offset % horizontalGap) * scale,
-          (Offset(lineHorizontalLength, i * horizontalGap) + offset % horizontalGap) * scale,
+          (Offset(-lineHorizontalLength, i * horizontalGap) +
+                  offset % horizontalGap) *
+              scale,
+          (Offset(lineHorizontalLength, i * horizontalGap) +
+                  offset % horizontalGap) *
+              scale,
           paint,
         );
       }
@@ -68,8 +72,11 @@ class GridPainter extends CustomPainter {
       var count = (lineHorizontalLength / verticalGap).round();
       for (int i = -count + 1; i < count; i++) {
         canvas.drawLine(
-          (Offset(i * verticalGap, -lineVerticalLength) + offset % verticalGap) * scale,
-          (Offset(i * verticalGap, lineVerticalLength) + offset % verticalGap) * scale,
+          (Offset(i * verticalGap, -lineVerticalLength) +
+                  offset % verticalGap) *
+              scale,
+          (Offset(i * verticalGap, lineVerticalLength) + offset % verticalGap) *
+              scale,
           paint,
         );
       }

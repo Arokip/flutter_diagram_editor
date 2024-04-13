@@ -9,13 +9,15 @@ mixin LinkAttachmentCrystalPolicy implements LinkAttachmentPolicy {
     ComponentData componentData,
     Offset targetPoint,
   ) {
-    Offset pointPosition = targetPoint - (componentData.position + componentData.size.center(Offset.zero));
+    Offset pointPosition = targetPoint -
+        (componentData.position + componentData.size.center(Offset.zero));
     pointPosition = Offset(
       pointPosition.dx / componentData.size.width,
       pointPosition.dy / componentData.size.height,
     );
 
-    Offset pointAlignment = pointPosition / (pointPosition.dx.abs() + pointPosition.dy.abs());
+    Offset pointAlignment =
+        pointPosition / (pointPosition.dx.abs() + pointPosition.dy.abs());
 
     return Alignment(pointAlignment.dx, pointAlignment.dy);
   }

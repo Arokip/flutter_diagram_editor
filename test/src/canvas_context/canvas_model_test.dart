@@ -4,14 +4,17 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Canvas model tests', () {
-    test('Given new canvas When no action Then canvas contains no components', () {
+    test('Given new canvas When no action Then canvas contains no components',
+        () {
       PolicySet policySet = PolicySet();
       var model = CanvasModel(policySet);
 
       expect(model.components.isEmpty, true);
     });
 
-    test('Given new canvas When added one component Then canvas contains one component', () {
+    test(
+        'Given new canvas When added one component Then canvas contains one component',
+        () {
       PolicySet policySet = PolicySet();
       var model = CanvasModel(policySet);
       ComponentData componentData = ComponentData();
@@ -21,7 +24,9 @@ void main() {
       expect(model.components.length, 1);
     });
 
-    test('Given canvas with one component When the component is removed Then canvas contains no components', () {
+    test(
+        'Given canvas with one component When the component is removed Then canvas contains no components',
+        () {
       PolicySet policySet = PolicySet();
       var model = CanvasModel(policySet);
       ComponentData componentData = ComponentData();

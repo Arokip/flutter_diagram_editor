@@ -9,7 +9,8 @@ mixin LinkAttachmentOvalPolicy implements LinkAttachmentPolicy {
     ComponentData componentData,
     Offset targetPoint,
   ) {
-    Offset pointPosition = targetPoint - (componentData.position + componentData.size.center(Offset.zero));
+    Offset pointPosition = targetPoint -
+        (componentData.position + componentData.size.center(Offset.zero));
     pointPosition = Offset(
       pointPosition.dx / componentData.size.width,
       pointPosition.dy / componentData.size.height,

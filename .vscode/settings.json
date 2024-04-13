@@ -19,7 +19,7 @@
         "editor.formatOnSave": true,
         "editor.formatOnType": true,
         "editor.rulers": [
-            120
+            80
         ],
         "editor.formatOnPaste": true,
         "editor.defaultFormatter": "Dart-Code.dart-code",
@@ -29,7 +29,7 @@
         }
     },
     "editor.foldingImportsByDefault": true,
-    "dart.lineLength": 120,
+    "dart.lineLength": 80,
     "git.branchPrefix": "features/",
     "git.branchProtection": [
         "main",

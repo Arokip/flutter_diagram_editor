@@ -23,13 +23,16 @@ class DiagramEditorCanvas extends StatefulWidget {
   DiagramEditorCanvasState createState() => DiagramEditorCanvasState();
 }
 
-class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerProviderStateMixin {
+class DiagramEditorCanvasState extends State<DiagramEditorCanvas>
+    with TickerProviderStateMixin {
   PolicySet? withControlPolicy;
 
   @override
   void initState() {
-    withControlPolicy =
-        (widget.policy is CanvasControlPolicy || widget.policy is CanvasMovePolicy) ? widget.policy : null;
+    withControlPolicy = (widget.policy is CanvasControlPolicy ||
+            widget.policy is CanvasMovePolicy)
+        ? widget.policy
+        : null;
 
     (withControlPolicy as CanvasControlPolicy?)?.setAnimationController(
       AnimationController(
@@ -80,7 +83,8 @@ class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerPro
         builder: (context, child) {
           return Consumer<ComponentData>(
             builder: (context, data, child) {
-              return widget.policy.showCustomWidgetWithComponentDataUnder(context, data);
+              return widget.policy
+                  .showCustomWidgetWithComponentDataUnder(context, data);
             },
           );
         },
@@ -95,7 +99,8 @@ class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerPro
         builder: (context, child) {
           return Consumer<ComponentData>(
             builder: (context, data, child) {
-              return widget.policy.showCustomWidgetWithComponentDataOver(context, data);
+              return widget.policy
+                  .showCustomWidgetWithComponentDataOver(context, data);
             },
           );
         },
@@ -118,9 +123,11 @@ class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerPro
       children: [
         ...showBackgroundWidgets(),
         ...showOtherWithComponentDataUnder(canvasModel),
-        if (widget.policy.showLinksOnTopOfComponents) ...showComponents(canvasModel),
+        if (widget.policy.showLinksOnTopOfComponents)
+          ...showComponents(canvasModel),
         ...showLinks(canvasModel),
-        if (!widget.policy.showLinksOnTopOfComponents) ...showComponents(canvasModel),
+        if (!widget.policy.showLinksOnTopOfComponents)
+          ...showComponents(canvasModel),
         ...showOtherWithComponentDataOver(canvasModel),
         ...showForegroundWidgets(),
       ],
@@ -128,7 +135,8 @@ class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerPro
   }
 
   Widget canvasAnimated(CanvasModel canvasModel) {
-    final animationController = (withControlPolicy as CanvasControlPolicy).getAnimationController();
+    final animationController =
+        (withControlPolicy as CanvasControlPolicy).getAnimationController();
     if (animationController == null) return canvasStack(canvasModel);
 
     return AnimatedBuilder(
@@ -159,26 +167,35 @@ class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerPro
       child: AbsorbPointer(
         absorbing: canvasState.shouldAbsorbPointer,
         child: Listener(
-          onPointerSignal: (PointerSignalEvent event) => widget.policy.onCanvasPointerSignal(event),
+          onPointerSignal: (PointerSignalEvent event) =>
+              widget.policy.onCanvasPointerSignal(event),
           child: GestureDetector(
             child: Container(
               color: canvasState.color,
               child: ClipRect(
-                child: (withControlPolicy != null) ? canvasAnimated(canvasModel) : canvasStack(canvasModel),
+                child: (withControlPolicy != null)
+                    ? canvasAnimated(canvasModel)
+                    : canvasStack(canvasModel),
               ),
             ),
-            onScaleStart: (details) => widget.policy.onCanvasScaleStart(details),
-            onScaleUpdate: (details) => widget.policy.onCanvasScaleUpdate(details),
+            onScaleStart: (details) =>
+                widget.policy.onCanvasScaleStart(details),
+            onScaleUpdate: (details) =>
+                widget.policy.onCanvasScaleUpdate(details),
             onScaleEnd: (details) => widget.policy.onCanvasScaleEnd(details),
             onTap: () => widget.policy.onCanvasTap(),
-            onTapDown: (TapDownDetails details) => widget.policy.onCanvasTapDown(details),
-            onTapUp: (TapUpDetails details) => widget.policy.onCanvasTapUp(details),
+            onTapDown: (TapDownDetails details) =>
+                widget.policy.onCanvasTapDown(details),
+            onTapUp: (TapUpDetails details) =>
+                widget.policy.onCanvasTapUp(details),
             onTapCancel: () => widget.policy.onCanvasTapCancel(),
             onLongPress: () => widget.policy.onCanvasLongPress(),
-            onLongPressStart: (LongPressStartDetails details) => widget.policy.onCanvasLongPressStart(details),
+            onLongPressStart: (LongPressStartDetails details) =>
+                widget.policy.onCanvasLongPressStart(details),
             onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) =>
                 widget.policy.onCanvasLongPressMoveUpdate(details),
-            onLongPressEnd: (LongPressEndDetails details) => widget.policy.onCanvasLongPressEnd(details),
+            onLongPressEnd: (LongPressEndDetails details) =>
+                widget.policy.onCanvasLongPressEnd(details),
             onLongPressUp: () => widget.policy.onCanvasLongPressUp(),
           ),
         ),

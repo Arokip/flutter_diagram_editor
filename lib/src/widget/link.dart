@@ -22,49 +22,62 @@ class Link extends StatelessWidget {
     final canvasState = Provider.of<CanvasState>(context);
 
     LinkPainter linkPainter = LinkPainter(
-      linkPoints: (linkData.linkPoints.map((point) => point * canvasState.scale + canvasState.position)).toList(),
+      linkPoints: (linkData.linkPoints
+              .map((point) => point * canvasState.scale + canvasState.position))
+          .toList(),
       scale: canvasState.scale,
       linkStyle: linkData.linkStyle,
     );
 
     return Listener(
-      onPointerSignal: (PointerSignalEvent event) => policy.onLinkPointerSignal(linkData.id, event),
+      onPointerSignal: (PointerSignalEvent event) =>
+          policy.onLinkPointerSignal(linkData.id, event),
       child: GestureDetector(
         child: CustomPaint(
           painter: linkPainter,
           child: Stack(
             fit: StackFit.expand,
             children: [
-              ...linkData.linkPoints.getRange(1, linkData.linkPoints.length - 1).map(
+              ...linkData.linkPoints
+                  .getRange(1, linkData.linkPoints.length - 1)
+                  .map(
                 (jointPoint) {
                   var index = linkData.linkPoints.indexOf(jointPoint);
                   return Visibility(
                     visible: linkData.areJointsVisible,
                     child: GestureDetector(
                       onTap: () => policy.onLinkJointTap(index, linkData.id),
-                      onTapDown: (TapDownDetails details) => policy.onLinkJointTapDown(index, linkData.id, details),
-                      onTapUp: (TapUpDetails details) => policy.onLinkJointTapUp(index, linkData.id, details),
-                      onTapCancel: () => policy.onLinkJointTapCancel(index, linkData.id),
-                      onScaleStart: (ScaleStartDetails details) =>
-                          policy.onLinkJointScaleStart(index, linkData.id, details),
-                      onScaleUpdate: (ScaleUpdateDetails details) =>
-                          policy.onLinkJointScaleUpdate(index, linkData.id, details),
-                      onScaleEnd: (ScaleEndDetails details) => policy.onLinkJointScaleEnd(index, linkData.id, details),
-                      onLongPress: () => policy.onLinkJointLongPress(index, linkData.id),
-                      onLongPressStart: (LongPressStartDetails details) => policy.onLinkJointLongPressStart(
+                      onTapDown: (TapDownDetails details) => policy
+                          .onLinkJointTapDown(index, linkData.id, details),
+                      onTapUp: (TapUpDetails details) =>
+                          policy.onLinkJointTapUp(index, linkData.id, details),
+                      onTapCancel: () =>
+                          policy.onLinkJointTapCancel(index, linkData.id),
+                      onScaleStart: (ScaleStartDetails details) => policy
+                          .onLinkJointScaleStart(index, linkData.id, details),
+                      onScaleUpdate: (ScaleUpdateDetails details) => policy
+                          .onLinkJointScaleUpdate(index, linkData.id, details),
+                      onScaleEnd: (ScaleEndDetails details) => policy
+                          .onLinkJointScaleEnd(index, linkData.id, details),
+                      onLongPress: () =>
+                          policy.onLinkJointLongPress(index, linkData.id),
+                      onLongPressStart: (LongPressStartDetails details) =>
+                          policy.onLinkJointLongPressStart(
                         index,
                         linkData.id,
                         details,
                       ),
-                      onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) =>
-                          policy.onLinkJointLongPressMoveUpdate(
+                      onLongPressMoveUpdate:
+                          (LongPressMoveUpdateDetails details) =>
+                              policy.onLinkJointLongPressMoveUpdate(
                         index,
                         linkData.id,
                         details,
                       ),
-                      onLongPressEnd: (LongPressEndDetails details) =>
-                          policy.onLinkJointLongPressEnd(index, linkData.id, details),
-                      onLongPressUp: () => policy.onLinkJointLongPressUp(index, linkData.id),
+                      onLongPressEnd: (LongPressEndDetails details) => policy
+                          .onLinkJointLongPressEnd(index, linkData.id, details),
+                      onLongPressUp: () =>
+                          policy.onLinkJointLongPressUp(index, linkData.id),
                       child: CustomPaint(
                         painter: LinkJointPainter(
                           location: canvasState.toCanvasCoordinates(jointPoint),
@@ -82,17 +95,24 @@ class Link extends StatelessWidget {
           ),
         ),
         onTap: () => policy.onLinkTap(linkData.id),
-        onTapDown: (TapDownDetails details) => policy.onLinkTapDown(linkData.id, details),
-        onTapUp: (TapUpDetails details) => policy.onLinkTapUp(linkData.id, details),
+        onTapDown: (TapDownDetails details) =>
+            policy.onLinkTapDown(linkData.id, details),
+        onTapUp: (TapUpDetails details) =>
+            policy.onLinkTapUp(linkData.id, details),
         onTapCancel: () => policy.onLinkTapCancel(linkData.id),
-        onScaleStart: (ScaleStartDetails details) => policy.onLinkScaleStart(linkData.id, details),
-        onScaleUpdate: (ScaleUpdateDetails details) => policy.onLinkScaleUpdate(linkData.id, details),
-        onScaleEnd: (ScaleEndDetails details) => policy.onLinkScaleEnd(linkData.id, details),
+        onScaleStart: (ScaleStartDetails details) =>
+            policy.onLinkScaleStart(linkData.id, details),
+        onScaleUpdate: (ScaleUpdateDetails details) =>
+            policy.onLinkScaleUpdate(linkData.id, details),
+        onScaleEnd: (ScaleEndDetails details) =>
+            policy.onLinkScaleEnd(linkData.id, details),
         onLongPress: () => policy.onLinkLongPress(linkData.id),
-        onLongPressStart: (LongPressStartDetails details) => policy.onLinkLongPressStart(linkData.id, details),
+        onLongPressStart: (LongPressStartDetails details) =>
+            policy.onLinkLongPressStart(linkData.id, details),
         onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) =>
             policy.onLinkLongPressMoveUpdate(linkData.id, details),
-        onLongPressEnd: (LongPressEndDetails details) => policy.onLinkLongPressEnd(linkData.id, details),
+        onLongPressEnd: (LongPressEndDetails details) =>
+            policy.onLinkLongPressEnd(linkData.id, details),
         onLongPressUp: () => policy.onLinkLongPressUp(linkData.id),
       ),
     );

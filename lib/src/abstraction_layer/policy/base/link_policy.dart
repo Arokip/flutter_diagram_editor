@@ -21,7 +21,8 @@ mixin LinkPolicy on BasePolicySet {
 
   void onLinkLongPressStart(String linkId, LongPressStartDetails details) {}
 
-  void onLinkLongPressMoveUpdate(String linkId, LongPressMoveUpdateDetails details) {}
+  void onLinkLongPressMoveUpdate(
+      String linkId, LongPressMoveUpdateDetails details) {}
 
   void onLinkLongPressEnd(String linkId, LongPressEndDetails details) {}
 

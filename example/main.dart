@@ -39,9 +39,15 @@ class DiagramAppState extends State<DiagramApp> {
                       child: const Text('delete all'),
                     ),
                     const Spacer(),
-                    ElevatedButton(onPressed: () => myPolicySet.serialize(), child: const Text('serialize')),
+                    ElevatedButton(
+                      onPressed: () => myPolicySet.serialize(),
+                      child: const Text('serialize'),
+                    ),
                     const SizedBox(width: 8),
-                    ElevatedButton(onPressed: () => myPolicySet.deserialize(), child: const Text('deserialize')),
+                    ElevatedButton(
+                      onPressed: () => myPolicySet.deserialize(),
+                      child: const Text('deserialize'),
+                    ),
                   ],
                 ),
               ),
@@ -185,10 +191,9 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
       return false;
     }
     // tests if the connection between two components already exists (one way)
-    if (canvasReader.model
-        .getComponent(sourceComponentId)
-        .connections
-        .any((connection) => (connection is ConnectionOut) && (connection.otherComponentId == targetComponentId))) {
+    if (canvasReader.model.getComponent(sourceComponentId).connections.any(
+          (connection) => (connection is ConnectionOut) && (connection.otherComponentId == targetComponentId),
+        )) {
       return false;
     }
 

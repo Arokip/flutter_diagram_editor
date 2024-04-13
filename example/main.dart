@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 void main() => runApp(const DiagramApp());
 
 class DiagramApp extends StatefulWidget {
-  const DiagramApp({Key? key}) : super(key: key);
+  const DiagramApp({super.key});
 
   @override
-  _DiagramAppState createState() => _DiagramAppState();
+  DiagramAppState createState() => DiagramAppState();
 }
 
-class _DiagramAppState extends State<DiagramApp> {
+class DiagramAppState extends State<DiagramApp> {
   MyPolicySet myPolicySet = MyPolicySet();
 
   @override
@@ -51,7 +51,7 @@ class _DiagramAppState extends State<DiagramApp> {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.blue),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.arrow_back, size: 16),
                       SizedBox(width: 8),

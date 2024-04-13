@@ -23,13 +23,13 @@ void main() {
     );
 
     var componentData1 = ComponentData(
-      size: Size(40, 40),
-      position: Offset(20, 0),
+      size: const Size(40, 40),
+      position: const Offset(20, 0),
     );
 
     var componentData2 = ComponentData(
-      size: Size(40, 40),
-      position: Offset(120, 0),
+      size: const Size(40, 40),
+      position: const Offset(120, 0),
     );
 
     testWidgets(
@@ -63,7 +63,7 @@ void main() {
       expect(find.byType(Link), findsOneWidget);
 
       policySet.canvasWriter.model
-          .insertLinkMiddlePoint(linkId, Offset(20, 20), 1);
+          .insertLinkMiddlePoint(linkId, const Offset(20, 20), 1);
 
       await tester.pump();
 
@@ -80,7 +80,7 @@ void main() {
       expect(find.byType(Link), findsOneWidget);
 
       policySet.canvasWriter.model
-          .moveLinkMiddlePoint(linkId, Offset(20, 20), 1);
+          .moveLinkMiddlePoint(linkId, const Offset(20, 20), 1);
 
       await tester.pump();
 

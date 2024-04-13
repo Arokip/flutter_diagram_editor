@@ -20,8 +20,8 @@ void main() {
     );
 
     var componentData = ComponentData(
-      size: Size(40, 40),
-      position: Offset(10, 10),
+      size: const Size(40, 40),
+      position: const Offset(10, 10),
     );
 
     testWidgets(
@@ -35,7 +35,7 @@ void main() {
 
       expect(find.byType(Component), findsOneWidget);
 
-      componentData.move(Offset(10, 0));
+      componentData.move(const Offset(10, 0));
 
       await tester.pump();
 
@@ -49,7 +49,7 @@ void main() {
 
       expect(find.byType(Component), findsOneWidget);
 
-      componentData.setPosition(Offset(0, 10));
+      componentData.setPosition(const Offset(0, 10));
 
       await tester.pump();
 
@@ -63,7 +63,7 @@ void main() {
 
       expect(find.byType(Component), findsOneWidget);
 
-      componentData.resizeDelta(Offset(10, 10));
+      componentData.resizeDelta(const Offset(10, 10));
 
       await tester.pump();
 

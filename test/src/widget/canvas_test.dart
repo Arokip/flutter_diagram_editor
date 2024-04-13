@@ -77,7 +77,7 @@ void main() {
       policySet.canvasWriter.model.addComponent(componentData);
       await tester.pump();
 
-      policySet.canvasWriter.state.setPosition(Offset(10, 0));
+      policySet.canvasWriter.state.setPosition(const Offset(10, 0));
 
       await tester.pump();
 
@@ -89,7 +89,7 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(editor);
 
-      policySet.canvasWriter.state.setPosition(Offset(10, 0));
+      policySet.canvasWriter.state.setPosition(const Offset(10, 0));
 
       await tester.pump();
 

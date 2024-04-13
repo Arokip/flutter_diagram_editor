@@ -1,4 +1,14 @@
 
+# 0.2.0
+
+* Updated to dart >=3.0.0
+* Updated dependencies
+* Added linter rules and project formatted.
+* Demo app example code updated.
+
+* Fixed example
+* Added `showLinksOnTopOfComponents` option to canvas_policy.
+
 # 0.1.9
 
 * Fixed example

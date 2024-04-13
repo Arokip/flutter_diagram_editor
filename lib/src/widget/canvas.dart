@@ -128,8 +128,11 @@ class DiagramEditorCanvasState extends State<DiagramEditorCanvas> with TickerPro
   }
 
   Widget canvasAnimated(CanvasModel canvasModel) {
+    final animationController = (withControlPolicy as CanvasControlPolicy).getAnimationController();
+    if (animationController == null) return canvasStack(canvasModel);
+
     return AnimatedBuilder(
-      animation: (withControlPolicy as CanvasControlPolicy).getAnimationController(),
+      animation: animationController,
       builder: (BuildContext context, Widget? child) {
         (withControlPolicy as CanvasControlPolicy).canUpdateCanvasModel = true;
         return Transform(

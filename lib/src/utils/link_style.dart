@@ -257,7 +257,7 @@ class LinkStyle {
         arrowSize = json['arrow_size'],
         backArrowSize = json['back_arrow_size'],
         lineWidth = json['line_width'],
-        color = Color(int.parse(json['color'], radix: 16));
+        color = Color(json['color'] as int);
 
   Map<String, dynamic> toJson() => {
         'line_type': lineType.index,
@@ -266,6 +266,6 @@ class LinkStyle {
         'arrow_size': arrowSize,
         'back_arrow_size': backArrowSize,
         'line_width': lineWidth,
-        'color': color.toString().split('(0x')[1].split(')')[0],
+        'color': color.value,
       };
 }

@@ -80,12 +80,12 @@ class MyComponentData {
   // Function used to deserialize the diagram. Must be passed to `canvasWriter.model.deserializeDiagram` for proper deserialization.
   MyComponentData.fromJson(Map<String, dynamic> json)
       : isHighlightVisible = json['highlight'],
-        color = Color(int.parse(json['color'], radix: 16));
+        color = Color(json['color'] as int);
 
   // Function used to serialization of the diagram. E.g. to save to a file.
   Map<String, dynamic> toJson() => {
         'highlight': isHighlightVisible,
-        'color': color.toString().split('(0x')[1].split(')')[0],
+        'color': color.value,
       };
 }
 

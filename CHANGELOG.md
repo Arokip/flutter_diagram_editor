@@ -1,4 +1,9 @@
 
+# 0.2.2
+
+* Update SDK to `sdk: ">=3.5.0 <4.0.0"`
+* Fix: new static analysis
+
 # 0.2.1
 
 * Fix: dart format

@@ -83,7 +83,9 @@ class Link extends StatelessWidget {
                           location: canvasState.toCanvasCoordinates(jointPoint),
                           radius: 8,
                           scale: canvasState.scale,
-                          color: linkData.linkStyle.color.withOpacity(0.5),
+                          color: linkData.linkStyle.color.withValues(
+                            alpha: 0.5,
+                          ),
                         ),
                       ),
                     ),

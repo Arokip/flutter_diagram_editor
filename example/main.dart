@@ -66,8 +66,8 @@ class MyComponentData {
   MyComponentData();
 
   bool isHighlightVisible = false;
-  Color color =
-      Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+  Color color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+      .withValues(alpha: 1.0);
 
   void showHighlight() {
     isHighlightVisible = true;

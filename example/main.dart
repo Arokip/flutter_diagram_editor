@@ -85,7 +85,11 @@ class MyComponentData {
   // Function used to serialization of the diagram. E.g. to save to a file.
   Map<String, dynamic> toJson() => {
         'highlight': isHighlightVisible,
-        'color': color.toString().split('(0x')[1].split(')')[0],
+        'color': (((color.a * 255).round() << 24) |
+                ((color.r * 255).round() << 16) |
+                ((color.g * 255).round() << 8) |
+                ((color.b * 255).round()))
+            .toRadixString(16),
       };
 }
 

@@ -266,6 +266,10 @@ class LinkStyle {
         'arrow_size': arrowSize,
         'back_arrow_size': backArrowSize,
         'line_width': lineWidth,
-        'color': color.toString().split('(0x')[1].split(')')[0],
+        'color': (((color.a * 255).round() << 24) |
+                ((color.r * 255).round() << 16) |
+                ((color.g * 255).round() << 8) |
+                ((color.b * 255).round()))
+            .toRadixString(16),
       };
 }

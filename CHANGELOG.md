@@ -1,4 +1,8 @@
 
+# 0.2.3
+
+* Change color serialization to Json approach (thanks pklosek)
+
 # 0.2.2
 
 * Update SDK to `sdk: ">=3.5.0 <4.0.0"`

@@ -65,6 +65,51 @@ class _DiagramAppState extends State<DiagramApp> {
                       child: const Center(child: Text('component')),
                     );
                   },
+                  componentOverlayBuilder: (context, component) {
+                    if (component.data?.isHighlighted != true) {
+                      return const SizedBox.shrink();
+                    }
+                    return Positioned(
+                      top: -36,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _OverlayButton(
+                            icon: Icons.delete,
+                            color: Colors.red,
+                            onPressed: () {
+                              _hideHighlight(selectedComponentId);
+                              controller
+                                ..hideAllLinkJoints()
+                                ..removeComponent(component.id);
+                            },
+                          ),
+                          const SizedBox(width: 4),
+                          _OverlayButton(
+                            icon: Icons.copy,
+                            color: Colors.blue,
+                            onPressed: () {
+                              final pos = component.position +
+                                  const Offset(20, 20);
+                              controller.addComponent(
+                                ComponentData<MyNodeData>(
+                                  size: component.size,
+                                  position: pos,
+                                  data: MyNodeData(
+                                    color: component.data?.color ??
+                                        Colors.blue,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                   onCanvasTapUp: (details) {
                     controller.hideAllLinkJoints();
                     if (selectedComponentId != null) {
@@ -171,6 +216,9 @@ class _DiagramAppState extends State<DiagramApp> {
     }
   }
 
+  // Long press on component already deletes; overlay button does the same
+  // but is discoverable. Remove duplicate handler if desired.
+
   bool _connectComponents(
     String? sourceId,
     String? targetId,
@@ -193,5 +241,32 @@ class _DiagramAppState extends State<DiagramApp> {
       ),
     );
     return true;
+  }
+}
+
+class _OverlayButton extends StatelessWidget {
+  const _OverlayButton({
+    required this.icon,
+    required this.color,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final Color color;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 28,
+      height: 28,
+      child: IconButton.filled(
+        padding: EdgeInsets.zero,
+        iconSize: 16,
+        style: IconButton.styleFrom(backgroundColor: color),
+        icon: Icon(icon, color: Colors.white),
+        onPressed: onPressed,
+      ),
+    );
   }
 }

@@ -1,26 +1,21 @@
-export 'src/abstraction_layer/policy/base/canvas_policy.dart';
-export 'src/abstraction_layer/policy/base/canvas_widgets_policy.dart';
-export 'src/abstraction_layer/policy/base/component_design_policy.dart';
-export 'src/abstraction_layer/policy/base/component_policy.dart';
-export 'src/abstraction_layer/policy/base/component_widgets_policy.dart';
-export 'src/abstraction_layer/policy/base/init_policy.dart';
-export 'src/abstraction_layer/policy/base/link_attachment_policy.dart';
-export 'src/abstraction_layer/policy/base/link_joints_policy.dart';
-export 'src/abstraction_layer/policy/base/link_policy.dart';
-export 'src/abstraction_layer/policy/base/link_widgets_policy.dart';
-export 'src/abstraction_layer/policy/base/policy_set.dart';
-export 'src/abstraction_layer/policy/defaults/canvas_control_policy.dart';
-export 'src/abstraction_layer/policy/defaults/link_attachment_rect_policy.dart';
-export 'src/abstraction_layer/policy/defaults/link_attachment_oval_policy.dart';
-export 'src/abstraction_layer/policy/defaults/link_attachment_crystal_policy.dart';
-export 'src/abstraction_layer/policy/defaults/link_control_policy.dart';
-export 'src/abstraction_layer/policy/defaults/link_joint_control_policy.dart';
-export 'src/canvas_context/diagram_editor_context.dart';
-export 'src/canvas_context/model/component_data.dart';
-export 'src/canvas_context/model/connection.dart';
-export 'src/canvas_context/model/link_data.dart';
-export 'src/utils/link_style.dart';
-export 'src/utils/painter/grid_painter.dart';
-export 'src/utils/painter/rect_highlight_painter.dart';
-export 'src/utils/vector_utils.dart';
-export 'src/widget/editor.dart';
+/// A Flutter library for building interactive diagram editors.
+///
+/// Provides a DiagramEditor widget and DiagramController for managing
+/// components, links, pan/zoom, serialization, and more.
+library;
+
+export 'src/codec/json_codec.dart';
+export 'src/controller/canvas_config.dart';
+export 'src/controller/default_behaviors.dart';
+export 'src/controller/diagram_controller.dart';
+export 'src/model/component_data.dart';
+export 'src/model/connection.dart';
+export 'src/model/diagram_data.dart';
+export 'src/model/link_data.dart';
+export 'src/model/link_style.dart';
+export 'src/painter/component_highlight_painter.dart';
+export 'src/painter/delete_icon_painter.dart';
+export 'src/painter/grid_painter.dart';
+export 'src/util/link_attachment.dart';
+export 'src/util/vector_utils.dart';
+export 'src/widget/diagram_editor.dart';

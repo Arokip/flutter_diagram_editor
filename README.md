@@ -2,89 +2,179 @@
 
 [![pub package](https://img.shields.io/pub/v/diagram_editor.svg)](https://pub.dev/packages/diagram_editor)
 
-Flutter diagram editor library for showing and editing diagrams of custom type. It provides DiagramEditor widget and a possibility to customize all editor design and behavior.
+Flutter library for building interactive diagram editors. Create, connect, and manipulate nodes and links with pan, zoom, and full gesture support.
 
-<img src="https://user-images.githubusercontent.com/20387953/114435850-f1f20f00-9bc4-11eb-8d97-a16c40c326cb.png">
+## Quick Start
 
-[Demo App Example](https://arokip.github.io/fdl_demo_app) ([example source code](https://github.com/Arokip/fdl_demo_app))
+```dart
+import 'package:diagram_editor/diagram_editor.dart';
+import 'package:flutter/material.dart';
 
+class MyDiagram extends StatelessWidget {
+  MyDiagram({super.key});
 
-## Getting Started
+  final controller = DiagramController<void, void>();
 
-Use of `DiagramEditor` widget:
-
+  @override
+  Widget build(BuildContext context) {
+    return DiagramEditor<void, void>(
+      controller: controller,
+      componentBuilder: (context, component) => Container(
+        color: Colors.blue,
+        child: Center(child: Text(component.id)),
+      ),
+      onCanvasTapUp: (details) {
+        controller.addComponent(ComponentData(
+          size: const Size(96, 72),
+          position: controller.fromCanvasCoordinates(details.localPosition),
+        ));
+      },
+      onComponentTap: (id) => controller.removeComponent(id),
+    );
+  }
+}
 ```
-DiagramEditor(
-  diagramEditorContext: DiagramEditorContext(
-    policySet: myPolicySet,
+
+Pan, zoom, link joints, and link control all work out of the box.
+
+## Type-Safe Custom Data
+
+Use generic type parameters to attach typed data to components and links:
+
+```dart
+class MyNodeData {
+  final Color color;
+  final String label;
+  MyNodeData({required this.color, required this.label});
+}
+
+final controller = DiagramController<MyNodeData, void>(
+  componentDataCodec: JsonCodec(
+    encode: (d) => {'color': d.color.toHex(), 'label': d.label},
+    decode: (j) => MyNodeData(
+      color: Color(int.parse(j['color'] as String, radix: 16)),
+      label: j['label'] as String,
+    ),
   ),
-),
+);
+
+// No more casting — data is typed
+controller.addComponent(ComponentData(
+  data: MyNodeData(color: Colors.blue, label: 'Start'),
+  size: const Size(96, 72),
+));
+
+// Access data without casting
+final node = controller.getComponent('id');
+final color = node.data?.color; // Color, not dynamic
 ```
 
-`myPolicySet` is a class composed of mixins, for example:
+## Connecting Components
 
-```
-class MyPolicySet extends PolicySet
-    with
-        MyInitPolicy,
-        CanvasControlPolicy,
-        LinkControlPolicy,
-        LinkJointControlPolicy,
-        LinkAttachmentRectPolicy {}
-```
-
-`MyInitpolicy` can be following:
-
-```
-mixin MyInitPolicy implements InitPolicy {
-  @override
-  initializeDiagramEditor() {
-    canvasWriter.state.setCanvasColor(Colors.grey);
-  }
-}
+```dart
+final linkId = controller.connect(
+  sourceComponentId: 'node-1',
+  targetComponentId: 'node-2',
+  linkStyle: LinkStyle(
+    arrowType: ArrowType.arrow,
+    lineWidth: 2,
+    color: Colors.grey,
+  ),
+);
 ```
 
-For example in `MyCanvasPolicy` in function `onCanvasTapUp(TapUpDetails details)` a new component is added if no component is selected.
+## Configuration
 
+```dart
+DiagramEditor<MyNodeData, void>(
+  controller: controller,
+  componentBuilder: (context, data) => MyNodeWidget(data),
+
+  // Canvas config
+  canvasConfig: const CanvasConfig(
+    backgroundColor: Color(0xFFF5F5F5),
+    minScale: 0.2,
+    maxScale: 5.0,
+  ),
+
+  // Link endpoint alignment strategy
+  linkEndpointAlignment: LinkAttachment.oval(),
+
+  // Disable defaults if you want full control
+  enableDefaultPanZoom: true,       // default
+  enableDefaultLinkControl: true,   // default
+  enableDefaultJointControl: true,  // default
+
+  // Links rendered on top of components
+  linksOnTop: true,                 // default
+
+  // All gesture callbacks
+  onCanvasTapUp: (details) { /* ... */ },
+  onComponentTap: (id) { /* ... */ },
+  onComponentScaleUpdate: (id, details) { /* ... */ },
+  onLinkTap: (id) { /* ... */ },
+
+  // Custom layers
+  backgroundBuilder: (context) => [CustomPaint(painter: GridPainter())],
+  foregroundBuilder: (context) => [/* selection UI, toolbars, etc. */],
+  componentOverlayBuilder: (context, data) => /* resize handles, etc. */,
+);
 ```
-mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
-  @override
-  onCanvasTapUp(TapUpDetails details) async {
-    canvasWriter.model.hideAllLinkJoints();
-    if (selectedComponentId != null) {
-      hideComponentHighlight(selectedComponentId);
-    } else {
-      canvasWriter.model.addComponent(
-        ComponentData(
-          size: Size(96, 72),
-          position: canvasReader.state.fromCanvasCoordinates(details.localPosition),
-          data: MyComponentData(),
-        ),
-      );
-    }
-  }
-}
+
+## Serialization
+
+```dart
+// Save
+final json = controller.serialize();
+
+// Load
+controller.deserialize(json);
 ```
 
-There are several editor policies that can be implemented and added to the policy set:
-- `InitPolicy`
-- `CanvasPolicy`
-- `ComponentPolicy`
-- `ComponentDesignPolicy`
-- `LinkPolicy`
-- `LinkJointPolicy`
-- `LinkAttachmentPolicy`
-- `LinkWidgetsPolicy`
-- `CanvasWidgetsPolicy`
-- `ComponentWidgetsPolicy`
+Custom data is serialized via the `JsonCodec` passed to the controller.
 
-Some policies are already implemented and ready to use:
-- `CanvasControlPolicy`
-- `LinkControlPolicy`
-- `LinkJointControlPolicy`
-- `LinkAttachmentRectPolicy`
+## API Overview
 
-Possibilities of usage of individual policies are described in the documentation.
-More in examples (links above).
+### DiagramController
 
-<img src="https://user-images.githubusercontent.com/20387953/115140531-1bcd8a80-a038-11eb-8c67-d960a92666c2.gif">
+The central class managing all diagram state.
+
+| Category | Methods |
+|----------|---------|
+| Components | `addComponent`, `removeComponent`, `moveComponent`, `getComponent`, `componentExists`, `components`, `componentsSorted` |
+| Links | `connect`, `removeLink`, `getLink`, `linkExists`, `links` |
+| Z-order | `bringToFront`, `sendToBack`, `setComponentZOrder` |
+| Parent-child | `setComponentParent`, `removeComponentParent` |
+| Canvas | `setCanvasPosition`, `panCanvas`, `zoomCanvas`, `resetCanvasView`, `fromCanvasCoordinates`, `toCanvasCoordinates` |
+| Joints | `insertLinkJoint`, `removeLinkJoint`, `showLinkJoints`, `hideLinkJoints` |
+| Serialization | `serialize`, `deserialize` |
+
+### Link Endpoint Alignment
+
+| Strategy | Method |
+|----------|--------|
+| Rectangular | `LinkAttachment.rectangular()` (default) |
+| Oval | `LinkAttachment.oval()` |
+| Crystal/Diamond | `LinkAttachment.crystal()` |
+| Center | `LinkAttachment.center()` |
+
+### Link Styles
+
+- **Arrow types:** `none`, `arrow`, `pointedArrow`, `circle`, `centerCircle`, `semiCircle`
+- **Line types:** `solid`, `dashed`, `dotted`
+
+### Built-in Painters
+
+- `GridPainter` — canvas grid background
+- `ComponentHighlightPainter` — selection highlight
+- `DeleteIconPainter` — delete icon overlay
+
+## Migration from v0.x
+
+See the full [Migration Prompt](MIGRATION_PROMPT.md) for a detailed mapping of every old API surface to its new equivalent, including complete before/after examples.
+
+Key changes:
+- `PolicySet` with mixins -> `DiagramEditor` with callbacks
+- `canvasWriter.model.addComponent(...)` -> `controller.addComponent(...)`
+- `componentData.data as MyType` -> `componentData.data` (typed generics)
+- `provider` dependency removed (uses built-in `ListenableBuilder`)

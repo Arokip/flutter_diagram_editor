@@ -1,3 +1,44 @@
+# 1.0.0
+
+**Breaking:** Complete API redesign for simplicity and type safety.
+
+### New
+* **Generic type parameters** `<C, L>` on `DiagramController`, `DiagramEditor`, `ComponentData`, and `LinkData` — eliminates `dynamic data` casting.
+* **Callback-based API** — all gesture handling via optional callbacks on `DiagramEditor` instead of 10 policy mixins.
+* **`DiagramController<C, L>`** — single class replaces `PolicySet` + `Reader/Writer` + `Context` (23 files consolidated into 1).
+* **`CanvasConfig`** — immutable configuration for canvas behavior (scale bounds, zoom, background color).
+* **`sealed class Connection`** with `OutgoingConnection` / `IncomingConnection` — Dart 3 exhaustive matching.
+* **`JsonCodec<T>`** — type-safe serialization for custom component/link data.
+* **Default behaviors as extensions** — `DefaultCanvasBehaviors`, `DefaultLinkBehaviors`, `DefaultJointBehaviors` are opt-in and composable.
+* **`LinkAttachment`** — static methods (`rectangular`, `oval`, `crystal`, `center`) replace mixin policies.
+* **CI/CD** — GitHub Actions workflow for analyze, test, and format.
+
+### Changed
+* Replaced `provider` dependency with built-in `ListenableBuilder`.
+* Replaced `flutter_lints` with `very_good_analysis`.
+* Serialization uses enum name strings instead of indices for forward compatibility.
+* Fixed `shouldRepaint` in all painters (was always returning `true`).
+* All tests now have proper isolation (each test creates its own controller).
+
+### Removed
+* `PolicySet` and all 10 policy mixins.
+* `CanvasReader` / `CanvasWriter` / `ModelReader` / `ModelWriter` / `StateReader` / `StateWriter` abstraction layer.
+* `DiagramEditorContext` (replaced by passing controller directly).
+* `provider` dependency.
+
+### Migration Guide
+
+| v0.x | v1.0 |
+|------|------|
+| `PolicySet` with mixins | `DiagramEditor(controller:, componentBuilder:, onCanvasTapUp:, ...)` |
+| `DiagramEditorContext(policySet:)` | `DiagramEditor(controller:)` |
+| `canvasWriter.model.addComponent(...)` | `controller.addComponent(...)` |
+| `canvasReader.state.fromCanvasCoordinates(...)` | `controller.fromCanvasCoordinates(...)` |
+| `componentData.data as MyType` | `componentData.data` (typed via `ComponentData<MyType>`) |
+| `CanvasControlPolicy` mixin | `enableDefaultPanZoom: true` (default) |
+| `LinkControlPolicy` mixin | `enableDefaultLinkControl: true` (default) |
+| `LinkAttachmentRectPolicy` mixin | `linkEndpointAlignment: LinkAttachment.rectangular()` (default) |
+| `ComponentDesignPolicy.showComponentBody` | `componentBuilder: (context, data) => ...` |
 
 # 0.2.3
 

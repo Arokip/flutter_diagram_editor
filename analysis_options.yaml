@@ -1,11 +1,10 @@
-include: package:flutter_lints/flutter.yaml
+include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
-  exclude: ["**/*.g.dart", "lib/generated/**"]
+  exclude:
+    - "**/*.g.dart"
+    - "lib/generated/**"
 
 linter:
   rules:
-    always_declare_return_types: true
-    avoid_multiple_declarations_per_line: true
-    prefer_final_in_for_each: true
-    unnecessary_lambdas: true
+    public_member_api_docs: false

@@ -92,15 +92,14 @@ class _DiagramAppState extends State<DiagramApp> {
                             icon: Icons.copy,
                             color: Colors.blue,
                             onPressed: () {
-                              final pos = component.position +
-                                  const Offset(20, 20);
+                              final pos =
+                                  component.position + const Offset(20, 20);
                               controller.addComponent(
                                 ComponentData<MyNodeData>(
                                   size: component.size,
                                   position: pos,
                                   data: MyNodeData(
-                                    color: component.data?.color ??
-                                        Colors.blue,
+                                    color: component.data?.color ?? Colors.blue,
                                   ),
                                 ),
                               );
